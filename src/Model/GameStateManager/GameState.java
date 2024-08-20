@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public abstract class GameState implements KeyListener{
 
     public abstract void update();
+
     public abstract void draw();
 
     @Override

@@ -1,5 +1,7 @@
 package View;
 
-public class LosePanel {
+import javax.swing.*;
+
+public class LosePanel extends JPanel {
 
 }

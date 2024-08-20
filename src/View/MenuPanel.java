@@ -3,7 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuPanel extends JFrame{
+public class MenuPanel extends JPanel{
     private final JLabel titleBT = new JLabel();
     private final JButton startBT = new JButton();
     private final JButton leaderboardBT = new JButton();
@@ -14,7 +14,6 @@ public class MenuPanel extends JFrame{
 
         this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.black);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         //label
@@ -29,14 +28,10 @@ public class MenuPanel extends JFrame{
         //button exit
 
 
-        this.add(titleBT);
+        //titleBT
         this.setVisible(true);
 
 
 
-    }
-
-    public static void main(String[] args) {
-        MenuPanel panel = new MenuPanel();
     }
 }

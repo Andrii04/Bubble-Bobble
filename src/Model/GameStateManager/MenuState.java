@@ -1,5 +1,7 @@
 package Model.GameStateManager;
 
+import View.MainFrame;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -10,13 +12,8 @@ public class MenuState extends GameState {
 
     @Override
     public void draw() {
-
+            MainFrame.setPanel(MainFrame.getMenuPanel());
     }
-
-    public void draw(Graphics2D g) {
-
-    }
-
 
     @Override
     public void keyTyped(KeyEvent k) {

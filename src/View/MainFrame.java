@@ -1,10 +1,15 @@
 package View;
 
-import javax.swing.*;
+import Model.GameStateManager.GameState;
 
-public class MainFrame extends JFrame {
+import javax.swing.*;
+import java.awt.*;
+
+public class MainFrame {
     public static final int FRAME_WIDTH = 768; //  (256*3)
     public static final int FRAME_HEIGHT = 672; //(224*3)
+
+    private static JFrame gameFrame;
 
     private static MenuPanel menuPanel;
     private static PlayPanel playPanel;
@@ -13,12 +18,37 @@ public class MainFrame extends JFrame {
     private static LevelEditorPanel levelEditorPanel;
 
     public MainFrame() {
-
+        gameFrame = new JFrame("Bubble Bobble");
+        gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameFrame.setVisible(true);
     }
 
-    public static void createMenuPanel() {menuPanel = new MenuPanel();}
-    public void createPlayPanel() {playPanel = new PlayPanel();}
-    public void createPausePanel() {pausePanel = new PausePanel();}
-    public void createLeaderboardPanel() {leaderboardPanel = new LeaderboardPanel();}
-    public void createLevelEditorPanel() {levelEditorPanel = new LevelEditorPanel();}
+    public static void setPanel(JPanel panel) {
+        gameFrame.getContentPane().removeAll();
+        gameFrame.getContentPane().add(panel);
+        gameFrame.revalidate();
+        gameFrame.repaint();
+    }
+
+    public static MenuPanel getMenuPanel() {
+        if (menuPanel == null) menuPanel = new MenuPanel();
+        return menuPanel;
+    }
+    public static PlayPanel getPlayPanel() {
+        if (playPanel == null) playPanel = new PlayPanel();
+        return playPanel;
+    }
+    public static PausePanel getPausePanel() {
+        if (pausePanel == null) pausePanel = new PausePanel();
+        return pausePanel;
+    }
+    public static LeaderboardPanel getLeaderboardPanel() {
+        if (leaderboardPanel == null) leaderboardPanel = new LeaderboardPanel();
+        return leaderboardPanel;
+    }
+    public static LevelEditorPanel getLevelEditorPanel() {
+        if (levelEditorPanel == null) levelEditorPanel = new LevelEditorPanel();
+        return levelEditorPanel;
+    }
 }

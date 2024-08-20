@@ -1,4 +1,6 @@
 package View;
 
-public class PausePanel {
+import javax.swing.*;
+
+public class PausePanel extends JPanel {
 }

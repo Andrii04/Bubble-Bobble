@@ -4,6 +4,8 @@ import javax.swing.ImageIcon;
 
 public abstract class Power {
 
+    public Power() {}
+
     ImageIcon skin;
     private int x;
     private int y;

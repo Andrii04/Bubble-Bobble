@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Timer;
+
 public class LevelEditor {
 
     private static LevelEditor instance;

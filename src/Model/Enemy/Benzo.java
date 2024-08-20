@@ -55,8 +55,4 @@ public class Benzo extends Enemy {
 
     }
 
-    @Override
-    public int getPoints(){
-        return points;
-    }
 }

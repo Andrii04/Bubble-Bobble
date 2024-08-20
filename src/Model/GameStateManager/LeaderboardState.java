@@ -1,12 +1,17 @@
 package Model.GameStateManager;
 
+import View.MainFrame;
+
 import java.awt.event.KeyEvent;
 
 public class LeaderboardState extends GameState {
     public LeaderboardState() {}
 
     public void update() {}
-    public void draw() {}
+
+    public void draw() {
+        MainFrame.setPanel(MainFrame.getLeaderboardPanel());
+    }
 
 
     @Override

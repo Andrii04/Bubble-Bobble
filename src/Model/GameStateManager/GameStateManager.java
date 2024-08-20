@@ -5,7 +5,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import View.*;
-import Controller.*;
 
 public class GameStateManager implements KeyListener {
 
@@ -42,6 +41,7 @@ public class GameStateManager implements KeyListener {
     }
 
     public void update() {currentState.update();}
+
     public void draw() {currentState.draw();}
 
     @Override

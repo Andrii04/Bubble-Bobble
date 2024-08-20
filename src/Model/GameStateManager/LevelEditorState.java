@@ -1,5 +1,7 @@
 package Model.GameStateManager;
 
+import View.MainFrame;
+
 import java.awt.event.KeyEvent;
 
 public class LevelEditorState extends GameState {
@@ -10,6 +12,7 @@ public class LevelEditorState extends GameState {
     }
 
     public void draw() {
+        MainFrame.setPanel(MainFrame.getLevelEditorPanel());
     }
 
     @Override
