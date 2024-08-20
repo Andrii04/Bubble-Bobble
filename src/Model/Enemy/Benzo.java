@@ -1,22 +1,24 @@
-package Model;
+package Model.Enemy;
 
-public class Player implements Entity {
+import Model.Entity;
 
-    private UserProfile profile;
+import javax.swing.Timer;
+
+public class Benzo extends Enemy {
+
+    //non ha mosse di attacco
+    //ha salto
+    //danno tramite contatto
+
     private int x;
     private int y;
-    private int punteggio;
-    private int lives;
+    private final int points = 500;
+    boolean enraged;
+    Timer ragetimer;
 
-    public Player(UserProfile profile){
-
-        this.profile=profile;
-        // this.x = ;
-        // this.y = ;
-        this.lives = 2; // default
+    public Benzo(){
 
     }
-
 
     @Override
     public void updatelocation(int x, int y) {
@@ -53,13 +55,8 @@ public class Player implements Entity {
 
     }
 
-    public int addPunteggio(int punti){
-
-        return punteggio+punti;
-    }
-
-    public int getPunteggio(){
-
-        return this.punteggio;
+    @Override
+    public int getPoints(){
+        return points;
     }
 }

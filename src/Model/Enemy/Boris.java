@@ -1,22 +1,25 @@
-package Model;
+package Model.Enemy;
 
-public class Player implements Entity {
+import Model.Entity;
 
-    private UserProfile profile;
+import javax.swing.*;
+
+public class Boris extends Enemy {
+
+    //simile a bonzo nei movimenti
+    //può lanciare rocce che uccidono il nemico al contatto
+    //le rocce si sbriciolano a contatto co muri e piattaforme
+    //salta e ha buon movimento
+
     private int x;
     private int y;
-    private int punteggio;
-    private int lives;
+    private final int points=2000;
+    boolean enraged;
+    Timer ragetimer;
 
-    public Player(UserProfile profile){
-
-        this.profile=profile;
-        // this.x = ;
-        // this.y = ;
-        this.lives = 2; // default
+    public Boris(){
 
     }
-
 
     @Override
     public void updatelocation(int x, int y) {
@@ -53,13 +56,9 @@ public class Player implements Entity {
 
     }
 
-    public int addPunteggio(int punti){
-
-        return punteggio+punti;
+    @Override
+    public int getPoints(Enemy enemy){
+        return points;
     }
 
-    public int getPunteggio(){
-
-        return this.punteggio;
-    }
 }

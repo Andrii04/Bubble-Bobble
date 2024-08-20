@@ -1,22 +1,25 @@
-package Model;
+package Model.Enemy;
 
-public class Player implements Entity {
+import Model.Entity;
 
-    private UserProfile profile;
+import javax.swing.*;
+
+public class Incendio extends Enemy{
+
+    //cammina veloce
+    //scarso nel salto
+    //spara palle di fuoco
+    //continua a camminare quando spara
+
     private int x;
     private int y;
-    private int punteggio;
-    private int lives;
+    private final int points=3000;
+    boolean enraged;
+    Timer ragetimer;
 
-    public Player(UserProfile profile){
-
-        this.profile=profile;
-        // this.x = ;
-        // this.y = ;
-        this.lives = 2; // default
+    public Incendio(){
 
     }
-
 
     @Override
     public void updatelocation(int x, int y) {
@@ -53,13 +56,11 @@ public class Player implements Entity {
 
     }
 
-    public int addPunteggio(int punti){
-
-        return punteggio+punti;
+    @Override
+    public int getPoints(Enemy enemy){
+        return points;
     }
 
-    public int getPunteggio(){
-
-        return this.punteggio;
-    }
 }
+
+

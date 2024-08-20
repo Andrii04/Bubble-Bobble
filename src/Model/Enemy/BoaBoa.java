@@ -1,22 +1,23 @@
-package Model;
+package Model.Enemy;
 
-public class Player implements Entity {
+import Model.Entity;
 
-    private UserProfile profile;
+import javax.swing.*;
+
+public class BoaBoa extends Enemy {
+
+    // vola
+    //movimento veloce
+
     private int x;
     private int y;
-    private int punteggio;
-    private int lives;
+    private final int punteggio =4000;
+    boolean enraged;
+    Timer ragetimer;
 
-    public Player(UserProfile profile){
-
-        this.profile=profile;
-        // this.x = ;
-        // this.y = ;
-        this.lives = 2; // default
+    public BoaBoa(){
 
     }
-
 
     @Override
     public void updatelocation(int x, int y) {
@@ -51,15 +52,5 @@ public class Player implements Entity {
     @Override
     public void spawn() {
 
-    }
-
-    public int addPunteggio(int punti){
-
-        return punteggio+punti;
-    }
-
-    public int getPunteggio(){
-
-        return this.punteggio;
     }
 }
