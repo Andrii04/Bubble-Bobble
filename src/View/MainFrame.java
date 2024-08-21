@@ -20,6 +20,7 @@ public class MainFrame {
     public MainFrame() {
         gameFrame = new JFrame("Bubble Bobble");
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        gameFrame.setResizable(false);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setVisible(true);
     }

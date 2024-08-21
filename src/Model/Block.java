@@ -11,6 +11,7 @@ public abstract class Block {
     boolean solid;
 
     public Block(ImageIcon skin, boolean solid){
+
         this.skin=skin;
         this.x=x;
         this.y=y;

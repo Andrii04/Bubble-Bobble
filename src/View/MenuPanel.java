@@ -17,7 +17,9 @@ public class MenuPanel extends JPanel{
 
 
         //label
-        //titleBT = new JLabel("Bubble bobble");
+        //ImageIcon imageTitle = new ImageIcon(""); //icona immagine titolo
+
+        //titleBT = new JLabel();
         //titleBT.setOpaque(true);
 
 
