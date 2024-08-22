@@ -29,7 +29,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
 
-        currentState = gsm.get(GameStateManager.menuState);
+        setState(GameStateManager.menuState);
 
         levels = new ArrayList<>();
     }

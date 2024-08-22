@@ -13,7 +13,7 @@ public class MenuPanel extends JPanel{
     public MenuPanel(){
 
         this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
-        this.setBackground(Color.black);
+        this.setBackground(Color.orange);
         this.setLayout(null);
 
 
