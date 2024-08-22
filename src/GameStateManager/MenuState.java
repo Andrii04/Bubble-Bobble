@@ -1,20 +1,17 @@
-package Model.GameStateManager;
+package GameStateManager;
 
 import View.MainFrame;
 
 import java.awt.event.KeyEvent;
 
-public class PlayState extends GameState {
-    public PlayState() {}
+public class MenuState extends GameState {
+    public MenuState() {}
 
-    @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
     public void draw() {
-        MainFrame.setPanel(MainFrame.getPlayPanel());
+            MainFrame.setPanel(MainFrame.getMenuPanel());
     }
 
     @Override

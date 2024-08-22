@@ -1,18 +1,21 @@
-package Model.GameStateManager;
+package GameStateManager;
 
 import View.MainFrame;
 
 import java.awt.event.KeyEvent;
 
-public class LeaderboardState extends GameState {
-    public LeaderboardState() {}
+public class PlayState extends GameState {
+    public PlayState() {}
 
-    public void update() {}
+    @Override
+    public void update() {
 
-    public void draw() {
-        MainFrame.setPanel(MainFrame.getLeaderboardPanel());
     }
 
+    @Override
+    public void draw() {
+        MainFrame.setPanel(MainFrame.getPlayPanel());
+    }
 
     @Override
     public void keyTyped(KeyEvent k) {

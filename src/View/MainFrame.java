@@ -1,9 +1,6 @@
 package View;
 
-import Model.GameStateManager.GameState;
-
 import javax.swing.*;
-import java.awt.*;
 
 public class MainFrame {
     public static final int FRAME_WIDTH = 768; //  (256*3)

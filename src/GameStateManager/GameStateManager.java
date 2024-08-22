@@ -1,10 +1,9 @@
-package Model.GameStateManager;
+package GameStateManager;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import View.*;
 
 public class GameStateManager implements KeyListener {
 

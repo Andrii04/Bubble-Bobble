@@ -14,6 +14,8 @@ public class MenuPanel extends JPanel{
 
         this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.black);
+        this.setLayout(null);
+
 
 
         //label
@@ -30,7 +32,7 @@ public class MenuPanel extends JPanel{
 
 
         //titleBT
-        this.setVisible(true);
+        //this.setVisible(true);
 
 
 

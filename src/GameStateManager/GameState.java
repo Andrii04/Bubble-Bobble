@@ -1,4 +1,4 @@
-package Model.GameStateManager;
+package GameStateManager;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

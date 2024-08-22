@@ -1,19 +1,18 @@
-package Model.GameStateManager;
+package GameStateManager;
 
 import View.MainFrame;
 
 import java.awt.event.KeyEvent;
 
-public class LevelEditorState extends GameState {
-    public LevelEditorState() {
-    }
+public class LeaderboardState extends GameState {
+    public LeaderboardState() {}
 
-    public void update() {
-    }
+    public void update() {}
 
     public void draw() {
-        MainFrame.setPanel(MainFrame.getLevelEditorPanel());
+        MainFrame.setPanel(MainFrame.getLeaderboardPanel());
     }
+
 
     @Override
     public void keyTyped(KeyEvent k) {
@@ -30,4 +29,3 @@ public class LevelEditorState extends GameState {
 
     }
 }
-

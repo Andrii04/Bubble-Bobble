@@ -1,18 +1,18 @@
-package Model.GameStateManager;
+package GameStateManager;
 
 import View.MainFrame;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class MenuState extends GameState {
-    public MenuState() {}
+public class LevelEditorState extends GameState {
+    public LevelEditorState() {
+    }
 
-    public void update() {}
+    public void update() {
+    }
 
-    @Override
     public void draw() {
-            MainFrame.setPanel(MainFrame.getMenuPanel());
+        MainFrame.setPanel(MainFrame.getLevelEditorPanel());
     }
 
     @Override
@@ -30,3 +30,4 @@ public class MenuState extends GameState {
 
     }
 }
+
