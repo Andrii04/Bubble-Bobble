@@ -1,5 +1,5 @@
-import GameStateManager.GameStateManager;
-import View.MainFrame;
+import GAMESTATEMANAGER.GameStateManager;
+import VIEW.MainFrame;
 
 public class Main {
     public static void main(String[] args) {
