@@ -4,6 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
+import Model.*;
+import View.*;
+import Controller.*;
 
 public class GameStateManager implements KeyListener {
 
@@ -16,6 +19,8 @@ public class GameStateManager implements KeyListener {
     private static GameStateManager instance;
     private List<GameState> gsm;
     private GameState currentState;
+
+    private List<Level> levels;
     
     private GameStateManager() {
         
@@ -26,6 +31,8 @@ public class GameStateManager implements KeyListener {
         gsm.add(new PauseState());
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
+
+        levels = new ArrayList<>();
     }
 
     public static GameStateManager createGameStateManager() {
@@ -37,6 +44,19 @@ public class GameStateManager implements KeyListener {
     public void setState(int state) {
         currentState = gsm.get(state);
         currentState.draw();
+    }
+
+    public void addLevel(Level level) {
+        levels.add(level);
+        //Probabilmente qua verrà chiamato un metodo del Controller che
+        //Dice alla View di aggiungere il livello alla rispettiva lista
+        //nel LevelEditor
+    }
+    public void removeLevel(Level level) {
+        levels.remove(level);
+        //Probabilmente qua verrà chiamato un metodo del Controller che
+        //Dice alla View di togliere il livello dalla rispettiva lista
+        //nel LevelEditor
     }
 
     public void update() {currentState.update();}

@@ -10,13 +10,14 @@ public class LevelEditor {
         
     }
     
-    public LevelEditor createLevelEditor() {
+    public LevelEditor getLevelEditor() {
         if (instance == null) instance = new LevelEditor();
         return instance;
     }
 
     public void createLevel(int height, int width, char[] pattern, Timer spawnRate) {
         //aggiunge il nuovo livello alla lista con tutti i livelli
+
     }
     public void removeLevel(Level level) {
         //rimuove il livello dalla lista con tutti i livelli
