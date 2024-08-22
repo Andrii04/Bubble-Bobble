@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import MODEL.*;
 
+import javax.swing.*;
+
 public class GameStateManager implements KeyListener, MouseListener, ActionListener {
 
     public static final int menuState = 0;
@@ -16,6 +18,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     private static GameStateManager instance;
     private List<GameState> gsm;
     private GameState currentState;
+    private int stateNum;
 
     private List<Level> levels;
     
@@ -23,12 +26,13 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         
         gsm = new ArrayList<GameState>();
         
-        gsm.add(new MenuState());
+        gsm.add(new MenuState(this));
         gsm.add(new PlayState());
         gsm.add(new PauseState());
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
 
+        stateNum = menuState;
         setState(GameStateManager.menuState);
 
         levels = new ArrayList<>();
@@ -39,9 +43,13 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         if (instance == null) instance = new GameStateManager();
         return instance;
     }
+    public int getStateNum(){
+        return stateNum;
+    }
 
     public void setState(int state) {
         currentState = gsm.get(state);
+        stateNum = state;
         currentState.draw();
     }
 

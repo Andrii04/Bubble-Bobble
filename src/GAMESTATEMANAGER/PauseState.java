@@ -1,5 +1,7 @@
 package GAMESTATEMANAGER;
 
+import VIEW.MainFrame;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -8,7 +10,8 @@ public class PauseState extends GameState {
     public PauseState() {}
 
     public void update() {}
-    public void draw() {}
+    public void draw() {
+        MainFrame.setPanel(MainFrame.getPausePanel());}
 
 
     @Override

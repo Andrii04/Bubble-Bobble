@@ -2,14 +2,17 @@ package CONTROLLER;
 
 import GAMESTATEMANAGER.GameStateManager;
 
+import javax.swing.*;
 import java.awt.event.*;
 
-public class Controller implements KeyListener, MouseListener, ActionListener {
 
+public class Controller implements KeyListener, MouseListener, ActionListener {
     GameStateManager gsm;
     private static Controller instance;
 
-    private Controller() {gsm = GameStateManager.getInstance();}
+    private Controller() {
+        gsm = GameStateManager.getInstance();
+    }
 
     public static Controller getInstance() {
         if (instance == null) instance = new Controller();
@@ -23,7 +26,7 @@ public class Controller implements KeyListener, MouseListener, ActionListener {
 
     @Override
     public void keyPressed(KeyEvent k) {
-        gsm.keyPressed(k);
+                gsm.keyPressed(k);
     }
 
     @Override

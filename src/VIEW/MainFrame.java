@@ -1,12 +1,14 @@
 package VIEW;
 
 import CONTROLLER.Controller;
+import GAMESTATEMANAGER.GameStateManager;
 
 import javax.swing.*;
 
 public class MainFrame {
     public static final int FRAME_WIDTH = 768; //  (256*3)
     public static final int FRAME_HEIGHT = 672; //(224*3)
+    public static final int TILE_SIZE = 64;
 
     private static JFrame gameFrame;
 
@@ -16,22 +18,21 @@ public class MainFrame {
     private static LeaderboardPanel leaderboardPanel;
     private static LevelEditorPanel levelEditorPanel;
 
+
     public MainFrame() {
         gameFrame = new JFrame("Bubble Bobble");
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         gameFrame.setResizable(false);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setFocusable(true);
+        gameFrame.setResizable(false);
 
         gameFrame.addKeyListener(Controller.getInstance());
         gameFrame.addMouseListener(Controller.getInstance());
-
-
-
-
-
-
         gameFrame.setVisible(true);
+
+        GameStateManager gsm = GameStateManager.getInstance();
+        gsm.setState(0);
     }
 
     public static void setPanel(JPanel panel) {
