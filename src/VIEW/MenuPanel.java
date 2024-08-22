@@ -19,7 +19,7 @@ public class MenuPanel extends JPanel {
     private final JLabel levelEditorBT = new JLabel("LEVEL EDITOR");
     private final JLabel exitBT = new JLabel("EXIT GAME");
     private final JLabel cursor = new JLabel();
-    private Font font;
+    private Font font = MainFrame.getPixelFont();
     private int selectedOption = 0; // default ( Start Game )
 
     public MenuPanel() {
@@ -28,15 +28,6 @@ public class MenuPanel extends JPanel {
         this.setBackground(Color.black);
         this.setLayout(null);
         this.setVisible(true);
-
-
-        // custom font
-        try{
-            InputStream fontFile= getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/classic-nes-font.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
 
         // display title animation
 

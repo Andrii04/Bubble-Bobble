@@ -44,7 +44,7 @@ public class MenuState extends GameState {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             switch (view.getSelectedOption()) {
                 case 0:
-                    gsm.setState(GameStateManager.playState);
+                    gsm.setState(GameStateManager.userCreationState);
                     break;
                 case 1:
                     gsm.setState(GameStateManager.leaderboardState);

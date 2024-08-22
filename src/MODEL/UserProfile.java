@@ -30,7 +30,7 @@ public class UserProfile {
             throw new IllegalArgumentException("Il round non può essere minore o uguale a 0.");
         }
         this.round = round;}
-    public String getNickname() {
+    public String getUsername() {
         return this.username;
     }
     public int getPunteggio(){
