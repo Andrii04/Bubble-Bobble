@@ -12,6 +12,7 @@ import java.security.Key;
 import java.util.ArrayList;
 
 public class MenuPanel extends JPanel {
+
     private final JLabel titleBT = new JLabel();
     private final JLabel startBT = new JLabel("START GAME");
     private final JLabel leaderboardBT = new JLabel("LEADERBOARD");
@@ -20,6 +21,7 @@ public class MenuPanel extends JPanel {
     private final JLabel cursor = new JLabel();
     private Font font;
     private int selectedOption = 0; // default ( Start Game )
+
     public MenuPanel() {
 
         this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
