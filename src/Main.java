@@ -11,7 +11,7 @@ public class Main {
 
         //gsm.setState(GameStateManager.menuState);
         //gsm.setState(GameStateManager.leaderboardState);
-        //gsm.setState(GameStateManager.leveleditorState);
+        gsm.setState(GameStateManager.leveleditorState);
         //gsm.setState(GameStateManager.playState);
     }
 }
