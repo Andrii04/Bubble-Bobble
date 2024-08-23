@@ -5,7 +5,6 @@ import VIEW.MainFrame;
 import VIEW.UserCreationPanel;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -16,6 +15,7 @@ import java.io.IOException;
 public class UserCreationState extends GameState {
     private UserCreationPanel view = MainFrame.getUserCreationPanel();
     private GameStateManager gsm;
+
     public UserCreationState(GameStateManager gsm) {
         this.gsm = gsm;
         view.getUsernameField().addKeyListener(this);
@@ -41,38 +41,37 @@ public class UserCreationState extends GameState {
     @Override
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
-        if(Character.isLetter(c) && view.getCharCount() < 10){
-            view.setCharCount(view.getCharCount()+1);
+        if (Character.isLetter(c) && view.getCharCount() < 10) {
+            view.setCharCount(view.getCharCount() + 1);
             e.setKeyChar(Character.toUpperCase(c));
-        }
-        else{
+        } else {
             e.consume();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && view.getCharCount() > 0){
-            view.setCharCount(view.getCharCount()-1);
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && view.getCharCount() > 0) {
+            view.setCharCount(view.getCharCount() - 1);
         }
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             view.cursorRight();
         }
-        if(e.getKeyCode() == KeyEvent.VK_LEFT){
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             view.cursorLeft();
         }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (view.getUsername() != null || !(view.getUsername().equals(""))) {
-                if (!searchUser(view.getUsername(),"src/MODEL/leaderboard.txt")){
-                    UserProfile userProfile = new UserProfile(view.getUsername(), 0,1,view.getSelectedAvatar());
-                    // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
-                }
-                else{
-                    // fetch data from leaderboard
-                    //  MainFrame.setUserProfile();
-                }
-                gsm.setState(GameStateManager.playState);
+            if (view.getUsername() == null || (view.getUsername().equals(""))) {
+                e.consume();
+                return;
+            } else if (!searchUser(view.getUsername(), "src/MODEL/leaderboard.txt")) {
+                UserProfile userProfile = new UserProfile(view.getUsername(), 0, 1, view.getSelectedAvatar());
+                // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
+            } else {
+                // fetch data from leaderboard
+                //  MainFrame.setUserProfile();
             }
+            gsm.setState(GameStateManager.playState);
         }
     }
 
@@ -105,23 +104,27 @@ public class UserCreationState extends GameState {
     public void mouseExited(MouseEvent e) {
 
     }
-    public static boolean searchUser(String username, String path) {
+
+    private boolean searchUser(String username, String path) {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(path));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        try{
-            while(reader.readLine() != null) {
+        try {
+            while (reader.readLine() != null) {
                 if (reader.readLine().contains(username)) {
                     return true;
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-    }
+        }
         return false;
     }
 }
+
+
+
+
