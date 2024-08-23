@@ -40,16 +40,32 @@ public class UserCreationState extends GameState {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        char c = e.getKeyChar();
+        if(Character.isLetter(c) && view.getCharCount() < 10){
+            view.setCharCount(view.getCharCount()+1);
+            e.setKeyChar(Character.toUpperCase(c));
+        }
+        else{
+            e.consume();
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE && view.getCharCount() > 0){
+            view.setCharCount(view.getCharCount()-1);
+        }
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            view.cursorRight();
+        }
+        if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            view.cursorLeft();
+        }
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             if (view.getUsername() != null || !(view.getUsername().equals(""))) {
                 if (!searchUser(view.getUsername(),"src/MODEL/leaderboard.txt")){
-                    MainFrame.setUserProfile(new UserProfile(view.getUsername(), 0, 1)); ; // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
+                    UserProfile userProfile = new UserProfile(view.getUsername(), 0,1,view.getSelectedAvatar());
+                    // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
                 }
                 else{
                     // fetch data from leaderboard

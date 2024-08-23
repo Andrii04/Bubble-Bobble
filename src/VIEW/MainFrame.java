@@ -50,7 +50,7 @@ public class MainFrame {
     public static Font getPixelFont() {
         // custom font
         try {
-            InputStream fontFile = MainFrame.class.getResourceAsStream("/Resources/Bubble Bobble Resources/classic-nes-font.ttf");
+            InputStream fontFile = MainFrame.class.getResourceAsStream("/Resources/Bubble Bobble Resources/General/classic-nes-font.ttf");
             Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
             return font;
         } catch (FontFormatException | IOException e) {

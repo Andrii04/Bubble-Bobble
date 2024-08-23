@@ -40,7 +40,7 @@ public class LevelEditorPanel extends JPanel {
         this.setLayout(null);
         //custom font
         try{
-            InputStream fontFile= getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/classic-nes-font.ttf");
+            InputStream fontFile= getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/General/classic-nes-font.ttf");
             font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();

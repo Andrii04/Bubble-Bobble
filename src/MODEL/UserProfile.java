@@ -1,17 +1,20 @@
 package MODEL;
 
+
 public class UserProfile {
     private String username;
     private int punteggio;
     private int round; // livello
-
-    public UserProfile(String username, int punteggio, int round) throws IllegalArgumentException{
+    private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "BonnieBo", "Boris", "Incendio", "Superdrunk"};
+    private String avatarChosen;
+    public UserProfile(String username, int punteggio, int round, int avatarIndex) throws IllegalArgumentException{
         if(username == null || username.equals("") || round <= 0 || punteggio < 0){
             throw new IllegalArgumentException("C'è stato un errore nella creazione del profilo utente.");
         }
         this.username = username;
         this.punteggio = punteggio;
         this.round = round;
+        this.avatarChosen = avatars[avatarIndex];
     }
     public void setUsername(String username) throws IllegalArgumentException{
         if (username == null ||username.equals("")){
