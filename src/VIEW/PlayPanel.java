@@ -14,13 +14,17 @@ public class PlayPanel extends JPanel implements Runnable{
     private int FRAME_HEIGHT = MainFrame.FRAME_HEIGHT;
     private int FRAME_WIDTH = MainFrame.FRAME_WIDTH;
 
-    private boolean isNewLevel = false;
+    private boolean isNewLevel = true;
 
     private final int FPS = 60;
     Thread gameThread;
-    public PlayPanel() {
-        this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
-        this.setBackground(Color.green);
+
+    public PlayPanel(PlayerView playerView) {
+        this.playerView = playerView;
+        this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
+        this.setBackground(Color.BLACK);
+        this.setLayout(null);
+        this.setOpaque(true);
         this.setVisible(true);
 
         startGameThread();
@@ -57,9 +61,16 @@ public class PlayPanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        playerView.draw(g2d);
         // add player etc
-        g2d.dispose();
 
+        if (isNewLevel) {
+            gsm.generateLevels();
+            drawLevel(g, gsm.getCurrentLevel().getPattern());
+            isNewLevel = false;
+        } else {
+            //metodi per aggiornare giocatore nemici bolle powerup etc, non il livello
+        }
 
     }
     public void drawLevel(Graphics g, char[] pattern) {

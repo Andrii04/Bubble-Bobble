@@ -70,8 +70,8 @@ public class MainFrame {
         if (menuPanel == null) menuPanel = new MenuPanel();
         return menuPanel;
     }
-    public static PlayPanel getPlayPanel() {
-        if (playPanel == null) playPanel = new PlayPanel();
+    public static PlayPanel getPlayPanel(PlayerView playerView) {
+        if (playPanel == null) playPanel = new PlayPanel(playerView);
         return playPanel;
     }
     public static PausePanel getPausePanel() {

@@ -22,7 +22,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     private List<GameState> gsm;
     private GameState currentState;
     private int stateNum;
-
+    private PlayState savedPlayState;
     private LevelEditor levelEditor;
     private List<Level> levels;
     private int currentLevel;
@@ -33,7 +33,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         gsm = new ArrayList<GameState>();
         
         gsm.add(new MenuState(this));
-        gsm.add(new PlayState());
+        gsm.add(null); // PlayState is added later
         gsm.add(new PauseState());
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
@@ -56,13 +56,65 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         return stateNum;
     }
 
-    public Map<Character, Block> getCharBlockMap() {return charBlockMap;}
-    public int getCurrentLevel() {return currentLevel;}
+    public Map<Integer, Block> getIntBlockMap() {
 
+        if (intBlockMap == null) {
+
+            intBlockMap = new HashMap<>();
+
+            for (int i=1; i<25; i++) {
+
+                ImageIcon blockSkin = new ImageIcon("/Resources/Bubble Bobble Resources/Tiles/" +
+                        "tile" + i + ".png");
+
+                Block block = new Block(blockSkin);
+                intBlockMap.put(i, block);
+            }
+        }
+
+        return intBlockMap;
+    }
+    public Level getCurrentLevel() {return levels.get(currentLevel);}
+
+    public Level getLevel(int levelID) {
+
+        if (levelID < 1 || levelID > 24) {
+            throw new IllegalArgumentException(
+                    "Level doesn't exist, please choose a Level that ranges from 1 to 24");
+        }
+        return levels.get(levelID);
+
+    }
+
+    public void startGame(Player player) {
+        if (savedPlayState == null){
+            savedPlayState = new PlayState(player,this);
+            currentState = savedPlayState;
+            stateNum = 1;
+            currentState.draw();
+        }
+        else{
+            throw new IllegalStateException("Game already started");
+        }
+    }
+    public void continueGame(){
+        if (savedPlayState != null){
+            currentState = savedPlayState;
+            stateNum = 1;
+            currentState.draw();
+        }
+        else{
+            throw new IllegalStateException("No game to continue");
+        }
+    }
     public void setState(int state) {
-        currentState = gsm.get(state);
-        stateNum = state;
-        currentState.draw();
+        if (state == 1) {
+            throw new IllegalStateException("Use startGame() to start the game or continueGame() to continue");
+        } else {
+            currentState = gsm.get(state);
+            stateNum = state;
+            currentState.draw();
+        }
     }
 
     public void addLevel(Level level) {

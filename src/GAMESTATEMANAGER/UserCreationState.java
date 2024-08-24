@@ -1,7 +1,9 @@
 package GAMESTATEMANAGER;
 
+import MODEL.Player;
 import MODEL.UserProfile;
 import VIEW.MainFrame;
+import VIEW.PlayerView;
 import VIEW.UserCreationPanel;
 
 import java.awt.event.ActionEvent;
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class UserCreationState extends GameState {
     private UserCreationPanel view = MainFrame.getUserCreationPanel();
     private GameStateManager gsm;
+    private UserProfile userProfile;
 
     public UserCreationState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -65,13 +68,13 @@ public class UserCreationState extends GameState {
                 e.consume();
                 return;
             } else if (!searchUser(view.getUsername(), "src/MODEL/leaderboard.txt")) {
-                UserProfile userProfile = new UserProfile(view.getUsername(), 0, 1, view.getSelectedAvatar());
+                userProfile = new UserProfile(view.getUsername(), 0, 1, view.getSelectedAvatar());
                 // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
             } else {
                 // fetch data from leaderboard
                 //  MainFrame.setUserProfile();
             }
-            gsm.setState(GameStateManager.playState);
+            gsm.startGame(new Player(userProfile));
         }
     }
 
