@@ -15,15 +15,15 @@ public class LevelEditorState extends GameState {
     LevelEditorPanel view;
 
     public LevelEditorState() {
-        //levelEditor = LevelEditor.getInstance();
-        //view = MainFrame.getLevelEditorPanel();
+        levelEditor = LevelEditor.getInstance();
     }
 
     public void update() {
     }
 
     public void draw() {
-        MainFrame.setPanel(MainFrame.getLevelEditorPanel());
+        view = MainFrame.getLevelEditorPanel();
+        MainFrame.setPanel(view);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class LevelEditorState extends GameState {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        /*if (e.getSource().getClass().equals(JLabel.class)) {
+        if (e.getSource().getClass().equals(JLabel.class)) {
             JLabel source = (JLabel) e.getSource();
             String sourceText = source.getText();
 
@@ -65,7 +65,7 @@ public class LevelEditorState extends GameState {
                     view.chooseLevel();
                 }
             }
-        }*/
+        }
     }
 
     @Override
