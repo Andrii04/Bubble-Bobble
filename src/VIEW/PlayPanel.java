@@ -69,8 +69,8 @@ public class PlayPanel extends JPanel implements Runnable {
 
         if (isNewLevel) {
             gsm.generateLevels();
-            drawLevel(g, gsm.getCurrentLevel().getPattern());
-            isNewLevel = false;
+            drawLevel(g2d, gsm.getCurrentLevel().getPattern());
+            //isNewLevel = false;    SE SI METTE QUESTO IL LIVELLO VIENE CANCELLATO, da fixxare
         } else {
             //metodi per aggiornare giocatore nemici bolle powerup etc, non il livello
         }
@@ -79,27 +79,26 @@ public class PlayPanel extends JPanel implements Runnable {
 
     public void drawLevel(Graphics g, int[][] pattern) {
 
+        Graphics2D g2d = (Graphics2D) g;
         Map<Integer, Block> intBlockMap = gsm.getIntBlockMap();
 
         for (int i = 0; i < 37; i++) {
             //prendo il blocco corrispondente al carattere
-            //int blockInt = pattern[i];
-            //Block block = intBlockMap.get(blockInt);
             for (int j = 0; j < 42; j++) {
 
                 int blockInt = pattern[i][j];
                 Block block = intBlockMap.get(blockInt);
 
-                if (block != null) {
+                if (blockInt != 0 && block != null) {
                     //prendo l'icona del blocco da disegnare
                     ImageIcon skin = block.getSkin();
 
                     //posizione x e y del blocco
-                    int x = j * Block.WIDTH;
-                    int y = i * Block.HEIGHT;
+                    int x = j * Block.WIDTH; //200 per test
+                    int y = i * Block.HEIGHT; //200 per test
                     //chiama il metodo ma non disegna sul frame (appare nero).
                     System.out.println("Disegnando blocco" + skin);
-                    g.drawImage(skin.getImage(), x, y, Block.WIDTH, Block.HEIGHT, null);
+                    g2d.drawImage(skin.getImage(), x, y, Block.WIDTH, Block.HEIGHT, null);
                 }
 
             }
