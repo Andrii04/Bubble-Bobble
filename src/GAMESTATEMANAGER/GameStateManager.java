@@ -19,6 +19,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public static final int leaderboardState = 3;
     public static final int leveleditorState = 4;
     public static final int userCreationState = 5;
+    public static final int loseState=6;
 
     private static GameStateManager instance;
     private List<GameState> gsm;

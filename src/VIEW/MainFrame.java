@@ -23,6 +23,7 @@ public class MainFrame {
     private static LevelEditorPanel levelEditorPanel;
     private static UserCreationPanel userCreationPanel;
     private static UserProfile userProfile;
+    private static LosePanel losePanel;
 
     public MainFrame() {
         gameFrame = new JFrame("Bubble Bobble");
@@ -89,5 +90,11 @@ public class MainFrame {
     public static UserCreationPanel getUserCreationPanel(){
         if (userCreationPanel == null) userCreationPanel = new UserCreationPanel();
         return userCreationPanel;
+    }
+
+    public static LosePanel getLosePanel(){
+        if ( losePanel== null) losePanel = new LosePanel();
+        return losePanel;
+
     }
 }
