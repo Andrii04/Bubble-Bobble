@@ -4,11 +4,14 @@ import GAMESTATEMANAGER.GameStateManager;
 
 import javax.swing.*;
 import java.awt.event.*;
+import MODEL.*;
+import VIEW.*;
 
 
 public class Controller implements KeyListener, MouseListener, ActionListener {
     GameStateManager gsm;
     private static Controller instance;
+    LevelEditorPanel levelEditorPanel;
 
     private Controller() {
         gsm = GameStateManager.getInstance();
@@ -62,5 +65,12 @@ public class Controller implements KeyListener, MouseListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         gsm.actionPerformed(e);
+    }
+
+    public void loadLevelEditorLevel(int level) {
+
+        Level selectedLevel = gsm.getLevel(level);
+        levelEditorPanel.setCurrentLevel(selectedLevel);
+
     }
 }

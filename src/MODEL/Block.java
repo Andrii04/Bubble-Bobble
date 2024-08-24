@@ -10,12 +10,12 @@ public class Block {
     public static final int HEIGHT = 18;
     boolean solid;
 
-    public Block(ImageIcon skin, boolean solid){
+    public Block(ImageIcon skin){
 
         this.skin=skin;
         this.x=x;
         this.y=y;
-        this.solid=solid;
+        solid = true;
     }
     public ImageIcon getSkin() {return skin;}
 

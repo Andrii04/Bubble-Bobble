@@ -27,9 +27,6 @@ public class LevelEditorPanel extends JPanel {
     JLabel solidBT;
     JLabel removeBT;
 
-    Block currentBlock;
-    JLabel selectBlock;
-
     Level currentLevel;
     JLabel selectLevel;
 
@@ -47,16 +44,13 @@ public class LevelEditorPanel extends JPanel {
         }
 
         removeBT = new JLabel("REMOVE");
-        selectBlock = new JLabel("SELECT BLOCK");
         solidBT = new JLabel("SOLID");
         selectLevel = new JLabel("SELECT LEVEL");
         removeBT.setFont(font.deriveFont(12f));
-        selectBlock.setFont(font.deriveFont(12f));
         solidBT.setFont(font.deriveFont(12f));
         selectLevel.setFont(font.deriveFont(12f));
         removeBT.addMouseListener(controller);
         solidBT.addMouseListener(controller);
-        selectBlock.addMouseListener(controller);
         selectLevel.addMouseListener(controller);
 
         buttonsLayer = new JPanel();
@@ -66,11 +60,9 @@ public class LevelEditorPanel extends JPanel {
         //removeBT.setBackground(Color.white);
         //removeBT.setOpaque(true);
         removeBT.setForeground(Color.green);
-        selectBlock.setBounds(removeBT.getX() + 120, FRAME_HEIGHT-70, 160, 35);
         //selectBlock.setBackground(Color.white);
         //selectBlock.setOpaque(true);
-        selectBlock.setForeground(Color.green);
-        solidBT.setBounds(selectBlock.getX() + 200, FRAME_HEIGHT-70, 80, 35);
+        solidBT.setBounds(removeBT.getX() + 200, FRAME_HEIGHT-70, 80, 35);
         //solidBT.setBackground(Color.white);
         //solidBT.setOpaque(true);
         solidBT.setForeground(Color.green);
@@ -80,11 +72,9 @@ public class LevelEditorPanel extends JPanel {
         //selectLevel.setOpaque(true);
 
         removeBT.setVisible(true);
-        selectBlock.setVisible(true);
         selectLevel.setVisible(true);
         solidBT.setVisible(true);
         buttonsLayer.add(removeBT);
-        buttonsLayer.add(selectBlock);
         buttonsLayer.add(selectLevel);
         buttonsLayer.add(solidBT);
 
@@ -106,4 +96,11 @@ public class LevelEditorPanel extends JPanel {
         layeredPane.setVisible(true);
         this.add(layeredPane);
     }
+    public void chooseLevel() {
+        //apre text field che ti fa scegliere il numero del livello da modificare
+        //Controller.loadLevelEditorLevel(int level)
+    }
+    public void setCurrentLevel(Level level) {this.currentLevel = level;}
+
+
 }

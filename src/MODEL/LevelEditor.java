@@ -14,6 +14,7 @@ public class LevelEditor {
 
     private LevelEditor() {
         //gsm = GameStateManager.getInstance();
+
     }
     
     public static LevelEditor getInstance() {
@@ -21,15 +22,9 @@ public class LevelEditor {
         return instance;
     }
 
-    public void addLevel(int height, int width, char[] pattern, Timer spawnRate) {
-        //aggiunge il nuovo livello alla lista con tutti i livelli
-        gsm.addLevel(new Level(height, width,  pattern, spawnRate));
-    }
-    public void removeLevel(Level level) {
-        //rimuove il livello dalla lista con tutti i livelli
-    }
     public void modifyLevel(Level level) {
         //seleziona il livello da modificare
+
     }
     public void setSolid(boolean bool) {solidON = bool;}
     public void setRemove(boolean bool) {removeON = bool;}

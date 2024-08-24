@@ -8,12 +8,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import VIEW.*;
 
 public class LevelEditorState extends GameState {
     LevelEditor levelEditor;
+    LevelEditorPanel view;
 
     public LevelEditorState() {
         //levelEditor = LevelEditor.getInstance();
+        //view = MainFrame.getLevelEditorPanel();
     }
 
     public void update() {
@@ -58,8 +61,11 @@ public class LevelEditorState extends GameState {
                     if (levelEditor.getSolid()) levelEditor.setSolid(false);
                     else levelEditor.setSolid(true);
                 }
+                case "SELECT LEVEL" -> {
+                    view.chooseLevel();
+                }
             }
-        } */
+        }*/
     }
 
     @Override

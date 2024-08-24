@@ -7,12 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class PlayPanel extends JPanel implements Runnable{
+public class PlayPanel extends JPanel implements Runnable {
 
     private GameStateManager gsm;
     private int TILE_SIZE = MainFrame.TILE_SIZE;
     private int FRAME_HEIGHT = MainFrame.FRAME_HEIGHT;
     private int FRAME_WIDTH = MainFrame.FRAME_WIDTH;
+    private PlayerView playerView;
+    private int currentLevelView = 1;
 
     private boolean isNewLevel = true;
 
@@ -26,27 +28,27 @@ public class PlayPanel extends JPanel implements Runnable{
         this.setLayout(null);
         this.setOpaque(true);
         this.setVisible(true);
-
+        gsm = GameStateManager.getInstance();
         startGameThread();
     }
 
-
     // game loop
-    public void startGameThread(){
+    public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
-    public void run(){
-        double interval = 1000000000/FPS;
+
+    public void run() {
+        double interval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while(gameThread != null){
+        while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / interval;
             lastTime = currentTime;
-            if(delta >= 1){
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
@@ -54,11 +56,12 @@ public class PlayPanel extends JPanel implements Runnable{
         }
     }
 
-    public void update(){
+    public void update() {
         // test
         // System.out.println("running");
     }
-    public void paintComponent(Graphics g){
+
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         playerView.draw(g2d);
@@ -73,28 +76,34 @@ public class PlayPanel extends JPanel implements Runnable{
         }
 
     }
-    public void drawLevel(Graphics g, char[] pattern) {
 
-        int blocksPerRow = FRAME_WIDTH / Block.WIDTH;
-        Map<Character, Block> charBlockMap = gsm.getCharBlockMap();
+    public void drawLevel(Graphics g, int[][] pattern) {
 
-        for (int i=0; i<pattern.length; i++) {
+        Map<Integer, Block> intBlockMap = gsm.getIntBlockMap();
+
+        for (int i = 0; i < 37; i++) {
             //prendo il blocco corrispondente al carattere
-            char blockChar = pattern[i];
-            Block block = charBlockMap.get(blockChar);
+            //int blockInt = pattern[i];
+            //Block block = intBlockMap.get(blockInt);
+            for (int j = 0; j < 42; j++) {
 
-            if (block != null) {
-                //prendo l'icona del blocco da disegnare
-                ImageIcon skin = block.getSkin();
+                int blockInt = pattern[i][j];
+                Block block = intBlockMap.get(blockInt);
 
-                //posizione x e y del blocco
-                int x = (i % blocksPerRow) * Block.WIDTH;
-                int y = (i / blocksPerRow) * Block.HEIGHT;
+                if (block != null) {
+                    //prendo l'icona del blocco da disegnare
+                    ImageIcon skin = block.getSkin();
 
-                g.drawImage(skin.getImage(), x, y, Block.WIDTH, Block.HEIGHT, null);
+                    //posizione x e y del blocco
+                    int x = j * Block.WIDTH;
+                    int y = i * Block.HEIGHT;
+                    //chiama il metodo ma non disegna sul frame (appare nero).
+                    System.out.println("Disegnando blocco" + skin);
+                    g.drawImage(skin.getImage(), x, y, Block.WIDTH, Block.HEIGHT, null);
+                }
+
             }
-
-
         }
     }
 }
+
