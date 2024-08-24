@@ -22,9 +22,9 @@ public class LevelEditor {
         return instance;
     }
 
-    public void modifyLevel(Level level) {
+    public void setCurrentLevel(Level level) {
         //seleziona il livello da modificare
-
+        this.currentLevel = level;
     }
     public void setSolid(boolean bool) {solidON = bool;}
     public void setRemove(boolean bool) {removeON = bool;}

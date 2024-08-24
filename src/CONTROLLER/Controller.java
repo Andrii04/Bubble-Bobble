@@ -11,7 +11,6 @@ import VIEW.*;
 public class Controller implements KeyListener, MouseListener, ActionListener {
     GameStateManager gsm;
     private static Controller instance;
-    LevelEditorPanel levelEditorPanel;
 
     private Controller() {
         gsm = GameStateManager.getInstance();
@@ -70,7 +69,8 @@ public class Controller implements KeyListener, MouseListener, ActionListener {
     public void loadLevelEditorLevel(int level) {
 
         Level selectedLevel = gsm.getLevel(level);
-        levelEditorPanel.setCurrentLevel(selectedLevel);
+        LevelEditor.getInstance().setCurrentLevel(selectedLevel);
+        MainFrame.getLevelEditorPanel().setCurrentLevel(selectedLevel);
 
     }
 }
