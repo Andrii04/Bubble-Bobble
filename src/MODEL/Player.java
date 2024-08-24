@@ -17,7 +17,7 @@ public class Player extends Observable implements Entity {
         this.x = 0;
         this.y = 0;
         this.lives = 2; // default
-        this.speed = 4; // default
+        this.speed = 3; // default
 
     }
 
