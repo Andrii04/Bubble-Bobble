@@ -3,6 +3,8 @@ package GAMESTATEMANAGER;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import MODEL.*;
 
 import javax.swing.*;
@@ -23,6 +25,8 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     private LevelEditor levelEditor;
     private List<Level> levels;
+    private int currentLevel;
+    private Map<Character, Block> charBlockMap;
     
     private GameStateManager() {
         
@@ -38,6 +42,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         //levelEditor = LevelEditor.getInstance();
         stateNum = menuState;
         setState(GameStateManager.menuState);
+        currentLevel = 0;
 
         levels = new ArrayList<>();
     }
@@ -50,6 +55,9 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public int getStateNum(){
         return stateNum;
     }
+
+    public Map<Character, Block> getCharBlockMap() {return charBlockMap;}
+    public int getCurrentLevel() {return currentLevel;}
 
     public void setState(int state) {
         currentState = gsm.get(state);

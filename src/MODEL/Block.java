@@ -1,13 +1,13 @@
 package MODEL;
 import javax.swing.ImageIcon;
 
-public abstract class Block {
+public class Block {
 
     private ImageIcon skin;
     private int x;
     int y;
-    private static final int WIDTH = 18;
-    private static final int HEIGHT = 18;
+    public static final int WIDTH = 18;
+    public static final int HEIGHT = 18;
     boolean solid;
 
     public Block(ImageIcon skin, boolean solid){
@@ -17,6 +17,7 @@ public abstract class Block {
         this.y=y;
         this.solid=solid;
     }
+    public ImageIcon getSkin() {return skin;}
 
 
 }
