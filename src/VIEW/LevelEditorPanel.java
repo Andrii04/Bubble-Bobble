@@ -1,6 +1,7 @@
 package VIEW;
 
 import CONTROLLER.Controller;
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Level;
 
@@ -11,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 public class LevelEditorPanel extends JPanel {
     //uso di Graphics e Graphics 2D per disegnare i livelli
@@ -19,6 +21,7 @@ public class LevelEditorPanel extends JPanel {
     int FRAME_HEIGHT = MainFrame.FRAME_HEIGHT;
     int TILE_SIZE = MainFrame.TILE_SIZE;
 
+    GameStateManager gsm = GameStateManager.getInstance();
     Controller controller = Controller.getInstance();
 
     Font font;
@@ -26,6 +29,11 @@ public class LevelEditorPanel extends JPanel {
     JLayeredPane layeredPane;
     JPanel buttonsLayer;
     JPanel levelLayer;
+
+    final int levelLayerWidth = 698;
+    final int levelLayerHeight = 602;
+    final int blockWidth = 16;
+    final int blockHeight = 16;
 
     JLabel solidBT;
     JLabel removeBT;
@@ -35,6 +43,7 @@ public class LevelEditorPanel extends JPanel {
     JLabel InsertLevelNumber;
 
     JTextField levelNfield;
+    boolean selectingLevel = false;
 
     public LevelEditorPanel() {
 
@@ -87,18 +96,25 @@ public class LevelEditorPanel extends JPanel {
 
         levelLayer = new JPanel();
         levelLayer.setLayout(null);
+        levelLayer.setBackground(Color.white);
+
 
         layeredPane = new JLayeredPane();
         layeredPane.setLayout(null);
         layeredPane.setBounds(0,0, FRAME_WIDTH, FRAME_HEIGHT);
-        buttonsLayer.setVisible(true);
-        levelLayer.setVisible(true);
-        buttonsLayer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        levelLayer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+
+
+
         buttonsLayer.setOpaque(false);
         levelLayer.setOpaque(false);
-        layeredPane.add(levelLayer, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(buttonsLayer, JLayeredPane.PALETTE_LAYER);
+        buttonsLayer.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        buttonsLayer.setVisible(true);
+        layeredPane.add(levelLayer, JLayeredPane.DEFAULT_LAYER);
+        levelLayer.setBounds(0, 0, levelLayerWidth, levelLayerHeight);
+        levelLayer.setVisible(true);
+
         layeredPane.setVisible(true);
 
         levelNfield = new JTextField();
@@ -147,12 +163,15 @@ public class LevelEditorPanel extends JPanel {
                 if (!(levelNfield.getText().isEmpty())) {
                     if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                         int num = Integer.parseInt(levelNfield.getText());
-                        controller.loadLevelEditorLevel(num);
+                        controller.LEloadLevel(num);
+                        levelNfield.setText("");
                         buttonsLayer.remove(levelNfield);
                         buttonsLayer.remove(InsertLevelNumber);
-                        drawCurrentLevel();
                         buttonsLayer.revalidate();
                         buttonsLayer.repaint();
+
+                        selectingLevel = true;
+                        repaint();
                         }
                     }
                 }
@@ -175,8 +194,39 @@ public class LevelEditorPanel extends JPanel {
     }
     public void setCurrentLevel(Level level) {this.currentLevel = level;}
 
-    public void drawCurrentLevel() {
-        //draws currentLevel
+    public void drawCurrentLevel(Graphics g) {
+
+        Map<Integer, Block> intBlockMap = gsm.getIntBlockMap();
+        int[][] pattern = currentLevel.getPattern();
+
+        for (int i = 0; i < 37; i++) {
+            //prendo il blocco corrispondente al carattere
+            for (int j = 0; j < 42; j++) {
+
+                int blockInt = pattern[i][j];
+                Block block = intBlockMap.get(blockInt);
+
+                if (blockInt != 0 && block != null) {
+                    //prendo l'icona del blocco da disegnare
+                    ImageIcon skin = block.getSkin();
+
+                    //posizione x e y del blocco
+                    int x = j * blockWidth; //200 per test
+                    int y = i * blockHeight; //200 per test
+                    //chiama il metodo ma non disegna sul frame (appare nero).
+                    System.out.println("Disegnando blocco" + skin);
+                    g.drawImage(skin.getImage(), x, y, blockWidth, blockHeight, null);
+                }
+
+            }
+        }
+        selectingLevel = false;
+    }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (selectingLevel) drawCurrentLevel(g);
+
     }
 
 }

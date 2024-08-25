@@ -53,19 +53,20 @@ public class LevelEditorState extends GameState {
             String sourceText = source.getText();
 
             switch (sourceText) {
-                case "REMOVE" -> {
-                    if (levelEditor.getRemove()) levelEditor.setRemove(false);
-                    else levelEditor.setRemove(true);
-                }
-                case "SOLID" -> {
-                    if (levelEditor.getSolid()) levelEditor.setSolid(false);
-                    else levelEditor.setSolid(true);
-                }
-                case "SELECT LEVEL" -> {
-                    view.chooseLevel();
-                }
+                case "REMOVE" -> {levelEditor.setRemove();
+                    return; }
+                case "SOLID" -> {levelEditor.setSolid();
+                    return; }
+                case "SELECT LEVEL" -> {view.chooseLevel();
+                    return; }
             }
         }
+
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        if (levelEditor.getCurrentLevel() != null) levelEditor.handleBlockClick(mouseX, mouseY);
+        //logica clicco blocchi
     }
 
     @Override

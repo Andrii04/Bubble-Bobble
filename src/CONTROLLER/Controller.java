@@ -66,11 +66,27 @@ public class Controller implements KeyListener, MouseListener, ActionListener {
         gsm.actionPerformed(e);
     }
 
-    public void loadLevelEditorLevel(int level) {
+    //LE sta per Level Editor (i metodi associati al Level Editor)
+    public void LEloadLevel(int level) {
 
         Level selectedLevel = gsm.getLevel(level);
         LevelEditor.getInstance().setCurrentLevel(selectedLevel);
         MainFrame.getLevelEditorPanel().setCurrentLevel(selectedLevel);
 
+    }
+    public void LEsetButtons(boolean solidON, boolean removeON) {
+        //setta la view dei pulsanti remove, solid e altri se ce ne saranno,
+        //in base al loro valore nell'istanza di LevelEditor
+    }
+    public void LEaddBlock(int blockRow, int blockCol) {
+        //aggiunge il blocco alla view del LevelEditor, forse chiamando un suo metodo
+    }
+    public void LEremoveBlock(int blockRow, int blockCol) {
+        //rimuove il blocco dalla view del LevelEditor, forse chiamando un suo metodo
+    }
+    public void LEsetSolid(int blockRow, int blockCol) {
+        //setta il blocco a solid nella view del LevelEditor, forse chiamando un suo metodo
+        //ancora da programmare come appaiono i blocchi non solidi nel levelEditor
+        //probabilmente un po' opachi e trasparenti
     }
 }

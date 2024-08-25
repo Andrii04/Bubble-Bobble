@@ -71,7 +71,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
             for (int i=1; i<25; i++) {
 
-                ImageIcon blockSkin = new ImageIcon("/Resources/Bubble Bobble Resources/Tiles" +
+                ImageIcon blockSkin = new ImageIcon("C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Tiles\\" +
                         "tile" + i + ".png"); //sta roba è strana e cambia per ogni pc, a me va solo se metto
                 //il path completo
 
@@ -173,6 +173,11 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         level1.setSpawnRate(8000);
         addLevel(level1);
 
+        //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
+        //(i blocchi del livello ovviamento sono gli interi associati al numero del livello
+        //ad esempio il livello 2 avra nell'array appunto i muri fatti dal suo blocco, ovvero l'intero 2
+
+        //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
     }
 
     public void addLevel(Level level) {
