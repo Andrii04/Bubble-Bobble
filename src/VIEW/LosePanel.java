@@ -9,9 +9,9 @@ public class LosePanel extends JPanel {
 
     private Font font = MainFrame.getPixelFont();
     private final JLabel testo = new JLabel("YOU LOSE");
-    private final JButton menuBT = new JButton("MENU");
-    private final JButton exitBT = new JButton("EXIT");
-    private final JButton leaderboardBT = new JButton("LEADERBOARD");
+    private final JLabel menuBT = new JLabel("MENU");
+    private final JLabel exitBT = new JLabel("EXIT");
+    private final JLabel leaderboardBT = new JLabel("LEADERBOARD");
 
     public LosePanel(){
 
@@ -21,27 +21,21 @@ public class LosePanel extends JPanel {
         this.setLayout(null);
         this.setVisible(true);
 
-        //custom font
-        try{
-            InputStream fontFile= getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/General/classic-nes-font.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
 
         //label
-        testo.setFont(font.deriveFont(12f));
+        testo.setFont(font.deriveFont(60f));
         testo.setHorizontalAlignment(SwingConstants.CENTER);
-        testo.setBounds(50,50,100,80);
-        testo.setOpaque(true);
+        testo.setBounds(MainFrame.FRAME_WIDTH/2-240,30,480,250);
+        testo.setForeground(Color.red);
+        testo.setVisible(true);
         this.add(testo);
 
 
         //button Return to Menu
 
-        menuBT.setFont(font.deriveFont(20f));
+        menuBT.setFont(font.deriveFont(30f));
         menuBT.setHorizontalAlignment(SwingConstants.CENTER);
-        menuBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, menuBT.getY()+MainFrame.TILE_SIZE*5, 200 , 25);
+        menuBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, testo.getY() + testo.getHeight(), 200 , 50);
         menuBT.setForeground(Color.white);
         menuBT.setVisible(true);
         this.add(menuBT);
@@ -49,9 +43,9 @@ public class LosePanel extends JPanel {
 
         //Leadbord Button
 
-        leaderboardBT.setFont(font.deriveFont(20f));
+        leaderboardBT.setFont(font.deriveFont(30f));
         leaderboardBT.setHorizontalAlignment(SwingConstants.CENTER);
-        //menuBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, menuBT.getY()+MainFrame.TILE_SIZE*5, 200 , 25);// li devo sistemare
+        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH/2-200, menuBT.getY()+menuBT.getHeight()+15, 400 , 50);
         leaderboardBT.setForeground(Color.white);
         leaderboardBT.setVisible(true);
         this.add(leaderboardBT);
@@ -61,9 +55,9 @@ public class LosePanel extends JPanel {
 
         //Exit button
 
-        exitBT.setFont(font.deriveFont(20f));
+        exitBT.setFont(font.deriveFont(30f));
         exitBT.setHorizontalAlignment(SwingConstants.CENTER);
-        //menuBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, menuBT.getY()+MainFrame.TILE_SIZE*5, 200 , 25);// li devo sistemare
+        exitBT.setBounds(MainFrame.FRAME_WIDTH/2-100 , leaderboardBT.getY()+ leaderboardBT.getHeight()+15, 200 , 50);
         exitBT.setForeground(Color.white);
         exitBT.setVisible(true);
         this.add(exitBT);
