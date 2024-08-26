@@ -1,5 +1,7 @@
 package MODEL;
 
+import java.awt.*;
+
 public interface Entity {
     public enum Action{
         IDLE,

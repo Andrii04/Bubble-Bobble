@@ -12,6 +12,8 @@ public class LosePanel extends JPanel {
     private final JLabel menuBT = new JLabel("MENU");
     private final JLabel exitBT = new JLabel("EXIT");
     private final JLabel leaderboardBT = new JLabel("LEADERBOARD");
+    private final JLabel cursor = new JLabel();
+    private int selectedOption = 0;
 
     public LosePanel(){
 
@@ -62,9 +64,36 @@ public class LosePanel extends JPanel {
         exitBT.setVisible(true);
         this.add(exitBT);
 
+        //cursor
+
+        ImageIcon cursorImg = new ImageIcon(getClass().getResource("/Resources/Bubble Bobble Resources/Bubbles/GreenBubble4.png"));
+        Image cursorScaled = cursorImg.getImage().getScaledInstance(cursorImg.getIconWidth()*2, cursorImg.getIconWidth()*2, Image.SCALE_SMOOTH);
+        cursor.setIcon(new ImageIcon(cursorScaled));
+        cursor.setHorizontalAlignment(SwingConstants.CENTER);
+        cursor.setBounds(leaderboardBT.getX() - 100, menuBT.getY(), cursorImg.getIconWidth()*10, menuBT.getHeight());
+        cursor.setVisible(true);
+        this.add(cursor);
     }
 
 
+        public void cursorUp()
+        {
+            if (selectedOption > 0) {
+                selectedOption--;
+                cursor.setLocation(cursor.getX(), cursor.getY() - MainFrame.TILE_SIZE);
+            }
+        }
 
 
-}
+        public void cursorDown(){
+            if(selectedOption < 2){
+                selectedOption++;
+                cursor.setLocation(cursor.getX(), cursor.getY() + MainFrame.TILE_SIZE);
+            }
+        }
+        public int getSelectedOption(){
+            return selectedOption;
+        }
+    }
+
+

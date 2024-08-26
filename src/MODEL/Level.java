@@ -44,6 +44,10 @@ public class Level {
     public Boolean[][] getSolidCheckPattern() {return solidCheckPattern;}
     public int getBlockInt() {return blockInt;}
 
+    public int getBlockInt(int y, int x) {
+        if (y >= 0 && y < pattern.length && x >= 0 && x < pattern[0].length) return pattern[y][x];
+        else return 1;
+    }
     public boolean isItSolidBlock(int y, int x) {
         return solidCheckPattern[y][x];
     }

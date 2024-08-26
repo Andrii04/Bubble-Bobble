@@ -1,5 +1,6 @@
 import VIEW.LosePanel;
 import VIEW.MenuPanel;
+import VIEW.WinPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,7 @@ public class FrameProva extends JFrame {
     public static final int FRAME_WIDTH = 768; //  (256*3)
     public static final int FRAME_HEIGHT = 672; //(224*3)
     public static final int TILE_SIZE = 64;
-    private final LosePanel p = new LosePanel();
+    private final WinPanel p = new WinPanel();
 
     public FrameProva(){
 

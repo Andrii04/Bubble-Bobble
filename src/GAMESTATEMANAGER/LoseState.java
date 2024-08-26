@@ -1,6 +1,6 @@
 package GAMESTATEMANAGER;
 
-import MODEL.LevelEditor;
+
 import VIEW.LosePanel;
 import VIEW.MainFrame;
 import VIEW.MenuPanel;
@@ -10,14 +10,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class LoseState extends GameState{
+        GameStateManager gsm;
+        LosePanel view = MainFrame.getLosePanel();
 
-        public LoseState(){}
+        public LoseState(GameStateManager gsm){
+                this.gsm=gsm;
+        }
 
 
         public void update() {}
 
         public void draw() {
-            MainFrame.setPanel(MainFrame.getPausePanel());}
+            MainFrame.setPanel(MainFrame.getLosePanel());}
+
 
 
         @Override
@@ -28,6 +33,27 @@ public class LoseState extends GameState{
         @Override
         public void keyPressed(KeyEvent k) {
 
+                if (k.getKeyCode() == KeyEvent.VK_UP) {
+                        view.cursorUp();
+                }
+                if (k.getKeyCode() == KeyEvent.VK_DOWN) {
+                        view.cursorDown();
+                }
+                if (k.getKeyCode() == KeyEvent.VK_ENTER) {
+                        switch (view.getSelectedOption()) {
+                                case 0:
+                                        gsm.setState(GameStateManager.menuState);
+                                        break;
+                                case 1:
+                                        gsm.setState(GameStateManager.leaderboardState);
+                                        break;
+
+                                case 2:
+                                        System.exit(0);
+                                        break;
+                        }
+                }
+
         }
 
         @Override
@@ -36,32 +62,32 @@ public class LoseState extends GameState{
         }
 
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent k) {
 
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(MouseEvent k) {
 
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(MouseEvent k) {
 
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(MouseEvent k) {
 
         }
 
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseEntered(MouseEvent k) {
 
         }
 
         @Override
-        public void mouseExited(MouseEvent e) {
+        public void mouseExited(MouseEvent k) {
 
         }
     }

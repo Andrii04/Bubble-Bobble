@@ -1,16 +1,17 @@
 package GAMESTATEMANAGER;
 
 import VIEW.MainFrame;
-import VIEW.MenuPanel;
+import VIEW.WinPanel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class MenuState extends GameState {
+public class WinState extends GameState{
     GameStateManager gsm;
-    MenuPanel view = MainFrame.getMenuPanel();
+    WinPanel view = MainFrame.getWinPanel();
 
-    public MenuState(GameStateManager gsm) {
+    public WinState(GameStateManager gsm) {
         this.gsm = gsm;
     }
 
@@ -45,15 +46,12 @@ public class MenuState extends GameState {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             switch (view.getSelectedOption()) {
                 case 0:
-                    gsm.setState(GameStateManager.userCreationState);
+                    gsm.setState(GameStateManager.menuState);
                     break;
                 case 1:
                     gsm.setState(GameStateManager.leaderboardState);
                     break;
                 case 2:
-                    gsm.setState(GameStateManager.leveleditorState);
-                    break;
-                case 3:
                     System.exit(0);
                     break;
             }

@@ -24,8 +24,10 @@ public class MainFrame {
     private static UserCreationPanel userCreationPanel;
     private static UserProfile userProfile;
     private static LosePanel losePanel;
+    private static WinPanel winPanel;
 
     public MainFrame() {
+
         gameFrame = new JFrame("Bubble Bobble");
         gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         gameFrame.setResizable(false);
@@ -96,5 +98,10 @@ public class MainFrame {
         if ( losePanel== null) losePanel = new LosePanel();
         return losePanel;
 
+    }
+
+    public static WinPanel getWinPanel(){
+        if ( winPanel== null) winPanel = new WinPanel();
+        return winPanel;
     }
 }

@@ -15,6 +15,7 @@ public class PlayPanel extends JPanel implements Runnable {
     private int FRAME_WIDTH = MainFrame.FRAME_WIDTH;
     private PlayerView playerView;
     private int currentLevelView = 1;
+    private BubbleView bubbleView;
 
     private boolean isNewLevel = true;
 
@@ -23,6 +24,7 @@ public class PlayPanel extends JPanel implements Runnable {
 
     public PlayPanel(PlayerView playerView) {
         this.playerView = playerView;
+        this.bubbleView = playerView.getBubbleView();
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.BLACK);
         this.setLayout(null);
@@ -65,10 +67,11 @@ public class PlayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         playerView.draw(g2d);
+        bubbleView.update();
+        bubbleView.draw(g2d);
         // add player etc
 
         if (isNewLevel) {
-            gsm.generateLevels();
             drawLevel(g2d, gsm.getCurrentLevel().getPattern());
             //isNewLevel = false;    SE SI METTE QUESTO IL LIVELLO VIENE CANCELLATO, da fixxare
         } else {
@@ -76,7 +79,7 @@ public class PlayPanel extends JPanel implements Runnable {
         }
 
     }
-
+    public void setBubbleView(BubbleView bubbleView) {this.bubbleView = bubbleView;}
     public void drawLevel(Graphics g, int[][] pattern) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -97,7 +100,6 @@ public class PlayPanel extends JPanel implements Runnable {
                     int x = j * Block.WIDTH; //200 per test
                     int y = i * Block.HEIGHT; //200 per test
                     //chiama il metodo ma non disegna sul frame (appare nero).
-                    System.out.println("Disegnando blocco" + skin);
                     g2d.drawImage(skin.getImage(), x, y, Block.WIDTH, Block.HEIGHT, null);
                 }
 

@@ -82,7 +82,7 @@ public class UserCreationPanel extends JPanel {
             }
 
             // Avatar cursor default
-            cursor.setIcon(new ImageIcon("src/Resources/Bubble Bobble Resources/Bubbles/BubbleType4.png"));
+            cursor.setIcon(new ImageIcon("src/Resources/Bubble Bobble Resources/Bubbles/GreenBubble4.png"));
             cursor.setBounds(startX + selectedAvatar * (avatarWidth + spacing) +20 ,MainFrame.TILE_SIZE*5,50,50);
             cursor.setVisible(true);
             this.add(cursor);

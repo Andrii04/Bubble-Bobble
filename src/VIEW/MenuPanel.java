@@ -84,7 +84,7 @@ public class MenuPanel extends JPanel {
         this.add(exitBT);
 
         // cursor
-        ImageIcon cursorImg = new ImageIcon(getClass().getResource("/Resources/Bubble Bobble Resources/Bubbles/BubbleType4.png"));
+        ImageIcon cursorImg = new ImageIcon(getClass().getResource("/Resources/Bubble Bobble Resources/Bubbles/GreenBubble4.png"));
         Image cursorScaled = cursorImg.getImage().getScaledInstance(cursorImg.getIconWidth()*2, startBT.getHeight(), Image.SCALE_SMOOTH);
         cursor.setIcon(new ImageIcon(cursorScaled));
         cursor.setHorizontalAlignment(SwingConstants.CENTER);
@@ -102,6 +102,7 @@ public class MenuPanel extends JPanel {
             cursor.setLocation(cursor.getX(), cursor.getY() - MainFrame.TILE_SIZE);
         }
     }
+
     public void cursorDown(){
         if(selectedOption < 3){
             selectedOption++;
