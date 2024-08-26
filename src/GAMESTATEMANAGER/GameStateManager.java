@@ -20,7 +20,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public static final int leveleditorState = 4;
     public static final int userCreationState = 5;
     public static final int loseState=6;
-    public static final int winState = 7;
 
     private static GameStateManager instance;
     private List<GameState> gsm;
@@ -83,6 +82,48 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
         return intBlockMap;
     }
+    public Level getCurrentLevel() {return levels.get(currentLevel);}
+
+    public Level getLevel(int levelID) {
+
+        if (levelID < 1 || levelID > 24) {
+            throw new IllegalArgumentException(
+                    "Level doesn't exist, please choose a Level that ranges from 1 to 24");
+        }
+        return levels.get(levelID);
+
+    }
+
+    public void startGame(Player player) {
+        if (savedPlayState == null){
+            savedPlayState = new PlayState(player,this);
+            currentState = savedPlayState;
+            stateNum = 1;
+            currentState.draw();
+        }
+        else{
+            throw new IllegalStateException("Game already started");
+        }
+    }
+    public void continueGame(){
+        if (savedPlayState != null){
+            currentState = savedPlayState;
+            stateNum = 1;
+            currentState.draw();
+        }
+        else{
+            throw new IllegalStateException("No game to continue");
+        }
+    }
+    public void setState(int state) {
+        if (state == 1) {
+            throw new IllegalStateException("Use startGame() to start the game or continueGame() to continue");
+        } else {
+            currentState = gsm.get(state);
+            stateNum = state;
+            currentState.draw();
+        }
+    }
 
     public void generateLevels() {
         //rows di blocchi: 37
@@ -138,50 +179,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
         //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
     }
-
-    public Level getCurrentLevel() {return levels.get(currentLevel);}
-
-    public Level getLevel(int levelID) {
-
-        if (levelID < 1 || levelID > 24) {
-            throw new IllegalArgumentException(
-                    "Level doesn't exist, please choose a Level that ranges from 1 to 24");
-        }
-        return levels.get(levelID);
-
-    }
-
-    public void startGame(Player player) {
-        if (savedPlayState == null){
-            savedPlayState = new PlayState(player,this);
-            currentState = savedPlayState;
-            stateNum = 1;
-            currentState.draw();
-        }
-        else{
-            throw new IllegalStateException("Game already started");
-        }
-    }
-    public void continueGame(){
-        if (savedPlayState != null){
-            currentState = savedPlayState;
-            stateNum = 1;
-            currentState.draw();
-        }
-        else{
-            throw new IllegalStateException("No game to continue");
-        }
-    }
-    public void setState(int state) {
-        if (state == 1) {
-            throw new IllegalStateException("Use startGame() to start the game or continueGame() to continue");
-        } else {
-            currentState = gsm.get(state);
-            stateNum = state;
-            currentState.draw();
-        }
-    }
-
 
     public void addLevel(Level level) {
         levels.add(level);
