@@ -9,6 +9,7 @@ public class Blubba extends Enemy {
     //vola
     //si muova diagonalmente e colpito un muro gira 90 gradi
 
+    private boolean facingRight = true;
     private int x;
     private int y;
     private final int punteggio = 5000;
@@ -20,18 +21,12 @@ public class Blubba extends Enemy {
     }
 
     @Override
-    public void updatelocation(int x, int y) {
+    public void updateAction(Action action) {
 
     }
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void die() {
-
+    public boolean getFacingRight() {
+        return facingRight;
     }
 
     @Override

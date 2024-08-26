@@ -44,6 +44,9 @@ public class Level {
     public Boolean[][] getSolidCheckPattern() {return solidCheckPattern;}
     public int getBlockInt() {return blockInt;}
 
+    public boolean isItSolidBlock(int y, int x) {
+        return solidCheckPattern[y][x];
+    }
     public void setSolidBlock(int y, int x) {
         solidCheckPattern[y][x] = !solidCheckPattern[y][x];
     }

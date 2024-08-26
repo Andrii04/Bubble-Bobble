@@ -18,7 +18,8 @@ public class Main {
         //gsm.setState(GameStateManager.leaderboardState);
         //gsm.setState(GameStateManager.leveleditorState);
         //gsm.setState(GameStateManager.playState);
-        //gsm.setState(GameStateManager.loseState); -> non credo che tutto questo sia giusto poi vedo
+        //gsm.setState(GameStateManager.winState);
+        //gsm.setState(GameStateManager.loseState);-> non credo che tutto questo sia giusto poi vedo
 
 
 

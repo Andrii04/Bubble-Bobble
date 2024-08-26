@@ -11,6 +11,7 @@ public class Boris extends Enemy {
     //le rocce si sbriciolano a contatto co muri e piattaforme
     //salta e ha buon movimento
 
+    private boolean facingRight = true;
     private int x;
     private int y;
     private final int points=2000;
@@ -21,19 +22,14 @@ public class Boris extends Enemy {
 
     }
 
+
     @Override
-    public void updatelocation(int x, int y) {
+    public void updateAction(Action action) {
 
     }
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void die() {
-
+    public boolean getFacingRight() {
+        return facingRight;
     }
 
     @Override

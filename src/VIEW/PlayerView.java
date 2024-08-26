@@ -1,5 +1,6 @@
 package VIEW;
 
+import MODEL.Entity;
 import MODEL.Player;
 
 import javax.imageio.ImageIO;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.nio.Buffer;
 import java.util.Observable;
 import java.util.Observer;
+import static MODEL.Entity.Action.*;
 
 public class PlayerView implements Observer {
     int x;
@@ -25,10 +27,11 @@ public class PlayerView implements Observer {
     private BufferedImage[] die;
     private BufferedImage[] attackRight;
     private BufferedImage[] attackLeft;
-    private String currentAction = "idle";
+    private BufferedImage[] hurt;
+    private Entity.Action currentAction = IDLE;
     private int currentFrame;
     private long lastTime;
-    private final int frameDelay = 200;
+    private final int frameDelay = 150;
 
     public PlayerView(Player player) {
         this.player = player;
@@ -39,9 +42,9 @@ public class PlayerView implements Observer {
     }
 
     public BufferedImage scaleImage(BufferedImage img) {
-        BufferedImage scaledImage = new BufferedImage(img.getWidth()*2, img.getHeight()*2, img.getType());
+        BufferedImage scaledImage = new BufferedImage(img.getWidth()*3, img.getHeight()*3, img.getType());
         Graphics2D g2d = scaledImage.createGraphics();
-        g2d.drawImage(img, 0, 0, img.getWidth()*2, img.getHeight()*2, null);
+        g2d.drawImage(img, 0, 0, img.getWidth()*3, img.getHeight()*3, null);
         g2d.dispose();
         return scaledImage;
     }
@@ -75,6 +78,9 @@ public class PlayerView implements Observer {
             attackLeft = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Character/Attack/CharacterAttack1.png")))
             };
+            hurt = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Character/Die/Bub&Bob17.png")))
+            };
             die = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Character/Die/Bub&Bob16.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Character/Die/Bub&Bob17.png"))),
@@ -89,8 +95,8 @@ public class PlayerView implements Observer {
     public void update(Observable o, Object arg) {
         if(o instanceof Player){
             Player player = (Player) o;
-            if(arg instanceof String){
-                String action = (String) arg;
+            if(arg instanceof Entity.Action){
+                Entity.Action action = (Entity.Action) arg;
                 this.currentAction = action;
                 x = player.getX();
                 y = player.getY();
@@ -105,24 +111,26 @@ public class PlayerView implements Observer {
                 lastTime = currentTime;
                 currentFrame = (currentFrame + 1) % currentAnimation.length;
             }
-
             g2d.drawImage(currentAnimation[currentFrame], x, y, null);
         }
     }
+
     private BufferedImage[] getCurrentAnimation(){
         switch(currentAction){
-            case "moveRight":
+            case MOVE_RIGHT:
                 return walkRight;
-            case "moveLeft":
+            case MOVE_LEFT:
                 return walkLeft;
-            case "moveUp":
+            case MOVE_UP:
                 return player.getFacingRight() ? jumpUpRight : jumpUpLeft;
-            case "moveDown":
+            case  MOVE_DOWN:
                 return player.getFacingRight() ? jumpDownRight : jumpDownLeft;
-            case "attack":
+            case ATTACK:
                 return player.getFacingRight() ? attackRight : attackLeft;
-            case "die":
+            case DIE:
                 return die;
+            case HURT:
+                return hurt;
             default:
                 return player.getFacingRight() ? idleRight : idleLeft;
         }

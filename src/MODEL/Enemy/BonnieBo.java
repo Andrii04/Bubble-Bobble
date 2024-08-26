@@ -10,6 +10,7 @@ public class BonnieBo extends Enemy {
     //rimbalza ad alta velocità
     //dannno tramite contatto
 
+    private boolean facingRight = true;
     private int x;
     private int y;
     private final int punteggio = 1000;
@@ -21,18 +22,12 @@ public class BonnieBo extends Enemy {
     }
 
     @Override
-    public void updatelocation(int x, int y) {
+    public void updateAction(Action action) {
 
     }
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void die() {
-
+    public boolean getFacingRight() {
+        return facingRight;
     }
 
     @Override

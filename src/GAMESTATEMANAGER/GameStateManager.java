@@ -71,7 +71,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
             for (int i=1; i<25; i++) {
 
-                ImageIcon blockSkin = new ImageIcon("C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Tiles\\" +
+                ImageIcon blockSkin = new ImageIcon("C:\\Users\\chris\\IdeaProjects\\Bubble-Bobble\\src\\Resources\\Bubble Bobble Resources\\Tiles\\" +
                         "tile" + i + ".png"); //sta roba è strana e cambia per ogni pc, a me va solo se metto
                 //il path completo
 

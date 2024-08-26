@@ -1,11 +1,19 @@
 package MODEL;
 
 public interface Entity {
+    public enum Action{
+        IDLE,
+        MOVE_UP,
+        MOVE_DOWN,
+        MOVE_LEFT,
+        MOVE_RIGHT,
+        ATTACK,
+        HURT,
+        DIE
+    }
+    public void updateAction(Action action);
 
-    public void updatelocation(int x, int y);
-    public void attack();
-    public void die();
-
+    public boolean getFacingRight();
     public int getX();
     public int getY();
 

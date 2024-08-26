@@ -10,6 +10,7 @@ public class Benzo extends Enemy {
     //ha salto
     //danno tramite contatto
 
+    private boolean facingRight = true;
     private int x;
     private int y;
     private final int points = 500;
@@ -21,18 +22,13 @@ public class Benzo extends Enemy {
     }
 
     @Override
-    public void updatelocation(int x, int y) {
+    public void updateAction(Action action) {
 
     }
 
     @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void die() {
-
+    public boolean getFacingRight() {
+        return facingRight;
     }
 
     @Override

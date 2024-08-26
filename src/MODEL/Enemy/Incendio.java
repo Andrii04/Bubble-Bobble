@@ -11,6 +11,7 @@ public class Incendio extends Enemy{
     //spara palle di fuoco
     //continua a camminare quando spara
 
+    private boolean facingRight = true;
     private int x;
     private int y;
     private final int points=3000;
@@ -21,19 +22,14 @@ public class Incendio extends Enemy{
 
     }
 
+
     @Override
-    public void updatelocation(int x, int y) {
+    public void updateAction(Action action) {
 
     }
 
-    @Override
-    public void attack() {
-
-    }
-
-    @Override
-    public void die() {
-
+    public boolean getFacingRight() {
+        return facingRight;
     }
 
     @Override
