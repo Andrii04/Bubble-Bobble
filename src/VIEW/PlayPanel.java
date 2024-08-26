@@ -68,7 +68,6 @@ public class PlayPanel extends JPanel implements Runnable {
         // add player etc
 
         if (isNewLevel) {
-            gsm.generateLevels();
             drawLevel(g2d, gsm.getCurrentLevel().getPattern());
             //isNewLevel = false;    SE SI METTE QUESTO IL LIVELLO VIENE CANCELLATO, da fixxare
         } else {

@@ -71,7 +71,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
             for (int i=1; i<25; i++) {
 
-                ImageIcon blockSkin = new ImageIcon("C:\\Users\\chris\\IdeaProjects\\Bubble-Bobble\\src\\Resources\\Bubble Bobble Resources\\Tiles\\" +
+                ImageIcon blockSkin = new ImageIcon("C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Tiles\\" +
                         "tile" + i + ".png"); //sta roba è strana e cambia per ogni pc, a me va solo se metto
                 //il path completo
 
@@ -93,6 +93,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         return levels.get(levelID);
 
     }
+    public List<Level> getLevels() {return levels;}
 
     public void startGame(Player player) {
         if (savedPlayState == null){
@@ -125,7 +126,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         }
     }
 
-    public void generateLevels() {
+    /*public void generateLevels() {
         //rows di blocchi: 37
         //lunghezza row: 42
 
@@ -178,7 +179,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         //ad esempio il livello 2 avra nell'array appunto i muri fatti dal suo blocco, ovvero l'intero 2
 
         //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
-    }
+    }*/
 
     public void addLevel(Level level) {
         levels.add(level);
