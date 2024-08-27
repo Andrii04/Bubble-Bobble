@@ -1,6 +1,5 @@
 package GAMESTATEMANAGER;
 
-import MODEL.Level;
 import MODEL.Player;
 import VIEW.MainFrame;
 import VIEW.PlayerView;
@@ -18,7 +17,6 @@ public class PlayState extends GameState {
     public PlayState(Player player, GameStateManager gsm) {
         this.player = player;
         this.gsm = gsm;
-        player.setCurrentLevel(gsm.getCurrentLevel());
         player.updateAction(IDLE);
     }
     // if tile general solid and player moving ( if upwards false ) general collision = true
@@ -96,6 +94,4 @@ public class PlayState extends GameState {
     public void mouseExited(MouseEvent e) {
 
     }
-
-
 }
