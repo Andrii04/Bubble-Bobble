@@ -16,27 +16,52 @@ public class Player extends Observable implements Entity {
     private int lives;
     private int speed;
     private boolean facingRight = true;
-    private boolean collides;
     private Rectangle solidArea;
     private Level currentLevel;
     private Bubble bubbleType;
 
     public Player(UserProfile profile){
-        this.solidArea = new Rectangle(0,0,54,54);
         this.profile=profile;
-        this.x = 0;
-        this.y = 0;
+        this.x = 20;
+        this.y = 20;
         this.lives = 2; // default
         this.speed = 19; // default
         solidArea = new Rectangle(21,21,30,30);
         this.bubbleType = new GreenBubble(this);
     }
 
-    public void isColliding(){
 
+    public boolean isColliding(int x, int y) {
+        int left = x+3;
+        int right = x +50;
+        int top = y+3;
+        int bottom = y + 50;
 
+        for (int i = left; i < right; i++) {
+            for (int j = top; j < bottom; j++) {
+                if (isSolidTile(i, j)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isSolidTile(int x ,int y){
+        int tileX = x / Block.WIDTH;
+        int tileY = y / Block.HEIGHT;
+        if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
+            if(currentLevel.getBlockInt(tileY, tileX) >0){
+                // test
+                System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] );
+                return true;
+            }
+            else{
+                System.out.println("Not Colliding");
+                return false;
 
-
+            }
+        }
+        return true;
     }
 
      public void setCurrentLevel (Level currentLevel) {
@@ -48,47 +73,30 @@ public class Player extends Observable implements Entity {
     }
     @Override
     public void updateAction(Action action) {
-        int leftWorldX = this.x + solidArea.x;
-        int rightWorldX = this.x + solidArea.x + solidArea.width;
-        int topWorldY = this.y + solidArea.y;
-        int bottomWorldY = this.y + solidArea.y+solidArea.height;
-
-        int leftCol = leftWorldX / Block.WIDTH;
-        int rightCol = rightWorldX / Block.WIDTH;
-        int topRow = topWorldY / Block.HEIGHT;
-        int bottomRow = bottomWorldY / Block.HEIGHT;
-
-        int tileNum1, tileNum2;
-
         switch(action){
             case MOVE_UP:
-                topRow = (topWorldY - speed)/Block.HEIGHT;
-                if(currentLevel.getBlockInt(leftCol,topRow) == 0 || currentLevel.getBlockInt(rightCol,topRow) == 0){
-                    this.y -= speed;
+                if(!isColliding(x, y-speed)){
+                this.y -= speed;
                 }
                 notifyObservers(Action.MOVE_UP);
                 break;
             case MOVE_DOWN:
-                bottomRow = (bottomWorldY + speed ) / Block.HEIGHT;
-                if(currentLevel.getBlockInt(leftCol,bottomRow) == 0 || currentLevel.getBlockInt(rightCol,bottomRow) == 0) {
+                if(!isColliding(x, y+speed)) {
                     this.y += speed;
                 }
                     notifyObservers(Action.MOVE_DOWN);
                 break;
             case MOVE_LEFT:
-                leftCol = (leftWorldX- speed ) / Block.HEIGHT;
-                if(currentLevel.getBlockInt(leftCol,topRow) == 0 || currentLevel.getBlockInt(leftCol,bottomRow) == 0)
-                {
-                    this.x -= speed;
-                }
+                if(!isColliding(x-speed, y)){
+                this.x -= speed;
+            }
                 facingRight = false;
                 notifyObservers(Action.MOVE_LEFT);
                 break;
             case MOVE_RIGHT:
-                rightCol = (rightWorldX+speed) / Block.HEIGHT;
-                if(currentLevel.getBlockInt(rightCol,topRow) == 0 || currentLevel.getBlockInt(rightCol,bottomRow) == 0){
-                    this.x += speed;
-                }
+                if(!isColliding(x+speed, y)){
+               this.x += speed;
+            }
                 facingRight = true;
                 notifyObservers(Action.MOVE_RIGHT);
                 break;

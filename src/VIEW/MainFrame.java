@@ -12,7 +12,7 @@ import java.io.InputStream;
 public class MainFrame {
     public static final int FRAME_WIDTH = 768; //  (256*3)
     public static final int FRAME_HEIGHT = 672; //(224*3)
-    public static final int TILE_SIZE = 64;
+    public static final int TILE_SIZE = 64; // menu etc for spacing
 
     private static JFrame gameFrame;
 

@@ -111,11 +111,13 @@ public class PlayerView implements Observer {
             long currentTime = System.currentTimeMillis();
             if(currentTime-lastTime > frameDelay){
                 lastTime = currentTime;
-                currentFrame = (currentFrame + 1) % currentAnimation.length;
+                    currentFrame = (currentFrame + 1) % currentAnimation.length;
+                }
             }
+            currentFrame = Math.min(currentFrame, currentAnimation.length - 1);
             g2d.drawImage(currentAnimation[currentFrame], x, y, null);
         }
-    }
+
 
     private BufferedImage[] getCurrentAnimation(){
         switch(currentAction){

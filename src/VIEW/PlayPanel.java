@@ -16,6 +16,8 @@ public class PlayPanel extends JPanel implements Runnable {
     private PlayerView playerView;
     private int currentLevelView = 1;
     private BubbleView bubbleView;
+    private int arrayWidth = 48;
+    private int arrayHeight = 42;
 
     private boolean isNewLevel = true;
 
@@ -85,9 +87,9 @@ public class PlayPanel extends JPanel implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         Map<Integer, Block> intBlockMap = gsm.getIntBlockMap();
 
-        for (int i = 0; i < 37; i++) {
+        for (int i = 0; i < arrayHeight; i++) {
             //prendo il blocco corrispondente al carattere
-            for (int j = 0; j < 42; j++) {
+            for (int j = 0; j < arrayWidth; j++) {
 
                 int blockInt = pattern[i][j];
                 Block block = intBlockMap.get(blockInt);
