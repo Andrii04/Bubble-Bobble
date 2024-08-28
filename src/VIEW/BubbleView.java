@@ -5,6 +5,7 @@ import MODEL.Enemy.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class BubbleView {
     int x;
@@ -21,7 +22,10 @@ public class BubbleView {
         x = bubble.getX();
         y = bubble.getY();
         String currentSkinPath = bubble.getSkinsPath() + "1.png";
-        currentSkin = new ImageIcon(currentSkinPath);
+        // test
+        System.out.println(currentSkinPath);  // null
+
+        currentSkin = new ImageIcon(currentSkinPath); // getClass().getResource(currentSkinPath)
         firing = false;
         distanceTraveled = 0;
     }
@@ -42,7 +46,7 @@ public class BubbleView {
         firing = true;
         distanceTraveled = 0;  // Reset della distanza percorsa
         currentSkinPath = bubble.getSkinsPath() + "1.png";
-        currentSkin = new ImageIcon(currentSkinPath);  // Imposta l'immagine iniziale
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));  // Imposta l'immagine iniziale
     }
 
 
@@ -72,10 +76,10 @@ public class BubbleView {
             // Aggiorna l'immagine della bolla in base alla distanza percorsa
             if (distanceTraveled >= 21 && distanceTraveled < 36) {
                 currentSkinPath = bubble.getSkinsPath() + "2.png";
-                currentSkin = new ImageIcon(currentSkinPath);
+                currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
             } else if (distanceTraveled >= 36) {
                 currentSkinPath = bubble.getSkinsPath() + "3.png";
-                currentSkin = new ImageIcon(currentSkinPath);
+                currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
             }
 
             distanceTraveled++;  // Incrementa la distanza percorsa

@@ -39,10 +39,10 @@ public class Player extends Observable implements Entity {
 
 
     public boolean isColliding(int x, int y) {
-        int left = x+3;
-        int right = x +50;
-        int top = y+3;
-        int bottom = y + 50;
+        int left = x+10;
+        int right = x +38;
+        int top = y+10;
+        int bottom = y + 38;
 
         for (int i = left; i < right; i++) {
             for (int j = top; j < bottom; j++) {
