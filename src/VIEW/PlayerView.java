@@ -1,5 +1,6 @@
 package VIEW;
 
+import MODEL.Bubbles.Bubble;
 import MODEL.Entity;
 import MODEL.Player;
 
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import static MODEL.Entity.Action.*;
@@ -140,5 +142,4 @@ public class PlayerView implements Observer {
         }
     }
     public BubbleView getBubbleView() {return bubbleView;}
-
 }

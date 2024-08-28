@@ -1,4 +1,5 @@
 package VIEW;
+import MODEL.Block;
 import MODEL.Bubbles.*;
 import MODEL.Enemy.*;
 
@@ -13,6 +14,7 @@ public class BubbleView {
     String currentSkinPath;
     boolean firing;
     int distanceTraveled;
+    boolean facingRight;
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;
@@ -34,35 +36,14 @@ public class BubbleView {
         firing = false;
     }
 
-   /* public void fireBubble() {
-        bubble.updateLocation(bubble.getPlayer().getX()+20, bubble.getPlayer().getY()-15);
+    public void fireBubble() {
+        facingRight = bubble.getPlayer().getFacingRight();
+        bubble.updateLocation(bubble.getPlayer().getX() + 23, bubble.getPlayer().getY() + 20);
         firing = true;
-        //viaggiano 6 blocchi, ogni 2 blocchi cambia l'immagine
-        int distanceTraveled = 0;
-
-
-        while (distanceTraveled < 6) {
-            if (distanceTraveled > 2 && distanceTraveled < 5) {
-                currentSkinPath = bubble.getSkinsPath() + "2.png";
-                currentSkin = new ImageIcon(currentSkinPath);
-            } else if (distanceTraveled > 4) {
-                currentSkinPath = bubble.getSkinsPath() + "3.png";
-                currentSkin = new ImageIcon(currentSkinPath);
-            }
-            distanceTraveled++;
-            bubble.updateLocation(bubble.getX() + 1, bubble.getY() + 1);
-            this.x = bubble.getX();
-            this.y = bubble.getY();
-
-        }
-    }*/
-   public void fireBubble() {
-       bubble.updateLocation(bubble.getPlayer().getX() + 20, bubble.getPlayer().getY() - 15);
-       firing = true;
-       distanceTraveled = 0;  // Reset della distanza percorsa
-       currentSkinPath = bubble.getSkinsPath() + "1.png";
-       currentSkin = new ImageIcon(currentSkinPath);  // Imposta l'immagine iniziale
-   }
+        distanceTraveled = 0;  // Reset della distanza percorsa
+        currentSkinPath = bubble.getSkinsPath() + "1.png";
+        currentSkin = new ImageIcon(currentSkinPath);  // Imposta l'immagine iniziale
+    }
 
 
     public void draw(Graphics2D g2d) {
@@ -73,18 +54,26 @@ public class BubbleView {
         this.x = x;
         this.y = y;
     }
+
     public void update() {
-        if (firing && distanceTraveled < 6) {
+        System.out.println("firing " + "= " + firing);
+        if (firing && distanceTraveled < MainFrame.FRAME_WIDTH - Block.WIDTH-252) {
             // Aggiorna la posizione della bolla
-            bubble.updateLocation(bubble.getX() + 1, bubble.getY() + 1);
-            this.x = bubble.getX();
-            this.y = bubble.getY();
+            if (facingRight) {
+                bubble.updateLocation(bubble.getX() + 3, bubble.getY());
+                this.x = bubble.getX();
+                this.y = bubble.getY();
+            } else if (!facingRight) {
+                bubble.updateLocation(bubble.getX() - 3, bubble.getY());
+                this.x = bubble.getX();
+                this.y = bubble.getY();
+            }
 
             // Aggiorna l'immagine della bolla in base alla distanza percorsa
-            if (distanceTraveled >= 2 && distanceTraveled < 4) {
+            if (distanceTraveled >= 21 && distanceTraveled < 36) {
                 currentSkinPath = bubble.getSkinsPath() + "2.png";
                 currentSkin = new ImageIcon(currentSkinPath);
-            } else if (distanceTraveled >= 4) {
+            } else if (distanceTraveled >= 36) {
                 currentSkinPath = bubble.getSkinsPath() + "3.png";
                 currentSkin = new ImageIcon(currentSkinPath);
             }
@@ -92,14 +81,13 @@ public class BubbleView {
             distanceTraveled++;  // Incrementa la distanza percorsa
 
             // Ferma l'animazione una volta che la bolla ha completato il suo viaggio
-            if (distanceTraveled >= 6) {
+            if (distanceTraveled >= MainFrame.FRAME_WIDTH - Block.WIDTH - 252) {
                 firing = false;
             }
         }
     }
+}
 
-
-    }
 
 
 

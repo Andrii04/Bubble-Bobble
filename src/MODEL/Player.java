@@ -1,10 +1,13 @@
 package MODEL;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.GreenBubble;
+import VIEW.BubbleView;
 import VIEW.MainFrame;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Observable;
 
 public class Player extends Observable implements Entity {
@@ -19,6 +22,7 @@ public class Player extends Observable implements Entity {
     private Rectangle solidArea;
     private Level currentLevel;
     private Bubble bubbleType;
+    private GameStateManager gsm;
 
     public Player(UserProfile profile){
         this.profile=profile;
@@ -27,7 +31,10 @@ public class Player extends Observable implements Entity {
         this.lives = 2; // default
         this.speed = 19; // default
         solidArea = new Rectangle(21,21,30,30);
-        this.bubbleType = new GreenBubble(this);
+
+        gsm = GameStateManager.getInstance();
+        setCurrentLevel(gsm.getCurrentLevel());
+        bubbleType = new GreenBubble(this);
     }
 
 

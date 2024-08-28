@@ -5,6 +5,7 @@ import MODEL.Block;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PlayPanel extends JPanel implements Runnable {
@@ -81,7 +82,6 @@ public class PlayPanel extends JPanel implements Runnable {
         }
 
     }
-    public void setBubbleView(BubbleView bubbleView) {this.bubbleView = bubbleView;}
     public void drawLevel(Graphics g, int[][] pattern) {
 
         Graphics2D g2d = (Graphics2D) g;
