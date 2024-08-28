@@ -44,6 +44,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
         gsm.add(new UserCreationState(this));
+        gsm.add(new LoseState(this));
 
         //levelEditor = LevelEditor.getInstance();
 
@@ -123,6 +124,9 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             throw new IllegalStateException("Use startGame() to start the game or continueGame() to continue");
         } else {
             currentState = gsm.get(state);
+            if(currentState==null){
+                throw new IllegalMonitorStateException("The requested state is not initialized.");
+            }
             stateNum = state;
             currentState.draw();
         }
