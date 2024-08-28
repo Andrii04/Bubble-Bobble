@@ -19,10 +19,16 @@ public class Player extends Observable implements Entity {
     private int lives;
     private int speed;
     private boolean facingRight = true;
-    private Rectangle solidArea;
+
     private Level currentLevel;
     private Bubble bubbleType;
     private GameStateManager gsm;
+
+    //physics
+    private boolean onFloor;
+    private float airSpeed = 0f;
+    private float jumpSpeed = -13f;
+    private float gravity = 0.4f;
 
     public Player(UserProfile profile){
         this.profile=profile;
@@ -30,7 +36,7 @@ public class Player extends Observable implements Entity {
         this.y = 20;
         this.lives = 2; // default
         this.speed = 19; // default
-        solidArea = new Rectangle(21,21,30,30);
+
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
@@ -38,14 +44,26 @@ public class Player extends Observable implements Entity {
     }
 
 
-    public boolean isColliding(int x, int y) {
+    public void checkOnFloor(int x, float y){
+        if(isColliding(x,y+1) || isColliding(x+48,y+1)){
+            onFloor = true;
+        }
+        else{
+            onFloor = false;
+        }
+    }
+
+    public boolean isColliding(int x, float y) {
         int left = x+10;
         int right = x +38;
-        int top = y+10;
-        int bottom = y + 38;
+        float top = y+10;
+        float bottom = y + 38;
+
+        int bottomInt = (int)bottom;
+        int topInt = (int)top;
 
         for (int i = left; i < right; i++) {
-            for (int j = top; j < bottom; j++) {
+            for (int j = topInt; j < bottomInt; j++) {
                 if (isSolidTile(i, j)) {
                     return true;
                 }
@@ -63,7 +81,6 @@ public class Player extends Observable implements Entity {
                 return true;
             }
             else{
-                System.out.println("Not Colliding");
                 return false;
 
             }
@@ -81,28 +98,51 @@ public class Player extends Observable implements Entity {
     @Override
     public void updateAction(Action action) {
         switch(action){
-            case MOVE_UP:
-                if(!isColliding(x, y-speed)){
-                this.y -= speed;
+            case JUMP:
+                if(isOnFloor()){
+                    onFloor = false;
+                    airSpeed = jumpSpeed;
+                    updateAction(Action.MOVE_VERTICALLY);
+                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
-                notifyObservers(Action.MOVE_UP);
                 break;
-            case MOVE_DOWN:
-                if(!isColliding(x, y+speed)) {
-                    this.y += speed;
+            case MOVE_VERTICALLY:
+                if(!isColliding(x, y+airSpeed)) {
+                    this.y += airSpeed;
+                    airSpeed += gravity;
+                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
-                    notifyObservers(Action.MOVE_DOWN);
+                else if(isColliding(x, y+airSpeed) && airSpeed > 0){
+                    airSpeed = 0;
+                    onFloor = true;
+                    notifyObservers(Action.IDLE);
+                }
+                else{
+                    airSpeed = 0;
+                    onFloor = false;
+                    notifyObservers(Action.MOVE_VERTICALLY);
+                }
                 break;
             case MOVE_LEFT:
                 if(!isColliding(x-speed, y)){
-                this.x -= speed;
+                    if(isOnFloor()){
+                        this.x -= speed;
+                    }
+                    else{
+                        this.x -= airSpeed;
+                    }
             }
                 facingRight = false;
                 notifyObservers(Action.MOVE_LEFT);
                 break;
             case MOVE_RIGHT:
                 if(!isColliding(x+speed, y)){
-               this.x += speed;
+                    if(isOnFloor()) {
+                        this.x += speed;
+                    }
+                    else{
+                        this.x += airSpeed;
+                    }
             }
                 facingRight = true;
                 notifyObservers(Action.MOVE_RIGHT);
@@ -155,5 +195,25 @@ public class Player extends Observable implements Entity {
 
         return this.punteggio;
     }
+    public boolean isOnFloor(){
+        return onFloor;
+    }
+    public void setIsOnFloor(boolean onFloor){
+        this.onFloor = onFloor;
+    }
+    public float getAirSpeed(){
+        return airSpeed;
+    }
+    public void setAirSpeed(int airSpeed){
+        this.airSpeed = airSpeed;
+    }
+    public float getJumpSpeed(){
+        return jumpSpeed;
+    }
+
+    public float getGravity() {
+        return gravity;
+    }
+
     public Bubble getBubbleType() {return bubbleType;}
 }

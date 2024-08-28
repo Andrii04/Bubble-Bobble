@@ -5,8 +5,8 @@ import java.awt.*;
 public interface Entity {
     public enum Action{
         IDLE,
-        MOVE_UP,
-        MOVE_DOWN,
+        JUMP,
+        MOVE_VERTICALLY,
         MOVE_LEFT,
         MOVE_RIGHT,
         ATTACK,

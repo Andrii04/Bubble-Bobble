@@ -33,7 +33,7 @@ public class PlayerView implements Observer {
     private Entity.Action currentAction = IDLE;
     private int currentFrame;
     private long lastTime;
-    private final int frameDelay = 150;
+    private final int frameDelay = 500;
     private BubbleView bubbleView;
 
     public PlayerView(Player player) {
@@ -127,10 +127,12 @@ public class PlayerView implements Observer {
                 return walkRight;
             case MOVE_LEFT:
                 return walkLeft;
-            case MOVE_UP:
-                return player.getFacingRight() ? jumpUpRight : jumpUpLeft;
-            case  MOVE_DOWN:
-                return player.getFacingRight() ? jumpDownRight : jumpDownLeft;
+            case MOVE_VERTICALLY:
+                if (player.getAirSpeed() < 0) {
+                    return player.getFacingRight() ? jumpUpRight : jumpUpLeft;
+                } else {
+                    return player.getFacingRight() ? jumpDownRight : jumpDownLeft;
+                }
             case ATTACK:
                 return player.getFacingRight() ? attackRight : attackLeft;
             case DIE:

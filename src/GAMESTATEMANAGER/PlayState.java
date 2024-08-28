@@ -19,13 +19,15 @@ public class PlayState extends GameState {
         this.gsm = gsm;
         player.updateAction(IDLE);
     }
-    // if tile general solid and player moving ( if upwards false ) general collision = true
-    // if tile bubble solid and bubble moving then bubble collision = true
 
     @Override
     public void update() {
-
+        player.checkOnFloor(player.getX(), player.getY());
+        if (!player.isOnFloor()) {
+            player.updateAction(MOVE_VERTICALLY);
+        }
     }
+
 
     @Override
     public void draw() {
@@ -41,10 +43,7 @@ public class PlayState extends GameState {
     public void keyPressed(KeyEvent k) {
         switch(k.getKeyCode()) {
             case KeyEvent.VK_UP:
-                player.updateAction(MOVE_UP);
-                break;
-            case KeyEvent.VK_DOWN:
-                player.updateAction(MOVE_DOWN);
+                player.updateAction(JUMP);
                 break;
             case KeyEvent.VK_LEFT:
                 player.updateAction(MOVE_LEFT);
@@ -60,9 +59,10 @@ public class PlayState extends GameState {
 
     @Override
     public void keyReleased(KeyEvent k) {
-        if(k.getKeyCode() == KeyEvent.VK_UP || k.getKeyCode() == KeyEvent.VK_DOWN || k.getKeyCode() == KeyEvent.VK_LEFT || k.getKeyCode() == KeyEvent.VK_RIGHT|| k.getKeyCode() == KeyEvent.VK_E){
+        if( k.getKeyCode() == KeyEvent.VK_LEFT || k.getKeyCode() == KeyEvent.VK_RIGHT|| k.getKeyCode() == KeyEvent.VK_E){
             player.updateAction(IDLE);
         }
+
     }
 
     @Override
