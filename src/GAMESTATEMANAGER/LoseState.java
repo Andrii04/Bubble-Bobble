@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class LoseState extends GameState{
+
         private final GameStateManager gsm;
         private final LosePanel view= MainFrame.getLosePanel();
 

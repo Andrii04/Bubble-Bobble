@@ -41,7 +41,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         
         gsm.add(new MenuState(this));
         gsm.add(null); // PlayState is added later
-        gsm.add(new PauseState());
+        gsm.add(new PauseState(this));
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
         gsm.add(new UserCreationState(this));
