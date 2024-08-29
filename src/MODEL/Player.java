@@ -154,7 +154,7 @@ public class Player extends Observable implements Entity {
                 Bubble firedBubble = bubbleType.newInstance();
                 firedBubble.setPlayer(this);
                 bubblesFired.add(firedBubble);
-                firedBubble.getBubbleView().fireBubble();
+                firedBubble.fireBubble();
                 notifyObservers(Action.ATTACK);
                 break;
             case HURT:
@@ -224,4 +224,5 @@ public class Player extends Observable implements Entity {
     public Bubble getBubbleType() {return bubbleType;}
     public ArrayList<Bubble> getBubblesFired() {return bubblesFired;}
     public void removeBubble(Bubble bubble) {bubblesFired.set(bubblesFired.indexOf(bubble), null);}
+    public Level getCurrentLevel() {return currentLevel;}
 }
