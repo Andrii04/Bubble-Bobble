@@ -11,20 +11,16 @@ import java.awt.event.MouseEvent;
 
 public class LoseState extends GameState{
         private final GameStateManager gsm;
-        private final LosePanel view;
+        private final LosePanel view= MainFrame.getLosePanel();
 
-        public LoseState(GameStateManager gsm){
-
-                this.gsm=gsm;
-                this.view=MainFrame.getLosePanel();
-        }
+        public LoseState(GameStateManager gsm){this.gsm=gsm;}
 
 
         public void update() {}
 
         public void draw() {
             MainFrame.setPanel(view);
-            view.requestFocusInWindow();}
+        }
 
 
 

@@ -20,6 +20,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public static final int leveleditorState = 4;
     public static final int userCreationState = 5;
     public static final int loseState=6;
+    public static final int winState=7;
 
     private static GameStateManager instance;
     private List<GameState> gsm;
@@ -45,6 +46,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         gsm.add(new LevelEditorState());
         gsm.add(new UserCreationState(this));
         gsm.add(new LoseState(this));
+        gsm.add(new WinState(this));
 
         //levelEditor = LevelEditor.getInstance();
 
