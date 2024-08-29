@@ -2,6 +2,7 @@ package VIEW;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Bubbles.Bubble;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,6 @@ public class PlayPanel extends JPanel implements Runnable {
     private int FRAME_WIDTH = MainFrame.FRAME_WIDTH;
     private PlayerView playerView;
     private int currentLevelView = 1;
-    private BubbleView bubbleView;
     private int arrayWidth = 48;
     private int arrayHeight = 42;
 
@@ -27,7 +27,6 @@ public class PlayPanel extends JPanel implements Runnable {
 
     public PlayPanel(PlayerView playerView) {
         this.playerView = playerView;
-        this.bubbleView = playerView.getBubbleView();
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.BLACK);
         this.setLayout(null);
@@ -70,8 +69,14 @@ public class PlayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         playerView.draw(g2d);
-        bubbleView.update();
-        bubbleView.draw(g2d);
+
+        for (Bubble bubble : playerView.getPlayer().getBubblesFired()) {
+            if (bubble != null) {
+                bubble.getBubbleView().update();
+                bubble.getBubbleView().draw(g2d);
+            }
+        }
+
         // add player etc
 
 

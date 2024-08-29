@@ -34,13 +34,11 @@ public class PlayerView implements Observer {
     private int currentFrame;
     private long lastTime;
     private final int frameDelay = 500;
-    private BubbleView bubbleView;
 
     public PlayerView(Player player) {
         this.player = player;
         this.x = player.getX();
         this.y = player.getY();
-        this.bubbleView = player.getBubbleType().getBubbleView();
         player.addObserver(this);
         loadImages();
     }
@@ -143,5 +141,5 @@ public class PlayerView implements Observer {
                 return player.getFacingRight() ? idleRight : idleLeft;
         }
     }
-    public BubbleView getBubbleView() {return bubbleView;}
+    public Player getPlayer() {return player;}
 }

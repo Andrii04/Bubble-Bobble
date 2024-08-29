@@ -23,6 +23,7 @@ public class Player extends Observable implements Entity {
     private Level currentLevel;
     private Bubble bubbleType;
     private GameStateManager gsm;
+    private ArrayList<Bubble> bubblesFired;
 
     //physics
     private boolean onFloor;
@@ -40,7 +41,9 @@ public class Player extends Observable implements Entity {
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
-        bubbleType = new GreenBubble(this);
+
+        bubblesFired = new ArrayList<>();
+        bubbleType = new GreenBubble();
     }
 
 
@@ -148,7 +151,10 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.MOVE_RIGHT);
                 break;
             case ATTACK:
-                bubbleType.getBubbleView().fireBubble();
+                Bubble firedBubble = bubbleType.newInstance();
+                firedBubble.setPlayer(this);
+                bubblesFired.add(firedBubble);
+                firedBubble.getBubbleView().fireBubble();
                 notifyObservers(Action.ATTACK);
                 break;
             case HURT:
@@ -216,4 +222,6 @@ public class Player extends Observable implements Entity {
     }
 
     public Bubble getBubbleType() {return bubbleType;}
+    public ArrayList<Bubble> getBubblesFired() {return bubblesFired;}
+    public void removeBubble(Bubble bubble) {bubblesFired.set(bubblesFired.indexOf(bubble), null);}
 }
