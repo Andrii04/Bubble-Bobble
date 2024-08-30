@@ -23,8 +23,14 @@ public abstract class Bubble {
     private boolean containEnemy;
     BubbleView bubbleView;
     Player player;
+    GameStateManager gsm;
     String skinsPath; //sarà il path della skin senza il numero alla fine
+    Level currentLevel;
 
+    boolean exploding;
+    boolean floating;
+    boolean firing;
+    boolean encapsulate;
 
 
     public Bubble() {

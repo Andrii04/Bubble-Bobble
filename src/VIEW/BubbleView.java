@@ -8,8 +8,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class BubbleView {
-    int x;
-    int y;
+
     Bubble bubble;
     ImageIcon currentSkin;
     String currentSkinPath;
