@@ -11,8 +11,13 @@ public interface Entity {
         MOVE_RIGHT,
         ATTACK,
         HURT,
-        DIE
+        DIE,
+        RAGE,
+        BUBBLED
     }
+    // physics
+    float jumpSpeed = -13f;
+    float gravity = 0.4f;
     public void updateAction(Action action);
 
     public boolean getFacingRight();

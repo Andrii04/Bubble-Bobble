@@ -23,11 +23,8 @@ public abstract class Bubble {
 
 
 
-    public Bubble(Player player){
-        this.x = player.getX();
-        this.y = player.getY();
+    public Bubble(){
         this.bubbleView = new BubbleView(this);
-        this.player = player;
     }
 
     public void explode(Enemy enemy){
@@ -49,7 +46,9 @@ public abstract class Bubble {
     public String getSkinsPath() {return skinsPath;}
     public BubbleView getBubbleView() {return bubbleView;}
     public Player getPlayer() {return player;}
-
+    public void setPlayer(Player player) {this.player = player;}
+    public abstract Bubble newInstance();
+    public void finishedFiring() {player.removeBubble(this);}
 
 
 

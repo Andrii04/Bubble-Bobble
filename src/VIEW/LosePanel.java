@@ -80,7 +80,7 @@ public class LosePanel extends JPanel {
         {
             if (selectedOption > 0) {
                 selectedOption--;
-                cursor.setLocation(cursor.getX(), cursor.getY() - MainFrame.TILE_SIZE);
+                cursor.setLocation(cursor.getX(), cursor.getY() - 65);
             }
         }
 
@@ -88,7 +88,7 @@ public class LosePanel extends JPanel {
         public void cursorDown(){
             if(selectedOption < 2){
                 selectedOption++;
-                cursor.setLocation(cursor.getX(), cursor.getY() + MainFrame.TILE_SIZE);
+                cursor.setLocation(cursor.getX(), cursor.getY() + 65);
             }
         }
         public int getSelectedOption(){

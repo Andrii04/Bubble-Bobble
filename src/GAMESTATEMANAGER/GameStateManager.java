@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import MODEL.*;
+import MODEL.Enemy.Benzo;
+import MODEL.Enemy.Enemy;
 import VIEW.*;
 
 import javax.swing.*;
@@ -20,10 +22,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public static final int leveleditorState = 4;
     public static final int userCreationState = 5;
     public static final int loseState=6;
+    public static final int winState=7;
 
     private static GameStateManager instance;
     private List<GameState> gsm;
     private GameState currentState;
+    private Player currentPlayer;
     private int stateNum;
     private PlayState savedPlayState;
     private LevelEditor levelEditor;
@@ -40,10 +44,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         
         gsm.add(new MenuState(this));
         gsm.add(null); // PlayState is added later
-        gsm.add(new PauseState());
+        gsm.add(new PauseState(this));
         gsm.add(new LeaderboardState());
         gsm.add(new LevelEditorState());
         gsm.add(new UserCreationState(this));
+        gsm.add(new LoseState(this));
+        gsm.add(new WinState(this));
 
         //levelEditor = LevelEditor.getInstance();
 
@@ -99,7 +105,8 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     public void startGame(Player player) {
         if (savedPlayState == null){
-            savedPlayState = new PlayState(player,this);
+            currentPlayer = player;
+            savedPlayState = new PlayState(this);
             currentState = savedPlayState;
             stateNum = 1;
             currentState.draw();
@@ -118,11 +125,22 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             throw new IllegalStateException("No game to continue");
         }
     }
+
+    public GameState getCurrentState() {
+        return currentState;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
     public void setState(int state) {
         if (state == 1) {
             throw new IllegalStateException("Use startGame() to start the game or continueGame() to continue");
         } else {
             currentState = gsm.get(state);
+            if(currentState==null){
+                throw new IllegalMonitorStateException("The requested state is not initialized.");
+            }
             stateNum = state;
             currentState.draw();
         }
@@ -169,19 +187,20 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-
-        Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1);
-        level1.setSpawnRate(8000);
-        addLevel(level1);
+        // liv 1
+            Enemy[] enemies = {new Benzo(160, 160, true, this )};
+            Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1, enemies);
+            level1.setSpawnRate(8000);
+            addLevel(level1);
 
         //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
         //(i blocchi del livello ovviamento sono gli interi associati al numero del livello

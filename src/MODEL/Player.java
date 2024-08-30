@@ -23,35 +23,29 @@ public class Player extends Observable implements Entity {
     private Level currentLevel;
     private Bubble bubbleType;
     private GameStateManager gsm;
+    private ArrayList<Bubble> bubblesFired;
 
     //physics
     private boolean onFloor;
     private float airSpeed = 0f;
-    private float jumpSpeed = -13f;
-    private float gravity = 0.4f;
 
     public Player(UserProfile profile){
         this.profile=profile;
-        this.x = 20;
-        this.y = 20;
+        this.x = 32;
+        this.y = 32;
         this.lives = 2; // default
         this.speed = 19; // default
 
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
-        bubbleType = new GreenBubble(this);
+
+        bubblesFired = new ArrayList<>();
+        bubbleType = new GreenBubble();
     }
 
 
-    public void checkOnFloor(int x, float y){
-        if(isColliding(x,y+1) || isColliding(x+48,y+1)){
-            onFloor = true;
-        }
-        else{
-            onFloor = false;
-        }
-    }
+
 
     public boolean isColliding(int x, float y) {
         int left = x+10;
@@ -77,7 +71,7 @@ public class Player extends Observable implements Entity {
         if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
             if(currentLevel.getBlockInt(tileY, tileX) >0){
                 // test
-                System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] );
+                System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
                 return true;
             }
             else{
@@ -148,7 +142,10 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.MOVE_RIGHT);
                 break;
             case ATTACK:
-                bubbleType.getBubbleView().fireBubble();
+                Bubble firedBubble = bubbleType.newInstance();
+                firedBubble.setPlayer(this);
+                bubblesFired.add(firedBubble);
+                firedBubble.getBubbleView().fireBubble();
                 notifyObservers(Action.ATTACK);
                 break;
             case HURT:
@@ -189,6 +186,7 @@ public class Player extends Observable implements Entity {
     public int addPunteggio(int punti){
 
         return punteggio+punti;
+
     }
 
     public int getPunteggio(){
@@ -216,4 +214,6 @@ public class Player extends Observable implements Entity {
     }
 
     public Bubble getBubbleType() {return bubbleType;}
+    public ArrayList<Bubble> getBubblesFired() {return bubblesFired;}
+    public void removeBubble(Bubble bubble) {bubblesFired.set(bubblesFired.indexOf(bubble), null);}
 }

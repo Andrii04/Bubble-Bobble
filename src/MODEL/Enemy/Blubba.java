@@ -1,5 +1,6 @@
 package MODEL.Enemy;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Entity;
 
 import javax.swing.*;
@@ -16,8 +17,11 @@ public class Blubba extends Enemy {
     boolean enraged;
     Timer ragetimer;
 
-    public Blubba() {
-
+    public Blubba( int x, int y, boolean facingRight, GameStateManager gsm){
+        super(x, y, facingRight, gsm);
+    }
+    public Blubba( GameStateManager gsm){
+        super( gsm);
     }
 
     @Override

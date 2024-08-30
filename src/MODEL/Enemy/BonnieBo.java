@@ -1,5 +1,6 @@
 package MODEL.Enemy;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Entity;
 
 import javax.swing.*;
@@ -17,8 +18,12 @@ public class BonnieBo extends Enemy {
     boolean enraged;
     Timer ragetimer;
 
-    public BonnieBo(){
+    public BonnieBo( int x, int y, boolean facingRight, GameStateManager gsm){
+        super(x, y, facingRight, gsm);
 
+    }
+    public BonnieBo( GameStateManager gsm){
+        super( gsm);
     }
 
     @Override

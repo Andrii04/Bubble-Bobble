@@ -1,5 +1,6 @@
 package MODEL.Enemy;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Entity;
 
 import javax.swing.*;
@@ -18,8 +19,11 @@ public class Boris extends Enemy {
     boolean enraged;
     Timer ragetimer;
 
-    public Boris(){
-
+    public Boris( int x, int y, boolean facingRight, GameStateManager gsm){
+        super(x, y, facingRight, gsm);
+    }
+    public Boris( GameStateManager gsm){
+        super( gsm);
     }
 
 

@@ -1,5 +1,7 @@
 package MODEL;
 
+import MODEL.Enemy.Enemy;
+
 import javax.swing.Timer;
 import java.util.Arrays;
 
@@ -11,12 +13,15 @@ public class Level {
     private int[][] pattern;
     private Boolean[][] solidCheckPattern; //dev'essere per forza il Tipo Wrapper per ragioni
     private int blockInt;
+    private Enemy[] enemies;
 
-    public Level(int height, int width, int[][] pattern){
+    public Level(int height, int width, int[][] pattern, Enemy[] enemies){
         this.height = height;
         this.width = height;
         this.pattern=pattern;
         this.blockInt = pattern[0][0];
+        this.enemies = enemies;
+
 
         //creazione pattern con tutti i blocchi esterni solidi (true) e il vuoto non solido (false)
         //utile poi per la logica di collisione per controllare se un blocco è solido o no.
@@ -43,7 +48,7 @@ public class Level {
     public int[][] getPattern() {return pattern;}
     public Boolean[][] getSolidCheckPattern() {return solidCheckPattern;}
     public int getBlockInt() {return blockInt;}
-
+    public Enemy[] getEnemies() {return enemies;}
     public int getBlockInt(int y, int x) {
         if (y >= 0 && y < pattern.length && x >= 0 && x < pattern[0].length) return pattern[y][x];
         else return 1;

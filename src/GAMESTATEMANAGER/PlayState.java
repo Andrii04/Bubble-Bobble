@@ -14,21 +14,22 @@ public class PlayState extends GameState {
     private Player player;
     // level
     private GameStateManager gsm;
-    public PlayState(Player player, GameStateManager gsm) {
-        this.player = player;
-        this.gsm = gsm;
+    public PlayState(GameStateManager gsm) {
+        this.player =gsm.getCurrentPlayer();
         player.updateAction(IDLE);
     }
 
     @Override
     public void update() {
-        player.checkOnFloor(player.getX(), player.getY());
-        if (!player.isOnFloor()) {
+        // update enemy positions based on player position
+        if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {
             player.updateAction(MOVE_VERTICALLY);
         }
+
     }
-
-
+    public Player getPlayer(){
+        return player;
+    }
     @Override
     public void draw() {
         MainFrame.setPanel(MainFrame.getPlayPanel(new PlayerView(player)));

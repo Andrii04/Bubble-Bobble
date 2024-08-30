@@ -1,6 +1,7 @@
 package MODEL.Enemy;
 
 import MODEL.Entity;
+import GAMESTATEMANAGER.GameStateManager;
 
 import javax.swing.Timer;
 
@@ -10,20 +11,15 @@ public class Benzo extends Enemy {
     //ha salto
     //danno tramite contatto
 
-    private boolean facingRight = true;
-    private int x;
-    private int y;
     private final int points = 500;
     boolean enraged;
     Timer ragetimer;
 
-    public Benzo(){
-
+    public Benzo(int x, int y, boolean facingRight, GameStateManager gsm){
+        super(x, y, facingRight, gsm);
     }
-
-    @Override
-    public void updateAction(Action action) {
-
+    public Benzo( GameStateManager gsm){
+        super( gsm);
     }
 
     @Override
@@ -33,12 +29,12 @@ public class Benzo extends Enemy {
 
     @Override
     public int getX() {
-        return 0;
+        return x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return y;
     }
 
     @Override
@@ -49,6 +45,16 @@ public class Benzo extends Enemy {
     @Override
     public void spawn() {
 
+    }
+    public void attack(){
+        //non ha mosse di attacco
+    }
+    public void rage(){
+        // comportamenti
+    }
+    @Override
+    public boolean isOnFloor() {
+        return false;
     }
 
 }

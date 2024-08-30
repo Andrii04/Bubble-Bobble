@@ -42,7 +42,7 @@ public class BubbleView {
 
     public void fireBubble() {
         facingRight = bubble.getPlayer().getFacingRight();
-        bubble.updateLocation(bubble.getPlayer().getX() + 23, bubble.getPlayer().getY() + 20);
+        bubble.updateLocation(bubble.getPlayer().getX() + 18, bubble.getPlayer().getY() + 20);
         firing = true;
         distanceTraveled = 0;  // Reset della distanza percorsa
         currentSkinPath = bubble.getSkinsPath() + "1.png";
@@ -61,23 +61,23 @@ public class BubbleView {
 
     public void update() {
         System.out.println("firing " + "= " + firing);
-        if (firing && distanceTraveled < MainFrame.FRAME_WIDTH - Block.WIDTH-252) {
+        if (firing && distanceTraveled < MainFrame.FRAME_WIDTH - Block.WIDTH-400) {
             // Aggiorna la posizione della bolla
             if (facingRight) {
-                bubble.updateLocation(bubble.getX() + 3, bubble.getY());
+                bubble.updateLocation(bubble.getX() + 9, bubble.getY());
                 this.x = bubble.getX();
                 this.y = bubble.getY();
             } else if (!facingRight) {
-                bubble.updateLocation(bubble.getX() - 3, bubble.getY());
+                bubble.updateLocation(bubble.getX() - 9, bubble.getY());
                 this.x = bubble.getX();
                 this.y = bubble.getY();
             }
 
             // Aggiorna l'immagine della bolla in base alla distanza percorsa
-            if (distanceTraveled >= 21 && distanceTraveled < 36) {
+            if (distanceTraveled >= 3 && distanceTraveled < 7) {
                 currentSkinPath = bubble.getSkinsPath() + "2.png";
                 currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
-            } else if (distanceTraveled >= 36) {
+            } else if (distanceTraveled >= 7) {
                 currentSkinPath = bubble.getSkinsPath() + "3.png";
                 currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
             }
@@ -85,8 +85,9 @@ public class BubbleView {
             distanceTraveled++;  // Incrementa la distanza percorsa
 
             // Ferma l'animazione una volta che la bolla ha completato il suo viaggio
-            if (distanceTraveled >= MainFrame.FRAME_WIDTH - Block.WIDTH - 252) {
+            if (distanceTraveled >= MainFrame.FRAME_WIDTH - Block.WIDTH - 400) {
                 firing = false;
+                bubble.finishedFiring();
             }
         }
     }

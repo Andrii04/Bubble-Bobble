@@ -1,5 +1,6 @@
 package MODEL.Enemy;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Entity;
 
 import javax.swing.*;
@@ -16,8 +17,11 @@ public class BoaBoa extends Enemy {
     boolean enraged;
     Timer ragetimer;
 
-    public BoaBoa(){
-
+    public BoaBoa(int x, int y, boolean facingRight, GameStateManager gsm){
+        super(x, y, facingRight, gsm);
+    }
+    public BoaBoa( GameStateManager gsm){
+        super( gsm);
     }
 
 
