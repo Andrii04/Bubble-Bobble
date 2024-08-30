@@ -3,7 +3,6 @@ package VIEW;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Bubbles.Bubble;
-import MODEL.Enemy.Enemy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,7 +69,6 @@ public class PlayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         playerView.draw(g2d);
-
 
         for (Bubble bubble : playerView.getPlayer().getBubblesFired()) {
             if (bubble != null) {
