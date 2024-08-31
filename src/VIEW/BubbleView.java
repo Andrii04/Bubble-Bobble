@@ -47,16 +47,16 @@ public class BubbleView {
         String currentSkinPath = bubble.getSkinsPath() + "3.png";
         Image floatingBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image floatingBubbleIMGresized = floatingBubbleIMGoriginal.getScaledInstance(
-                50,
-                50,
-                Image.SCALE_DEFAULT
+                200,
+                200,
+                Image.SCALE_SMOOTH
         );
         currentSkin = new ImageIcon(floatingBubbleIMGresized);
     }
-
+//fare il ridimensionamento manualmente su un sito e poi aggiunere le immagini alla cartella
 
     public void draw(Graphics2D g2d) {
-        if (firing) g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
+        if (firing || floating) g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
     }
 
     public void update() {
@@ -68,11 +68,20 @@ public class BubbleView {
                 //posso fare che da qua chiamo un metodo di Bubble che checka se sto per
                 //avere una collision con un blocco o un nemico, e poi setta
                 //floating o encapsulate di conseguenza, e qua jumpa all'if rispettivo.
-                bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
+                if (bubble.isSolidTile(bubble.getX() + shootingSpeed, bubble.getY())) {
+                    bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
+                    facingRight = false;
+                    bubble.startFloating();
+                } else bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
+
             } else if (!facingRight) {
                 //aggiungere che se collision con blocco -> jumpa a if floating
                 //e se collision con enemy -> jumpa a if encapsulate
-                bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
+                if (bubble.isSolidTile(bubble.getX() - shootingSpeed, bubble.getY())) {
+                    bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
+                    facingRight = true;
+                    bubble.startFloating();
+                } else bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
             }
 
             // Aggiorna l'immagine della bolla in base alla distanza percorsa
@@ -96,43 +105,38 @@ public class BubbleView {
             }
         }
         //jumpa a questo if se la bolla incomincia a floatare lenta
-        else if (floating && bubble.getX() < MainFrame.FRAME_WIDTH - 400 && bubble.getY() < MainFrame.FRAME_HEIGHT - 400) {
-
-            //faccio il codice delle collision in Bubble e lo uso come check nella BubbleView
-            //oppure faccio che viene checkato tutto in Bubble e qua faccio semplicemente updateLocation()
-
-            //se Collida sopra
-                //se collida a destra
-                    bubble.updateLocation(bubble.getX()-floatingSpeed, bubble.getY());
-                    facingRight = false;
-                //se collida a sinistra
-                    bubble.updateLocation(bubble.getX()+floatingSpeed, bubble.getY());
-                    facingRight = true;
-                //else
-                    //se facingRight
-                        bubble.updateLocation(bubble.getX()+floatingSpeed, bubble.getY());
-                    //se !facingRight
-                        bubble.updateLocation(bubble.getX()-floatingSpeed, bubble.getY());
-
-            //se Collida sotto
-        }
-
-        //jumpa a questo if se incapsula un nemico
-        else if (encapsulate) {
-
-        }
-
-        //jumpa a questo if se la bolla esplode
-        else if (exploding) {
-
+        else if (floating) {
+            System.out.println("Entered floating");
+            System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
+            bubble.handleFloatingCollision();
+            System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
+            distanceTraveled++;
+            if (distanceTraveled >= 500) floating = false;
         }
     }
 
-    public void setEncapsulate(boolean bool) {encapsulate = bool;}
-    public void setExploding(boolean bool) {exploding = bool;}
-    public void setFiring(boolean bool) {firing = bool;}
-    public void setFloating(boolean bool) {floating = bool;}
+    public void setEncapsulate(boolean bool) {
+        encapsulate = bool;
+    }
+
+    public void setExploding(boolean bool) {
+        exploding = bool;
+    }
+
+    public void setFiring(boolean bool) {
+        firing = bool;
+    }
+
+    public void setFloating(boolean bool) {
+        floating = bool;
+    }
+
+    public void setFacingRight(boolean bool) {
+        facingRight = bool;
+    }
+    public boolean getFacingRight() {return facingRight;}
 }
+
 
 
 

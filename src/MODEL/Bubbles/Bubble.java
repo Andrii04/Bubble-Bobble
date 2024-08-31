@@ -31,6 +31,7 @@ public abstract class Bubble {
     boolean floating;
     boolean firing;
     boolean encapsulate;
+    boolean facingUp;
 
 
     public Bubble() {
@@ -42,6 +43,7 @@ public abstract class Bubble {
         floating = false;
         encapsulate = false;
         exploding = false;
+        facingUp = true;
     }
 
     public void explode(Enemy enemy) {
@@ -122,7 +124,7 @@ public abstract class Bubble {
         bubbleView.setFiring(false);
     }
 
-    public boolean isSolidTile(int i, int j) {
+    public boolean isSolidTile(int x, int y) {
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
         if (tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length) {
@@ -138,16 +140,63 @@ public abstract class Bubble {
         return true;
     }
 
-    //da rivedere la collision per le bolle
-    public boolean isColliding(int x, int y) {
+    public void handleFloatingCollision() {
+        // Salva le coordinate originali
+        int originalX = x;
+        int originalY = y;
 
-        for (int i = x; i < x+100; i++) {
-            for (int j = y-100; j < y+100; j++) {
-                if (isSolidTile(i, j)) {
-                    return true;
-                }
-            }
+        // Fluttuare verso l'alto
+        int newY = y - 3;
+
+        // Controlla la collisione con il blocco sopra
+        if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY/Block.HEIGHT, x/Block.WIDTH)) {
+            // Se c'è un blocco sopra, la bolla rimbalza verso il basso
+            y = originalY + 3;
+            facingUp = false;
         }
-        return false;
+
+        newY = y + 3;
+        if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY/Block.HEIGHT, x/Block.WIDTH)) {
+            // Se c'è un blocco sotto, rimbalza verso l'alto
+            y = originalY - 3;
+            facingUp = true;
+        }
+
+        // Controlla collisione con il blocco a destra
+        int newX = x + 3;
+        if (isSolidTile(newX, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, newX/Block.WIDTH)) {
+            // Se c'è un blocco a destra, rimbalza a sinistra
+            x = originalX - 3;
+            bubbleView.setFacingRight(false);
+        }
+
+        // Controlla collisione con il blocco a sinistra
+        newX = x - 3;
+        if (isSolidTile(newX, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, newX/Block.WIDTH)) {
+            // Se c'è un blocco a sinistra, rimbalza a destra
+            x = originalX + 3;
+            bubbleView.setFacingRight(true);
+        }
+
+        if (!((isSolidTile(x, y-3) && currentLevel.isItSolidBlock((y-3)/Block.HEIGHT, x/Block.WIDTH))
+                || (isSolidTile(x, y+3) && currentLevel.isItSolidBlock((y+3)/Block.HEIGHT, x/Block.WIDTH)))){
+
+            if (facingUp) y = y-3;
+            else y = y+3;
+        }
+
+        if (!((isSolidTile(x-3, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x-3)/Block.WIDTH))
+                || (isSolidTile(x+3, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x+3)/Block.WIDTH)))){
+            boolean facingRight = bubbleView.getFacingRight();
+            if (facingRight) x = originalX + 3;
+            else x = originalX - 3;
+        }
+
+
+        // Controlla collisione con il blocco sotto
+
+        // Aggiorna la posizione della bolla
+        updateLocation(x, y);
     }
+
 }
