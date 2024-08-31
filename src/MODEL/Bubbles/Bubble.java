@@ -74,11 +74,11 @@ public abstract class Bubble {
     }
 
     public void startFloating() {
-        bubbleView.setFloatingIMG();
         firing = false;
         floating = true;
         bubbleView.setFiring(false);
         bubbleView.setFloating(true);
+        bubbleView.setFloatingIMG();
 
     }
 
@@ -121,10 +121,12 @@ public abstract class Bubble {
         bubbleView.setFiring(true);
     }
 
-    public void finishedFiring() {
+    public void erase() {
         firing = false;
-        player.removeBubble(this);
+        floating = false;
         bubbleView.setFiring(false);
+        bubbleView.setFloating(false);
+        player.removeBubble(this);
     }
 
     public boolean isSolidTile(int x, int y) {
@@ -148,50 +150,59 @@ public abstract class Bubble {
         int originalX = x;
         int originalY = y;
 
-        // Fluttuare verso l'alto
-        int newY = y - floatingSpeed;
-
-        // Controlla la collisione con il blocco sopra
-        if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY/Block.HEIGHT, x/Block.WIDTH)) {
-            // Se c'è un blocco sopra, la bolla rimbalza verso il basso
-            y = originalY + floatingSpeed;
-            facingUp = false;
+        // Controlla il movimento verticale
+        int newY;
+        if (facingUp) {
+            newY = y - floatingSpeed;
+            if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY / Block.HEIGHT, x / Block.WIDTH)) {
+                // Se c'è un blocco sopra, inizia a scendere
+                facingUp = false;
+            } else {
+                y = newY;
+            }
+        } else {
+            newY = y + floatingSpeed;
+            if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY / Block.HEIGHT, x / Block.WIDTH)) {
+                // Se c'è un blocco sotto, inizia a salire
+                facingUp = true;
+            } else {
+                y = newY;
+            }
         }
 
-        newY = y + floatingSpeed;
-        if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY/Block.HEIGHT, x/Block.WIDTH)) {
-            // Se c'è un blocco sotto, rimbalza verso l'alto
-            y = originalY - floatingSpeed;
-            facingUp = true;
-        }
-
-        // Controlla collisione con il blocco a destra
-        int newX = x + floatingSpeed;
-        if (isSolidTile(newX, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, newX/Block.WIDTH)) {
-            // Se c'è un blocco a destra, rimbalza a sinistra
-            x = originalX - floatingSpeed;
+        // Controlla se deve iniziare a muoversi orizzontalmente
+        if (isSolidTile(x + floatingSpeed, y) && currentLevel.isItSolidBlock(y / Block.HEIGHT, (x + floatingSpeed) / Block.WIDTH)) {
+            // Se c'è un blocco a destra, inizia a muoversi a sinistra
             bubbleView.setFacingRight(false);
-        }
-
-        // Controlla collisione con il blocco a sinistra
-        newX = x - floatingSpeed;
-        if (isSolidTile(newX, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, newX/Block.WIDTH)) {
-            // Se c'è un blocco a sinistra, rimbalza a destra
-            x = originalX + floatingSpeed;
+        } else if (isSolidTile(x - floatingSpeed, y) && currentLevel.isItSolidBlock(y / Block.HEIGHT, (x - floatingSpeed) / Block.WIDTH)) {
+            // Se c'è un blocco a sinistra, inizia a muoversi a destra
             bubbleView.setFacingRight(true);
         }
 
-        if (!((isSolidTile(x, y-floatingSpeed) && currentLevel.isItSolidBlock((y-floatingSpeed)/Block.HEIGHT, x/Block.WIDTH))
-                || (isSolidTile(x, y+floatingSpeed) && currentLevel.isItSolidBlock((y+floatingSpeed)/Block.HEIGHT, x/Block.WIDTH)))){
-
-            if (facingUp) y = y-floatingSpeed;
-            else y = y+floatingSpeed;
+        // Movimento orizzontale solo se facingRight è stato impostato
+        if (bubbleView.getStartHorizontalMovement() && bubbleView.getFacingRight()) {
+            x += floatingSpeed;
+        } else if (bubbleView.getStartHorizontalMovement()){
+            x -= floatingSpeed;
         }
 
-        // Controlla collisione con il blocco sotto
+        // Se la bolla ha un muro sia sopra che a un lato, inizia a strisciare verso il basso lungo il muro
+        if ((isSolidTile(x + floatingSpeed, y) && currentLevel.isItSolidBlock(y / Block.HEIGHT, (x + floatingSpeed) / Block.WIDTH)) ||
+                (isSolidTile(x - floatingSpeed, y) && currentLevel.isItSolidBlock(y / Block.HEIGHT, (x - floatingSpeed) / Block.WIDTH))) {
+            newY = y + floatingSpeed;
+            if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY / Block.HEIGHT, x / Block.WIDTH)) {
+                // Se c'è un blocco sotto, rimbalza verso l'alto
+                y = originalY - floatingSpeed;
+                facingUp = true;
+            } else {
+                y = newY;
+            }
+        }
 
         // Aggiorna la posizione della bolla
         updateLocation(x, y);
     }
+
+
 
 }

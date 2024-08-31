@@ -18,6 +18,7 @@ public class BubbleView {
     boolean floating;
     int distanceTraveled;
     boolean facingRight;
+    boolean startHorizontalMovement;
 
     int shootingSpeed = 9;
     int floatingSpeed = 2;
@@ -53,7 +54,6 @@ public class BubbleView {
         );
         currentSkin = new ImageIcon(floatingBubbleIMGresized);
     }
-//fare il ridimensionamento manualmente su un sito e poi aggiunere le immagini alla cartella
 
     public void draw(Graphics2D g2d) {
         if (firing || floating) g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
@@ -63,24 +63,23 @@ public class BubbleView {
         if (firing && distanceTraveled < MainFrame.FRAME_WIDTH - Block.WIDTH - 400) {
             // Aggiorna la posizione della bolla
             if (facingRight) {
-                //aggiungere che se collision con blocco -> jumpa a if floating
-                //e se collision con enemy -> jumpa a if encapsulate
-                //posso fare che da qua chiamo un metodo di Bubble che checka se sto per
-                //avere una collision con un blocco o un nemico, e poi setta
-                //floating o encapsulate di conseguenza, e qua jumpa all'if rispettivo.
+                //se collision con enemy, setta encapsulate a true
                 if (bubble.isSolidTile(bubble.getX() + shootingSpeed, bubble.getY())) {
                     bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
                     facingRight = false;
+                    startHorizontalMovement = true;
                     bubble.startFloating();
+
                 } else bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
 
             } else if (!facingRight) {
-                //aggiungere che se collision con blocco -> jumpa a if floating
-                //e se collision con enemy -> jumpa a if encapsulate
+                //se collision con enemy, setta encapsulate a true
                 if (bubble.isSolidTile(bubble.getX() - shootingSpeed, bubble.getY())) {
                     bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
                     facingRight = true;
+                    startHorizontalMovement = true;
                     bubble.startFloating();
+
                 } else bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
             }
 
@@ -95,24 +94,17 @@ public class BubbleView {
 
             distanceTraveled++;  // Incrementa la distanza percorsa
 
-            // Ferma l'animazione una volta che la bolla ha completato il suo viaggio
-            if (distanceTraveled >= MainFrame.FRAME_WIDTH - Block.WIDTH - 400) {
 
-                //bubble.finishedFiring(); questo metodo fa smettere l'animazione della bolla
-
-                bubble.startFloating();
-                //jumpare a if floating
-            }
-            else if (distanceTraveled >= 20) bubble.startFloating();
+            if (distanceTraveled >= 20) bubble.startFloating();
         }
-        //jumpa a questo if se la bolla incomincia a floatare lenta
+
         else if (floating) {
             System.out.println("Entered floating");
             System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
             bubble.handleFloatingCollision();
             System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
-            if (distanceTraveled >= 500) floating = false;
+            if (distanceTraveled >= 500) bubble.erase();
         }
     }
 
@@ -136,6 +128,7 @@ public class BubbleView {
         facingRight = bool;
     }
     public boolean getFacingRight() {return facingRight;}
+    public boolean getStartHorizontalMovement() {return startHorizontalMovement;}
 }
 
 
