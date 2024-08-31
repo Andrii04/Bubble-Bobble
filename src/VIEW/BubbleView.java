@@ -97,12 +97,13 @@ public class BubbleView {
 
             // Ferma l'animazione una volta che la bolla ha completato il suo viaggio
             if (distanceTraveled >= MainFrame.FRAME_WIDTH - Block.WIDTH - 400) {
-                firing = false;
+
                 //bubble.finishedFiring(); questo metodo fa smettere l'animazione della bolla
 
                 bubble.startFloating();
                 //jumpare a if floating
             }
+            else if (distanceTraveled >= 20) bubble.startFloating();
         }
         //jumpa a questo if se la bolla incomincia a floatare lenta
         else if (floating) {

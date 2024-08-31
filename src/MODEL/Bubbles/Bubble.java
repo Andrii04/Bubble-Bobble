@@ -188,14 +188,6 @@ public abstract class Bubble {
             else y = y+floatingSpeed;
         }
 
-        if (!((isSolidTile(x-floatingSpeed, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x-floatingSpeed)/Block.WIDTH))
-                || (isSolidTile(x+floatingSpeed, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x+floatingSpeed)/Block.WIDTH)))){
-            boolean facingRight = bubbleView.getFacingRight();
-            if (facingRight) x = originalX + floatingSpeed;
-            else x = originalX - floatingSpeed;
-        }
-
-
         // Controlla collisione con il blocco sotto
 
         // Aggiorna la posizione della bolla
