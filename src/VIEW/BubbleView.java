@@ -20,7 +20,7 @@ public class BubbleView {
     boolean facingRight;
 
     int shootingSpeed = 9;
-    int floatingSpeed = 3;
+    int floatingSpeed = 2;
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;
@@ -47,8 +47,8 @@ public class BubbleView {
         String currentSkinPath = bubble.getSkinsPath() + "3.png";
         Image floatingBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image floatingBubbleIMGresized = floatingBubbleIMGoriginal.getScaledInstance(
-                200,
-                200,
+                45,
+                45,
                 Image.SCALE_SMOOTH
         );
         currentSkin = new ImageIcon(floatingBubbleIMGresized);

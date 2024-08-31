@@ -27,6 +27,9 @@ public abstract class Bubble {
     String skinsPath; //sarà il path della skin senza il numero alla fine
     Level currentLevel;
 
+    private int shootingSpeed = 9;
+    private int floatingSpeed = 2;
+
     boolean exploding;
     boolean floating;
     boolean firing;
@@ -71,11 +74,11 @@ public abstract class Bubble {
     }
 
     public void startFloating() {
+        bubbleView.setFloatingIMG();
         firing = false;
         floating = true;
         bubbleView.setFiring(false);
         bubbleView.setFloating(true);
-        bubbleView.setFloatingIMG();
 
     }
 
@@ -146,50 +149,50 @@ public abstract class Bubble {
         int originalY = y;
 
         // Fluttuare verso l'alto
-        int newY = y - 3;
+        int newY = y - floatingSpeed;
 
         // Controlla la collisione con il blocco sopra
         if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY/Block.HEIGHT, x/Block.WIDTH)) {
             // Se c'è un blocco sopra, la bolla rimbalza verso il basso
-            y = originalY + 3;
+            y = originalY + floatingSpeed;
             facingUp = false;
         }
 
-        newY = y + 3;
+        newY = y + floatingSpeed;
         if (isSolidTile(x, newY) && currentLevel.isItSolidBlock(newY/Block.HEIGHT, x/Block.WIDTH)) {
             // Se c'è un blocco sotto, rimbalza verso l'alto
-            y = originalY - 3;
+            y = originalY - floatingSpeed;
             facingUp = true;
         }
 
         // Controlla collisione con il blocco a destra
-        int newX = x + 3;
+        int newX = x + floatingSpeed;
         if (isSolidTile(newX, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, newX/Block.WIDTH)) {
             // Se c'è un blocco a destra, rimbalza a sinistra
-            x = originalX - 3;
+            x = originalX - floatingSpeed;
             bubbleView.setFacingRight(false);
         }
 
         // Controlla collisione con il blocco a sinistra
-        newX = x - 3;
+        newX = x - floatingSpeed;
         if (isSolidTile(newX, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, newX/Block.WIDTH)) {
             // Se c'è un blocco a sinistra, rimbalza a destra
-            x = originalX + 3;
+            x = originalX + floatingSpeed;
             bubbleView.setFacingRight(true);
         }
 
-        if (!((isSolidTile(x, y-3) && currentLevel.isItSolidBlock((y-3)/Block.HEIGHT, x/Block.WIDTH))
-                || (isSolidTile(x, y+3) && currentLevel.isItSolidBlock((y+3)/Block.HEIGHT, x/Block.WIDTH)))){
+        if (!((isSolidTile(x, y-floatingSpeed) && currentLevel.isItSolidBlock((y-floatingSpeed)/Block.HEIGHT, x/Block.WIDTH))
+                || (isSolidTile(x, y+floatingSpeed) && currentLevel.isItSolidBlock((y+floatingSpeed)/Block.HEIGHT, x/Block.WIDTH)))){
 
-            if (facingUp) y = y-3;
-            else y = y+3;
+            if (facingUp) y = y-floatingSpeed;
+            else y = y+floatingSpeed;
         }
 
-        if (!((isSolidTile(x-3, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x-3)/Block.WIDTH))
-                || (isSolidTile(x+3, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x+3)/Block.WIDTH)))){
+        if (!((isSolidTile(x-floatingSpeed, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x-floatingSpeed)/Block.WIDTH))
+                || (isSolidTile(x+floatingSpeed, y) && currentLevel.isItSolidBlock(y/Block.HEIGHT, (x+floatingSpeed)/Block.WIDTH)))){
             boolean facingRight = bubbleView.getFacingRight();
-            if (facingRight) x = originalX + 3;
-            else x = originalX - 3;
+            if (facingRight) x = originalX + floatingSpeed;
+            else x = originalX - floatingSpeed;
         }
 
 
