@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LeaderboardPanel extends JPanel {
-    // AVATAR, NAME, LEVEL, HIGHSCORE
+    // NAME, LEVEL, HIGHSCORE
     // 5 PLAYERS MAX
     public LeaderboardPanel() {
 
