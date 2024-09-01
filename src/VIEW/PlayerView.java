@@ -116,6 +116,8 @@ public class PlayerView implements Observer {
             }
             currentFrame = Math.min(currentFrame, currentAnimation.length - 1);
             g2d.drawImage(currentAnimation[currentFrame], x, y, null);
+            g2d.setColor(Color.cyan);
+            g2d.draw(player.getHitbox());
         }
 
 

@@ -1,3 +1,5 @@
+
+
 package MODEL.Enemy;
 
 import MODEL.Entity;
@@ -46,15 +48,14 @@ public class Benzo extends Enemy {
     public void spawn() {
 
     }
-    public void attack(){
-        //non ha mosse di attacco
+    public void die(){
+        player.setPunteggio(player.getPunteggio() + points);
     }
+    // to be overriden
+    public void attack(){}
     public void rage(){
         // comportamenti
-    }
-    @Override
-    public boolean isOnFloor() {
-        return false;
+        speed *= 3;
     }
 
 }

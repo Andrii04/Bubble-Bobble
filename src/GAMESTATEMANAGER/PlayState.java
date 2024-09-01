@@ -1,6 +1,8 @@
 package GAMESTATEMANAGER;
 
+import MODEL.Enemy.Enemy;
 import MODEL.Player;
+import VIEW.EnemyView;
 import VIEW.MainFrame;
 import VIEW.PlayerView;
 
@@ -12,19 +14,41 @@ import static MODEL.Entity.Action.*;
 
 public class PlayState extends GameState {
     private Player player;
+    private Enemy[] currentEnemies;
+    private EnemyView[] currentEnemiesView;
     // level
     private GameStateManager gsm;
     public PlayState(GameStateManager gsm) {
         this.player =gsm.getCurrentPlayer();
+        this.gsm = gsm;
         player.updateAction(IDLE);
+        loadNewLevel();
     }
 
+    private void loadNewLevel(){
+        // istantiate enemies
+        currentEnemies = gsm.getCurrentLevel().getEnemies();
+        for(Enemy enemy: currentEnemies){
+            enemy.setPlayer(player);
+            enemy.setCurrentLevel(gsm.getCurrentLevel());
+            enemy.findShortestPath();
+        }
+        // add others
+    }
     @Override
     public void update() {
         // update enemy positions based on player position
+        for(Enemy enemy: currentEnemies){
+            enemy.onPlayer();
+            if(player.getIsMoving() && enemy.shouldRetracePath()){
+                enemy.findShortestPath();
+            }
+            enemy.chasePlayer();
+        }
         if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {
             player.updateAction(MOVE_VERTICALLY);
         }
+
 
     }
     public Player getPlayer(){

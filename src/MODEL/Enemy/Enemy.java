@@ -8,30 +8,32 @@ import MODEL.Level;
 import MODEL.Player;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import javax.swing.Timer;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
 
 public abstract class Enemy extends Observable implements Entity {
 
-     int x;
-     int y;
-     int points;
-     boolean enraged;
-     int speed;
-     boolean facingRight;
-     GameStateManager gsm;
-     Player player;
-     Level currentLevel;
+    int x;
+    int y;
+    int points;
+    boolean enraged;
+    int speed;
+    boolean facingRight;
+    boolean bubbled;
+    GameStateManager gsm;
+    Player player;
+    Level currentLevel;
+    Rectangle hitbox;
 
-     // ai pathfinding
-    List<Node> shortestPath = new ArrayList<Node>();
+    // ai pathfinding
+    List<Node> shortestPath = new ArrayList<>();
     // physics
-     boolean onFloor;
-     float airSpeed = 0f;
+    boolean onFloor;
+    float airSpeed = 0f;
 
-    Timer ragetimer;
+    Timer rageTimer;
 
     // A* search algorithm for pathfinding
     class Node{
@@ -46,6 +48,7 @@ public abstract class Enemy extends Observable implements Entity {
             this.g = g; // g cost = distance from start point
             this.h = h; // h cost = distance from end point
             this.parent = parent;
+            hitbox = new Rectangle(x, y, 48, 48);
         }
         public int getF(){
             return g+h; // f cost = total cost
@@ -53,13 +56,7 @@ public abstract class Enemy extends Observable implements Entity {
     }
 
     public Enemy(GameStateManager gsm){
-        this.x= 0;
-        this.y=0;
-        enraged = false;
-        facingRight = true;
-        this.gsm = gsm;
-        currentLevel = gsm.getCurrentLevel();
-        player = gsm.getCurrentPlayer();
+        this(0,0,true,gsm);
     }
     public Enemy(int x, int y, boolean facingRight, GameStateManager gsm){
         this.x = x;
@@ -67,28 +64,139 @@ public abstract class Enemy extends Observable implements Entity {
         enraged = false;
         this.facingRight = facingRight;
         this.gsm = gsm;
+        currentLevel = gsm.getCurrentLevel();
+        player = gsm.getCurrentPlayer();
+        rageTimer = new Timer(10000, e ->updateAction(Action.RAGE));
+        rageTimer.setRepeats(false);
+
     }
     //Ricordare di implementare le classi specifiche non astratte
     //dei nemici
 
-
-    private void chasePlayer(){
-        if (shortestPath.isEmpty()){
+    public void onPlayer(){
+        if (hitbox.intersects(player.getHitbox())){
+            if (bubbled) {
+                updateAction(Action.DIE);
+            }
+            else{
+                player.updateAction(Action.HURT);
+            }
+        }
+    }
+    //  pathfinding
+    public void chasePlayer() {
+        if (shortestPath.isEmpty()) {
             updateAction(Action.IDLE);
+            return;
         }
         Node nextNode = shortestPath.get(0);
+        System.out.println("nextNode " + nextNode.x +" "+ nextNode.y);
         if(isAtNode(nextNode)){
             shortestPath.remove(0);
         }
-        if(nextNode.y<y){
+        if (nextNode.y < y) {
             updateAction(Action.JUMP);
-
+        } else if (nextNode.y > y) {
+            updateAction(Action.MOVE_VERTICALLY);
+        } else {
+            if (nextNode.x < x) {
+                updateAction(Action.MOVE_LEFT);
+            } else {
+                updateAction(Action.MOVE_RIGHT);
+            }
         }
     }
 
+
     private boolean isAtNode(Node node){
-        return Math.abs(node.x - x) < speed && Math.abs(node.y - y) < speed;
+
+        return Math.abs(node.x - x) <= 50&& Math.abs(node.y - y) <= 50;
     }
+    private String getKey(int x, int y){
+        return x + "," + y;
+    }
+    public void findShortestPath() {
+        PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(Node::getF));
+        HashMap<String, Node> openMap = new HashMap<>(); // "x,y" -> Node
+        HashSet<String> closed = new HashSet<>(); // "x,y"
+
+        Node start = new Node(x, y, 0, Math.abs(player.getX() - x) + Math.abs(player.getY() - y), null);
+        Node end = new Node(player.getX(), player.getY(), 0, 0, null);
+        open.add(start);
+        openMap.put(getKey(start.x, start.y), start);
+
+        while (!open.isEmpty()) {
+            Node current = open.poll();
+            openMap.remove(getKey(current.x, current.y));
+            closed.add(getKey(current.x, current.y));
+            if (current.x == end.x && current.y == end.y) {
+                shortestPath = retracePath(start, current);
+                return;
+            }
+            for (Node neighbor : getNeighbors(current)) {
+                String neighborKey = getKey(neighbor.x, neighbor.y);
+                if (closed.contains(neighborKey)) {
+                    continue;
+                }
+                int distanceToNeighbor = current.g + getDistance(current, neighbor);
+                boolean isBetterPath = !openMap.containsKey(neighborKey) || distanceToNeighbor < neighbor.g;
+                if (isBetterPath) {
+                    neighbor.g = distanceToNeighbor;
+                    neighbor.h = getDistance(neighbor, end);
+                    neighbor.parent = current;
+                    if (!openMap.containsKey(neighborKey)) {
+                        open.add(neighbor);
+                        openMap.put(neighborKey, neighbor);
+                    }
+                }
+            }
+        }
+    }
+    private List<Node> getNeighbors(Node node){
+        List<Node> neighbors = new ArrayList<>();
+
+        int[][] directions = {{0,1},{0,-1},{1,0},{-1,0}};
+        for(int[] direction : directions){
+            int newX = node.x + direction[0];
+            int newY = node.y + direction[1];
+            if(!isColliding(newX, newY)){
+                neighbors.add(new Node(newX, newY, 0, 0, node));
+            }
+        }
+        return neighbors;
+    }
+    private int getDistance(Node a, Node b){
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+    }
+    private List<Node> retracePath(Node start, Node end){
+        List<Node> path = new ArrayList<>();
+        Node current = end;
+        while(current != start && current != null){
+            path.add(current);
+            current = current.parent;
+        }
+        if(current == start){
+            path.add(start);
+        }
+        Collections.reverse(path);
+        if (path.isEmpty() || path.get(0) != start){
+            return new ArrayList<>();
+        }
+        /* System.out.println("Shortest Path:");
+        for (Node node : path) {
+            System.out.println("Node: (" + node.x + ", " + node.y + ")");
+        } */
+        return path;
+    }
+
+    public boolean shouldRetracePath(){
+        if(shortestPath.isEmpty()){
+            return true;
+        }
+        Node nextNode = shortestPath.get(0);
+        return Math.abs(player.getX() - shortestPath.get(shortestPath.size() - 1).x) > 50 || Math.abs(player.getY() - shortestPath.get(shortestPath.size() - 1).y) > 50;
+    }
+    // tile collision
     public boolean isColliding(int x, float y) {
         int left = x+10;
         int right = x +38;
@@ -113,7 +221,7 @@ public abstract class Enemy extends Observable implements Entity {
         if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
             if(currentLevel.getBlockInt(tileY, tileX) >0){
                 // test
-                System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
+                //System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
                 return true;
             }
             else{
@@ -124,8 +232,17 @@ public abstract class Enemy extends Observable implements Entity {
         return true;
     }
 
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+    public void setCurrentLevel(Level currentLevel){
+        this.currentLevel = currentLevel;
+    }
     public int getPoints(Enemy enemy){
-     return points;
+        return points;
+    }
+    public boolean getFacingRight(){
+        return facingRight;
     }
 
     public void notifyObservers(Action action) {
@@ -143,6 +260,7 @@ public abstract class Enemy extends Observable implements Entity {
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
+                    hitbox.setLocation(x, y);
                 }
                 break;
             case MOVE_VERTICALLY:
@@ -155,6 +273,7 @@ public abstract class Enemy extends Observable implements Entity {
                     else{
                         notifyObservers(Action.MOVE_LEFT);
                     }
+                    hitbox.setLocation(this.x, this.y);
                 }
                 else if(isColliding(x, y+airSpeed) && airSpeed > 0){
                     airSpeed = 0;
@@ -185,6 +304,7 @@ public abstract class Enemy extends Observable implements Entity {
                     else{
                         this.x -= airSpeed;
                     }
+                    hitbox.setLocation(this.x,this. y);
                 }
                 facingRight = false;
                 notifyObservers(Action.MOVE_LEFT);
@@ -197,6 +317,7 @@ public abstract class Enemy extends Observable implements Entity {
                     else{
                         this.x += airSpeed;
                     }
+                    hitbox.setLocation(this.x, this.y);
                 }
                 facingRight = true;
                 notifyObservers(Action.MOVE_RIGHT);
@@ -211,6 +332,8 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case BUBBLED:
                 // comportamenti
+                bubbled = true;
+                startRageTimer();
                 notifyObservers(Action.BUBBLED);
                 break;
             case DIE:
@@ -224,29 +347,43 @@ public abstract class Enemy extends Observable implements Entity {
                 else {
                     notifyObservers(Action.MOVE_LEFT);
                 }
-            break;
+                break;
         }
     }
 
+    public void startRageTimer(){
+        if(!rageTimer.isRunning()) {
+            rageTimer.start();
+        }
+    }
     public boolean isOnFloor() {
         return onFloor;
     }
     //to be overriden
     public void rage(){
+
     }
     // to be overridden
     public void attack(){
         //implementazione specifica
     }
+    public void setShortestPath(List<Node> shortestPath){
+        this.shortestPath = shortestPath;
+}
+public Rectangle getHitbox(){
+        return hitbox;
+}
+    public void die(){
+    }
     public void updatePosition(){
     }
-   // public void updateAction(Action action){
-        //implementazione specifica
-   // }
-   // private void updatePosition(){
+    // public void updateAction(Action action){
+    //implementazione specifica
+    // }
+    // private void updatePosition(){
     // A* search algorithm
     // uses UpdateAction
-  //  }
+    //  }
 
 
 }

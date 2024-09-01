@@ -1,5 +1,8 @@
 package GAMESTATEMANAGER;
 
+import CONTROLLER.Leaderboard;
+import MODEL.LeaderboardM;
+import VIEW.LeaderboardPanel;
 import VIEW.MainFrame;
 
 import java.awt.event.ActionEvent;
@@ -7,12 +10,26 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class LeaderboardState extends GameState {
-    public LeaderboardState() {}
+
+    private Leaderboard leaderboardController; // Il controller della leaderboard
+    private LeaderboardM model;  // Il modello della leaderboard
+    private LeaderboardPanel leaderboardPanel; // Il pannello della leaderboard
+
+
+    public LeaderboardState() {
+        model = new LeaderboardM();
+        leaderboardPanel = MainFrame.getLeaderboardPanel();
+        leaderboardController = new Leaderboard(model, leaderboardPanel);
+        leaderboardController.loadLeaderboard("leaderboard.dat");
+
+    }
 
     public void update() {}
 
     public void draw() {
-        MainFrame.setPanel(MainFrame.getLeaderboardPanel());
+
+        //leaderboardController.updateView();
+        MainFrame.setPanel(leaderboardPanel);
     }
 
 

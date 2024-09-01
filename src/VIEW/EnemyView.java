@@ -24,7 +24,7 @@ public abstract class EnemyView implements Observer {
         this.x = enemy.getX();
         this.y = enemy.getY();
         this.player = enemy.getPlayer();
-        enemy.addObserver(this);
+        currentFrame = 0;
     }
 
     @Override
@@ -39,4 +39,23 @@ public abstract class EnemyView implements Observer {
             this.currentAction = action;
         }
     }
+
+    public void draw(Graphics2D g2d){
+        BufferedImage[] currentAnimation = getCurrentAnimation();
+        if (currentAnimation != null){
+            long currentTime = System.currentTimeMillis();
+            if(currentTime-lastTime >= frameDelay){
+                currentFrame = (currentFrame + 1) % currentAnimation.length;
+                lastTime = currentTime;
+            }
+            g2d.drawImage(currentAnimation[currentFrame], x, y, null);
+            g2d.setColor(Color.RED);
+            g2d.draw(enemy.getHitbox());
+        }
+    }
+    // to be overriden
+    public BufferedImage[] getCurrentAnimation(){
+        return null;
+    }
+
 }

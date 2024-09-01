@@ -15,17 +15,20 @@ public class BenzoView extends EnemyView {
     BufferedImage[] benzoWalkRight;
     BufferedImage[] benzoWalkLeft;
     BufferedImage[] benzoDie;
-    BufferedImage[] benzoRage;
-    BufferedImage[] benzoBubbled;
+    BufferedImage[] benzoEnraged;
+    BufferedImage[] benzoBubbledGreen;
+    BufferedImage[] benzoBubbledBlue;
+    BufferedImage[] benzoBubbledRed;
 
 
     public BenzoView(Enemy benzo){
         super(benzo);
         currentAction = MOVE_RIGHT;
         loadImages();
+        benzo.addObserver(this);
     }
 
-    public BufferedImage scaleImage(BufferedImage img) {
+    private BufferedImage scaleImage(BufferedImage img) {
         BufferedImage scaledImage = new BufferedImage(img.getWidth() * 3, img.getHeight() * 3, img.getType());
         Graphics2D g2d = scaledImage.createGraphics();
         g2d.drawImage(img, 0, 0, img.getWidth() * 3, img.getHeight() * 3, null);
@@ -33,7 +36,7 @@ public class BenzoView extends EnemyView {
         return scaledImage;
     }
 
-    public void loadImages() {
+    private void loadImages() {
         try {
             benzoWalkLeft = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png"))),
@@ -49,24 +52,30 @@ public class BenzoView extends EnemyView {
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Death/Enemy15.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Death/Enemy16.png"))),
             };
+            benzoEnraged = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy3.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy4.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy5.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy6.png")))
+            };
+            benzoBubbledGreen = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/GreenBubble/Enemy7.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/GreenBubble/Enemy8.png"))),
+            };
+            benzoBubbledBlue = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/BlueBubble/Enemy9.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/BlueBubble/Enemy10.png")))
+            };
+            benzoBubbledRed = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/RedBubble/Enemy11.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/RedBubble/Enemy12.png")))
+            };
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void draw(Graphics2D g2d){
-        BufferedImage[] currentAnimation = getCurrentAnimation();
-        if (currentAnimation != null){
-            long currentTime = System.currentTimeMillis();
-            if(currentTime-lastTime > frameDelay){
-                lastTime = currentTime;
-                currentFrame = (currentFrame + 1) % currentAnimation.length;
-            }
-        }
-        currentFrame = Math.min(currentFrame, currentAnimation.length - 1);
-        g2d.drawImage(currentAnimation[currentFrame], x, y, null);
-    }
 
-    private BufferedImage[] getCurrentAnimation(){
+    public BufferedImage[] getCurrentAnimation(){
         switch(currentAction){
             default:
                 return benzoWalkRight;
@@ -75,10 +84,11 @@ public class BenzoView extends EnemyView {
             case DIE:
                 return benzoDie;
             case RAGE:
-                return benzoRage;
+                return benzoEnraged;
             case BUBBLED:
-                return benzoBubbled;
+                return benzoBubbledGreen; // benzoBubbledBlue, benzoBubbledRed
         }
     }
 }
+
 

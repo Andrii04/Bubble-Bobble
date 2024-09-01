@@ -18,8 +18,9 @@ public class Player extends Observable implements Entity {
     private int punteggio;
     private int lives;
     private int speed;
+    private boolean isMoving;
     private boolean facingRight = true;
-
+    private Rectangle hitbox;
     private Level currentLevel;
     private Bubble bubbleType;
     private GameStateManager gsm;
@@ -31,11 +32,11 @@ public class Player extends Observable implements Entity {
 
     public Player(UserProfile profile){
         this.profile=profile;
-        this.x = 32;
-        this.y = 32;
+        this.x = 42;
+        this.y = 344;
         this.lives = 2; // default
-        this.speed = 19; // default
-
+        this.speed = 16; // default
+        this.hitbox = new Rectangle(x, y, 48, 48);
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
@@ -69,9 +70,9 @@ public class Player extends Observable implements Entity {
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
         if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
-            if(currentLevel.getBlockInt(tileY, tileX) >0){
+            if(currentLevel.isItSolidBlock(tileY, tileX)){
                 // test
-                System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
+                //System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
                 return true;
             }
             else{
@@ -102,7 +103,9 @@ public class Player extends Observable implements Entity {
                 break;
             case MOVE_VERTICALLY:
                 if(!isColliding(x, y+airSpeed)) {
+                    isMoving = true;
                     this.y += airSpeed;
+                    hitbox.setLocation(x, y);
                     airSpeed += gravity;
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
@@ -119,24 +122,30 @@ public class Player extends Observable implements Entity {
                 break;
             case MOVE_LEFT:
                 if(!isColliding(x-speed, y)){
-                    if(isOnFloor()){
-                        this.x -= speed;
-                    }
-                    else{
+                     if (airSpeed > 0 && !isOnFloor()){
                         this.x -= airSpeed;
+                        hitbox.setLocation(x, y);
                     }
+                     else{
+                            this.x -= speed;
+                            hitbox.setLocation(x, y);
+                     }
+                     isMoving = true;
             }
                 facingRight = false;
                 notifyObservers(Action.MOVE_LEFT);
                 break;
             case MOVE_RIGHT:
                 if(!isColliding(x+speed, y)){
-                    if(isOnFloor()) {
-                        this.x += speed;
+                    if (airSpeed > 0 && !isOnFloor()) {
+                        this.x += airSpeed;
+                        hitbox.setLocation(x, y);
                     }
                     else{
-                        this.x += airSpeed;
+                        this.x += speed;
+                        hitbox.setLocation(x, y);
                     }
+                    isMoving = true;
             }
                 facingRight = true;
                 notifyObservers(Action.MOVE_RIGHT);
@@ -150,16 +159,24 @@ public class Player extends Observable implements Entity {
                 break;
             case HURT:
                 this.lives--;
+                System.out.println("Lives: " + lives);
                 notifyObservers(Action.HURT);
+                if(lives == 0){
+                    notifyObservers(Action.DIE);}
                 break;
             case DIE:
                 notifyObservers(Action.DIE);
+                // gsm.setGameState(GameStateManager.GameState.GAMEOVER);
                 break;
             default:
                 notifyObservers(Action.IDLE);
+                isMoving = false;
                 break;
         }
+    }
 
+    public boolean getIsMoving(){
+        return isMoving;
     }
     @Override
     public int getX() {
@@ -187,7 +204,9 @@ public class Player extends Observable implements Entity {
 
         return punteggio+punti;
     }
-
+    public void setPunteggio(int punteggio){
+        this.punteggio = punteggio;
+    }
     public int getPunteggio(){
 
         return this.punteggio;
@@ -211,9 +230,12 @@ public class Player extends Observable implements Entity {
     public float getGravity() {
         return gravity;
     }
+    public Rectangle getHitbox() {return hitbox;}
+    public int getLives() {return lives;}
 
     public Bubble getBubbleType() {return bubbleType;}
     public ArrayList<Bubble> getBubblesFired() {return bubblesFired;}
     public void removeBubble(Bubble bubble) {bubblesFired.set(bubblesFired.indexOf(bubble), null);}
     public Level getCurrentLevel() {return currentLevel;}
+    public Rectangle getHitbox(int x, int y) {return hitbox;}
 }
