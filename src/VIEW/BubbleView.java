@@ -21,7 +21,7 @@ public class BubbleView {
     boolean startHorizontalMovement;
 
     int shootingSpeed = 9;
-    int floatingSpeed = 2;
+    int floatingSpeed = 1;
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;

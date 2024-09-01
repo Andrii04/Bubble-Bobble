@@ -26,9 +26,10 @@ public abstract class Bubble {
     GameStateManager gsm;
     String skinsPath; //sarà il path della skin senza il numero alla fine
     Level currentLevel;
+    boolean erased;
 
     private int shootingSpeed = 9;
-    private int floatingSpeed = 2;
+    private int floatingSpeed = 1;
 
     boolean exploding;
     boolean floating;
@@ -47,6 +48,8 @@ public abstract class Bubble {
         encapsulate = false;
         exploding = false;
         facingUp = true;
+
+        erased = false;
     }
 
     public void explode(Enemy enemy) {
@@ -85,6 +88,7 @@ public abstract class Bubble {
     public void updateLocation(int x, int y) {
         this.x = x;
         this.y = y;
+        if (floating) currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
     }
 
     public int getX() {
@@ -107,6 +111,8 @@ public abstract class Bubble {
         return player;
     }
 
+    public boolean getErased() {return erased;}
+
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -126,6 +132,9 @@ public abstract class Bubble {
         floating = false;
         bubbleView.setFiring(false);
         bubbleView.setFloating(false);
+
+        erased = true;
+        currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
         player.removeBubble(this);
     }
 

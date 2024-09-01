@@ -69,7 +69,7 @@ public class Player extends Observable implements Entity {
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
         if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
-            if(currentLevel.getBlockInt(tileY, tileX) >0){
+            if(currentLevel.isItSolidBlock(tileY, tileX)){
                 // test
                 //System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
                 return true;
