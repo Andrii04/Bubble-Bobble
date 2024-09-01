@@ -87,12 +87,15 @@ public class Level {
 
         else return true;
     }
+
     public void setSolidBlock(int y, int x) {
         solidCheckPattern[y][x] = !solidCheckPattern[y][x];
     }
+
     public void removeBlock(int y, int x) {
         pattern[y][x] = 0;
     }
+
     public void addBlock(int y, int x) {
         pattern[y][x] = blockInt;
         solidCheckPattern[y][x] = true;
@@ -114,6 +117,7 @@ public class Level {
         else if (bubble.getErased() && lastBubbleY != null && lastBubbleX != null
         && pattern[lastBubbleY][lastBubbleX] == 0) solidCheckPattern[lastBubbleY][lastBubbleX] = false;
     }
+
     public EnemyView[] getEnemyViews() {
         return Arrays.stream(enemies).map(
                 enemy ->{
@@ -124,3 +128,4 @@ public class Level {
         ).toArray(EnemyView[]::new);
     }
 }
+
