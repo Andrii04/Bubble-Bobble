@@ -40,6 +40,7 @@ public abstract class Bubble {
     boolean firing;
     boolean encapsulate;
     boolean facingUp;
+    boolean pom;
 
 
     public Bubble() {
@@ -54,6 +55,7 @@ public abstract class Bubble {
         encapsulate = false;
         exploding = false;
         facingUp = true;
+        pom = false;
 
         erased = false;
     }
@@ -70,6 +72,31 @@ public abstract class Bubble {
         if (enemy != null) enemy.updateAction(Action.DIE);
 
 
+    }
+
+    public void explode() {
+        System.out.println("exploding");
+        floating = false;
+        encapsulate = false;
+        firing = false;
+        exploding = true;
+        bubbleView.setFloating(false);
+        bubbleView.setEncapsulate(false);
+        bubbleView.setFiring(false);
+        bubbleView.setExploding(true);
+
+        bubbleView.setExplodeIMG();
+
+    }
+
+    public void pom() {
+        System.out.println("POMM!!! :D");
+        exploding = false;
+        pom = true;
+        bubbleView.setExploding(false);
+        bubbleView.setPom(true);
+
+        //bubbleView.setPomIMG();
     }
 
     public void encapsule(Enemy enemy) {
@@ -107,6 +134,25 @@ public abstract class Bubble {
         this.y = y;
         hitbox.setLocation(x, y);
 
+        if (firing && currentLevel.isLevelWall(this, x)) {
+
+            if (x == 1) updateLocation(3, y);
+            else if (x == currentLevel.getPattern()[0].length-2) updateLocation(
+                    currentLevel.getPattern()[0].length-4, y);
+
+            explode();
+            return;
+        }
+
+        if (floating
+                && hitbox.intersects(player.getHitbox())
+                && player.getCurrentAction().equals(Action.JUMP)) {
+
+            player.setIsOnFloor(true);
+            player.updateAction(Action.JUMP);
+
+        }
+
         if (firing) {
             for (Enemy enemy : currentLevel.getEnemies()) {
                 if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
@@ -116,7 +162,6 @@ public abstract class Bubble {
             }
         }
 
-        if (floating) currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
         if (encapsulate) bubbledEnemy.setPosition(x, y);
     }
 
@@ -159,11 +204,12 @@ public abstract class Bubble {
     public void erase() {
         firing = false;
         floating = false;
+        pom = false;
         bubbleView.setFiring(false);
         bubbleView.setFloating(false);
+        bubbleView.setPom(false);
 
         erased = true;
-        currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
         player.removeBubble(this);
     }
 

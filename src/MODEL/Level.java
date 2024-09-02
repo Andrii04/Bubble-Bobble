@@ -19,8 +19,8 @@ public class Level {
     private int blockInt;
     private Enemy[] enemies;
 
-    private Integer lastBubbleY;
-    private Integer lastBubbleX;
+    //private Integer lastBubbleY;
+    //private Integer lastBubbleX;
 
     public Level(int height, int width, int[][] pattern, Enemy[] enemies) {
         this.height = height;
@@ -101,7 +101,9 @@ public class Level {
         solidCheckPattern[y][x] = true;
     }
 
-    public void handleBubble(Bubble bubble, int newBubbleY, int newBubbleX) {
+    //non serve più, le bolle non sono più solide
+
+    /*public void handleBubble(Bubble bubble, int newBubbleY, int newBubbleX) {
 
         if (!bubble.getErased()) {
 
@@ -116,16 +118,28 @@ public class Level {
         }
         else if (bubble.getErased() && lastBubbleY != null && lastBubbleX != null
         && pattern[lastBubbleY][lastBubbleX] == 0) solidCheckPattern[lastBubbleY][lastBubbleX] = false;
-    }
+    }*/
 
     public EnemyView[] getEnemyViews() {
         return Arrays.stream(enemies).map(
-                enemy ->{
+                enemy -> {
                     if (enemy instanceof Benzo) return new BenzoView(enemy);
                     else return null;
                     // add others
                 }
         ).toArray(EnemyView[]::new);
     }
+
+    public boolean isLevelWall(Bubble bubble, int x) {
+        int arrayX = x / Block.WIDTH;
+
+        if (arrayX < pattern[0].length && arrayX >= 0) {
+            if (arrayX == pattern[0].length - 2 || arrayX == 1) {
+                return true;
+            } else return false;
+        }
+        return false;
+    }
 }
+
 
