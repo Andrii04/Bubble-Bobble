@@ -1,5 +1,6 @@
 package MODEL;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,9 +33,9 @@ public class LeaderboardM {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename))) {
             for (UserProfile profile : profiles) {
                 bufferedWriter.write(profile.getUsername() + "," +
+                        profile.getAvatarChosen() + "," +  // Avatar path
                         profile.getPunteggio() + "," +
                         profile.getRound() + "," +
-                        profile.getAvatarChosen() + "," +
                         profile.getPartiteVinte() + "," +
                         profile.getPartitePerse() + "," +
                         profile.getPartiteTot());
@@ -61,7 +62,7 @@ public class LeaderboardM {
                 String[] parts = line.split(",");
                 if (parts.length == 8) {
                     int num = Integer.parseInt(parts[0]);
-                    String avatarChosen = parts[1];
+                    String avatarPath = parts[1];  // Assume che questa sia la stringa del percorso dell'avatar
                     String username = parts[2];
                     int round = Integer.parseInt(parts[3]);
                     int punteggio = Integer.parseInt(parts[4]);
@@ -70,7 +71,7 @@ public class LeaderboardM {
                     int partiteTot = Integer.parseInt(parts[7]);
 
                     UserProfile profile = new UserProfile(username, punteggio, round, 0);
-                    profile.setAvatarChosen(avatarChosen);
+                    profile.setAvatarImage(new ImageIcon(avatarPath));  // Carica l'immagine avatar
                     profile.setPartiteVinte(partiteVinte);
                     profile.setPartitePerse(partitePerse);
                     profile.setPartiteTot(partiteTot);

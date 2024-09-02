@@ -20,10 +20,9 @@ public class LeaderboardPanel extends JPanel {
     private JTable leaderboardTable;
     private JLabel menuLabel;
     private JLabel exitLabel;
-    private final JLabel cursor = new JLabel();
-    private int selectedOption = 0;
 
     public LeaderboardPanel() {
+
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout());
@@ -31,8 +30,8 @@ public class LeaderboardPanel extends JPanel {
         // Creazione del titolo in stile arcade
         JLabel titleLabel = new JLabel("LEADERBOARD", JLabel.CENTER);
         titleLabel.setFont(font.deriveFont(Font.BOLD, 40f));
-        titleLabel.setForeground(Color.green);
-        titleLabel.setBorder(BorderFactory.createLineBorder(Color.green, 5));
+        titleLabel.setForeground(Color.GREEN);
+        titleLabel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
         titleLabel.setOpaque(true);
         titleLabel.setBackground(Color.BLACK);
 
@@ -46,7 +45,7 @@ public class LeaderboardPanel extends JPanel {
                 if (column == 1) { // Colonna Avatar
                     return ImageIcon.class;
                 }
-                return String.class;
+                return Object.class;
             }
 
             @Override
@@ -56,28 +55,34 @@ public class LeaderboardPanel extends JPanel {
         };
 
         leaderboardTable = new JTable(tableModel);
-        leaderboardTable.setFont(font.deriveFont(8f));
+        leaderboardTable.setFont(font.deriveFont(12f));
         leaderboardTable.setForeground(Color.GREEN); // Testo verde
         leaderboardTable.setBackground(Color.BLACK); // Sfondo della tabella nero
         leaderboardTable.setRowHeight(64); // Altezza delle righe per accomodare le immagini
 
-        // Personalizzazione del renderer per le celle
-        DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
-        cellRenderer.setBackground(Color.BLACK); // Sfondo delle celle nero
-        cellRenderer.setForeground(Color.GREEN); // Testo delle celle verde
-        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        // Imposta il renderer personalizzato per tutte le colonne
-        for (int i = 0; i < leaderboardTable.getColumnCount(); i++) {
-            leaderboardTable.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
-        }
+        // Personalizzazione del renderer per la colonna Avatar
+        leaderboardTable.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value instanceof ImageIcon) {
+                    setIcon((ImageIcon) value);
+                    setText(null); // Rimuove il testo, lasciando solo l'icona
+                } else {
+                    setIcon(null);
+                    setText(value != null ? value.toString() : ""); // Mostra il testo se non è un ImageIcon
+                }
+                setHorizontalAlignment(CENTER); // Allinea l'icona al centro
+                setVerticalAlignment(CENTER); // Allinea l'icona verticalmente al centro
+                return this;
+            }
+        });
 
         // Personalizzazione dell'intestazione della tabella
         JTableHeader header = leaderboardTable.getTableHeader();
         header.setBackground(Color.DARK_GRAY); // Sfondo intestazione
         header.setForeground(Color.CYAN); // Testo intestazione
         header.setFont(font.deriveFont(Font.BOLD, 15f)); // Font intestazione
-        header.setBorder(BorderFactory.createLineBorder(Color.green, 3));
+        header.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
 
         // Cambia i colori della selezione
         leaderboardTable.setSelectionBackground(Color.GREEN); // Sfondo selezione
@@ -91,7 +96,7 @@ public class LeaderboardPanel extends JPanel {
         scrollPane.setPreferredSize(new Dimension(MainFrame.FRAME_WIDTH - 100, MainFrame.FRAME_HEIGHT - 150));
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
 
-        // Imposta il colore di sfondo  del JScrollPane
+        // Imposta il colore di sfondo del JScrollPane
         scrollPane.getViewport().setBackground(Color.BLACK);
         scrollPane.setBackground(Color.BLACK);
 
@@ -110,14 +115,14 @@ public class LeaderboardPanel extends JPanel {
 
         menuLabel = new JLabel("MENU");
         menuLabel.setFont(font.deriveFont(Font.BOLD, 20f));
-        menuLabel.setForeground(Color.green);
+        menuLabel.setForeground(Color.GREEN);
         menuLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Margini interni
         menuLabel.setVisible(true);
         menuLabel.setBackground(Color.BLACK);
 
         exitLabel = new JLabel("EXIT");
         exitLabel.setFont(font.deriveFont(Font.BOLD, 20f));
-        exitLabel.setForeground(Color.green);
+        exitLabel.setForeground(Color.GREEN);
         exitLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Margini interni
         exitLabel.setVisible(true);
         exitLabel.setBackground(Color.BLACK);
@@ -139,15 +144,29 @@ public class LeaderboardPanel extends JPanel {
         return exitLabel;
     }
 
-    // Metodo per aggiornare i dati della leaderboard
     public void updateLeaderboard(Object[][] data) {
         DefaultTableModel model = (DefaultTableModel) leaderboardTable.getModel();
         model.setRowCount(0); // Pulisce la tabella esistente
+
         for (Object[] rowData : data) {
+            try {
+                // Supponendo che rowData[1] sia un ImageIcon già pronto
+                if (rowData[1] instanceof ImageIcon) {
+                    ImageIcon avatarIcon = (ImageIcon) rowData[1];
+
+                    // Ridimensiona l'immagine se necessario
+                    Image avatarImage = avatarIcon.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    rowData[1] = new ImageIcon(avatarImage);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                rowData[1] = null; // Se c'è un errore, lascia la cella vuota
+            }
+
             model.addRow(rowData);
         }
-    }
 
+    }
 
 }
 
