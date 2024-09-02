@@ -59,14 +59,15 @@ public class LeaderboardM {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 7) {
-                    String avatarChosen = parts[0];
-                    String username = parts[1];
-                    int round = Integer.parseInt(parts[2]);
-                    int punteggio = Integer.parseInt(parts[3]);
-                    int partiteVinte = Integer.parseInt(parts[4]);
-                    int partitePerse = Integer.parseInt(parts[5]);
-                    int partiteTot = Integer.parseInt(parts[6]);
+                if (parts.length == 8) {
+                    int num = Integer.parseInt(parts[0]);
+                    String avatarChosen = parts[1];
+                    String username = parts[2];
+                    int round = Integer.parseInt(parts[3]);
+                    int punteggio = Integer.parseInt(parts[4]);
+                    int partiteVinte = Integer.parseInt(parts[5]);
+                    int partitePerse = Integer.parseInt(parts[6]);
+                    int partiteTot = Integer.parseInt(parts[7]);
 
                     UserProfile profile = new UserProfile(username, punteggio, round, 0);
                     profile.setAvatarChosen(avatarChosen);

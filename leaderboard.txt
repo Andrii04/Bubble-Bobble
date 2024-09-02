@@ -1,5 +1,5 @@
-Avatar1,PlayerOne,10,2500,5,2,7
-Avatar2,PlayerTwo,15,3000,7,1,8
-Avatar3,PlayerThree,12,2700,6,3,9
-Avatar4,PlayerFour,20,3500,10,2,12
-Avatar5,PlayerFive,8,2200,4,4,8
+1,Avatar1,PlayerOne,10,2500,5,2,7
+2,Avatar2,PlayerTwo,15,3000,7,1,8
+3,Avatar3,PlayerThree,12,2700,6,3,9
+4,Avatar4,PlayerFour,20,3500,10,2,12
+5,Avatar5,PlayerFive,8,2200,4,4,8

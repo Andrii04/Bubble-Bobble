@@ -58,10 +58,10 @@ public class Leaderboard {
             UserProfile profile = profiles.get(i);
             data[i] = new Object[]{
                     i+1,
+                    profile.getAvatarChosen(),
                     profile.getUsername(),
                     profile.getPunteggio(),
                     profile.getRound(),
-                    profile.getAvatarChosen(),
                     profile.getPartiteVinte(),
                     profile.getPartitePerse(),
                     profile.getPartiteTot()
