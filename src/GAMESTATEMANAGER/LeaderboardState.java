@@ -20,7 +20,7 @@ public class LeaderboardState extends GameState {
         model = new LeaderboardM();
         leaderboardPanel = MainFrame.getLeaderboardPanel();
         leaderboardController = new Leaderboard(model, leaderboardPanel);
-        leaderboardController.loadLeaderboard("leaderboard.dat");
+        leaderboardController.loadLeaderboard("leaderboard.txt");
 
     }
 

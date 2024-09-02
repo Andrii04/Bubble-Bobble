@@ -67,7 +67,7 @@ public class UserCreationState extends GameState {
             if (view.getUsername() == null || (view.getUsername().equals(""))) {
                 e.consume();
                 return;
-            } else if (!searchUser(view.getUsername(), "src/MODEL/leaderboard.txt")) {
+            } else if (!searchUser(view.getUsername(), "leaderboard.txt")) {
                 userProfile = new UserProfile(view.getUsername(), 0, 1, view.getSelectedAvatar());
                 // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
             } else {
