@@ -25,6 +25,7 @@ public class Player extends Observable implements Entity {
     private Bubble bubbleType;
     private GameStateManager gsm;
     private ArrayList<Bubble> bubblesFired;
+    private Action currentAction;
 
     //physics
     private boolean onFloor;
@@ -94,6 +95,7 @@ public class Player extends Observable implements Entity {
     public void updateAction(Action action) {
         switch(action){
             case JUMP:
+                currentAction = Action.JUMP;
                 if(isOnFloor()){
                     onFloor = false;
                     airSpeed = jumpSpeed;
@@ -102,6 +104,7 @@ public class Player extends Observable implements Entity {
                 }
                 break;
             case MOVE_VERTICALLY:
+                currentAction = Action.MOVE_VERTICALLY;
                 if(!isColliding(x, y+airSpeed)) {
                     isMoving = true;
                     this.y += airSpeed;
@@ -121,6 +124,7 @@ public class Player extends Observable implements Entity {
                 }
                 break;
             case MOVE_LEFT:
+                currentAction = Action.MOVE_LEFT;
                 if(!isColliding(x-speed, y)){
                      if (airSpeed > 0 && !isOnFloor()){
                         this.x -= airSpeed;
@@ -136,6 +140,7 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.MOVE_LEFT);
                 break;
             case MOVE_RIGHT:
+                currentAction = Action.MOVE_RIGHT;
                 if(!isColliding(x+speed, y)){
                     if (airSpeed > 0 && !isOnFloor()) {
                         this.x += airSpeed;
@@ -151,6 +156,7 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.MOVE_RIGHT);
                 break;
             case ATTACK:
+                currentAction = Action.ATTACK;
                 Bubble firedBubble = bubbleType.newInstance();
                 firedBubble.setPlayer(this);
                 bubblesFired.add(firedBubble);
@@ -158,6 +164,7 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.ATTACK);
                 break;
             case HURT:
+                currentAction = Action.HURT;
                 this.lives--;
                 System.out.println("Lives: " + lives);
                 notifyObservers(Action.HURT);
@@ -165,6 +172,7 @@ public class Player extends Observable implements Entity {
                     notifyObservers(Action.DIE);}
                 break;
             case DIE:
+                currentAction = Action.DIE;
                 notifyObservers(Action.DIE);
                 // gsm.setGameState(GameStateManager.GameState.GAMEOVER);
                 break;
@@ -239,4 +247,5 @@ public class Player extends Observable implements Entity {
     public void removeBubble(Bubble bubble) {bubblesFired.set(bubblesFired.indexOf(bubble), null);}
     public Level getCurrentLevel() {return currentLevel;}
     public Rectangle getHitbox(int x, int y) {return hitbox;}
+    public Action getCurrentAction() {return currentAction;}
 }

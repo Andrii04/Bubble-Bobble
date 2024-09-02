@@ -107,6 +107,14 @@ public abstract class Bubble {
         this.y = y;
         hitbox.setLocation(x, y);
 
+        if (floating
+                && hitbox.intersects(player.getHitbox())
+                && player.getCurrentAction().equals(Action.JUMP)) {
+
+            player.setIsOnFloor(true);
+            player.updateAction(Action.JUMP);
+        }
+
         if (firing) {
             for (Enemy enemy : currentLevel.getEnemies()) {
                 if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
@@ -116,7 +124,6 @@ public abstract class Bubble {
             }
         }
 
-        if (floating) currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
         if (encapsulate) bubbledEnemy.setPosition(x, y);
     }
 
@@ -163,7 +170,6 @@ public abstract class Bubble {
         bubbleView.setFloating(false);
 
         erased = true;
-        currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
         player.removeBubble(this);
     }
 
