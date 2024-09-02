@@ -6,6 +6,7 @@ import VIEW.LeaderboardPanel;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.util.List;
 
 public class Leaderboard {
     private LeaderboardM model;
@@ -14,7 +15,7 @@ public class Leaderboard {
     public Leaderboard(LeaderboardM model, LeaderboardPanel view) {
         this.model = model;
         this.view = view;
-        updateView();
+        updateView(); // Inizializza la vista con i dati correnti
     }
 
     // Metodo per aggiungere un nuovo profilo
@@ -22,7 +23,7 @@ public class Leaderboard {
         try {
             UserProfile profile = new UserProfile(username, punteggio, round, avatarIndex);
             model.addProfile(profile);
-            updateView();
+            updateView(); // Aggiorna la vista dopo aver aggiunto un profilo
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(view, e.getMessage());
         }
@@ -41,14 +42,33 @@ public class Leaderboard {
     public void loadLeaderboard(String filename) {
         try {
             model = LeaderboardM.loadFromFile(filename);
-            updateView();
+            updateView(); // Aggiorna la vista dopo aver caricato i dati
         } catch (IOException e) {
             JOptionPane.showMessageDialog(view, "Error loading leaderboard from file.");
         }
     }
 
+    // Metodo per aggiornare la vista con i dati del modello
     private void updateView() {
-        //view.updateLeaderboard(model.getSortedLeaderboard());
+        List<UserProfile> profiles = model.getSortedLeaderboard();
+
+        // Converti la lista di UserProfile in Object[][]
+        Object[][] data = new Object[profiles.size()][8];
+        for (int i = 0; i < profiles.size(); i++) {
+            UserProfile profile = profiles.get(i);
+            data[i] = new Object[]{
+                    i+1,
+                    profile.getAvatarImage(),
+                    profile.getUsername(),
+                    profile.getPunteggio(),
+                    profile.getRound(),
+                    profile.getPartiteVinte(),
+                    profile.getPartitePerse(),
+                    profile.getPartiteTot()
+            };
+        }
+
+        view.updateLeaderboard(data);
     }
 }
 

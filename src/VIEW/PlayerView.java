@@ -44,9 +44,9 @@ public class PlayerView implements Observer {
     }
 
     public BufferedImage scaleImage(BufferedImage img) {
-        BufferedImage scaledImage = new BufferedImage(img.getWidth()*3, img.getHeight()*3, img.getType());
+        BufferedImage scaledImage = new BufferedImage(img.getWidth()*2, img.getHeight()*2, img.getType());
         Graphics2D g2d = scaledImage.createGraphics();
-        g2d.drawImage(img, 0, 0, img.getWidth()*3, img.getHeight()*3, null);
+        g2d.drawImage(img, 0, 0, img.getWidth()*2, img.getHeight()*2, null);
         g2d.dispose();
         return scaledImage;
     }

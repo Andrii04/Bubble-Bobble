@@ -6,6 +6,7 @@ import MODEL.Bubbles.GreenBubble;
 import VIEW.BubbleView;
 import VIEW.MainFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -26,8 +27,10 @@ public class Player extends Observable implements Entity {
     private GameStateManager gsm;
     private ArrayList<Bubble> bubblesFired;
     private Action currentAction;
-
+    private Timer cooldownTimer;
+    private boolean cooldown = false;
     //physics
+    private boolean isJumping;
     private boolean onFloor;
     private float airSpeed = 0f;
 
@@ -37,23 +40,33 @@ public class Player extends Observable implements Entity {
         this.y = 344;
         this.lives = 2; // default
         this.speed = 16; // default
-        this.hitbox = new Rectangle(x, y, 48, 48);
+        this.hitbox = new Rectangle(x, y, 32, 32);
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
 
         bubblesFired = new ArrayList<>();
         bubbleType = new GreenBubble();
+
+        cooldownTimer = new Timer(1000, e -> {
+            cooldown = false;
+        });
     }
 
 
 
+    private boolean isNotSolid(){
+        if(isJumping && airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > 800 || this.y+ airSpeed <0 || this.y+ airSpeed > 600) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
+            return true;
+        }
+        return false;
+    }
 
     public boolean isColliding(int x, float y) {
-        int left = x+10;
-        int right = x +38;
-        float top = y+10;
-        float bottom = y + 38;
+        int left = x;
+        int right = x +32;
+        float top = y;
+        float bottom = y+32;
 
         int bottomInt = (int)bottom;
         int topInt = (int)top;
@@ -95,6 +108,7 @@ public class Player extends Observable implements Entity {
     public void updateAction(Action action) {
         switch(action){
             case JUMP:
+                isJumping = true;
                 currentAction = Action.JUMP;
                 if(isOnFloor()){
                     onFloor = false;
@@ -105,7 +119,7 @@ public class Player extends Observable implements Entity {
                 break;
             case MOVE_VERTICALLY:
                 currentAction = Action.MOVE_VERTICALLY;
-                if(!isColliding(x, y+airSpeed)) {
+                if(!isColliding(x, y+airSpeed) || isNotSolid()) {
                     isMoving = true;
                     this.y += airSpeed;
                     hitbox.setLocation(x, y);
@@ -113,11 +127,13 @@ public class Player extends Observable implements Entity {
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
                 else if(isColliding(x, y+airSpeed) && airSpeed > 0){
+                    isJumping = false;
                     airSpeed = 0;
                     onFloor = true;
                     notifyObservers(Action.IDLE);
                 }
                 else{
+                    isJumping = false;
                     airSpeed = 0;
                     onFloor = false;
                     notifyObservers(Action.MOVE_VERTICALLY);
@@ -164,12 +180,17 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.ATTACK);
                 break;
             case HURT:
-                currentAction = Action.HURT;
-                this.lives--;
-                System.out.println("Lives: " + lives);
-                notifyObservers(Action.HURT);
-                if(lives == 0){
-                    notifyObservers(Action.DIE);}
+                if (!cooldown) {
+                    cooldown = true;
+                    cooldownTimer.start();
+                    currentAction = Action.HURT;
+                    this.lives--;
+                    System.out.println("Lives: " + lives);
+                    notifyObservers(Action.HURT);
+                    if (lives <= 0) {
+                        notifyObservers(Action.DIE);
+                    }
+                }
                 break;
             case DIE:
                 currentAction = Action.DIE;

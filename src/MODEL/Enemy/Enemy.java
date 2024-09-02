@@ -48,7 +48,7 @@ public abstract class Enemy extends Observable implements Entity {
             this.g = g; // g cost = distance from start point
             this.h = h; // h cost = distance from end point
             this.parent = parent;
-            hitbox = new Rectangle(x, y, 48, 48);
+            hitbox = new Rectangle(x, y, 32, 32);
         }
         public int getF(){
             return g+h; // f cost = total cost
@@ -85,24 +85,34 @@ public abstract class Enemy extends Observable implements Entity {
     }
     //  pathfinding
     public void chasePlayer() {
+
         if (shortestPath.isEmpty()) {
             updateAction(Action.IDLE);
             return;
         }
-        Node nextNode = shortestPath.get(0);
-        //System.out.println("nextNode " + nextNode.x +" "+ nextNode.y);
-        if(isAtNode(nextNode)){
-            shortestPath.remove(0);
-        }
-        if (nextNode.y < y) {
-            updateAction(Action.JUMP);
-        } else if (nextNode.y > y) {
+        if(!isOnFloor()) {
             updateAction(Action.MOVE_VERTICALLY);
-        } else {
-            if (nextNode.x < x) {
-                updateAction(Action.MOVE_LEFT);
+            return;
+        }
+        if(player.getIsMoving() && shouldRetracePath()){
+            findShortestPath();
+        }
+        else {
+            Node nextNode = shortestPath.get(0);
+            //System.out.println("nextNode " + nextNode.x +" "+ nextNode.y);
+            if (isAtNode(nextNode)) {
+                shortestPath.remove(0);
+            }
+            if (nextNode.y < y) {
+                updateAction(Action.JUMP);
+            } else if (nextNode.y > y) {
+                updateAction(Action.MOVE_VERTICALLY);
             } else {
-                updateAction(Action.MOVE_RIGHT);
+                if (nextNode.x < x) {
+                    updateAction(Action.MOVE_LEFT);
+                } else {
+                    updateAction(Action.MOVE_RIGHT);
+                }
             }
         }
     }
@@ -189,7 +199,7 @@ public abstract class Enemy extends Observable implements Entity {
         return path;
     }
 
-    public boolean shouldRetracePath(){
+    private boolean shouldRetracePath(){
         if(shortestPath.isEmpty()){
             return true;
         }
@@ -198,10 +208,10 @@ public abstract class Enemy extends Observable implements Entity {
     }
     // tile collision
     public boolean isColliding(int x, float y) {
-        int left = x+10;
-        int right = x +38;
-        float top = y+10;
-        float bottom = y + 38;
+        int left = x+4;
+        int right = x +24;
+        float top = y;
+        float bottom = y + 32;
 
         int bottomInt = (int)bottom;
         int topInt = (int)top;
@@ -260,12 +270,12 @@ public abstract class Enemy extends Observable implements Entity {
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
-                    hitbox.setLocation(x, y);
                 }
                 break;
             case MOVE_VERTICALLY:
                 if(!isColliding(x, y+airSpeed)) {
                     this.y += airSpeed;
+                    hitbox.setLocation(this.x, this.y);
                     airSpeed += gravity;
                     if(facingRight){
                         notifyObservers(Action.MOVE_RIGHT);
@@ -273,7 +283,7 @@ public abstract class Enemy extends Observable implements Entity {
                     else{
                         notifyObservers(Action.MOVE_LEFT);
                     }
-                    hitbox.setLocation(this.x, this.y);
+
                 }
                 else if(isColliding(x, y+airSpeed) && airSpeed > 0){
                     airSpeed = 0;

@@ -1,6 +1,7 @@
 package MODEL;
 
 
+import javax.swing.*;
 import java.io.Serializable;
 
 public class UserProfile  {
@@ -13,6 +14,7 @@ public class UserProfile  {
     private static int partiteTot;
     private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "BonnieBo", "Boris", "Incendio", "Superdrunk"};
     private String avatarChosen;
+    private ImageIcon img;
 
     public UserProfile(String username, int punteggio, int round, int avatarIndex) throws IllegalArgumentException{
         if(username == null || username.equals("") || round <= 0 || punteggio < 0){
@@ -22,6 +24,7 @@ public class UserProfile  {
         this.punteggio = punteggio;
         this.round = round;
         this.avatarChosen = avatars[avatarIndex];
+        this.img = loadAvatarImage(avatarIndex);
     }
 
     public void setUsername(String username) throws IllegalArgumentException{
@@ -56,11 +59,93 @@ public class UserProfile  {
         return this.round;
     }
 
-    @Override
-    public String toString(){
-        return "Username: " + username + ", Level: " + round + ", Score: " + punteggio;
+
+
+    public String getAvatarChosen() {
+        return this.avatarChosen;
     }
 
     //ogni nuova partita dovrebbe essere partiteTot++ ++a o vinte o perse
+
+    public int getPartiteVinte() {
+        return this.partiteVinte;
+    }
+
+    public void incrementaPartiteVinte() {
+        partiteVinte++;
+        partiteTot++;
+    }
+
+
+    public int getPartitePerse() {
+        return this.partitePerse;
+    }
+
+    public void incrementaPartitePerse() {
+        partitePerse++;
+        partiteTot++;
+    }
+
+    public int getPartiteTot() {
+        return this.partiteTot;
+    }
+
+    public void setAvatarChosen(String avatarChosen) {
+        this.avatarChosen = avatarChosen;
+    }
+
+    public void setPartiteVinte(int partiteVinte) {
+        this.partiteVinte = partiteVinte;
+    }
+
+    public void setPartitePerse(int partitePerse) {
+        this.partitePerse = partitePerse;
+    }
+
+    public void setPartiteTot(int partiteTot) {
+        this.partiteTot = partiteTot;
+    }
+
+
+    // Metodo per caricare l'immagine avatar
+    private ImageIcon loadAvatarImage(int avatarIndex) {
+        String[] avatarPaths = {
+                "src/Resources/Bubble Bobble Resources/Character/Run/Run2.png", // bub
+                "src/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png", // benzo
+                "src/Resources/Bubble Bobble Resources/Enemies/Blubba/Walk/Enemy39.png", // blubba
+                "src/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Walk/Enemy55.png", // boaboa
+                "src/Resources/Bubble Bobble Resources/Enemies/BonnieBo/Walk/Enemy71.png", // bonniebo
+                "src/Resources/Bubble Bobble Resources/Enemies/Boris/Walk/Enemy17.png", // boris
+                "src/Resources/Bubble Bobble Resources/Enemies/Incendio/Walk/Walk1.png", // incendio
+                "src/Resources/Bubble Bobble Resources/Enemies/Superdrunk/Walk/NES - Bubble Bobble - Boss & Final Scene - Super Drunk5.png"};
+
+        if (avatarIndex >= 0 && avatarIndex < avatarPaths.length) {
+            String path = avatarPaths[avatarIndex];
+            ImageIcon icon = new ImageIcon(path);
+
+            if (icon.getImage() != null && icon.getIconWidth() > 0) {
+                return icon;
+            } else {
+                System.err.println("Immagine non trovata o non caricata correttamente: " + path);
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public ImageIcon getAvatarImage() {
+        return img;
+    }
+
+    public void setAvatarImage(ImageIcon img) {
+        this.img = img;
+    }
+
+    @Override
+    public String toString(){
+        return " Avatar : " + avatarChosen +"Username: " + username +  ", Level: " + round + ", Score: " + punteggio +
+        ", Wins: " + partiteVinte + ", Losses: " + partitePerse + ", Total Games: " + partiteTot;
+    }
 
 }

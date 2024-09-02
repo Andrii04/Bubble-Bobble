@@ -40,9 +40,6 @@ public class PlayState extends GameState {
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             enemy.onPlayer();
-            if(player.getIsMoving() && enemy.shouldRetracePath()){
-                enemy.findShortestPath();
-            }
             enemy.chasePlayer();
         }
         if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {

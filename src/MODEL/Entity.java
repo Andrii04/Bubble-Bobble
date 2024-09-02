@@ -16,8 +16,8 @@ public interface Entity {
         BUBBLED
     }
     // physics
-    float jumpSpeed = -16f;
-    float gravity = 0.4f;
+    float jumpSpeed = -7f;
+    float gravity = 0.3f;
     public void updateAction(Action action);
 
     public boolean getFacingRight();
