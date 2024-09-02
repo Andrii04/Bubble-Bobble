@@ -56,11 +56,57 @@ public class UserProfile  {
         return this.round;
     }
 
-    @Override
-    public String toString(){
-        return "Username: " + username + ", Level: " + round + ", Score: " + punteggio;
+
+
+    public String getAvatarChosen() {
+        return this.avatarChosen;
     }
 
     //ogni nuova partita dovrebbe essere partiteTot++ ++a o vinte o perse
+
+    public int getPartiteVinte() {
+        return this.partiteVinte;
+    }
+
+    public void incrementaPartiteVinte() {
+        partiteVinte++;
+        partiteTot++;
+    }
+
+
+    public int getPartitePerse() {
+        return this.partitePerse;
+    }
+
+    public void incrementaPartitePerse() {
+        partitePerse++;
+        partiteTot++;
+    }
+
+    public int getPartiteTot() {
+        return this.partiteTot;
+    }
+
+    public void setAvatarChosen(String avatarChosen) {
+        this.avatarChosen = avatarChosen;
+    }
+
+    public void setPartiteVinte(int partiteVinte) {
+        this.partiteVinte = partiteVinte;
+    }
+
+    public void setPartitePerse(int partitePerse) {
+        this.partitePerse = partitePerse;
+    }
+
+    public void setPartiteTot(int partiteTot) {
+        this.partiteTot = partiteTot;
+    }
+
+    @Override
+    public String toString(){
+        return " Avatar : " + avatarChosen +"Username: " + username +  ", Level: " + round + ", Score: " + punteggio +
+        ", Wins: " + partiteVinte + ", Losses: " + partitePerse + ", Total Games: " + partiteTot;
+    }
 
 }

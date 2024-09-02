@@ -1,3 +1,4 @@
+import VIEW.LeaderboardPanel;
 import VIEW.LosePanel;
 import VIEW.MenuPanel;
 import VIEW.WinPanel;
@@ -6,31 +7,31 @@ import javax.swing.*;
 import java.awt.*;
 
 public class FrameProva extends JFrame {
-    public static final int FRAME_WIDTH = 768; //  (256*3)
-    public static final int FRAME_HEIGHT = 672; //(224*3)
-    public static final int TILE_SIZE = 64;
-    private final WinPanel p = new WinPanel();
+    public static final int FRAME_WIDTH = 768;
+    public static final int FRAME_HEIGHT = 672;
 
-    public FrameProva(){
-
-        super("Prova");
+    public FrameProva() {
+        super("Leaderboard Test");
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        setResizable(false);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setFocusable(true);
-        setBackground(Color.BLACK);
+        setLocationRelativeTo(null);
         setResizable(false);
+        setBackground(Color.BLACK);
 
-        add(p);
-        p.setBounds(0,0,FRAME_WIDTH,FRAME_HEIGHT);
-        p.setVisible(true);
+        // Crea e aggiungi il LeaderboardPanel
+        LeaderboardPanel leaderboardPanel = new LeaderboardPanel();
+        add(leaderboardPanel);
+        Object[][] sampleData = {
+                {"1", new ImageIcon("path/to/avatar1.png"), "Player1", "5", "1000", "10", "5", "15"},
+                {"2", new ImageIcon("path/to/avatar2.png"), "Player2", "4", "800", "8", "6", "14"}
+        };
+        leaderboardPanel.updateLeaderboard(sampleData);
+
+        // Mostra il frame
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        FrameProva wind= new FrameProva();
+        SwingUtilities.invokeLater(FrameProva::new);
     }
-
-
 }

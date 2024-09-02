@@ -14,44 +14,43 @@ public class LeaderboardM {
         profiles = new ArrayList<>();
     }
 
-    // Metodo per aggiungere un profilo utente alla leaderboard
     public void addProfile(UserProfile profile) {
         profiles.add(profile);
+        sortProfiles();
     }
 
-    // Metodo per ottenere la leaderboard ordinata per punteggio massimo
+    private void sortProfiles() {
+        Collections.sort(profiles, Comparator.comparingInt(UserProfile::getPunteggio).reversed());
+    }
 
     public List<UserProfile> getSortedLeaderboard() {
-        Collections.sort(profiles, Comparator.comparingInt(UserProfile::getPunteggio).reversed());
+        sortProfiles();
         return profiles;
     }
 
-    // Metodo per salvare la leaderboard su file
     public void saveToFile(String filename) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(filename);
-             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename))) {
             for (UserProfile profile : profiles) {
-                bufferedWriter.write(profile.getUsername() + "," + profile.getPunteggio() + "," + profile.getRound());
+                bufferedWriter.write(profile.getUsername() + "," +
+                        profile.getPunteggio() + "," +
+                        profile.getRound() + "," +
+                        profile.getAvatarChosen() + "," +
+                        profile.getPartiteVinte() + "," +
+                        profile.getPartitePerse() + "," +
+                        profile.getPartiteTot());
                 bufferedWriter.newLine();
             }
-
             System.out.println("Leaderboard saved on " + filename);
-
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error while saving leaderboard.");
         }
     }
 
-
-    // Metodo per caricare la leaderboard da file
     public static LeaderboardM loadFromFile(String filename) throws IOException {
         LeaderboardM leaderboard = new LeaderboardM();
-
         File file = new File(filename);
         if (!file.exists()) {
-            // Crea un file vuoto se non esiste
             file.createNewFile();
             return leaderboard;
         }
@@ -60,11 +59,21 @@ public class LeaderboardM {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 3) {
-                    String username = parts[0];
-                    int punteggio = Integer.parseInt(parts[1]);
+                if (parts.length == 7) {
+                    String avatarChosen = parts[0];
+                    String username = parts[1];
                     int round = Integer.parseInt(parts[2]);
-                    UserProfile profile = new UserProfile(username, punteggio, round, 0); // 0 come valore di default per l'avatarIndex
+                    int punteggio = Integer.parseInt(parts[3]);
+                    int partiteVinte = Integer.parseInt(parts[4]);
+                    int partitePerse = Integer.parseInt(parts[5]);
+                    int partiteTot = Integer.parseInt(parts[6]);
+
+                    UserProfile profile = new UserProfile(username, punteggio, round, 0);
+                    profile.setAvatarChosen(avatarChosen);
+                    profile.setPartiteVinte(partiteVinte);
+                    profile.setPartitePerse(partitePerse);
+                    profile.setPartiteTot(partiteTot);
+
                     leaderboard.addProfile(profile);
                 }
             }
