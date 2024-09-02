@@ -4,7 +4,7 @@ import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Enemy.Enemy;
 
-import java.awt.Color;
+import java.awt.*;
 
 import MODEL.Level;
 import VIEW.BubbleView;
@@ -28,6 +28,10 @@ public abstract class Bubble {
     Level currentLevel;
     boolean erased;
 
+    Rectangle hitbox;
+
+    Enemy bubbledEnemy;
+
     private int shootingSpeed = 9;
     private int floatingSpeed = 1;
 
@@ -42,6 +46,8 @@ public abstract class Bubble {
         this.bubbleView = new BubbleView(this);
         gsm = GameStateManager.getInstance();
         currentLevel = gsm.getCurrentLevel();
+
+        hitbox = new Rectangle(x, y, 17, 18);
 
         firing = false;
         floating = false;
@@ -66,13 +72,22 @@ public abstract class Bubble {
 
     }
 
-    public void ecncapsule(Enemy enemy) {
+    public void encapsule(Enemy enemy) {
+        bubbledEnemy = enemy;
+        System.out.println("Enemy bubbled");
+
         firing = false;
         floating = true;
         encapsulate = true;
         bubbleView.setFiring(false);
         bubbleView.setFloating(true);
         bubbleView.setEncapsulate(true);
+
+        bubbleView.setEncapsuleIMG();
+        hitbox.setSize(bubbleView.getCurrentSkin().getIconWidth(),
+                bubbleView.getCurrentSkin().getIconHeight());
+
+        enemy.updateAction(Action.BUBBLED);
 
     }
 
@@ -82,13 +97,27 @@ public abstract class Bubble {
         bubbleView.setFiring(false);
         bubbleView.setFloating(true);
         bubbleView.setFloatingIMG();
+        hitbox.setSize(44, 45);
 
     }
 
     public void updateLocation(int x, int y) {
+
         this.x = x;
         this.y = y;
+        hitbox.setLocation(x, y);
+
+        if (firing) {
+            for (Enemy enemy : currentLevel.getEnemies()) {
+                if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
+                    encapsule(enemy);
+                    return;
+                }
+            }
+        }
+
         if (floating) currentLevel.handleBubble(this,y/Block.HEIGHT, x/Block.WIDTH);
+        if (encapsulate) bubbledEnemy.setPosition(x, y);
     }
 
     public int getX() {
@@ -212,6 +241,7 @@ public abstract class Bubble {
         updateLocation(x, y);
     }
 
+    public Rectangle getHitbox() {return hitbox;}
 
-
+    public Enemy getBubbledEnemy() {return bubbledEnemy;}
 }

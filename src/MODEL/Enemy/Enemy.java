@@ -90,7 +90,7 @@ public abstract class Enemy extends Observable implements Entity {
             return;
         }
         Node nextNode = shortestPath.get(0);
-        System.out.println("nextNode " + nextNode.x +" "+ nextNode.y);
+        //System.out.println("nextNode " + nextNode.x +" "+ nextNode.y);
         if(isAtNode(nextNode)){
             shortestPath.remove(0);
         }
@@ -377,6 +377,14 @@ public Rectangle getHitbox(){
     }
     public void updatePosition(){
     }
+
+    //metodi per fare i test per quando il nemico è bubbled, Tiff poi cambiali/toglili se serve, basta che me lo
+    //scrivi poi sul commit su Git
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public boolean isBubbled() {return bubbled;}
     // public void updateAction(Action action){
     //implementazione specifica
     // }

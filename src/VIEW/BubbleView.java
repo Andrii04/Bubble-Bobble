@@ -55,8 +55,22 @@ public class BubbleView {
         currentSkin = new ImageIcon(floatingBubbleIMGresized);
     }
 
+    public void setEncapsuleIMG() {
+        String currentSkinPath = bubble.getSkinsPath() + "4.png";
+        Image encapsuleBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image encapsuleBubbleIMGresized = encapsuleBubbleIMGoriginal.getScaledInstance(
+                (int) bubble.getBubbledEnemy().getHitbox().getWidth()+2,
+                (int) bubble.getBubbledEnemy().getHitbox().getHeight()+2,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(encapsuleBubbleIMGresized);
+    }
+
     public void draw(Graphics2D g2d) {
-        if (firing || floating) g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
+        if (firing || floating) {
+            g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
+            g2d.draw(bubble.getHitbox());
+        }
     }
 
     public void update() {
@@ -99,10 +113,10 @@ public class BubbleView {
         }
 
         else if (floating) {
-            System.out.println("Entered floating");
-            System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
+            //System.out.println("Entered floating");
+            //System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
             bubble.handleFloatingCollision();
-            System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
+            //System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
             if (distanceTraveled >= 500) bubble.erase();
         }
@@ -129,6 +143,7 @@ public class BubbleView {
     }
     public boolean getFacingRight() {return facingRight;}
     public boolean getStartHorizontalMovement() {return startHorizontalMovement;}
+    public ImageIcon getCurrentSkin() {return currentSkin;}
 }
 
 

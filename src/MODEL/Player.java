@@ -200,6 +200,7 @@ public class Player extends Observable implements Entity {
     public void spawn() {
     }
 
+
     public int addPunteggio(int punti){
 
         return punteggio+punti;
