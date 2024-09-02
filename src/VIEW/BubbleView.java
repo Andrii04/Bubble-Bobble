@@ -1,4 +1,5 @@
 package VIEW;
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Bubbles.*;
 import MODEL.Enemy.*;
@@ -16,12 +17,16 @@ public class BubbleView {
     boolean encapsulate;
     boolean exploding;
     boolean floating;
+    boolean pom;
     int distanceTraveled;
     boolean facingRight;
     boolean startHorizontalMovement;
 
     int shootingSpeed = 9;
     int floatingSpeed = 1;
+
+    int pomAnimationTimer;
+    int explodingAnimationTimer;
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;
@@ -35,6 +40,8 @@ public class BubbleView {
         floating = false;
         encapsulate = false;
         distanceTraveled = 0;
+        pomAnimationTimer = 0;
+        explodingAnimationTimer = 0;
     }
 
     public void startFiring() {
@@ -66,8 +73,25 @@ public class BubbleView {
         currentSkin = new ImageIcon(encapsuleBubbleIMGresized);
     }
 
+    public void setExplodeIMG() {
+        String currentSkinPath = bubble.getSkinsPath() + "C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Bubbles\\BubbleExplode.png";
+
+        Image explodeBubbleIMGoriginal = new ImageIcon(currentSkinPath).getImage();
+        Image explodeBubbleIMGresized = explodeBubbleIMGoriginal.getScaledInstance(
+                45,
+                45,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(explodeBubbleIMGresized);
+    }
+
+    public void setPomIMG() {
+        String currentSkinPath = "C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Bubbles\\BubblePom.png";
+        currentSkin = new ImageIcon(currentSkinPath);
+    }
+
     public void draw(Graphics2D g2d) {
-        if (firing || floating) {
+        if (firing || floating || encapsulate || exploding || pom) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
             g2d.draw(bubble.getHitbox());
         }
@@ -77,14 +101,20 @@ public class BubbleView {
         if (firing && distanceTraveled < MainFrame.FRAME_WIDTH - Block.WIDTH - 400) {
             // Aggiorna la posizione della bolla
             if (facingRight) {
+
                 //se collision con enemy, setta encapsulate a true
-                if (bubble.isSolidTile(bubble.getX() + shootingSpeed, bubble.getY())) {
+                if (bubble.isSolidTile(bubble.getX() + shootingSpeed, bubble.getY())
+                && !GameStateManager.getInstance().getCurrentLevel().isLevelWall(
+                        bubble, bubble.getX()
+                ))
+                {
                     bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
                     facingRight = false;
                     startHorizontalMovement = true;
                     bubble.startFloating();
 
-                } else bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
+                }
+                else bubble.updateLocation(bubble.getX() + shootingSpeed, bubble.getY());
 
             } else if (!facingRight) {
                 //se collision con enemy, setta encapsulate a true
@@ -118,7 +148,15 @@ public class BubbleView {
             bubble.handleFloatingCollision();
             //System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
-            if (distanceTraveled >= 500) bubble.erase();
+            if (distanceTraveled >= 600) bubble.erase();
+        }
+        else if (exploding) {
+            explodingAnimationTimer++;
+            if (explodingAnimationTimer >= 10) bubble.pom();
+        }
+        else if (pom) {
+            pomAnimationTimer++;
+            if (pomAnimationTimer >= 45) bubble.erase();
         }
     }
 
@@ -144,6 +182,7 @@ public class BubbleView {
     public boolean getFacingRight() {return facingRight;}
     public boolean getStartHorizontalMovement() {return startHorizontalMovement;}
     public ImageIcon getCurrentSkin() {return currentSkin;}
+    public void setPom(boolean bool) {pom = bool;}
 }
 
 

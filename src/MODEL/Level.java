@@ -122,12 +122,24 @@ public class Level {
 
     public EnemyView[] getEnemyViews() {
         return Arrays.stream(enemies).map(
-                enemy ->{
+                enemy -> {
                     if (enemy instanceof Benzo) return new BenzoView(enemy);
                     else return null;
                     // add others
                 }
         ).toArray(EnemyView[]::new);
     }
+
+    public boolean isLevelWall(Bubble bubble, int x) {
+        int arrayX = x / Block.WIDTH;
+
+        if (arrayX < pattern[0].length && arrayX >= 0) {
+            if (arrayX == pattern[0].length - 2 || arrayX == 1) {
+                return true;
+            } else return false;
+        }
+        return false;
+    }
 }
+
 
