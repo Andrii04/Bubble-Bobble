@@ -117,7 +117,7 @@ public class UserCreationState extends GameState {
         }
         try {
             while (reader.readLine() != null) {
-                if (reader.readLine().contains(username)) {
+                if (reader.readLine() != null && reader.readLine().contains(username)) {
                     return true;
                 }
             }
