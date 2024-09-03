@@ -19,7 +19,6 @@ public class Player extends Observable implements Entity {
     private int punteggio;
     private int lives;
     private int speed;
-    private boolean isMoving;
     private boolean facingRight = true;
     private Rectangle hitbox;
     private Level currentLevel;
@@ -48,7 +47,7 @@ public class Player extends Observable implements Entity {
         bubblesFired = new ArrayList<>();
         bubbleType = new GreenBubble();
 
-        cooldownTimer = new Timer(1000, e -> {
+        cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
         });
     }
@@ -119,19 +118,21 @@ public class Player extends Observable implements Entity {
                 break;
             case MOVE_VERTICALLY:
                 currentAction = Action.MOVE_VERTICALLY;
-                if(!isColliding(x, y+airSpeed) || isNotSolid()) {
-                    isMoving = true;
+                // if player is in block (error handling), if player isn't colliding with block, if player is jumping up and hitting a non wall block
+                if(isColliding(x,y) ||!isColliding(x, y+airSpeed)|| isNotSolid()) {
                     this.y += airSpeed;
                     hitbox.setLocation(x, y);
                     airSpeed += gravity;
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
+                //player is falling to the ground
                 else if(isColliding(x, y+airSpeed) && airSpeed > 0){
                     isJumping = false;
                     airSpeed = 0;
                     onFloor = true;
                     notifyObservers(Action.IDLE);
                 }
+                // when player hits something fall down
                 else{
                     isJumping = false;
                     airSpeed = 0;
@@ -142,15 +143,13 @@ public class Player extends Observable implements Entity {
             case MOVE_LEFT:
                 currentAction = Action.MOVE_LEFT;
                 if(!isColliding(x-speed, y)){
-                     if (airSpeed > 0 && !isOnFloor()){
-                        this.x -= airSpeed;
-                        hitbox.setLocation(x, y);
-                    }
+                     if (!isOnFloor()){
+                         this.x -= airSpeed;
+                     }
                      else{
                             this.x -= speed;
-                            hitbox.setLocation(x, y);
                      }
-                     isMoving = true;
+                    hitbox.setLocation(x, y);
             }
                 facingRight = false;
                 notifyObservers(Action.MOVE_LEFT);
@@ -166,7 +165,6 @@ public class Player extends Observable implements Entity {
                         this.x += speed;
                         hitbox.setLocation(x, y);
                     }
-                    isMoving = true;
             }
                 facingRight = true;
                 notifyObservers(Action.MOVE_RIGHT);
@@ -199,14 +197,11 @@ public class Player extends Observable implements Entity {
                 break;
             default:
                 notifyObservers(Action.IDLE);
-                isMoving = false;
+                System.out.println("pl position: " + x + " " + y);
                 break;
         }
     }
 
-    public boolean getIsMoving(){
-        return isMoving;
-    }
     @Override
     public int getX() {
         return x;

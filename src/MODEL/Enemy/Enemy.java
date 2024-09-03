@@ -21,6 +21,7 @@ public abstract class Enemy extends Observable implements Entity {
     boolean enraged;
     int speed;
     boolean facingRight;
+    boolean isJumping;
     boolean bubbled;
     GameStateManager gsm;
     Player player;
@@ -48,7 +49,6 @@ public abstract class Enemy extends Observable implements Entity {
             this.g = g; // g cost = distance from start point
             this.h = h; // h cost = distance from end point
             this.parent = parent;
-            hitbox = new Rectangle(x, y, 32, 32);
         }
         public int getF(){
             return g+h; // f cost = total cost
@@ -68,6 +68,7 @@ public abstract class Enemy extends Observable implements Entity {
         player = gsm.getCurrentPlayer();
         rageTimer = new Timer(10000, e ->updateAction(Action.RAGE));
         rageTimer.setRepeats(false);
+        hitbox = new Rectangle(x, y, 32, 32);
 
     }
     //Ricordare di implementare le classi specifiche non astratte
@@ -85,16 +86,15 @@ public abstract class Enemy extends Observable implements Entity {
     }
     //  pathfinding
     public void chasePlayer() {
-
-        if (shortestPath.isEmpty()) {
-            updateAction(Action.IDLE);
-            return;
-        }
         if(!isOnFloor()) {
             updateAction(Action.MOVE_VERTICALLY);
             return;
         }
-        if(player.getIsMoving() && shouldRetracePath()){
+        if (shortestPath.isEmpty()) {
+            updateAction(Action.IDLE);
+            return;
+        }
+        if(shouldRetracePath()){
             findShortestPath();
         }
         else {
@@ -136,7 +136,7 @@ public abstract class Enemy extends Observable implements Entity {
         openMap.put(getKey(start.x, start.y), start);
 
         while (!open.isEmpty()) {
-            Node current = open.poll();
+            Node current = open.poll(); // get lowest F
             openMap.remove(getKey(current.x, current.y));
             closed.add(getKey(current.x, current.y));
             if (current.x == end.x && current.y == end.y) {
@@ -145,6 +145,7 @@ public abstract class Enemy extends Observable implements Entity {
             }
             for (Node neighbor : getNeighbors(current)) {
                 String neighborKey = getKey(neighbor.x, neighbor.y);
+                System.out.println("Neighbor: (" + neighbor.x + ", " + neighbor.y + ")");
                 if (closed.contains(neighborKey)) {
                     continue;
                 }
@@ -163,17 +164,31 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
     private List<Node> getNeighbors(Node node){
+        // distance player to block under player = 32 ( 2 blocks )
+        // distance player to new player position on block above it = 80 ( 5 blocks )
+        // distance player to block above it = 48 ( 3 blocks )
         List<Node> neighbors = new ArrayList<>();
-
-        int[][] directions = {{0,1},{0,-1},{1,0},{-1,0}};
-        for(int[] direction : directions){
-            int newX = node.x + direction[0];
-            int newY = node.y + direction[1];
-            if(!isColliding(newX, newY)){
-                neighbors.add(new Node(newX, newY, 0, 0, node));
+            int[][] horizontalDirections = {{1,0},{-1,0}};
+            for(int[] direction: horizontalDirections){
+                int newX = node.x +Block.WIDTH*direction[0];
+                int newY = node.y + Block.HEIGHT*2 ;
+                if(isSolidTile(newX,newY)){
+                    neighbors.add(new Node(newX, node.y, 0,0,node));
+                }
+                else{
+                    // fall down
+                    for(int i = 1; i< currentLevel.getPattern().length; i+=3){
+                        if(isSolidTile(newX, node.y + Block.HEIGHT*i)){
+                            neighbors.add(new Node(newX, node.y + Block.HEIGHT*(i+2),0,0,node));
+                        }
+                    }
+                }
             }
+            //UP
+        if(isSolidTile(node.x,node.y-Block.HEIGHT*3)){
+            neighbors.add(new Node(node.x,node.y- Block.HEIGHT*5,0,0,node));
         }
-        return neighbors;
+      return neighbors;
     }
     private int getDistance(Node a, Node b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -192,10 +207,10 @@ public abstract class Enemy extends Observable implements Entity {
         if (path.isEmpty() || path.get(0) != start){
             return new ArrayList<>();
         }
-        /* System.out.println("Shortest Path:");
+        System.out.println("Shortest Path:");
         for (Node node : path) {
             System.out.println("Node: (" + node.x + ", " + node.y + ")");
-        } */
+        }
         return path;
     }
 
@@ -207,9 +222,17 @@ public abstract class Enemy extends Observable implements Entity {
         return Math.abs(player.getX() - shortestPath.get(shortestPath.size() - 1).x) > 50 || Math.abs(player.getY() - shortestPath.get(shortestPath.size() - 1).y) > 50;
     }
     // tile collision
+
+    private boolean isNotSolid(){
+        if(airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > 800 || this.y+ airSpeed <0 || this.y+ airSpeed > 600)){
+            return true;
+        }
+        return false;
+    }
+
     public boolean isColliding(int x, float y) {
-        int left = x+4;
-        int right = x +24;
+        int left = x;
+        int right = x +32;
         float top = y;
         float bottom = y + 32;
 
@@ -228,18 +251,10 @@ public abstract class Enemy extends Observable implements Entity {
     public boolean isSolidTile(int x ,int y){
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
-        if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
-            if(currentLevel.getBlockInt(tileY, tileX) >0){
-                // test
-                //System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
-                return true;
-            }
-            else{
-                return false;
+        return tileX >= 0 && tileX < currentLevel.getPattern()[0].length &&
+            tileY >= 0 && tileY < currentLevel.getPattern().length &&
+            currentLevel.isItSolidBlock(tileY, tileX);
 
-            }
-        }
-        return true;
     }
 
     public void setPlayer(Player player){
@@ -266,44 +281,35 @@ public abstract class Enemy extends Observable implements Entity {
     public void updateAction(Action action){
         switch(action){
             case JUMP:
+                isJumping = true;
                 if(isOnFloor()){
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
+                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
                 break;
             case MOVE_VERTICALLY:
-                if(!isColliding(x, y+airSpeed)) {
+                // if player is in block (error handling), if player isn't colliding with block, if player is jumping up and hitting a non wall block
+                if(!isColliding(x, y+airSpeed) || isNotSolid()) {
                     this.y += airSpeed;
-                    hitbox.setLocation(this.x, this.y);
+                    hitbox.setLocation(x, y);
                     airSpeed += gravity;
-                    if(facingRight){
-                        notifyObservers(Action.MOVE_RIGHT);
-                    }
-                    else{
-                        notifyObservers(Action.MOVE_LEFT);
-                    }
-
+                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
+                //player is falling to the ground
                 else if(isColliding(x, y+airSpeed) && airSpeed > 0){
+                    isJumping = false;
                     airSpeed = 0;
                     onFloor = true;
-                    if (facingRight){
-                        notifyObservers(Action.MOVE_RIGHT);
-                    }
-                    else{
-                        notifyObservers(Action.MOVE_LEFT);
-                    }
+                    notifyObservers(Action.IDLE);
                 }
+                // when player hits something fall down
                 else{
+                    isJumping = false;
                     airSpeed = 0;
                     onFloor = false;
-                    if (facingRight){
-                        notifyObservers(Action.MOVE_RIGHT);
-                    }
-                    else{
-                        notifyObservers(Action.MOVE_LEFT);
-                    }
+                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
                 break;
             case MOVE_LEFT:

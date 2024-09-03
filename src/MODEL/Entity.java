@@ -24,6 +24,7 @@ public interface Entity {
     public int getX();
     public int getY();
 
+
     public int compareLocation(Entity entity);
 
     public void spawn();
