@@ -24,7 +24,6 @@ public class Player extends Observable implements Entity {
     private Level currentLevel;
     private Bubble bubbleType;
     private GameStateManager gsm;
-    private ArrayList<Bubble> bubblesFired;
     private Action currentAction;
     private Timer cooldownTimer;
     private boolean cooldown = false;
@@ -44,7 +43,6 @@ public class Player extends Observable implements Entity {
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
 
-        bubblesFired = new ArrayList<>();
         bubbleType = new GreenBubble();
 
         cooldownTimer = new Timer(2000, e -> {
@@ -173,7 +171,7 @@ public class Player extends Observable implements Entity {
                 currentAction = Action.ATTACK;
                 Bubble firedBubble = bubbleType.newInstance();
                 firedBubble.setPlayer(this);
-                bubblesFired.add(firedBubble);
+                currentLevel.addBubble(firedBubble);
                 firedBubble.fireBubble();
                 notifyObservers(Action.ATTACK);
                 break;
@@ -259,8 +257,6 @@ public class Player extends Observable implements Entity {
     public int getLives() {return lives;}
 
     public Bubble getBubbleType() {return bubbleType;}
-    public ArrayList<Bubble> getBubblesFired() {return bubblesFired;}
-    public void removeBubble(Bubble bubble) {bubblesFired.set(bubblesFired.indexOf(bubble), null);}
     public Level getCurrentLevel() {return currentLevel;}
     public Rectangle getHitbox(int x, int y) {return hitbox;}
     public Action getCurrentAction() {return currentAction;}

@@ -197,7 +197,9 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
         // liv 1
-            Enemy[] enemies = {new Benzo(105, 544, true, this )};
+            ArrayList<Enemy> enemies = new ArrayList<>();
+            enemies.add(new Benzo(105, 544, true, this ));
+
             Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1, enemies);
             level1.setSpawnRate(8000);
             addLevel(level1);

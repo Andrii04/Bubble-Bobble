@@ -69,8 +69,8 @@ public class BubbleView {
         String currentSkinPath = bubble.getSkinsPath() + "4.png";
         Image encapsuleBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image encapsuleBubbleIMGresized = encapsuleBubbleIMGoriginal.getScaledInstance(
-                (int) bubble.getBubbledEnemy().getHitbox().getWidth()+2,
-                (int) bubble.getBubbledEnemy().getHitbox().getHeight()+2,
+                45,
+                45,
                 Image.SCALE_SMOOTH
         );
         currentSkin = new ImageIcon(encapsuleBubbleIMGresized);
@@ -100,7 +100,7 @@ public class BubbleView {
     }
 
     public void draw(Graphics2D g2d) {
-        if (firing || (floating && !encapsulate) || exploding) {
+        if (firing || (floating && !encapsulate) || exploding || pom) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
             g2d.draw(bubble.getHitbox());
         }
@@ -162,9 +162,21 @@ public class BubbleView {
 
         else if (exploding) {
             explodingAnimationTimer++;
-            if (explodingAnimationTimer >= 10) bubble.erase();
+            if (explodingAnimationTimer >= 10) {
+                bubble.stopExplosion();
+            }
         }
-    }
+
+        else if (bubble.getBubbledEnemy() != null && bubble.getBubbledEnemy().isExploded()) {
+            bubble.pom();
+        }
+
+        else if (pom) {
+            pomAnimationTimer++;
+            if (pomAnimationTimer >= 80) bubble.erase();
+        }
+
+        }
 
     public void setEncapsulate(boolean bool) {
         encapsulate = bool;

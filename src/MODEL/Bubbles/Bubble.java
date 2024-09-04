@@ -95,10 +95,10 @@ public abstract class Bubble {
 
 
     public void pom() {
+        if (bubbledEnemy != null) bubbledEnemy.setExploded(false);
         System.out.println("POMM!!! :D");
-        exploding = false;
+
         pom = true;
-        bubbleView.setExploding(false);
         bubbleView.setPom(true);
 
         bubbleView.setPomIMG();
@@ -147,6 +147,7 @@ public abstract class Bubble {
                     currentLevel.getPattern()[0].length-4, y);
 
             explode();
+            pom();
             return;
         }
 
@@ -162,9 +163,11 @@ public abstract class Bubble {
 
         if (firing) {
             for (Enemy enemy : currentLevel.getEnemies()) {
-                if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
-                    encapsule(enemy);
-                    return;
+                if (enemy != null) {
+                    if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
+                        encapsule(enemy);
+                        return;
+                    }
                 }
             }
         }
@@ -222,7 +225,7 @@ public abstract class Bubble {
         bubbleView.setPom(false);
 
         erased = true;
-        player.removeBubble(this);
+        currentLevel.removeBubble(this);
     }
 
     public boolean isSolidTile(int x, int y) {
@@ -302,4 +305,9 @@ public abstract class Bubble {
     public Rectangle getHitbox() {return hitbox;}
 
     public Enemy getBubbledEnemy() {return bubbledEnemy;}
+
+    public void stopExplosion() {
+        exploding = false;
+        bubbleView.setExploding(false);
+    }
 }

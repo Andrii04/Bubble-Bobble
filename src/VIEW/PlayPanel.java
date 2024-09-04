@@ -20,7 +20,7 @@ public class PlayPanel extends JPanel implements Runnable {
     private int arrayWidth = 48;
     private int arrayHeight = 42;
     private boolean isNewLevel = true;
-    private EnemyView[] enemyViews;
+    ArrayList<EnemyView> enemyViews;
 
     private final int FPS = 60;
     Thread gameThread;
@@ -33,8 +33,8 @@ public class PlayPanel extends JPanel implements Runnable {
         this.setOpaque(true);
         this.setVisible(true);
         gsm = GameStateManager.getInstance();
-        startGameThread();
         enemyViews = gsm.getCurrentLevel().getEnemyViews();
+        startGameThread();
     }
 
     // game loop
@@ -70,14 +70,14 @@ public class PlayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         playerView.draw(g2d);
-        for (Bubble bubble : playerView.getPlayer().getBubblesFired()) {
+        for (Bubble bubble : gsm.getCurrentLevel().getBubbles()) {
             if (bubble != null) {
                 bubble.getBubbleView().update();
                 bubble.getBubbleView().draw(g2d);
             }
         }
         for(EnemyView enemyView : enemyViews){
-            enemyView.draw(g2d);
+            if (enemyView != null) enemyView.draw(g2d);
         }
 
 
