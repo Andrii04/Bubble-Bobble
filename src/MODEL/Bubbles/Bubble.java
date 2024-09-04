@@ -75,13 +75,17 @@ public abstract class Bubble {
     }public void explode() {
         System.out.println("exploding");
         floating = false;
-        encapsulate = false;
         firing = false;
         exploding = true;
         bubbleView.setFloating(false);
-        bubbleView.setEncapsulate(false);
         bubbleView.setFiring(false);
         bubbleView.setExploding(true);
+
+        if (encapsulate) {
+            bubbledEnemy.updateAction(Action.DIE);
+            encapsulate = false;
+            bubbleView.setEncapsulate(false);
+        }
 
         bubbleView.setExplodeIMG();
 
@@ -164,7 +168,6 @@ public abstract class Bubble {
 
         if (encapsulate) bubbledEnemy.setPosition(x, y);
         if (encapsulate && hitbox.intersects(player.getHitbox())) {
-            bubbledEnemy.updateAction(Action.DIE);
             explode();
         }
     }
