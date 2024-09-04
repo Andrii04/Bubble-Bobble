@@ -6,6 +6,7 @@ import MODEL.Block;
 import MODEL.Entity;
 import MODEL.Level;
 import MODEL.Player;
+import VIEW.MainFrame;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -99,6 +100,10 @@ public abstract class Enemy extends Observable implements Entity {
         }
         if(shouldRetracePath() || shortestPath.isEmpty()){
             findShortestPath();
+            System.out.println("path: ");
+            for(Node node: shortestPath){
+                System.out.println(node.x + " " + node.y);
+            }
         }
         else {
             Node nextNode = shortestPath.get(0);
@@ -113,8 +118,10 @@ public abstract class Enemy extends Observable implements Entity {
                     if (nextNode.x < x) {
                         System.out.println("Moving to x: " + nextNode.x + " y: " + nextNode.y + " from x: " + x + " y: " + y);
                         updateAction(Action.MOVE_LEFT);
+                        onFloor = false;
                     } else {
                         updateAction(Action.MOVE_RIGHT);
+                        onFloor = false;
                     }
             }
         }
@@ -142,13 +149,12 @@ public abstract class Enemy extends Observable implements Entity {
             Node current = open.poll(); // get lowest F
             openMap.remove(getKey(current.x, current.y));
             closed.add(getKey(current.x, current.y));
-            if (current.x == end.x && current.y == end.y) {
+            if (Math.abs(current.x - end.x) < speed && Math.abs(current.y - end.y) < speed){
                 shortestPath = retracePath(start, current);
                 return;
             }
             for (Node neighbor : getNeighbors(current)) {
                 String neighborKey = getKey(neighbor.x, neighbor.y);
-                System.out.println("Neighbor: (" + neighbor.x + ", " + neighbor.y + ")");
                 if (closed.contains(neighborKey)) {
                     continue;
                 }
@@ -171,18 +177,22 @@ public abstract class Enemy extends Observable implements Entity {
         // distance player to new player position on block above it = 80 ( 5 blocks )
         // distance player to block above it = 48 ( 3 blocks )
         List<Node> neighbors = new ArrayList<>();
-            int[][] horizontalDirections = {{1,0},{-1,0}};
+            int[][] horizontalDirections = {{speed,0},{-speed,0}};
             for(int[] direction: horizontalDirections){
-                int newX = node.x +Block.WIDTH*direction[0];
+                int newX = node.x +direction[0];
                 int newY = node.y + Block.HEIGHT*2 ;
+                if (newX < 0 || newX >= MainFrame.FRAME_WIDTH || newY < 0 || newY >= MainFrame.FRAME_HEIGHT){
+                    continue;
+                }
                 if(isSolidTile(newX,newY)){
-                    neighbors.add(new Node(node.x+direction[0], node.y, 0,0,node));
+                    neighbors.add(new Node(newX, node.y, 0,0,node));
                 }
                 else{
+
                     // fall down
-                    for(int i = 1; i< currentLevel.getPattern().length; i++){
+                    for(int i = 3; i< currentLevel.getPattern().length; i++){
                         if(isSolidTile(newX, node.y + Block.HEIGHT*i)){
-                            neighbors.add(new Node(node.x+direction[0], node.y + Block.HEIGHT*(i-2),0,0,node));
+                            neighbors.add(new Node(newX, node.y + Block.HEIGHT*(i-2),0,0,node));
                             break;
                         }
                     }
@@ -199,12 +209,11 @@ public abstract class Enemy extends Observable implements Entity {
     }
     private List<Node> retracePath(Node start, Node end){
         List<Node> path = new ArrayList<>();
-        Node current = end;
-        while(current != start && current != null){
-            path.add(current);
-            current = current.parent;
+        while(end != start && end != null){
+            path.add(end);
+            end = end.parent;
         }
-        if(Math.abs(current.x - start.x) < speed && Math.abs(current.y - start.y) < speed){
+        if(Math.abs(end.x - start.x) < speed && Math.abs(end.y - start.y) < speed){
             path.add(start);
         }
         Collections.reverse(path);
