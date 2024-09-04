@@ -72,9 +72,7 @@ public abstract class Bubble {
         if (enemy != null) enemy.updateAction(Action.DIE);
 
 
-    }
-
-    public void explode() {
+    }public void explode() {
         System.out.println("exploding");
         floating = false;
         encapsulate = false;
@@ -89,6 +87,8 @@ public abstract class Bubble {
 
     }
 
+
+
     public void pom() {
         System.out.println("POMM!!! :D");
         exploding = false;
@@ -96,7 +96,7 @@ public abstract class Bubble {
         bubbleView.setExploding(false);
         bubbleView.setPom(true);
 
-        //bubbleView.setPomIMG();
+        bubbleView.setPomIMG();
     }
 
     public void encapsule(Enemy enemy) {
@@ -163,6 +163,10 @@ public abstract class Bubble {
         }
 
         if (encapsulate) bubbledEnemy.setPosition(x, y);
+        if (encapsulate && hitbox.intersects(player.getHitbox())) {
+            bubbledEnemy.updateAction(Action.DIE);
+            explode();
+        }
     }
 
     public int getX() {

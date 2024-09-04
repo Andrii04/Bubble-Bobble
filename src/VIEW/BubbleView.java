@@ -60,6 +60,7 @@ public class BubbleView {
                 Image.SCALE_SMOOTH
         );
         currentSkin = new ImageIcon(floatingBubbleIMGresized);
+
     }
 
     public void setEncapsuleIMG() {
@@ -74,9 +75,9 @@ public class BubbleView {
     }
 
     public void setExplodeIMG() {
-        String currentSkinPath = bubble.getSkinsPath() + "C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Bubbles\\BubbleExplode.png";
+        String currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BubbleExplode.png";
 
-        Image explodeBubbleIMGoriginal = new ImageIcon(currentSkinPath).getImage();
+        Image explodeBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image explodeBubbleIMGresized = explodeBubbleIMGoriginal.getScaledInstance(
                 45,
                 45,
@@ -86,8 +87,14 @@ public class BubbleView {
     }
 
     public void setPomIMG() {
-        String currentSkinPath = "C:\\Users\\andri\\IdeaProjects\\Bubble Bobble\\src\\Resources\\Bubble Bobble Resources\\Bubbles\\BubblePom.png";
-        currentSkin = new ImageIcon(currentSkinPath);
+        String currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BubblePom.png";
+        Image pomBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image pomBubbleIMGresized = pomBubbleIMGoriginal.getScaledInstance(
+                45,
+                45,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(pomBubbleIMGresized);
     }
 
     public void draw(Graphics2D g2d) {
@@ -156,7 +163,7 @@ public class BubbleView {
         }
         else if (pom) {
             pomAnimationTimer++;
-            if (pomAnimationTimer >= 45) bubble.erase();
+            if (pomAnimationTimer >= 60) bubble.erase();
         }
     }
 
