@@ -32,7 +32,6 @@ public class PlayState extends GameState {
         for(Enemy enemy: currentEnemies){
             enemy.setPlayer(player);
             enemy.setCurrentLevel(gsm.getCurrentLevel());
-            enemy.findShortestPath();
         }
         // add others
     }

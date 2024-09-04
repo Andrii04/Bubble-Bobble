@@ -76,8 +76,7 @@ public abstract class Enemy extends Observable implements Entity {
             removeEnemy();
         }); // remove enemy and start pom animation in bubble
         hitbox = new Rectangle(x, y, 32, 32);
-
-
+        shortestPath = new ArrayList<>();
     }
     //Ricordare di implementare le classi specifiche non astratte
     //dei nemici
@@ -98,11 +97,7 @@ public abstract class Enemy extends Observable implements Entity {
             updateAction(Action.MOVE_VERTICALLY);
             return;
         }
-        if (shortestPath.isEmpty()) {
-            updateAction(Action.IDLE);
-            return;
-        }
-        if(shouldRetracePath()){
+        if(shouldRetracePath() || shortestPath.isEmpty()){
             findShortestPath();
         }
         else {
@@ -113,14 +108,14 @@ public abstract class Enemy extends Observable implements Entity {
             }
             if (nextNode.y < y) {
                 updateAction(Action.JUMP);
-            } else if (nextNode.y > y) {
-                updateAction(Action.MOVE_VERTICALLY);
-            } else {
-                if (nextNode.x < x) {
-                    updateAction(Action.MOVE_LEFT);
-                } else {
-                    updateAction(Action.MOVE_RIGHT);
-                }
+            }
+            else {
+                    if (nextNode.x < x) {
+                        System.out.println("Moving to x: " + nextNode.x + " y: " + nextNode.y + " from x: " + x + " y: " + y);
+                        updateAction(Action.MOVE_LEFT);
+                    } else {
+                        updateAction(Action.MOVE_RIGHT);
+                    }
             }
         }
     }
@@ -128,7 +123,7 @@ public abstract class Enemy extends Observable implements Entity {
 
     private boolean isAtNode(Node node){
 
-        return Math.abs(node.x - x) <= 50&& Math.abs(node.y - y) <= 50;
+        return Math.abs(x - node.x) < speed && Math.abs(y - node.y) < speed;
     }
     private String getKey(int x, int y){
         return x + "," + y;
@@ -181,13 +176,14 @@ public abstract class Enemy extends Observable implements Entity {
                 int newX = node.x +Block.WIDTH*direction[0];
                 int newY = node.y + Block.HEIGHT*2 ;
                 if(isSolidTile(newX,newY)){
-                    neighbors.add(new Node(newX, node.y, 0,0,node));
+                    neighbors.add(new Node(node.x+direction[0], node.y, 0,0,node));
                 }
                 else{
                     // fall down
-                    for(int i = 1; i< currentLevel.getPattern().length; i+=3){
+                    for(int i = 1; i< currentLevel.getPattern().length; i++){
                         if(isSolidTile(newX, node.y + Block.HEIGHT*i)){
-                            neighbors.add(new Node(newX, node.y + Block.HEIGHT*(i+2),0,0,node));
+                            neighbors.add(new Node(node.x+direction[0], node.y + Block.HEIGHT*(i-2),0,0,node));
+                            break;
                         }
                     }
                 }
@@ -208,16 +204,12 @@ public abstract class Enemy extends Observable implements Entity {
             path.add(current);
             current = current.parent;
         }
-        if(current == start){
+        if(Math.abs(current.x - start.x) < speed && Math.abs(current.y - start.y) < speed){
             path.add(start);
         }
         Collections.reverse(path);
-        if (path.isEmpty() || path.get(0) != start){
+        if (path.isEmpty()){
             return new ArrayList<>();
-        }
-        System.out.println("Shortest Path:");
-        for (Node node : path) {
-            System.out.println("Node: (" + node.x + ", " + node.y + ")");
         }
         return path;
     }
@@ -226,8 +218,7 @@ public abstract class Enemy extends Observable implements Entity {
         if(shortestPath.isEmpty()){
             return true;
         }
-        Node nextNode = shortestPath.get(0);
-        return Math.abs(player.getX() - shortestPath.get(shortestPath.size() - 1).x) > 50 || Math.abs(player.getY() - shortestPath.get(shortestPath.size() - 1).y) > 50;
+        return Math.abs(player.getX() - shortestPath.get(shortestPath.size() - 1).x) > 20 || Math.abs(player.getY() - shortestPath.get(shortestPath.size() - 1).y) > 20;
     }
     // tile collision
 
@@ -390,9 +381,6 @@ public abstract class Enemy extends Observable implements Entity {
     public void attack(){
         //implementazione specifica
     }
-    public void setShortestPath(List<Node> shortestPath){
-        this.shortestPath = shortestPath;
-}
 public Rectangle getHitbox(){
         return hitbox;
 }
