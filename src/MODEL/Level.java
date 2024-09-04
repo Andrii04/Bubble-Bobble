@@ -22,6 +22,7 @@ public class Level {
     private int blockInt;
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
+    private ArrayList<Bubble> bubbles;
     //private Integer lastBubbleY;
     //private Integer lastBubbleX;
 
@@ -30,6 +31,8 @@ public class Level {
         this.width = height;
         this.pattern = pattern;
         this.blockInt = pattern[0][0];
+
+        this.bubbles = new ArrayList<>();
 
         this.enemies = enemies;
         this.enemyViews = enemies.stream().
@@ -152,6 +155,18 @@ public class Level {
             enemies.set(enemyIDX, null);
             enemyViews.set(enemyIDX, null);
         }
+    }
+
+    public void addBubble(Bubble bubble) {
+        this.bubbles.add(bubble);
+    }
+
+    public void removeBubble(Bubble bubble) {
+        this.bubbles.set(bubbles.indexOf(bubble), null);
+    }
+
+    public ArrayList<Bubble> getBubbles() {
+        return bubbles;
     }
 }
 

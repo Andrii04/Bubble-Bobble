@@ -70,7 +70,7 @@ public class PlayPanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         playerView.draw(g2d);
-        for (Bubble bubble : playerView.getPlayer().getBubblesFired()) {
+        for (Bubble bubble : gsm.getCurrentLevel().getBubbles()) {
             if (bubble != null) {
                 bubble.getBubbleView().update();
                 bubble.getBubbleView().draw(g2d);

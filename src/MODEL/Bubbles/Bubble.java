@@ -225,7 +225,7 @@ public abstract class Bubble {
         bubbleView.setPom(false);
 
         erased = true;
-        player.removeBubble(this);
+        currentLevel.removeBubble(this);
     }
 
     public boolean isSolidTile(int x, int y) {
