@@ -6,6 +6,11 @@ public class FireBubble extends SpawnedBubble{
         skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/FireBubble";
     }
 
+    @Override
+    public void updateLocation(int newX, int newY) {
+
+    }
+
 
     @Override
     public Bubble newInstance() {

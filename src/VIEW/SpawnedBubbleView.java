@@ -5,16 +5,14 @@ import MODEL.Bubbles.Bubble;
 import java.awt.*;
 
 public class SpawnedBubbleView extends BubbleView{
-    public SpawnedBubbleView(Bubble bubble) {super(bubble);}
-
-    @Override
-    public void draw(Graphics2D g2d) {
-
+    public SpawnedBubbleView(Bubble bubble) {
+        super(bubble);
+        floating = true;
     }
 
+    //stesso update per ogni bolla che spawna automaticamente
     @Override
     public void update() {
 
     }
-
 }

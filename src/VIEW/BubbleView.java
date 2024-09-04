@@ -31,7 +31,7 @@ public class BubbleView {
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;
-        String currentSkinPath = bubble.getSkinsPath() + "1.png";
+        this.currentSkinPath = bubble.getSkinsPath() + "1.png";
         // test
         System.out.println(currentSkinPath);  // null
 
@@ -164,6 +164,7 @@ public class BubbleView {
             explodingAnimationTimer++;
             if (explodingAnimationTimer >= 10) {
                 bubble.stopExplosion();
+                if (bubble.getBubbledEnemy() == null) bubble.erase();
             }
         }
 

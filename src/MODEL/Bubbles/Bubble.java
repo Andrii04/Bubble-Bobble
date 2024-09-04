@@ -44,7 +44,6 @@ public abstract class Bubble {
 
 
     public Bubble() {
-        this.bubbleView = new BubbleView(this);
         gsm = GameStateManager.getInstance();
         currentLevel = gsm.getCurrentLevel();
 
@@ -60,19 +59,7 @@ public abstract class Bubble {
         erased = false;
     }
 
-    public void explode(Enemy enemy) {
-        floating = false;
-        encapsulate = false;
-        exploding = true;
-
-        bubbleView.setFloating(false);
-        bubbleView.setEncapsulate(false);
-        bubbleView.setExploding(true);
-
-        if (enemy != null) enemy.updateAction(Action.DIE);
-
-
-    }public void explode() {
+    public void explode() {
         System.out.println("exploding");
         floating = false;
         firing = false;
@@ -83,13 +70,11 @@ public abstract class Bubble {
         bubbleView.setFiring(false);
         bubbleView.setExploding(true);
 
+        bubbleView.setExplodeIMG();
         if (bubbledEnemy != null) {
             bubbledEnemy.setBubbled(false);
             bubbledEnemy.updateAction(Action.DIE);
         }
-
-        bubbleView.setExplodeIMG();
-
     }
 
 
@@ -310,4 +295,7 @@ public abstract class Bubble {
         exploding = false;
         bubbleView.setExploding(false);
     }
+
+    public void setX(int x) {this.x = x;}
+    public void setY(int y) {this.y = y;}
 }

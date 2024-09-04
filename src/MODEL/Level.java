@@ -1,6 +1,7 @@
 package MODEL;
 
 import MODEL.Bubbles.Bubble;
+import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.Benzo;
 import MODEL.Enemy.Enemy;
 import VIEW.BenzoView;
@@ -23,16 +24,19 @@ public class Level {
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
     private ArrayList<Bubble> bubbles;
+    private ArrayList<SpawnedBubble> spawnedBubbles;
     //private Integer lastBubbleY;
     //private Integer lastBubbleX;
 
-    public Level(int height, int width, int[][] pattern, ArrayList<Enemy> enemies) {
+    public Level(int height, int width, int[][] pattern,
+                 ArrayList<Enemy> enemies, ArrayList<SpawnedBubble> spawnedBubbles) {
         this.height = height;
         this.width = height;
         this.pattern = pattern;
         this.blockInt = pattern[0][0];
 
         this.bubbles = new ArrayList<>();
+        this.spawnedBubbles = spawnedBubbles;
 
         this.enemies = enemies;
         this.enemyViews = enemies.stream().
@@ -168,6 +172,8 @@ public class Level {
     public ArrayList<Bubble> getBubbles() {
         return bubbles;
     }
+
+    public void spawnBubbles() {bubbles.addAll(spawnedBubbles);}
 }
 
 

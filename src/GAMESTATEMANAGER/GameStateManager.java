@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import MODEL.*;
+import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.Benzo;
 import MODEL.Enemy.Enemy;
 import VIEW.*;
@@ -200,7 +201,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             ArrayList<Enemy> enemies = new ArrayList<>();
             enemies.add(new Benzo(160, 160, true, this ));
 
-            Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1, enemies);
+            ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
+            //aggiungere bolle che spawnano automaticamente nel livello qua
+
+            Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1,
+                    enemies, spawnedBubbles);
+
             level1.setSpawnRate(8000);
             addLevel(level1);
 
