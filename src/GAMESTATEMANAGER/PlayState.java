@@ -43,6 +43,9 @@ public class PlayState extends GameState {
                 enemy.onPlayer();
                 enemy.chasePlayer();
             }
+            else{
+                enemy.updatePosition();
+            }
         }
         if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {
             player.updateAction(MOVE_VERTICALLY);

@@ -100,7 +100,7 @@ public class BubbleView {
     }
 
     public void draw(Graphics2D g2d) {
-        if (firing || (floating && !encapsulate) || pom || exploding) {
+        if (firing || (floating && !encapsulate) || exploding) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
             g2d.draw(bubble.getHitbox());
         }
@@ -162,11 +162,7 @@ public class BubbleView {
 
         else if (exploding) {
             explodingAnimationTimer++;
-            if (explodingAnimationTimer >= 10) bubble.pom();
-        }
-        else if (pom) {
-            pomAnimationTimer++;
-            if (pomAnimationTimer >= 60) bubble.erase();
+            if (explodingAnimationTimer >= 10) bubble.erase();
         }
     }
 

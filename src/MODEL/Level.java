@@ -140,6 +140,9 @@ public class Level {
         }
         return false;
     }
+    public void removeEnemy(Enemy enemy) {
+        enemies = Arrays.stream(enemies).filter(e -> e != enemy).toArray(Enemy[]::new);
+    }
 }
 
 

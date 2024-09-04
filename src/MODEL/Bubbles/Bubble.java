@@ -77,15 +77,16 @@ public abstract class Bubble {
         floating = false;
         firing = false;
         exploding = true;
+        encapsulate = false;
+        bubbleView.setEncapsulate(false);
         bubbleView.setFloating(false);
         bubbleView.setFiring(false);
         bubbleView.setExploding(true);
 
-        if (encapsulate) {
+        if (bubbledEnemy != null) {
+            bubbledEnemy.setBubbled(false);
             bubbledEnemy.updateAction(Action.DIE);
         }
-        encapsulate = false;
-        bubbleView.setEncapsulate(false);
 
         bubbleView.setExplodeIMG();
 
@@ -105,6 +106,7 @@ public abstract class Bubble {
 
     public void encapsule(Enemy enemy) {
         bubbledEnemy = enemy;
+        enemy.setBubbled(true);
         System.out.println("Enemy bubbled");
 
         firing = false;
@@ -210,9 +212,11 @@ public abstract class Bubble {
     }
 
     public void erase() {
+        exploding = false;
         firing = false;
         floating = false;
         pom = false;
+        bubbleView.setExploding(false);
         bubbleView.setFiring(false);
         bubbleView.setFloating(false);
         bubbleView.setPom(false);

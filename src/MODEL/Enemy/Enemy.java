@@ -28,7 +28,7 @@ public abstract class Enemy extends Observable implements Entity {
     Level currentLevel;
     Rectangle hitbox;
     boolean isDead;
-
+    boolean explodes;
     // ai pathfinding
     List<Node> shortestPath = new ArrayList<>();
     // physics
@@ -36,7 +36,7 @@ public abstract class Enemy extends Observable implements Entity {
     float airSpeed = 0f;
 
     Timer rageTimer;
-
+    Timer deathTimer;
     // A* search algorithm for pathfinding
     class Node{
         int x;
@@ -70,8 +70,8 @@ public abstract class Enemy extends Observable implements Entity {
         player = gsm.getCurrentPlayer();
         rageTimer = new Timer(10000, e ->updateAction(Action.RAGE));
         rageTimer.setRepeats(false);
+        deathTimer = new Timer(400, e -> explodes = true); // remove enemy and start pom animation in bubble
         hitbox = new Rectangle(x, y, 32, 32);
-
     }
     //Ricordare di implementare le classi specifiche non astratte
     //dei nemici
@@ -350,13 +350,15 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case BUBBLED:
                 // comportamenti
+                System.out.println("X: " + getX() + "Y: " + getY());
                 bubbled = true;
-                startRageTimer();
+                rageTimer.start();
                 notifyObservers(Action.BUBBLED);
                 break;
             case DIE:
                 // comportamenti
                 isDead = true;
+                deathTimer.start();
                 notifyObservers(Action.DIE);
                 break;
             default: // idle
@@ -370,11 +372,7 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
-    public void startRageTimer(){
-        if(!rageTimer.isRunning()) {
-            rageTimer.start();
-        }
-    }
+
     public boolean isOnFloor() {
         return onFloor;
     }
@@ -395,6 +393,13 @@ public Rectangle getHitbox(){
     public void die(){
     }
     public void updatePosition(){
+        if(isBubbled()) {
+            notifyObservers(Action.BUBBLED);
+        }
+        else if(isDead() &&!isBubbled()){
+            notifyObservers(Action.DIE);
+        }
+
     }
 
     //metodi per fare i test per quando il nemico è bubbled, Tiff poi cambiali/toglili se serve, basta che me lo
@@ -402,6 +407,9 @@ public Rectangle getHitbox(){
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+    public void setBubbled(boolean bubbled){
+        this.bubbled = bubbled;
     }
     public boolean isBubbled() {return bubbled;}
     // public void updateAction(Action action){
@@ -413,4 +421,7 @@ public Rectangle getHitbox(){
     //  }
 
     public boolean isDead() {return isDead;}
+    public void removeEnemy(){
+        currentLevel.removeEnemy(this);
+    }
 }

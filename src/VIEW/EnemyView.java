@@ -57,5 +57,4 @@ public abstract class EnemyView implements Observer {
     public BufferedImage[] getCurrentAnimation(){
         return null;
     }
-
 }
