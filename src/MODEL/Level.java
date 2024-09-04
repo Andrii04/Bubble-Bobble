@@ -7,7 +7,10 @@ import VIEW.BenzoView;
 import VIEW.EnemyView;
 
 import javax.swing.Timer;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Level {
 
@@ -17,18 +20,27 @@ public class Level {
     private int[][] pattern;
     private Boolean[][] solidCheckPattern; //dev'essere per forza il Tipo Wrapper per ragioni
     private int blockInt;
-    private Enemy[] enemies;
-
+    private ArrayList<Enemy> enemies;
+    private ArrayList<EnemyView> enemyViews;
     //private Integer lastBubbleY;
     //private Integer lastBubbleX;
 
-    public Level(int height, int width, int[][] pattern, Enemy[] enemies) {
+    public Level(int height, int width, int[][] pattern, ArrayList<Enemy> enemies) {
         this.height = height;
         this.width = height;
         this.pattern = pattern;
         this.blockInt = pattern[0][0];
-        this.enemies = enemies;
 
+        this.enemies = enemies;
+        this.enemyViews = enemies.stream().
+                map(enemy -> {
+                    if (enemy instanceof Benzo) return new BenzoView(enemy);
+
+                    //altri casi
+
+                    return null;
+                })
+                .collect(Collectors.toCollection(ArrayList<EnemyView>::new));
 
         //creazione pattern con tutti i blocchi esterni solidi (true) e il vuoto non solido (false)
         //utile poi per la logica di collisione per controllare se un blocco è solido o no.
@@ -70,7 +82,7 @@ public class Level {
         return blockInt;
     }
 
-    public Enemy[] getEnemies() {
+    public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
@@ -120,14 +132,8 @@ public class Level {
         && pattern[lastBubbleY][lastBubbleX] == 0) solidCheckPattern[lastBubbleY][lastBubbleX] = false;
     }*/
 
-    public EnemyView[] getEnemyViews() {
-        return Arrays.stream(enemies).map(
-                enemy -> {
-                    if (enemy instanceof Benzo) return new BenzoView(enemy);
-                    else return null;
-                    // add others
-                }
-        ).toArray(EnemyView[]::new);
+    public ArrayList<EnemyView> getEnemyViews() {
+        return enemyViews;
     }
 
     public boolean isLevelWall(Bubble bubble, int x) {
@@ -141,7 +147,11 @@ public class Level {
         return false;
     }
     public void removeEnemy(Enemy enemy) {
-        enemies = Arrays.stream(enemies).filter(e -> e != enemy).toArray(Enemy[]::new);
+        int enemyIDX = enemies.indexOf(enemy);
+        if (enemyIDX != -1) {
+            enemies.set(enemyIDX, null);
+            enemyViews.set(enemyIDX, null);
+        }
     }
 }
 

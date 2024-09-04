@@ -70,8 +70,14 @@ public abstract class Enemy extends Observable implements Entity {
         player = gsm.getCurrentPlayer();
         rageTimer = new Timer(10000, e ->updateAction(Action.RAGE));
         rageTimer.setRepeats(false);
-        deathTimer = new Timer(400, e -> explodes = true); // remove enemy and start pom animation in bubble
+
+        deathTimer = new Timer(600, e -> {
+            explodes = true;
+            removeEnemy();
+        }); // remove enemy and start pom animation in bubble
         hitbox = new Rectangle(x, y, 32, 32);
+
+
     }
     //Ricordare di implementare le classi specifiche non astratte
     //dei nemici
@@ -407,6 +413,7 @@ public Rectangle getHitbox(){
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+        hitbox.setLocation(x, y);
     }
     public void setBubbled(boolean bubbled){
         this.bubbled = bubbled;
@@ -424,4 +431,6 @@ public Rectangle getHitbox(){
     public void removeEnemy(){
         currentLevel.removeEnemy(this);
     }
+    public boolean isExploded() {return explodes;}
+    public void setExploded(boolean bool) {explodes = bool;}
 }

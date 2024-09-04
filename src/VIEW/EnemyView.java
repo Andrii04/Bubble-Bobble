@@ -29,22 +29,22 @@ public abstract class EnemyView implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(o instanceof Enemy) {
+        if (o instanceof Enemy) {
             Enemy enemy = (Enemy) o;
             this.x = enemy.getX();
             this.y = enemy.getY();
         }
-        if(arg instanceof Entity.Action){
+        if (arg instanceof Entity.Action) {
             Entity.Action action = (Entity.Action) arg;
             this.currentAction = action;
         }
     }
 
-    public void draw(Graphics2D g2d){
+    public void draw(Graphics2D g2d) {
         BufferedImage[] currentAnimation = getCurrentAnimation();
-        if (currentAnimation != null){
+        if (currentAnimation != null) {
             long currentTime = System.currentTimeMillis();
-            if(currentTime-lastTime >= frameDelay){
+            if (currentTime - lastTime >= frameDelay) {
                 currentFrame = (currentFrame + 1) % currentAnimation.length;
                 lastTime = currentTime;
             }
@@ -53,6 +53,7 @@ public abstract class EnemyView implements Observer {
             g2d.draw(enemy.getHitbox());
         }
     }
+
     // to be overriden
     public BufferedImage[] getCurrentAnimation(){
         return null;

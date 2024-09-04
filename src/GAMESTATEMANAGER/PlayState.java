@@ -9,13 +9,14 @@ import VIEW.PlayerView;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import static MODEL.Entity.Action.*;
 
 public class PlayState extends GameState {
     private Player player;
-    private Enemy[] currentEnemies;
-    private EnemyView[] currentEnemiesView;
+    private ArrayList<Enemy> currentEnemies;
+    private ArrayList<EnemyView> currentEnemiesView;
     // level
     private GameStateManager gsm;
     public PlayState(GameStateManager gsm) {
@@ -39,12 +40,13 @@ public class PlayState extends GameState {
     public void update() {
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
-            if(!enemy.isBubbled() && !enemy.isDead()){
-                enemy.onPlayer();
-                enemy.chasePlayer();
-            }
-            else{
-                enemy.updatePosition();
+            if (enemy != null) {
+                if (!enemy.isBubbled() && !enemy.isDead()) {
+                    enemy.onPlayer();
+                    enemy.chasePlayer();
+                } else {
+                    enemy.updatePosition();
+                }
             }
         }
         if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {
