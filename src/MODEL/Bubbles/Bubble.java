@@ -83,9 +83,9 @@ public abstract class Bubble {
 
         if (encapsulate) {
             bubbledEnemy.updateAction(Action.DIE);
-            encapsulate = false;
-            bubbleView.setEncapsulate(false);
         }
+        encapsulate = false;
+        bubbleView.setEncapsulate(false);
 
         bubbleView.setExplodeIMG();
 
@@ -149,6 +149,7 @@ public abstract class Bubble {
         }
 
         if (floating
+                && !encapsulate
                 && hitbox.intersects(player.getHitbox())
                 && player.getCurrentAction().equals(Action.JUMP)) {
 
@@ -166,8 +167,8 @@ public abstract class Bubble {
             }
         }
 
-        if (encapsulate) bubbledEnemy.setPosition(x, y);
-        if (encapsulate && hitbox.intersects(player.getHitbox())) {
+        if (floating && encapsulate) bubbledEnemy.setPosition(x, y);
+        if (floating && encapsulate && hitbox.intersects(player.getHitbox())) {
             explode();
         }
     }

@@ -151,20 +151,13 @@ public class BubbleView {
             if (distanceTraveled >= 20) bubble.startFloating();
         }
 
-        else if (floating && encapsulate) {
-            bubble.handleFloatingCollision();
-            distanceTraveled++;
-            encapsulateTimer++;
-            if (encapsulateTimer >= 300) bubble.explode();
-        }
-
-        else if (floating && !encapsulate) {
+        else if (floating) {
             //System.out.println("Entered floating");
             //System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
             bubble.handleFloatingCollision();
             //System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
-            if (distanceTraveled >= 600) bubble.erase();
+            if (distanceTraveled >= 400) bubble.explode();
         }
 
         else if (exploding) {

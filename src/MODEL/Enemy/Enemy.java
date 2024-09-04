@@ -23,11 +23,11 @@ public abstract class Enemy extends Observable implements Entity {
     boolean facingRight;
     boolean isJumping;
     boolean bubbled;
-    boolean dead;
     GameStateManager gsm;
     Player player;
     Level currentLevel;
     Rectangle hitbox;
+    boolean isDead;
 
     // ai pathfinding
     List<Node> shortestPath = new ArrayList<>();
@@ -63,6 +63,7 @@ public abstract class Enemy extends Observable implements Entity {
         this.x = x;
         this.y = y;
         enraged = false;
+        isDead = false;
         this.facingRight = facingRight;
         this.gsm = gsm;
         currentLevel = gsm.getCurrentLevel();
@@ -355,9 +356,7 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case DIE:
                 // comportamenti
-                bubbled = false;
-                rageTimer.stop();
-                dead = true;
+                isDead = true;
                 notifyObservers(Action.DIE);
                 break;
             default: // idle
@@ -405,7 +404,6 @@ public Rectangle getHitbox(){
         this.y = y;
     }
     public boolean isBubbled() {return bubbled;}
-    public boolean isDead() {return dead;}
     // public void updateAction(Action action){
     //implementazione specifica
     // }
@@ -414,5 +412,5 @@ public Rectangle getHitbox(){
     // uses UpdateAction
     //  }
 
-
+    public boolean isDead() {return isDead;}
 }
