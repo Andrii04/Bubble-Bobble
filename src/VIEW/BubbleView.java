@@ -27,6 +27,7 @@ public class BubbleView {
 
     int pomAnimationTimer;
     int explodingAnimationTimer;
+    int encapsulateTimer;
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;
@@ -42,6 +43,7 @@ public class BubbleView {
         distanceTraveled = 0;
         pomAnimationTimer = 0;
         explodingAnimationTimer = 0;
+        encapsulateTimer = 0;
     }
 
     public void startFiring() {
@@ -98,7 +100,7 @@ public class BubbleView {
     }
 
     public void draw(Graphics2D g2d) {
-        if (firing || floating || encapsulate || exploding || pom) {
+        if (firing || (floating && !encapsulate) || pom || exploding) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
             g2d.draw(bubble.getHitbox());
         }
@@ -149,7 +151,14 @@ public class BubbleView {
             if (distanceTraveled >= 20) bubble.startFloating();
         }
 
-        else if (floating) {
+        else if (floating && encapsulate) {
+            bubble.handleFloatingCollision();
+            distanceTraveled++;
+            encapsulateTimer++;
+            if (encapsulateTimer >= 300) bubble.explode();
+        }
+
+        else if (floating && !encapsulate) {
             //System.out.println("Entered floating");
             //System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
             bubble.handleFloatingCollision();
@@ -157,6 +166,7 @@ public class BubbleView {
             distanceTraveled++;
             if (distanceTraveled >= 600) bubble.erase();
         }
+
         else if (exploding) {
             explodingAnimationTimer++;
             if (explodingAnimationTimer >= 10) bubble.pom();

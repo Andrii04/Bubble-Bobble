@@ -110,7 +110,7 @@ public abstract class Bubble {
         bubbleView.setFloating(true);
         bubbleView.setEncapsulate(true);
 
-        bubbleView.setEncapsuleIMG();
+        //bubbleView.setEncapsuleIMG();
         hitbox.setSize(bubbleView.getCurrentSkin().getIconWidth(),
                 bubbleView.getCurrentSkin().getIconHeight());
 
