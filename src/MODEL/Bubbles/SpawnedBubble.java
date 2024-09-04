@@ -1,10 +1,18 @@
 package MODEL.Bubbles;
+
+import VIEW.SpawnedBubbleView;
+
 //classe per le bolle che spawnano automaticamente (non vengono sparate dal Player)
-public abstract class SpawnedBubble extends Bubble{
-    @Override
-    public abstract Bubble newInstance();
+public abstract class SpawnedBubble extends Bubble {
 
-    public void spawn() {
-
+    public SpawnedBubble() {
+        super();
+        //this.bubbleView = new SpawnedBubbleView(this); ricordare di settarla nelle sottoclassi
+        floating = true;
+        //updateLocation che setta le coordinate dove spawnano (prob random)
     }
+
+    @Override
+    public abstract void updateLocation(int newX, int newY); //interazioni specifiche per ogni tipo di bolla
 }
+

@@ -7,6 +7,11 @@ public class LightningBubble extends SpawnedBubble{
     }
 
     @Override
+    public void updateLocation(int newX, int newY) {
+
+    }
+
+    @Override
     public Bubble newInstance() {
         return new LightningBubble();
     }
