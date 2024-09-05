@@ -29,7 +29,8 @@ public class MainFrame {
     public MainFrame() {
 
         gameFrame = new JFrame("Bubble Bobble");
-        gameFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        gameFrame.getContentPane().setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        gameFrame.pack();
         gameFrame.setResizable(false);
         gameFrame.setLocationRelativeTo(null); // per centrarlo quando compare il MainFrame
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

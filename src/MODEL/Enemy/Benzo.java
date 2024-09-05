@@ -15,19 +15,13 @@ public class Benzo extends Enemy {
 
     private final int points = 500;
     boolean enraged;
-    Timer ragetimer;
 
     public Benzo(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
         speed =5;
     }
     public Benzo( GameStateManager gsm){
-        super( gsm);
-    }
-
-    @Override
-    public boolean getFacingRight() {
-        return facingRight;
+        this( 0, 0, true, gsm);
     }
 
     @Override
@@ -56,7 +50,6 @@ public class Benzo extends Enemy {
     public void attack(){}
     public void rage(){
         // comportamenti
-        speed *= 2;
     }
 
 }

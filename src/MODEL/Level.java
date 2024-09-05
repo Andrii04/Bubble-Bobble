@@ -3,8 +3,10 @@ package MODEL;
 import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.Benzo;
+import MODEL.Enemy.Blubba;
 import MODEL.Enemy.Enemy;
 import VIEW.BenzoView;
+import VIEW.BlubbaView;
 import VIEW.EnemyView;
 
 import javax.swing.Timer;
@@ -42,7 +44,7 @@ public class Level {
         this.enemyViews = enemies.stream().
                 map(enemy -> {
                     if (enemy instanceof Benzo) return new BenzoView(enemy);
-
+                    if(enemy instanceof Blubba) return new BlubbaView(enemy);
                     //altri casi
 
                     return null;

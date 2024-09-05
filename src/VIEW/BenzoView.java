@@ -15,7 +15,8 @@ public class BenzoView extends EnemyView {
     BufferedImage[] benzoWalkRight;
     BufferedImage[] benzoWalkLeft;
     BufferedImage[] benzoDie;
-    BufferedImage[] benzoEnraged;
+    BufferedImage[] benzoEnragedLeft;
+    BufferedImage[] benzoEnragedRight;
     BufferedImage[] benzoBubbledGreen;
     BufferedImage[] benzoBubbledBlue;
     BufferedImage[] benzoBubbledRed;
@@ -23,20 +24,9 @@ public class BenzoView extends EnemyView {
 
     public BenzoView(Enemy benzo){
         super(benzo);
-        currentAction = MOVE_RIGHT;
-        loadImages();
-        benzo.addObserver(this);
     }
 
-    private BufferedImage scaleImage(BufferedImage img) {
-        BufferedImage scaledImage = new BufferedImage(img.getWidth() * 2, img.getHeight() * 2, img.getType());
-        Graphics2D g2d = scaledImage.createGraphics();
-        g2d.drawImage(img, 0, 0, img.getWidth() * 2, img.getHeight() * 2, null);
-        g2d.dispose();
-        return scaledImage;
-    }
-
-    private void loadImages() {
+    void loadImages() {
         try {
             benzoWalkLeft = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png"))),
@@ -52,11 +42,18 @@ public class BenzoView extends EnemyView {
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Death/Enemy15.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Death/Enemy16.png"))),
             };
-            benzoEnraged = new BufferedImage[]{
+            // enraged left and right
+            benzoEnragedLeft = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy3.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy4.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy5.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy6.png")))
+            };
+            benzoEnragedRight = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy3Right.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy4Right.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy5Right.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Rage/Enemy6Right.png")))
             };
             benzoBubbledGreen = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/GreenBubble/Enemy7.png"))),
@@ -84,7 +81,7 @@ public class BenzoView extends EnemyView {
             case DIE:
                 return benzoDie;
             case RAGE:
-                return benzoEnraged;
+                return enemy.getFacingRight() ? benzoEnragedRight : benzoEnragedLeft;
             case BUBBLED:
                 return benzoBubbledGreen; // benzoBubbledBlue, benzoBubbledRed
         }

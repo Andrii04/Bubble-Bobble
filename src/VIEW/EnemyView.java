@@ -25,8 +25,20 @@ public abstract class EnemyView implements Observer {
         this.y = enemy.getY();
         this.player = enemy.getPlayer();
         currentFrame = 0;
+        loadImages();
+        enemy.addObserver(this);
+        currentAction = Entity.Action.MOVE_RIGHT;
+    }
+   BufferedImage scaleImage(BufferedImage img) {
+        BufferedImage scaledImage = new BufferedImage(img.getWidth() * 2, img.getHeight() * 2, img.getType());
+        Graphics2D g2d = scaledImage.createGraphics();
+        g2d.drawImage(img, 0, 0, img.getWidth() * 2, img.getHeight() * 2, null);
+        g2d.dispose();
+        return scaledImage;
     }
 
+    void loadImages() {
+    }
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof Enemy) {
