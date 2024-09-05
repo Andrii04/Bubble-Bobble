@@ -12,7 +12,14 @@ public abstract class SpawnedBubble extends Bubble {
         //updateLocation che setta le coordinate dove spawnano (prob random)
     }
 
-    @Override
-    public abstract void updateLocation(int newX, int newY); //interazioni specifiche per ogni tipo di bolla
-}
+    public abstract void startEffect();
+    public abstract void updateEffectLocation();
 
+    @Override
+    public void updateLocation(int newX, int newY) {
+
+        if (floating) {
+            if (hitbox.intersects(player.getHitbox())) explode();
+        }
+    }
+}

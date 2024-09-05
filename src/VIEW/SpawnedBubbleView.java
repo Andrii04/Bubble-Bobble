@@ -4,7 +4,7 @@ import MODEL.Bubbles.Bubble;
 
 import java.awt.*;
 
-public class SpawnedBubbleView extends BubbleView{
+public class SpawnedBubbleView extends BubbleView {
     public SpawnedBubbleView(Bubble bubble) {
         super(bubble);
         floating = true;
@@ -14,5 +14,18 @@ public class SpawnedBubbleView extends BubbleView{
     @Override
     public void update() {
 
+        if (floating) {
+
+            bubble.handleFloatingCollision();
+            distanceTraveled++;
+
+        } else if (exploding) {
+            explodingAnimationTimer++;
+            if (explodingAnimationTimer >= 20) {
+                bubble.stopExplosion();
+                bubble.startEffect();
+            }
+        }
+        else if (bubble.isEffect()) bubble.updateEffectLocation();
     }
 }

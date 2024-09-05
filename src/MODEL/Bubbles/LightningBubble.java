@@ -7,9 +7,15 @@ public class LightningBubble extends SpawnedBubble{
     }
 
     @Override
-    public void updateLocation(int newX, int newY) {
+    public void startEffect() {
 
     }
+
+    @Override
+    public void updateEffectLocation() {
+
+    }
+
 
     @Override
     public Bubble newInstance() {

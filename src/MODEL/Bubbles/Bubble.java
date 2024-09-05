@@ -32,6 +32,7 @@ public abstract class Bubble {
 
     Enemy bubbledEnemy;
 
+    boolean effect;
     private int shootingSpeed = 9;
     private int floatingSpeed = 1;
 
@@ -55,6 +56,7 @@ public abstract class Bubble {
         exploding = false;
         facingUp = true;
         pom = false;
+        effect = false;
 
         erased = false;
     }
@@ -153,6 +155,13 @@ public abstract class Bubble {
                         encapsule(enemy);
                         return;
                     }
+                }
+            }
+            for (Bubble bubble : currentLevel.getBubbles()) {
+                if (bubble instanceof SpawnedBubble
+                    && hitbox.intersects(bubble.getHitbox())) {
+                    bubble.explode();
+                    explode();
                 }
             }
         }
@@ -298,4 +307,11 @@ public abstract class Bubble {
 
     public void setX(int x) {this.x = x;}
     public void setY(int y) {this.y = y;}
+
+    public void startEffect() {
+    }
+    public void updateEffectLocation() {
+
+    }
+    public boolean isEffect() {return effect;}
 }

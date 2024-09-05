@@ -2,6 +2,7 @@ package MODEL;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
+import MODEL.Bubbles.ExtendBubble;
 import MODEL.Bubbles.GreenBubble;
 import VIEW.BubbleView;
 import VIEW.MainFrame;
@@ -27,6 +28,8 @@ public class Player extends Observable implements Entity {
     private Action currentAction;
     private Timer cooldownTimer;
     private boolean cooldown = false;
+    private ArrayList<ExtendBubble> currentExtendBubbles;
+    private String currentLetters;
     //physics
     private boolean isJumping;
     private boolean onFloor;
@@ -44,6 +47,8 @@ public class Player extends Observable implements Entity {
         setCurrentLevel(gsm.getCurrentLevel());
 
         bubbleType = new GreenBubble();
+        currentExtendBubbles = new ArrayList<>();
+        currentLetters = "";
 
         cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
@@ -260,4 +265,24 @@ public class Player extends Observable implements Entity {
     public Level getCurrentLevel() {return currentLevel;}
     public Rectangle getHitbox(int x, int y) {return hitbox;}
     public Action getCurrentAction() {return currentAction;}
+
+    public ArrayList<ExtendBubble> getCurrentExtendBubbles() {return currentExtendBubbles;}
+
+    public void addExtendBubble(ExtendBubble bubble) {
+
+        if (!currentLetters.contains(bubble.getLetter())) {
+            currentExtendBubbles.add(bubble);
+            currentLetters += bubble.getLetter();
+        }
+        if (currentLetters.length() == 6) fullExtendBubbles();
+    }
+
+    public void fullExtendBubbles() {
+        //dona 1 vita in più al giocatore e inizializza le lettere accumulate
+
+        lives++;
+        //chiama metodo di ogni ExtendBubble
+        currentExtendBubbles.clear();
+        currentLetters = "";
+    }
 }
