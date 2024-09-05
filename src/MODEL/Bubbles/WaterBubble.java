@@ -7,7 +7,12 @@ public class WaterBubble extends SpawnedBubble{
     }
 
     @Override
-    public void updateLocation(int newX, int newY) {
+    public void startEffect() {
+
+    }
+
+    @Override
+    public void updateEffectLocation() {
 
     }
 

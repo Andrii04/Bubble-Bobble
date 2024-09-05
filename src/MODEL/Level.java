@@ -37,6 +37,7 @@ public class Level {
         this.pattern = pattern;
         this.blockInt = pattern[0][0];
 
+
         this.bubbles = new ArrayList<>();
         this.spawnedBubbles = spawnedBubbles;
 
@@ -176,6 +177,7 @@ public class Level {
     }
 
     public void spawnBubbles() {bubbles.addAll(spawnedBubbles);}
+
 }
 
 

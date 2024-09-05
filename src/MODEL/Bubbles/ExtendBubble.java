@@ -1,10 +1,20 @@
 package MODEL.Bubbles;
 
 public class ExtendBubble extends SpawnedBubble{
-    public ExtendBubble() {super();}
+    private String letter;
+
+    public ExtendBubble(String letter) {
+        super();
+        this.letter = letter;
+        }
 
     @Override
-    public void updateLocation(int newX, int newY) {
+    public void startEffect() {
+        player.addExtendBubble(this);
+    }
+
+    @Override
+    public void updateEffectLocation() {
 
     }
 
@@ -12,4 +22,6 @@ public class ExtendBubble extends SpawnedBubble{
     public Bubble newInstance() {
         return null;
     }
+
+    public String getLetter() {return letter;}
 }
