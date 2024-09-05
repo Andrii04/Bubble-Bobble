@@ -14,7 +14,7 @@ public class Main {
         //di colore diverso così si vede se funziona o no
 
         //gsm.setState(GameStateManager.menuState);
-        //gsm.setState(GameStateManager.leaderboardState);f
+        //gsm.setState(GameStateManager.leaderboardState);
         //gsm.setState(GameStateManager.leveleditorState);
         //gsm.setState(GameStateManager.playState);
         //gsm.setState(GameStateManager.winState);

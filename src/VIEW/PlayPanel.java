@@ -32,6 +32,7 @@ public class PlayPanel extends JPanel implements Runnable {
         this.setLayout(null);
         this.setOpaque(true);
         this.setVisible(true);
+
         gsm = GameStateManager.getInstance();
         enemyViews = gsm.getCurrentLevel().getEnemyViews();
         startGameThread();
