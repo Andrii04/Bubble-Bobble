@@ -4,9 +4,11 @@ import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.Benzo;
 import MODEL.Enemy.Blubba;
+import MODEL.Enemy.Boris;
 import MODEL.Enemy.Enemy;
 import VIEW.BenzoView;
 import VIEW.BlubbaView;
+import VIEW.BorisView;
 import VIEW.EnemyView;
 
 import javax.swing.Timer;
@@ -46,6 +48,7 @@ public class Level {
                 map(enemy -> {
                     if (enemy instanceof Benzo) return new BenzoView(enemy);
                     if(enemy instanceof Blubba) return new BlubbaView(enemy);
+                    if(enemy instanceof Boris) return new BorisView(enemy);
                     //altri casi
 
                     return null;

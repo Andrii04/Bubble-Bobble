@@ -5,8 +5,6 @@ package MODEL.Enemy;
 import MODEL.Entity;
 import GAMESTATEMANAGER.GameStateManager;
 
-import javax.swing.Timer;
-
 public class Benzo extends Enemy {
 
     //non ha mosse di attacco
@@ -14,7 +12,6 @@ public class Benzo extends Enemy {
     //danno tramite contatto
 
     private final int points = 500;
-    boolean enraged;
 
     public Benzo(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);

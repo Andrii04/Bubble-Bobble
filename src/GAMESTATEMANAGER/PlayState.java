@@ -40,7 +40,6 @@ public class PlayState extends GameState {
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             if (enemy != null) {
-                System.out.println(enemy.getEnraged());
                 if (!enemy.isBubbled() && !enemy.isDead()) {
                     enemy.onPlayer();
                     enemy.chasePlayer();

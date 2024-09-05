@@ -68,7 +68,7 @@ public abstract class Enemy extends Observable implements Entity {
         this.gsm = gsm;
         currentLevel = gsm.getCurrentLevel();
         player = gsm.getCurrentPlayer();
-        rageTimer = new Timer(1000, e ->updateAction(Action.RAGE));
+        rageTimer = new Timer(100, e ->updateAction(Action.RAGE));
         rageTimer.setRepeats(false);
 
         deathTimer = new Timer(600, e -> {
@@ -107,7 +107,6 @@ public abstract class Enemy extends Observable implements Entity {
             }
             else {
                     if (nextNode.x < x) {
-                        System.out.println("moving to: " + nextNode.x + " " + nextNode.y + " from: " + x + " " + y);
                         updateAction(Action.MOVE_LEFT);
                         if(nextNode.y == y){
                             onFloor = true;
@@ -186,7 +185,7 @@ public abstract class Enemy extends Observable implements Entity {
             if (newX < 17 || newX > MainFrame.FRAME_WIDTH || newY < 17 || newY > MainFrame.FRAME_HEIGHT){
                 continue;
             }
-            if(isColliding(newX,newY) ){  // add !isColliding(newX,node.y) after fixing image size
+            if(isSolidTile(newX,newY) ){  // add !isColliding(newX,node.y) after fixing image size
                 neighbors.add(new Node(newX, node.y, 0,0,node));
             }
             else{
@@ -222,10 +221,6 @@ public abstract class Enemy extends Observable implements Entity {
             return new ArrayList<>();
         }
         return path;
-    }
-
-    public boolean getEnraged(){
-        return enraged;
     }
      boolean shouldRetracePath(){
         if(shortestPath.isEmpty()){
@@ -328,8 +323,11 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case MOVE_LEFT:
                 if(!isColliding(x-speed, y)){
-                    if(isOnFloor()){
-                        this.x -= (speed-1);
+                    if(isOnFloor()) {
+                        this.x -= (speed - 1);
+                        if (!isSolidTile(x, y + Block.HEIGHT * 2)) {
+                            updateAction(Action.MOVE_VERTICALLY);
+                        }
                     }
                     else{
                         this.x -= airSpeed;
@@ -348,6 +346,9 @@ public abstract class Enemy extends Observable implements Entity {
                 if(!isColliding(x+speed, y)){
                     if(isOnFloor()) {
                         this.x += speed-1;
+                        if(!isSolidTile(x, y+Block.HEIGHT*2)){
+                            updateAction(Action.MOVE_VERTICALLY);
+                        }
                     }
                     else{
                         this.x += airSpeed;
@@ -384,16 +385,19 @@ public abstract class Enemy extends Observable implements Entity {
                 notifyObservers(Action.DIE);
                 break;
             default: // idle
-                if (facingRight) {
-                    notifyObservers(Action.MOVE_RIGHT);
-                }
-                else {
-                    notifyObservers(Action.MOVE_LEFT);
-                }
+                idle();
                 break;
         }
     }
 
+    void idle(){
+        if (facingRight) {
+            notifyObservers(Action.MOVE_RIGHT);
+        }
+        else {
+            notifyObservers(Action.MOVE_LEFT);
+        }
+    }
 
     public boolean isOnFloor() {
         return onFloor;
@@ -405,7 +409,7 @@ public abstract class Enemy extends Observable implements Entity {
         updateAction(Action.MOVE_RIGHT);
     }
     // to be overridden
-    public void attack(){
+    void attack(){
         //implementazione specifica
     }
 public Rectangle getHitbox(){

@@ -16,7 +16,6 @@ public class Blubba extends Enemy {
 
     private boolean goUp;
     private final int points = 5000;
-    boolean enraged;
 
     public Blubba( int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
@@ -29,10 +28,6 @@ public class Blubba extends Enemy {
     public void chasePlayer(){
         if(shouldRetracePath() || shortestPath.isEmpty()){
             findShortestPath();
-            System.out.println("Shortest path: ");
-            for(Node node: shortestPath){
-                System.out.println(node.x + " " + node.y);
-            }
         }
         else{
             Node nextNode = shortestPath.get(0);
@@ -71,10 +66,10 @@ public class Blubba extends Enemy {
                 neighbors.add(new Node(newX,newY, 0,0,node));
             }
             else{
-                if(isColliding(node.x,newY- Block.HEIGHT) || isColliding(node.x, newY+Block.HEIGHT)){
+                if(isSolidTile(node.x,newY- Block.HEIGHT) || isSolidTile(node.x, newY+Block.HEIGHT)){
                     neighbors.add(new Node(newX,-newY, 0,0,node));
                 }
-                else if (isColliding(newX-Block.WIDTH, node.y) || isColliding(newX+Block.WIDTH, node.y)){
+                else if (isSolidTile(newX-Block.WIDTH, node.y) || isSolidTile(newX+Block.WIDTH, node.y)){
                     neighbors.add(new Node(-newX,newY, 0,0,node));
                 }
             }

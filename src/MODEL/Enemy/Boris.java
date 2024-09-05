@@ -1,9 +1,13 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
+import MODEL.Block;
 import MODEL.Entity;
+import VIEW.MainFrame;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Boris extends Enemy {
 
@@ -12,38 +16,122 @@ public class Boris extends Enemy {
     //le rocce si sbriciolano a contatto co muri e piattaforme
     //salta e ha buon movimento
 
-    private boolean facingRight = true;
-    private int x;
-    private int y;
+
     private final int points=2000;
-    boolean enraged;
-    Timer ragetimer;
+    private Timer attackTimer;
 
     public Boris( int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
+        speed = 2;
+        attackTimer = new Timer(1000, e -> shoot());
     }
     public Boris( GameStateManager gsm){
-        super( gsm);
+        this( 0, 0, true, gsm);
     }
-
 
     @Override
-    public void updateAction(Action action) {
+    public void chasePlayer() {
+        if(shortestPath.isEmpty()){
+            updateAction(Action.IDLE);
+        }
+        if(!isOnFloor()){
+            updateAction(Action.MOVE_VERTICALLY);
+            return;
+        }
+        if (player.getY() == y) {
+            onFloor = true;
+            updateAction(Action.ATTACK);
+            return;
+        }
+        if(shouldRetracePath()){
+            findShortestPath();
+            System.out.println("retracing path");
+            for(Node node: shortestPath){
+                System.out.println(node.x + " " + node.y);
+            }
+        }
+        else{
+            Node nextNode = shortestPath.get(0);
+            if(isAtNode(nextNode,x,y)){
+                shortestPath.remove(0);
+            }
+            if(nextNode.y<y) {
+                updateAction(Action.JUMP);}
+                else{
+                    if (nextNode.x < x) {
+                        if(isSolidTile(nextNode.x,nextNode.y)){
+                            updateAction(Action.IDLE);
+                            return;
+                        }
+                        updateAction(Action.MOVE_LEFT);
+                        if (nextNode.y == y) {
+                            onFloor = true;
+                        } else {
+                            onFloor = false;
+                        }
+                    }
+                    else if (nextNode.x > x){
+                        if(isSolidTile(nextNode.x+Block.WIDTH,nextNode.y)){
+                            updateAction(Action.IDLE);
+                            System.out.println("solid tile");
+                            return;
+                        }
+                        updateAction(Action.MOVE_RIGHT);
+                        if(nextNode.y == y){
+                            onFloor = true;
+                    }
+                        else{
+                            onFloor = false;
+                        }
+                }
 
+            }
+        }
     }
-
-    public boolean getFacingRight() {
-        return facingRight;
+    boolean shouldRetracePath(){
+        if (shortestPath.isEmpty()){
+            return true;
+        }
+        return Math.abs(player.getY() - shortestPath.getLast().y )>80;
+    }
+    void attack(){
+        if(player.getX() < x){
+            facingRight = false;
+        }
+        else{
+            facingRight = true;
+        }
+        if(!attackTimer.isRunning()) {
+            attackTimer.start();
+        }
+    }
+    private void shoot(){
+    }
+    void idle(){
+        if(isSolidTile(x+Block.WIDTH, y)){
+            updateAction(Action.MOVE_LEFT);
+        }
+        else if(isSolidTile(x-Block.WIDTH, y)){
+            updateAction(Action.MOVE_RIGHT);
+        }
+        else{
+            if(facingRight){
+                updateAction(Action.MOVE_RIGHT);
+            }
+            else{
+                updateAction(Action.MOVE_LEFT);
+            }
+        }
     }
 
     @Override
     public int getX() {
-        return 0;
+        return x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return y;
     }
 
     @Override
