@@ -39,7 +39,7 @@ public class Player extends Observable implements Entity {
         this.profile=profile;
         this.x = 148;
         this.y = 384;
-        this.lives = 2; // default
+        this.lives = 3; // default
         this.speed = 16; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 

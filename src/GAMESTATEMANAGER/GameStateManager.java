@@ -10,7 +10,6 @@ import MODEL.*;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.Benzo;
 import MODEL.Enemy.Blubba;
-import MODEL.Enemy.Boris;
 import MODEL.Enemy.Enemy;
 import VIEW.*;
 
@@ -157,7 +156,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
         int[][] pattern1 ={
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -203,7 +202,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             enemies.add(new Benzo(105, 544, true, this ));
             enemies.add(new Blubba(135, 540, true, this ));
             enemies.add(new Benzo( 400, 624, true, this ));
-            enemies.add(new Boris(80,464,true,this));
             ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
             //aggiungere bolle che spawnano automaticamente nel livello qua
 
@@ -241,7 +239,21 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public void keyTyped(KeyEvent k) {currentState.keyTyped(k);}
 
     @Override
-    public void keyPressed(KeyEvent k) {currentState.keyPressed(k);}
+    public void keyPressed(KeyEvent k) {
+        currentState.keyPressed(k);
+        int keyCode = k.getKeyCode();
+
+        if (keyCode == KeyEvent.VK_ESCAPE) {
+            if (stateNum == playState) {
+                // Metti in pausa il gioco
+                setState(pauseState);
+            } else if (stateNum == pauseState) {
+                // Riprendi il gioco
+                continueGame();
+            }
+        }
+
+    }
 
     @Override
     public void keyReleased(KeyEvent k) {currentState.keyReleased(k);}

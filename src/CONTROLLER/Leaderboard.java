@@ -57,7 +57,6 @@ public class Leaderboard {
         for (int i = 0; i < profiles.size(); i++) {
             UserProfile profile = profiles.get(i);
             data[i] = new Object[]{
-                    i+1,
                     profile.getAvatarImage(),
                     profile.getUsername(),
                     profile.getPunteggio(),

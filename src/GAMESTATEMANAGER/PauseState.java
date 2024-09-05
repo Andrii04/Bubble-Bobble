@@ -39,7 +39,7 @@ public class PauseState extends GameState {
         if (k.getKeyCode() == KeyEvent.VK_ENTER) {
             switch (view.getSelectedOption()) {
                 case 0:
-                    gsm.setState(GameStateManager.playState);
+                    gsm.continueGame();
                     break;
                 case 1:
                     gsm.setState(GameStateManager.leaderboardState); //deve salvare e uscire ma per questo serve Leadbord prima
