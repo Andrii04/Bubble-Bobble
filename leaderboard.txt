@@ -1,0 +1,4 @@
+1,src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,PlayerOne,15,5000,10,2,12
+2,src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,PlayerTwo,12,3500,8,4,12
+3,src/Resources/Bubble Bobble Resources/Enemies/BonnieBo/Walk/Enemy71.png,PlayerThree,10,2900,7,5,12
+4,src/Resources/Bubble Bobble Resources/Enemies/Boris/Walk/Enemy17.png,PlayerThree,10,2900,7,5,12

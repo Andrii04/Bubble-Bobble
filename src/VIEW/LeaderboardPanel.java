@@ -155,7 +155,7 @@ public class LeaderboardPanel extends JPanel {
                     ImageIcon avatarIcon = (ImageIcon) rowData[1];
 
                     // Ridimensiona l'immagine se necessario
-                    Image avatarImage = avatarIcon.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    Image avatarImage = avatarIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                     rowData[1] = new ImageIcon(avatarImage);
                 }
             } catch (Exception e) {
