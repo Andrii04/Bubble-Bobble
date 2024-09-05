@@ -53,7 +53,7 @@ public class Player extends Observable implements Entity {
 
 
     private boolean isNotSolid(){
-        if(isJumping && airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > 800 || this.y+ airSpeed <0 || this.y+ airSpeed > 600) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
+        if(isJumping && airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > MainFrame.FRAME_WIDTH|| this.y+ airSpeed <0 || this.y+ airSpeed > MainFrame.FRAME_HEIGHT) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
             return true;
         }
         return false;

@@ -19,7 +19,7 @@ public class Benzo extends Enemy {
 
     public Benzo(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
-        speed = 5;
+        speed =5;
     }
     public Benzo( GameStateManager gsm){
         super( gsm);
@@ -56,7 +56,7 @@ public class Benzo extends Enemy {
     public void attack(){}
     public void rage(){
         // comportamenti
-        speed *= 3;
+        speed *= 2;
     }
 
 }

@@ -100,10 +100,6 @@ public abstract class Enemy extends Observable implements Entity {
         }
         if(shouldRetracePath() || shortestPath.isEmpty()){
             findShortestPath();
-            System.out.println("path: ");
-            for(Node node: shortestPath){
-                System.out.println(node.x + " " + node.y);
-            }
         }
         else {
             Node nextNode = shortestPath.get(0);
@@ -116,12 +112,21 @@ public abstract class Enemy extends Observable implements Entity {
             }
             else {
                     if (nextNode.x < x) {
-                        System.out.println("Moving to x: " + nextNode.x + " y: " + nextNode.y + " from x: " + x + " y: " + y);
                         updateAction(Action.MOVE_LEFT);
-                        onFloor = false;
-                    } else {
+                        if(nextNode.y == y){
+                            onFloor = true;
+                        }
+                        else{
+                            onFloor = false;
+                        }
+                    } else if(nextNode.x > x) {
                         updateAction(Action.MOVE_RIGHT);
-                        onFloor = false;
+                        if(nextNode.y == y){
+                            onFloor = true;
+                        }
+                        else{
+                            onFloor = false;
+                        }
                     }
             }
         }
@@ -136,6 +141,7 @@ public abstract class Enemy extends Observable implements Entity {
         return x + "," + y;
     }
     public void findShortestPath() {
+        shortestPath.clear();
         PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(Node::getF));
         HashMap<String, Node> openMap = new HashMap<>(); // "x,y" -> Node
         HashSet<String> closed = new HashSet<>(); // "x,y"
@@ -149,7 +155,7 @@ public abstract class Enemy extends Observable implements Entity {
             Node current = open.poll(); // get lowest F
             openMap.remove(getKey(current.x, current.y));
             closed.add(getKey(current.x, current.y));
-            if (Math.abs(current.x - end.x) < speed && Math.abs(current.y - end.y) < speed){
+            if (current.x/Block.WIDTH == end.x/Block.WIDTH && current.y/Block.HEIGHT == end.y/Block.HEIGHT){
                 shortestPath = retracePath(start, current);
                 return;
             }
@@ -184,7 +190,7 @@ public abstract class Enemy extends Observable implements Entity {
                 if (newX < 0 || newX >= MainFrame.FRAME_WIDTH || newY < 0 || newY >= MainFrame.FRAME_HEIGHT){
                     continue;
                 }
-                if(isSolidTile(newX,newY)){
+                if(isColliding(newX,newY)){
                     neighbors.add(new Node(newX, node.y, 0,0,node));
                 }
                 else{
@@ -199,7 +205,7 @@ public abstract class Enemy extends Observable implements Entity {
                 }
             }
             //UP
-        if(isSolidTile(node.x,node.y-Block.HEIGHT*3)){
+        if(isSolidTile(node.x,node.y-Block.HEIGHT*3) && isSolidTile(node.x/Block.WIDTH, (node.y-Block.HEIGHT*3)/Block.HEIGHT)){
             neighbors.add(new Node(node.x,node.y- Block.HEIGHT*5,0,0,node));
         }
       return neighbors;
@@ -213,7 +219,7 @@ public abstract class Enemy extends Observable implements Entity {
             path.add(end);
             end = end.parent;
         }
-        if(Math.abs(end.x - start.x) < speed && Math.abs(end.y - start.y) < speed){
+        if(end == start){
             path.add(start);
         }
         Collections.reverse(path);
@@ -227,12 +233,12 @@ public abstract class Enemy extends Observable implements Entity {
         if(shortestPath.isEmpty()){
             return true;
         }
-        return Math.abs(player.getX() - shortestPath.get(shortestPath.size() - 1).x) > 20 || Math.abs(player.getY() - shortestPath.get(shortestPath.size() - 1).y) > 20;
+        return Math.abs(player.getX() - shortestPath.getLast().x) > 70 || Math.abs(player.getY() - shortestPath.getLast().y) > 100;
     }
     // tile collision
 
     private boolean isNotSolid(){
-        if(airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > 800 || this.y+ airSpeed <0 || this.y+ airSpeed > 600)){
+        if(airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > MainFrame.FRAME_WIDTH || this.y+ airSpeed <0 || this.y+ airSpeed >MainFrame.FRAME_HEIGHT) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
             return true;
         }
         return false;
@@ -289,12 +295,11 @@ public abstract class Enemy extends Observable implements Entity {
     public void updateAction(Action action){
         switch(action){
             case JUMP:
-                isJumping = true;
                 if(isOnFloor()){
+                    isJumping = true;
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
-                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
                 break;
             case MOVE_VERTICALLY:
@@ -323,7 +328,7 @@ public abstract class Enemy extends Observable implements Entity {
             case MOVE_LEFT:
                 if(!isColliding(x-speed, y)){
                     if(isOnFloor()){
-                        this.x -= speed;
+                        this.x -= (speed-1);
                     }
                     else{
                         this.x -= airSpeed;
@@ -336,7 +341,7 @@ public abstract class Enemy extends Observable implements Entity {
             case MOVE_RIGHT:
                 if(!isColliding(x+speed, y)){
                     if(isOnFloor()) {
-                        this.x += speed;
+                        this.x += speed-1;
                     }
                     else{
                         this.x += airSpeed;
