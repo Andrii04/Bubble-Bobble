@@ -340,7 +340,7 @@ public abstract class Enemy extends Observable implements Entity {
                     notifyObservers(Action.RAGE);
                 }
                 else {
-                    notifyObservers(Action.WALK);
+                    notifyObservers(Action.MOVE_LEFT);
                 }
                 break;
             case MOVE_RIGHT:
@@ -361,7 +361,7 @@ public abstract class Enemy extends Observable implements Entity {
                     notifyObservers(Action.RAGE);
                 }
                 else{
-                notifyObservers(Action.WALK);
+                notifyObservers(Action.MOVE_RIGHT);
                 }
                 break;
             case ATTACK:
@@ -374,11 +374,12 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case BUBBLED:
                 // comportamenti
-                bubbled();
+                bubbled = true;
+                rageTimer.start();
+                notifyObservers(Action.BUBBLED);
                 break;
             case DIE:
                 // comportamenti
-                die();
                 dead = true;
                 player.setPunteggio(player.getPunteggio() + points);
                 deathTimer.start();
@@ -412,7 +413,7 @@ public abstract class Enemy extends Observable implements Entity {
     void attack(){
         //implementazione specifica
     }
-    public Rectangle getHitbox(){
+public Rectangle getHitbox(){
         return hitbox;
 }
     void die(){

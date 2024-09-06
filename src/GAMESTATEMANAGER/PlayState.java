@@ -1,6 +1,7 @@
 package GAMESTATEMANAGER;
 
 import MODEL.Enemy.Enemy;
+import MODEL.Entity;
 import MODEL.Player;
 import VIEW.EnemyView;
 import VIEW.MainFrame;
@@ -10,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import static GAMESTATEMANAGER.GameStateManager.pauseState;
 import static MODEL.Entity.Action.*;
@@ -20,11 +23,21 @@ public class PlayState extends GameState {
     private ArrayList<EnemyView> currentEnemiesView;
     // level
     private GameStateManager gsm;
+
+
     public PlayState(GameStateManager gsm) {
         this.player =gsm.getCurrentPlayer();
         this.gsm = gsm;
         player.updateAction(IDLE);
         loadNewLevel();
+        player.addObserver(new Observer() {
+            @Override
+            public void update(Observable o, Object arg) {
+                if (arg.equals(Entity.Action.DIE)) {
+                    gsm.setState(GameStateManager.loseState);
+                }
+            }
+        });
     }
 
     private void loadNewLevel(){
@@ -51,6 +64,10 @@ public class PlayState extends GameState {
         }
         if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {
             player.updateAction(MOVE_VERTICALLY);
+        }
+
+        if (player.getLives() <= 0) {
+            gsm.setState(GameStateManager.loseState); // Assumendo che esista uno stato per la schermata "Game Over"
         }
 
 
