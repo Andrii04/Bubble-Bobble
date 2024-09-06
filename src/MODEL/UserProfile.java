@@ -15,6 +15,7 @@ public class UserProfile  {
     private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "BonnieBo", "Boris", "Incendio", "Superdrunk"};
     private String avatarChosen;
     private ImageIcon img;
+    private int avatarIndex;
 
     public UserProfile(String username, int punteggio, int round, int avatarIndex) throws IllegalArgumentException{
         if(username == null || username.equals("") || round <= 0 || punteggio < 0){
@@ -64,6 +65,7 @@ public class UserProfile  {
     public String getAvatarChosen() {
         return this.avatarChosen;
     }
+
 
     //ogni nuova partita dovrebbe essere partiteTot++ ++a o vinte o perse
 
@@ -144,8 +146,11 @@ public class UserProfile  {
 
     @Override
     public String toString(){
-        return " Avatar : " + avatarChosen +"Username: " + username +  ", Level: " + round + ", Score: " + punteggio +
-        ", Wins: " + partiteVinte + ", Losses: " + partitePerse + ", Total Games: " + partiteTot;
+        return  avatarChosen +"," + username +  "," + round + "," + punteggio +
+        "," + partiteVinte + "," + partitePerse + "," + partiteTot;
     }
 
+    public int getSelectedAvatar() {
+        return this.avatarIndex;
+    }
 }

@@ -36,21 +36,17 @@ public class Blubba extends Enemy {
             }
             if(nextNode.y>y) {
                 goUp = false;
-                if (nextNode.x > x) {
-                    updateAction(Action.MOVE_RIGHT);
-                } else if (nextNode.x < x) {
-                    updateAction(Action.MOVE_LEFT);
-                }
             }
-            else{
+            else if (nextNode.y< y){
                 goUp = true;
-                if(nextNode.x>x){
-                    updateAction(Action.MOVE_RIGHT);
-                }
-                else if(nextNode.x<x){
-                    updateAction(Action.MOVE_LEFT);
-                }
             }
+            if(nextNode.x>x){
+                facingRight = true;
+            }
+            else if (nextNode.x<x){
+                facingRight = false;
+            }
+            updateAction(Action.WALK);
         }
     }
     List<Node> getNeighbors(Node node){
@@ -79,8 +75,13 @@ public class Blubba extends Enemy {
 
     public void updateAction(Action action){
         switch (action){
-            case MOVE_LEFT:
-                x -= speed;
+            case WALK:
+                if(facingRight){
+                    x += speed;
+                }
+                else{
+                    x -= speed;
+                }
                 if(goUp){
                     y -= speed;
                 }
@@ -92,22 +93,8 @@ public class Blubba extends Enemy {
                     notifyObservers(Action.RAGE);
                 }
                 else{
-                    notifyObservers(Action.MOVE_LEFT);
+                    notifyObservers(Action.WALK);
                 }
-                break;
-            case MOVE_RIGHT:
-                x += speed;
-                if(goUp){
-                    y -= speed;
-                }
-                else{
-                    y += speed;
-                }
-                hitbox.setLocation(x,y);
-                if(enraged){
-                    notifyObservers(Action.RAGE);
-                }
-                notifyObservers(Action.MOVE_RIGHT);
                 break;
             case RAGE:
                 rage();

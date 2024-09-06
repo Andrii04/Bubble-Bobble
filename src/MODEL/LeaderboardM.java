@@ -32,8 +32,8 @@ public class LeaderboardM {
     public void saveToFile(String filename) throws IOException {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename))) {
             for (UserProfile profile : profiles) {
-                bufferedWriter.write(profile.getUsername() + "," +
-                        profile.getAvatarChosen() + "," +  // Avatar path
+                bufferedWriter.write(profile.getAvatarChosen() + "," + // Avatar path
+                        profile.getUsername() + "," +
                         profile.getPunteggio() + "," +
                         profile.getRound() + "," +
                         profile.getPartiteVinte() + "," +
@@ -60,15 +60,15 @@ public class LeaderboardM {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 8) {
-                    int num = Integer.parseInt(parts[0]);
-                    String avatarPath = parts[1];  // Assume che questa sia la stringa del percorso dell'avatar
-                    String username = parts[2];
-                    int round = Integer.parseInt(parts[3]);
-                    int punteggio = Integer.parseInt(parts[4]);
-                    int partiteVinte = Integer.parseInt(parts[5]);
-                    int partitePerse = Integer.parseInt(parts[6]);
-                    int partiteTot = Integer.parseInt(parts[7]);
+
+                if (parts.length == 7) {
+                    String avatarPath = parts[0];  // Assume che questa sia la stringa del percorso dell'avatar
+                    String username = parts[1];
+                    int round = Integer.parseInt(parts[2]);
+                    int punteggio = Integer.parseInt(parts[3]);
+                    int partiteVinte = Integer.parseInt(parts[4]);
+                    int partitePerse = Integer.parseInt(parts[5]);
+                    int partiteTot = Integer.parseInt(parts[6]);
 
                     UserProfile profile = new UserProfile(username, punteggio, round, 0);
                     profile.setAvatarImage(new ImageIcon(avatarPath));  // Carica l'immagine avatar
@@ -87,4 +87,6 @@ public class LeaderboardM {
 
         return leaderboard;
     }
+
+
 }

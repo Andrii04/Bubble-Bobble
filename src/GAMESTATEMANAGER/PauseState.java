@@ -29,7 +29,29 @@ public class PauseState extends GameState {
 
     @Override
     public void keyPressed(KeyEvent k) {
-
+        switch(k.getKeyCode()){
+            case KeyEvent.VK_UP:
+                view.cursorUp();
+                break;
+            case KeyEvent.VK_DOWN:
+                view.cursorDown();
+                break;
+            case KeyEvent.VK_ENTER:
+                switch(view.getSelectedOption()){
+                    case 0:
+                        gsm.continueGame();
+                        break;
+                    case 1:
+                        gsm.setState(GameStateManager.leaderboardState);
+                        break;
+                    case 2:
+                        System.exit(0);
+                        break;
+                }
+                break;
+            case KeyEvent.VK_ESCAPE:
+                gsm.continueGame();
+        }
         if (k.getKeyCode() == KeyEvent.VK_UP) {
             view.cursorUp();
         }
@@ -39,7 +61,7 @@ public class PauseState extends GameState {
         if (k.getKeyCode() == KeyEvent.VK_ENTER) {
             switch (view.getSelectedOption()) {
                 case 0:
-                    gsm.setState(GameStateManager.playState);
+                    gsm.continueGame();
                     break;
                 case 1:
                     gsm.setState(GameStateManager.leaderboardState); //deve salvare e uscire ma per questo serve Leadbord prima

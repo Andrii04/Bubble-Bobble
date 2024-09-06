@@ -22,6 +22,8 @@ public class PlayPanel extends JPanel implements Runnable {
     private boolean isNewLevel = true;
     ArrayList<EnemyView> enemyViews;
 
+
+
     private final int FPS = 60;
     Thread gameThread;
 
@@ -36,6 +38,7 @@ public class PlayPanel extends JPanel implements Runnable {
         gsm = GameStateManager.getInstance();
         enemyViews = gsm.getCurrentLevel().getEnemyViews();
         startGameThread();
+
     }
 
     // game loop

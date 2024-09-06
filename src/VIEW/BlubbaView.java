@@ -65,9 +65,7 @@ public class BlubbaView extends EnemyView {
     public BufferedImage[] getCurrentAnimation(){
         switch(currentAction){
             default:
-                return blubbaWalkRight;
-            case MOVE_LEFT:
-                return blubbaWalkLeft;
+                return enemy.getFacingRight() ? blubbaWalkRight : blubbaWalkLeft;
             case DIE:
                 return blubbaDie;
             case RAGE:

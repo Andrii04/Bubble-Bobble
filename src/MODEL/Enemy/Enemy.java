@@ -286,6 +286,7 @@ public abstract class Enemy extends Observable implements Entity {
         return player;
     }
     public void updateAction(Action action){
+
         switch(action){
             case JUMP:
                 if(isOnFloor()){
@@ -339,7 +340,7 @@ public abstract class Enemy extends Observable implements Entity {
                     notifyObservers(Action.RAGE);
                 }
                 else {
-                    notifyObservers(Action.MOVE_LEFT);
+                    notifyObservers(Action.WALK);
                 }
                 break;
             case MOVE_RIGHT:
@@ -360,7 +361,7 @@ public abstract class Enemy extends Observable implements Entity {
                     notifyObservers(Action.RAGE);
                 }
                 else{
-                notifyObservers(Action.MOVE_RIGHT);
+                notifyObservers(Action.WALK);
                 }
                 break;
             case ATTACK:
@@ -373,12 +374,11 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case BUBBLED:
                 // comportamenti
-                bubbled = true;
-                rageTimer.start();
-                notifyObservers(Action.BUBBLED);
+                bubbled();
                 break;
             case DIE:
                 // comportamenti
+                die();
                 dead = true;
                 player.setPunteggio(player.getPunteggio() + points);
                 deathTimer.start();
@@ -390,13 +390,13 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
+    void bubbled(){
+        bubbled = true;
+        rageTimer.start();
+        notifyObservers(Action.BUBBLED);
+    }
     void idle(){
-        if (facingRight) {
-            notifyObservers(Action.MOVE_RIGHT);
-        }
-        else {
-            notifyObservers(Action.MOVE_LEFT);
-        }
+        notifyObservers(Action.IDLE);
     }
 
     public boolean isOnFloor() {
@@ -406,16 +406,16 @@ public abstract class Enemy extends Observable implements Entity {
     public void rage(){
         enraged = true;
         speed *= 2;
-        updateAction(Action.MOVE_RIGHT);
+        updateAction(Action.IDLE);
     }
     // to be overridden
     void attack(){
         //implementazione specifica
     }
-public Rectangle getHitbox(){
+    public Rectangle getHitbox(){
         return hitbox;
 }
-    public void die(){
+    void die(){
     }
     public void updatePosition(){
         if(isBubbled()) {

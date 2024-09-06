@@ -2,6 +2,7 @@ package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Bubbles.Fireball;
 import MODEL.Entity;
 import VIEW.MainFrame;
 
@@ -24,6 +25,7 @@ public class Boris extends Enemy {
         super(x, y, facingRight, gsm);
         speed = 2;
         attackTimer = new Timer(1000, e -> shoot());
+        attackTimer.setRepeats(true);
     }
     public Boris( GameStateManager gsm){
         this( 0, 0, true, gsm);
@@ -42,6 +44,9 @@ public class Boris extends Enemy {
             onFloor = true;
             updateAction(Action.ATTACK);
             return;
+        }
+        else if(player.getY() != y && attackTimer.isRunning()){
+            attackTimer.stop();
         }
         if(shouldRetracePath()){
             findShortestPath();
@@ -63,7 +68,7 @@ public class Boris extends Enemy {
                             updateAction(Action.IDLE);
                             return;
                         }
-                        updateAction(Action.MOVE_LEFT);
+                        updateAction(Action.WALK);
                         if (nextNode.y == y) {
                             onFloor = true;
                         } else {
@@ -76,7 +81,7 @@ public class Boris extends Enemy {
                             System.out.println("solid tile");
                             return;
                         }
-                        updateAction(Action.MOVE_RIGHT);
+                        updateAction(Action.WALK);
                         if(nextNode.y == y){
                             onFloor = true;
                     }
@@ -94,6 +99,7 @@ public class Boris extends Enemy {
         }
         return Math.abs(player.getY() - shortestPath.getLast().y )>80;
     }
+    @Override
     void attack(){
         if(player.getX() < x){
             facingRight = false;
@@ -106,6 +112,11 @@ public class Boris extends Enemy {
         }
     }
     private void shoot(){
+        Fireball fireball = new Fireball();
+        fireball.setBoris(this);
+        fireball.setPlayer(player);
+        currentLevel.addBubble(fireball);
+        fireball.fireBubble();
     }
     void idle(){
         if(isSolidTile(x+Block.WIDTH, y)){
@@ -123,7 +134,20 @@ public class Boris extends Enemy {
             }
         }
     }
+    void bubbled(){
+        if(attackTimer.isRunning()){
+            attackTimer.stop();
+        }
+        bubbled = true;
+        rageTimer.start();
+        notifyObservers(Action.BUBBLED);
 
+    }
+    void die(){
+        if(attackTimer.isRunning()){
+            attackTimer.stop();
+        }
+    }
     @Override
     public int getX() {
         return x;

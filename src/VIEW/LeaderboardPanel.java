@@ -14,7 +14,7 @@ import java.util.List;
 
 public class LeaderboardPanel extends JPanel {
 
-    // N. | AVATAR| NAME | LEVEL | HIGHSCORE | W | L | TOT
+    //AVATAR| NAME | LEVEL | HIGHSCORE | W | L | TOT
     // 5 PLAYERS MAX
     private Font font = MainFrame.getPixelFont();
     private JTable leaderboardTable;
@@ -36,13 +36,13 @@ public class LeaderboardPanel extends JPanel {
         titleLabel.setBackground(Color.BLACK);
 
         // Colonne della tabella
-        String[] columnNames = {"N.", "IMG", "NAME", "LV", "SCORE", "WIN", "LOSE", "TOT"};
+        String[] columnNames = {"IMG", "NAME", "LV", "SCORE", "WIN", "LOSE", "TOT"};
 
         // Modello della tabella
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public Class<?> getColumnClass(int column) {
-                if (column == 1) { // Colonna Avatar
+                if (column == 0) { // Colonna Avatar
                     return ImageIcon.class;
                 }
                 return Object.class;
@@ -61,7 +61,7 @@ public class LeaderboardPanel extends JPanel {
         leaderboardTable.setRowHeight(64); // Altezza delle righe per accomodare le immagini
 
         // Personalizzazione del renderer per la colonna Avatar
-        leaderboardTable.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+        leaderboardTable.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 if (value instanceof ImageIcon) {
@@ -151,16 +151,16 @@ public class LeaderboardPanel extends JPanel {
         for (Object[] rowData : data) {
             try {
                 // Supponendo che rowData[1] sia un ImageIcon già pronto
-                if (rowData[1] instanceof ImageIcon) {
-                    ImageIcon avatarIcon = (ImageIcon) rowData[1];
+                if (rowData[0] instanceof ImageIcon) {
+                    ImageIcon avatarIcon = (ImageIcon) rowData[0];
 
                     // Ridimensiona l'immagine se necessario
                     Image avatarImage = avatarIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-                    rowData[1] = new ImageIcon(avatarImage);
+                    rowData[0] = new ImageIcon(avatarImage);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                rowData[1] = null; // Se c'è un errore, lascia la cella vuota
+                rowData[0] = null; // Se c'è un errore, lascia la cella vuota
             }
 
             model.addRow(rowData);

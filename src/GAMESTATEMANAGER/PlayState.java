@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import static GAMESTATEMANAGER.GameStateManager.pauseState;
 import static MODEL.Entity.Action.*;
 
 public class PlayState extends GameState {
@@ -82,6 +83,10 @@ public class PlayState extends GameState {
             case KeyEvent.VK_E:
                 player.updateAction(ATTACK);
                 break;
+            case KeyEvent.VK_ESCAPE: {
+                    // Metti in pausa il gioco
+                    gsm.setState(pauseState);
+            }
         }
     }
 
@@ -90,6 +95,7 @@ public class PlayState extends GameState {
         if( k.getKeyCode() == KeyEvent.VK_LEFT || k.getKeyCode() == KeyEvent.VK_RIGHT|| k.getKeyCode() == KeyEvent.VK_E){
             player.updateAction(IDLE);
         }
+
 
     }
 

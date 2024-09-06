@@ -21,6 +21,7 @@ public class BubbleView {
     int distanceTraveled;
     boolean facingRight;
     boolean startHorizontalMovement;
+    Boris boris;
 
     int shootingSpeed = 9;
     int floatingSpeed = 1;
@@ -202,6 +203,7 @@ public class BubbleView {
     public boolean getStartHorizontalMovement() {return startHorizontalMovement;}
     public ImageIcon getCurrentSkin() {return currentSkin;}
     public void setPom(boolean bool) {pom = bool;}
+    public void setBoris(Boris boris) {this.boris = boris;}
 }
 
 
