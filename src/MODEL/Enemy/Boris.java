@@ -2,6 +2,7 @@ package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Bubbles.Fireball;
 import MODEL.Entity;
 import VIEW.MainFrame;
 
@@ -94,6 +95,7 @@ public class Boris extends Enemy {
         }
         return Math.abs(player.getY() - shortestPath.getLast().y )>80;
     }
+    @Override
     void attack(){
         if(player.getX() < x){
             facingRight = false;
@@ -106,6 +108,11 @@ public class Boris extends Enemy {
         }
     }
     private void shoot(){
+        Fireball fireball = new Fireball();
+        fireball.setBoris(this);
+        fireball.setPlayer(player);
+        currentLevel.addBubble(fireball);
+        fireball.fireBubble();
     }
     void idle(){
         if(isSolidTile(x+Block.WIDTH, y)){

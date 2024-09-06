@@ -409,9 +409,10 @@ public abstract class Enemy extends Observable implements Entity {
         updateAction(Action.MOVE_RIGHT);
     }
     // to be overridden
-    void attack(){
+    void attack() {
         //implementazione specifica
     }
+
 public Rectangle getHitbox(){
         return hitbox;
 }

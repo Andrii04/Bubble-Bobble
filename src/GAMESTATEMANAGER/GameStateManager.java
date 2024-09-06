@@ -10,6 +10,7 @@ import MODEL.*;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.Benzo;
 import MODEL.Enemy.Blubba;
+import MODEL.Enemy.Boris;
 import MODEL.Enemy.Enemy;
 import VIEW.*;
 
@@ -202,6 +203,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             enemies.add(new Benzo(105, 544, true, this ));
             enemies.add(new Blubba(135, 540, true, this ));
             enemies.add(new Benzo( 400, 624, true, this ));
+            enemies.add(new Boris(450, 600, true, this));
             ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
             //aggiungere bolle che spawnano automaticamente nel livello qua
 

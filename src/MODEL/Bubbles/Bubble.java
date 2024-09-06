@@ -2,6 +2,7 @@ package MODEL.Bubbles;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Enemy.Boris;
 import MODEL.Enemy.Enemy;
 
 import java.awt.*;
@@ -18,23 +19,24 @@ public abstract class Bubble {
 
     private Color color;
     private int points;
-    private int x;
-    private int y;
+    int x;
+    int y;
     private boolean containEnemy;
     BubbleView bubbleView;
     Player player;
+    Boris boris;
     GameStateManager gsm;
     String skinsPath; //sarà il path della skin senza il numero alla fine
     Level currentLevel;
     boolean erased;
 
+    private int shootingSpeed = 9;
+    private int floatingSpeed = 1;
     Rectangle hitbox;
 
     Enemy bubbledEnemy;
 
     boolean effect;
-    private int shootingSpeed = 9;
-    private int floatingSpeed = 1;
 
     boolean exploding;
     boolean floating;
@@ -314,4 +316,9 @@ public abstract class Bubble {
 
     }
     public boolean isEffect() {return effect;}
+
+    public void setBoris(Boris boris) {
+        this.boris = boris;
+        bubbleView.setBoris(boris);
+    }
 }
