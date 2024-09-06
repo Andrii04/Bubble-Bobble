@@ -44,6 +44,7 @@ public class Level {
                     if(enemy instanceof Blubba) return new BlubbaView(enemy);
                     if(enemy instanceof Boris) return new BorisView(enemy);
                     if(enemy instanceof BoaBoa) return new BoaBoaView(enemy);
+                    if(enemy instanceof BonnieBo) return new BonnieBoView(enemy);
                     //altri casi
 
                     return null;

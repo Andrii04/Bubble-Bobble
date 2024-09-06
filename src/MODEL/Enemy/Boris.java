@@ -23,7 +23,7 @@ public class Boris extends Enemy {
 
     public Boris( int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
-        speed = 2;
+        speed = 3;
         attackTimer = new Timer(1000, e -> shoot());
         attackTimer.setRepeats(true);
     }
@@ -120,19 +120,12 @@ public class Boris extends Enemy {
     }
     void idle(){
         if(isSolidTile(x+Block.WIDTH, y)){
-            updateAction(Action.MOVE_LEFT);
+            facingRight = false;
         }
         else if(isSolidTile(x-Block.WIDTH, y)){
-            updateAction(Action.MOVE_RIGHT);
+            facingRight = true;
         }
-        else{
-            if(facingRight){
-                updateAction(Action.MOVE_RIGHT);
-            }
-            else{
-                updateAction(Action.MOVE_LEFT);
-            }
-        }
+        updateAction(Action.WALK);
     }
     void bubbled(){
         if(attackTimer.isRunning()){

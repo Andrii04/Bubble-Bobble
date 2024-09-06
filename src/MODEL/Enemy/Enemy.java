@@ -90,7 +90,7 @@ public abstract class Enemy extends Observable implements Entity {
     }
     //  pathfinding
     public void chasePlayer() {
-        if(!isOnFloor()) {
+        if(!isOnFloor()) { // fall
             updateAction(Action.MOVE_VERTICALLY);
             return;
         }
@@ -99,30 +99,21 @@ public abstract class Enemy extends Observable implements Entity {
         }
         else {
             Node nextNode = shortestPath.get(0);
-            if (isAtNode(nextNode,x,y)) {
+            if (isAtNode(nextNode, x, y)) {
                 shortestPath.remove(0);
             }
-            if (nextNode.y < y) {
+
+            if (nextNode.y < y) { // go up
                 updateAction(Action.JUMP);
-            }
-            else {
-                    if (nextNode.x < x) {
-                        updateAction(Action.MOVE_LEFT);
-                        if(nextNode.y == y){
-                            onFloor = true;
-                        }
-                        else{
-                            onFloor = false;
-                        }
-                    } else if(nextNode.x > x) {
-                        updateAction(Action.MOVE_RIGHT);
-                        if(nextNode.y == y){
-                            onFloor = true;
-                        }
-                        else{
-                            onFloor = false;
-                        }
-                    }
+            } else {
+                // horizontal movement
+                if (nextNode.x < x) {
+                    facingRight = false;
+                } else if (nextNode.x > x) {
+                    facingRight = true;
+                }
+                onFloor = nextNode.y == y;
+                updateAction(Action.WALK);
             }
         }
     }
@@ -230,7 +221,7 @@ public abstract class Enemy extends Observable implements Entity {
     }
     // tile collision
 
-    private boolean isNotSolid(){
+    boolean isNotSolid(){
         if(airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > MainFrame.FRAME_WIDTH || this.y+ airSpeed <0 || this.y+ airSpeed >MainFrame.FRAME_HEIGHT) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
             return true;
         }
@@ -298,70 +289,15 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case MOVE_VERTICALLY:
                 // if player is in block (error handling), if player isn't colliding with block, if player is jumping up and hitting a non wall block
-                if(!isColliding(x, y+airSpeed) || isNotSolid()) {
-                    if (this.y>= MainFrame.FRAME_HEIGHT){ // top and bottom connected
-                        this.y = 0;
-                    }
-                    this.y += airSpeed;
-                    hitbox.setLocation(x, y);
-                    airSpeed += gravity;
-                    notifyObservers(Action.MOVE_VERTICALLY);
-                }
-                //player is falling to the ground
-                else if(isColliding(x, y+airSpeed) && airSpeed > 0){
-                    isJumping = false;
-                    airSpeed = 0;
-                    onFloor = true;
-                    notifyObservers(Action.IDLE);
-                }
-                // when player hits something fall down
-                else{
-                    isJumping = false;
-                    airSpeed = 0;
-                    onFloor = false;
-                    notifyObservers(Action.MOVE_VERTICALLY);
-                }
+                verticalMovement();
                 break;
-            case MOVE_LEFT:
-                if(!isColliding(x-speed, y)){
-                    if(isOnFloor()) {
-                        this.x -= (speed - 1);
-                        if (!isSolidTile(x, y + Block.HEIGHT * 2)) {
-                            updateAction(Action.MOVE_VERTICALLY);
-                        }
-                    }
-                    else{
-                        this.x -= airSpeed;
-                    }
-                    hitbox.setLocation(this.x,this. y);
-                }
-                facingRight = false;
-                if(enraged){
+            case WALK:
+               walk();
+                hitbox.setLocation(x,y);
+                if (enraged) {
                     notifyObservers(Action.RAGE);
-                }
-                else {
-                    notifyObservers(Action.MOVE_LEFT);
-                }
-                break;
-            case MOVE_RIGHT:
-                if(!isColliding(x+speed, y)){
-                    if(isOnFloor()) {
-                        this.x += speed-1;
-                        if(!isSolidTile(x, y+Block.HEIGHT*2)){
-                            updateAction(Action.MOVE_VERTICALLY);
-                        }
-                    }
-                    else{
-                        this.x += airSpeed;
-                    }
-                    hitbox.setLocation(this.x, this.y);
-                }
-                facingRight = true;
-                if(enraged){
-                    notifyObservers(Action.RAGE);
-                }
-                else{
-                notifyObservers(Action.MOVE_RIGHT);
+                } else {
+                    notifyObservers(Action.WALK);
                 }
                 break;
             case ATTACK:
@@ -374,12 +310,11 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case BUBBLED:
                 // comportamenti
-                bubbled = true;
-                rageTimer.start();
-                notifyObservers(Action.BUBBLED);
+                bubbled();
                 break;
             case DIE:
                 // comportamenti
+                die();
                 dead = true;
                 player.setPunteggio(player.getPunteggio() + points);
                 deathTimer.start();
@@ -390,7 +325,60 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
         }
     }
-
+    void verticalMovement(){
+        if(!isColliding(x, y+airSpeed) || isNotSolid()) {
+            if (this.y> MainFrame.FRAME_HEIGHT-5){ // top and bottom connected
+                this.y = 0;
+            }
+            this.y += airSpeed;
+            hitbox.setLocation(x, y);
+            airSpeed += gravity;
+            notifyObservers(Action.MOVE_VERTICALLY);
+        }
+        //player is falling to the ground
+        else if(isColliding(x, y+airSpeed) && airSpeed > 0){
+            isJumping = false;
+            airSpeed = 0;
+            onFloor = true;
+            notifyObservers(Action.IDLE);
+        }
+        // when player hits something fall down
+        else{
+            isJumping = false;
+            airSpeed = 0;
+            onFloor = false;
+            notifyObservers(Action.MOVE_VERTICALLY);
+        }
+    }
+    void walk(){
+        if (facingRight) {
+            // Moving right
+            if (!isColliding(x + speed, y)) {
+                if (isOnFloor()) {
+                    this.x += speed - 1;
+                    if (!isSolidTile(x, y + Block.HEIGHT * 2)) {
+                        updateAction(Action.MOVE_VERTICALLY);
+                    }
+                } else {
+                    this.x += airSpeed;
+                }
+                hitbox.setLocation(this.x, this.y);
+            }
+        } else {
+            // Moving left
+            if (!isColliding(x - speed, y)) {
+                if (isOnFloor()) {
+                    this.x -= (speed - 1);
+                    if (!isSolidTile(x, y + Block.HEIGHT * 2)) {
+                        updateAction(Action.MOVE_VERTICALLY);
+                    }
+                } else {
+                    this.x -= airSpeed;
+                }
+                hitbox.setLocation(this.x, this.y);
+            }
+        }
+    }
     void bubbled(){
         bubbled = true;
         rageTimer.start();
