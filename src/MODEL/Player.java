@@ -55,6 +55,12 @@ public class Player extends Observable implements Entity {
         });
     }
 
+    public void setLives(int lives) {
+        this.lives = lives;
+        notifyObservers(Action.HURT); // Pass Action.HURT instead of null
+    }
+
+
 
 
     private boolean isNotSolid(){
@@ -102,10 +108,12 @@ public class Player extends Observable implements Entity {
      public void setCurrentLevel (Level currentLevel) {
          this.currentLevel = currentLevel;
      }
+
     public void notifyObservers(Action action) {
         setChanged();
         super.notifyObservers(action);
     }
+
     @Override
     public void updateAction(Action action) {
         switch(action){
@@ -185,9 +193,8 @@ public class Player extends Observable implements Entity {
                     cooldown = true;
                     cooldownTimer.start();
                     currentAction = Action.HURT;
-                    this.lives--;
+                    setLives(this.lives - 1);  // This will notify observers with Action.HURT
                     System.out.println("Lives: " + lives);
-                    notifyObservers(Action.HURT);
                     if (lives <= 0) {
                         notifyObservers(Action.DIE);
                     }
