@@ -6,6 +6,8 @@ import MODEL.Entity;
 import MODEL.Player;
 import VIEW.FireballView;
 
+import java.awt.*;
+
 public class Fireball extends Bubble{
     private int shootingSpeed = 9;
     private int floatingSpeed = 1;
@@ -14,6 +16,7 @@ public class Fireball extends Bubble{
         super();
         skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/";
         this.bubbleView = new FireballView(this);
+        super.hitbox = new Rectangle(x, y, 16*2, 16*2);
     }
 
     @Override

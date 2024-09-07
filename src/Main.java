@@ -1,9 +1,5 @@
 import GAMESTATEMANAGER.GameStateManager;
 import VIEW.LosePanel;
-
-
-
-
 import VIEW.MainFrame;
 
 import javax.swing.*;

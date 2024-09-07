@@ -12,7 +12,7 @@ public class UserProfile  {
     private static int partiteVinte;
     private static int partitePerse;
     private static int partiteTot;
-    private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "BonnieBo", "Boris", "Incendio", "Superdrunk"};
+    private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "Invader", "Boris", "Incendio", "Superdrunk"};
     private String avatarChosen;
     private ImageIcon img;
     private int avatarIndex;
@@ -116,7 +116,7 @@ public class UserProfile  {
                 "src/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png", // benzo
                 "src/Resources/Bubble Bobble Resources/Enemies/Blubba/Walk/Enemy39.png", // blubba
                 "src/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Walk/Enemy55.png", // boaboa
-                "src/Resources/Bubble Bobble Resources/Enemies/BonnieBo/Walk/Enemy71.png", // bonniebo
+                "src/Resources/Bubble Bobble Resources/Enemies/Invader/Idle/idle1.png", // invader
                 "src/Resources/Bubble Bobble Resources/Enemies/Boris/Walk/Enemy17.png", // boris
                 "src/Resources/Bubble Bobble Resources/Enemies/Incendio/Walk/Walk1.png", // incendio
                 "src/Resources/Bubble Bobble Resources/Enemies/Superdrunk/Walk/NES - Bubble Bobble - Boss & Final Scene - Super Drunk5.png"};

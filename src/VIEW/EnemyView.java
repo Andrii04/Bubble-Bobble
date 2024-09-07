@@ -54,15 +54,18 @@ public abstract class EnemyView implements Observer {
 
     public void draw(Graphics2D g2d) {
         BufferedImage[] currentAnimation = getCurrentAnimation();
-        if (currentAnimation != null) {
+        if (currentAnimation != null && currentAnimation.length > 0) {
             long currentTime = System.currentTimeMillis();
-            if (currentTime - lastTime >= frameDelay) {
+            if (currentTime - lastTime > frameDelay) {
                 currentFrame = (currentFrame + 1) % currentAnimation.length;
                 lastTime = currentTime;
             }
             g2d.drawImage(currentAnimation[currentFrame], x, y, null);
             g2d.setColor(Color.RED);
             g2d.draw(enemy.getHitbox());
+        }
+        else{
+            System.out.println("No animation found");
         }
     }
 

@@ -14,7 +14,6 @@ public class BorisView extends EnemyView{
     BufferedImage[] borisBubbledGreen;
     BufferedImage[] borisBubbledBlue;
     BufferedImage[] borisBubbledRed;
-    BufferedImage[] fireball;
     public BorisView(Enemy enemy) {
         super(enemy);
     }
@@ -57,14 +56,6 @@ public class BorisView extends EnemyView{
             borisBubbledRed = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/RedBubble/Enemy27.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/RedBubble/Enemy28.png")))
-            };
-            fireball = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball1.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball2.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball3.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball4.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball5.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball6.png")))
             };
         }
         catch (Exception e){

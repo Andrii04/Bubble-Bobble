@@ -64,7 +64,7 @@ public class UserCreationPanel extends JPanel {
         avatarSources.put(1,"src/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png"); // benzo
         avatarSources.put(2, "src/Resources/Bubble Bobble Resources/Enemies/Blubba/Walk/Enemy39.png"); // blubba
         avatarSources.put(3, "src/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Walk/Enemy55.png"); // boaboa
-        avatarSources.put(4,"src/Resources/Bubble Bobble Resources/Enemies/BonnieBo/Walk/Enemy71.png"); // bonniebo
+        avatarSources.put(4,"src/Resources/Bubble Bobble Resources/Enemies/Invader/Idle/idle1.png"); // Invader
         avatarSources.put(5,"src/Resources/Bubble Bobble Resources/Enemies/Boris/Walk/Enemy17.png"); // boris
         avatarSources.put(6,"src/Resources/Bubble Bobble Resources/Enemies/Incendio/Walk/Walk1.png"); // incendio
         avatarSources.put(7,"src/Resources/Bubble Bobble Resources/Enemies/Superdrunk/Walk/NES - Bubble Bobble - Boss & Final Scene - Super Drunk5.png"); // superdrunk

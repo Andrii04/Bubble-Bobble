@@ -248,16 +248,7 @@ public class Player extends Observable implements Entity {
     public float getAirSpeed(){
         return airSpeed;
     }
-    public void setAirSpeed(int airSpeed){
-        this.airSpeed = airSpeed;
-    }
-    public float getJumpSpeed(){
-        return jumpSpeed;
-    }
 
-    public float getGravity() {
-        return gravity;
-    }
     public Rectangle getHitbox() {return hitbox;}
     public int getLives() {return lives;}
 
