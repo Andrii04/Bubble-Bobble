@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import MODEL.*;
+import MODEL.Bubbles.GreenBubble;
+import MODEL.Bubbles.LightningBubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.*;
 import VIEW.*;
@@ -204,12 +206,25 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             enemies.add(new BoaBoa( 48,48,true,this));
             enemies.add(new SuperDrunk( 160,160,true,this));
             ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
+
+            //spawnedBubbles.add(new LightningBubble());
             //aggiungere bolle che spawnano automaticamente nel livello qua
 
             Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1,
                     enemies, spawnedBubbles);
 
+            LightningBubble lightning1 = new LightningBubble();
+            LightningBubble lightning2 = new LightningBubble();
+            spawnedBubbles.add(lightning1);
+            spawnedBubbles.add(lightning2);
+            LightningBubble lightning3 = new LightningBubble();
+            LightningBubble lightning4 = new LightningBubble();
+            spawnedBubbles.add(lightning3);
+            spawnedBubbles.add(lightning4);
+
+            level1.spawnBubbles();
             level1.setSpawnRate(8000);
+
             addLevel(level1);
 
         //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
@@ -274,4 +289,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     public void actionPerformed(ActionEvent e) {
         currentState.actionPerformed(e);
     }
+
+    public Player getPlayer() {return currentPlayer;}
 }

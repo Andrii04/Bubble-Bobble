@@ -1,6 +1,9 @@
 package MODEL;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
+import MODEL.Bubbles.GreenBubble;
+import MODEL.Bubbles.LightningBubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.*;
 import VIEW.*;
@@ -175,7 +178,10 @@ public class Level {
         return bubbles;
     }
 
-    public void spawnBubbles() {bubbles.addAll(spawnedBubbles);}
+    public void spawnBubbles() {
+        bubbles.addAll(spawnedBubbles);
+    }
+    public ArrayList<SpawnedBubble> getSpawnedBubbles() {return spawnedBubbles;}
 
 }
 
