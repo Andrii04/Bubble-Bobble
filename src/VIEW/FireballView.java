@@ -20,8 +20,8 @@ public class FireballView extends BubbleView {
     public void startFiring() {
         distanceTraveled = 0;
         facingRight = boris.getFacingRight();
-        if (facingRight) currentSkinPath = bubble.getSkinsPath() + "Enemy34.png";
-        else currentSkinPath = bubble.getSkinsPath() + "Enemy33.png";
+        if (facingRight) currentSkinPath = bubble.getSkinsPath() + "Fireball2.png";
+        else currentSkinPath = bubble.getSkinsPath() + "Fireball1.png";
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
     }
 
@@ -39,7 +39,7 @@ public class FireballView extends BubbleView {
         else if (exploding) {
             explodingAnimationTimer++;
             if (explodingAnimationTimer >= 10 && explodingAnimationTimer < 20) {
-                currentSkinPath = bubble.getSkinsPath() + "Enemy38.png";
+                currentSkinPath = bubble.getSkinsPath() + "Fireball6.png";
                 currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
             }
             else if (explodingAnimationTimer >= 20) {
@@ -52,7 +52,7 @@ public class FireballView extends BubbleView {
     @Override
     public void setExplodeIMG() {
 
-        currentSkinPath = bubble.getSkinsPath() + "Enemy37.png";
+        currentSkinPath = bubble.getSkinsPath() + "Fireball5.png";
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
     }
 }
