@@ -44,11 +44,12 @@ public abstract class Bubble {
     boolean encapsulate;
     boolean facingUp;
     boolean pom;
-
+    boolean hitWall;
+    boolean facingRight;
 
     public Bubble() {
-        gsm = GameStateManager.getInstance();
-        currentLevel = gsm.getCurrentLevel();
+        //gsm = GameStateManager.getInstance();
+        //currentLevel = gsm.getCurrentLevel();
 
         hitbox = new Rectangle(x, y, 17, 18);
 
@@ -61,6 +62,8 @@ public abstract class Bubble {
         effect = false;
 
         erased = false;
+        hitWall = false;
+        facingRight = true;
     }
 
     public void explode() {
@@ -124,6 +127,14 @@ public abstract class Bubble {
     }
 
     public void updateLocation(int x, int y) {
+        currentLevel = GameStateManager.getInstance().getCurrentLevel();
+        if (player == null) player = GameStateManager.getInstance().getCurrentPlayer();
+
+        try {
+            player.getHitbox();
+        } catch (NullPointerException e) {
+            System.out.println("must assign the player to the Bubble!");
+        }
 
         this.x = x;
         this.y = y;
@@ -159,9 +170,8 @@ public abstract class Bubble {
                     }
                 }
             }
-            for (Bubble bubble : currentLevel.getBubbles()) {
-                if (bubble instanceof SpawnedBubble
-                    && hitbox.intersects(bubble.getHitbox())) {
+            for (SpawnedBubble bubble : currentLevel.getSpawnedBubbles()) {
+                if (hitbox.intersects(bubble.getHitbox())) {
                     bubble.explode();
                     explode();
                 }
@@ -225,6 +235,8 @@ public abstract class Bubble {
     }
 
     public boolean isSolidTile(int x, int y) {
+
+        currentLevel = GameStateManager.getInstance().getCurrentLevel();
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
         if (tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length) {
@@ -242,6 +254,7 @@ public abstract class Bubble {
 
     public void handleFloatingCollision() {
         // Salva le coordinate originali
+        currentLevel = GameStateManager.getInstance().getCurrentLevel();
         int originalX = x;
         int originalY = y;
 
@@ -321,4 +334,5 @@ public abstract class Bubble {
         this.boris = boris;
         bubbleView.setBoris(boris);
     }
+    public boolean getHitWall() {return hitWall;}
 }
