@@ -20,7 +20,8 @@ public class FireballView extends BubbleView {
     public void startFiring() {
         distanceTraveled = 0;
         facingRight = boris.getFacingRight();
-        currentSkinPath = bubble.getSkinsPath() + "1.png";
+        if (facingRight) currentSkinPath = bubble.getSkinsPath() + "Enemy34.png";
+        else currentSkinPath = bubble.getSkinsPath() + "Enemy33.png";
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
     }
 
@@ -33,23 +34,25 @@ public class FireballView extends BubbleView {
                 bubble.updateLocation(bubble.getX() - shootingSpeed, bubble.getY());
             }
 
-            if (distanceTraveled >= 3 && distanceTraveled < 7) {
-                currentSkinPath = bubble.getSkinsPath() + "2.png";
-                currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
-            } else if (distanceTraveled >= 7) {
-                currentSkinPath = bubble.getSkinsPath() + "3.png";
-                currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
-            }
-            distanceTraveled++;
-
             if (distanceTraveled >= 60) bubble.explode();
         }
         else if (exploding) {
             explodingAnimationTimer++;
-            if (explodingAnimationTimer >= 10) {
+            if (explodingAnimationTimer >= 10 && explodingAnimationTimer < 20) {
+                currentSkinPath = bubble.getSkinsPath() + "Enemy38.png";
+                currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+            }
+            else if (explodingAnimationTimer >= 20) {
                 bubble.stopExplosion();
                 bubble.erase();
             }
         }
+    }
+
+    @Override
+    public void setExplodeIMG() {
+
+        currentSkinPath = bubble.getSkinsPath() + "Enemy37.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
     }
 }

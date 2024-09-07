@@ -6,7 +6,7 @@ public class FireBubble extends SpawnedBubble{
     public FireBubble() {
         super();
         this.bubbleView = new SpawnedBubbleView(this);
-        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/FireBubble";
+        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/fire";
     }
 
     @Override

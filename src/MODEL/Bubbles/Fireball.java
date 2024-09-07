@@ -12,7 +12,7 @@ public class Fireball extends Bubble{
 
     public Fireball() {
         super();
-        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/fire";
+        skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/";
         this.bubbleView = new FireballView(this);
     }
 
