@@ -10,7 +10,7 @@ import java.util.Observer;
 
 public class LivesPanel extends JPanel implements Observer {
 
-    private static final ImageIcon LIFE_ICON = new ImageIcon("src/Resources/Bubble Bobble Resources/Bubbles/GreenBubble3.png");
+    private static final ImageIcon LIFE_ICON = new ImageIcon("");
     //non funziona se viene messo il path giusto
     private int lives;
 
