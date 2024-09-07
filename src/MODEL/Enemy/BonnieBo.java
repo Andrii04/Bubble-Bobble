@@ -1,48 +1,36 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
+import MODEL.Block;
 import MODEL.Entity;
+import VIEW.MainFrame;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BonnieBo extends Enemy {
-
     //no mosse di attacco
     //rimbalza ad alta velocità
     //dannno tramite contatto
-
-    private boolean facingRight = true;
-    private int x;
-    private int y;
     private final int punteggio = 1000;
-    boolean enraged;
-    Timer ragetimer;
-
+    private boolean goUp;
     public BonnieBo( int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
+        speed = 3;
 
     }
     public BonnieBo( GameStateManager gsm){
-        super( gsm);
+        this( 0, 0, true, gsm);
     }
-
-    @Override
-    public void updateAction(Action action) {
-
-    }
-
-    public boolean getFacingRight() {
-        return facingRight;
-    }
-
     @Override
     public int getX() {
-        return 0;
+        return x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return y;
     }
 
     @Override

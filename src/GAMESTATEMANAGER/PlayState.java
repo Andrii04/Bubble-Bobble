@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import static GAMESTATEMANAGER.GameStateManager.pauseState;
 import static MODEL.Entity.Action.*;
 
 public class PlayState extends GameState {
@@ -99,6 +100,10 @@ public class PlayState extends GameState {
             case KeyEvent.VK_E:
                 player.updateAction(ATTACK);
                 break;
+            case KeyEvent.VK_ESCAPE: {
+                    // Metti in pausa il gioco
+                    gsm.setState(pauseState);
+            }
         }
     }
 

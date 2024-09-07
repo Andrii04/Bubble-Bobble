@@ -2,14 +2,8 @@ package MODEL;
 
 import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.SpawnedBubble;
-import MODEL.Enemy.Benzo;
-import MODEL.Enemy.Blubba;
-import MODEL.Enemy.Boris;
-import MODEL.Enemy.Enemy;
-import VIEW.BenzoView;
-import VIEW.BlubbaView;
-import VIEW.BorisView;
-import VIEW.EnemyView;
+import MODEL.Enemy.*;
+import VIEW.*;
 
 import javax.swing.Timer;
 import java.util.ArrayList;
@@ -49,6 +43,8 @@ public class Level {
                     if (enemy instanceof Benzo) return new BenzoView(enemy);
                     if(enemy instanceof Blubba) return new BlubbaView(enemy);
                     if(enemy instanceof Boris) return new BorisView(enemy);
+                    if(enemy instanceof BoaBoa) return new BoaBoaView(enemy);
+                    if(enemy instanceof BonnieBo) return new BonnieBoView(enemy);
                     //altri casi
 
                     return null;

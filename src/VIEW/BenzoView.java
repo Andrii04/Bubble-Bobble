@@ -75,9 +75,7 @@ public class BenzoView extends EnemyView {
     public BufferedImage[] getCurrentAnimation(){
         switch(currentAction){
             default:
-                return benzoWalkRight;
-            case MOVE_LEFT:
-                return benzoWalkLeft;
+                return enemy.getFacingRight() ? benzoWalkRight : benzoWalkLeft;
             case DIE:
                 return benzoDie;
             case RAGE:

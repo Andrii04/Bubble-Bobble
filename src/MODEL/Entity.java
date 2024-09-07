@@ -6,6 +6,7 @@ public interface Entity {
     public enum Action{
         IDLE,
         JUMP,
+        WALK,
         MOVE_VERTICALLY,
         MOVE_LEFT,
         MOVE_RIGHT,

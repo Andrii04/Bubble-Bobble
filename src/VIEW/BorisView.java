@@ -59,12 +59,12 @@ public class BorisView extends EnemyView{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/RedBubble/Enemy28.png")))
             };
             fireball = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Enemy33.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Enemy34.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Enemy35.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Enemy36.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Enemy37.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Enemy38.png")))
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball1.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball2.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball3.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball4.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball5.png"))),
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball6.png")))
             };
         }
         catch (Exception e){
@@ -74,9 +74,7 @@ public class BorisView extends EnemyView{
     public BufferedImage[] getCurrentAnimation(){
         switch(currentAction){
             default:
-                return borisWalkRight;
-            case MOVE_LEFT:
-                return borisWalkLeft;
+                return enemy.getFacingRight() ? borisWalkRight : borisWalkLeft;
             case DIE:
                 return borisDie;
             case RAGE:
