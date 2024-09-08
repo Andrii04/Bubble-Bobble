@@ -48,7 +48,7 @@ public class SuperDrunk extends Enemy{
 
     public void shoot(){
         //shoot
-        System.out.println("SuperDrunk shooting");
+        //System.out.println("SuperDrunk shooting");
     }
     public void chasePlayer(){
         // pong mechanics

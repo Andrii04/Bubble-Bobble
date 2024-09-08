@@ -45,16 +45,24 @@ public class PlayState extends GameState {
         // istantiate enemies
         currentEnemies = gsm.getCurrentLevel().getEnemies();
         for(Enemy enemy: currentEnemies){
-            enemy.setPlayer(player);
-            enemy.setCurrentLevel(gsm.getCurrentLevel());
+            if (enemy != null) {
+                enemy.setPlayer(player);
+                enemy.setCurrentLevel(gsm.getCurrentLevel());
+            }
         }
+        // add others
     }
     @Override
     public void update() {
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             if (enemy != null) {
-                enemy.move();
+                if (!enemy.isBubbled() && !enemy.isDead()) {
+                    enemy.onPlayer();
+                    enemy.chasePlayer();
+                } else {
+                    enemy.updatePosition();
+                }
             }
         }
         if (!player.isOnFloor() ||  !player.isColliding(player.getX(), player.getY() +1)) {
