@@ -39,7 +39,7 @@ public class Player extends Observable implements Entity {
         this.profile=profile;
         this.x = 148;
         this.y = 384;
-        this.lives = 3; // default
+        this.lives = 100; // default
         this.speed = 16; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
@@ -54,8 +54,6 @@ public class Player extends Observable implements Entity {
             cooldown = false;
         });
     }
-
-
 
     private boolean isNotSolid(){
         if(isJumping && airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > MainFrame.FRAME_WIDTH|| this.y+ airSpeed <0 || this.y+ airSpeed > MainFrame.FRAME_HEIGHT) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
@@ -102,10 +100,12 @@ public class Player extends Observable implements Entity {
      public void setCurrentLevel (Level currentLevel) {
          this.currentLevel = currentLevel;
      }
+
     public void notifyObservers(Action action) {
         setChanged();
         super.notifyObservers(action);
     }
+
     @Override
     public void updateAction(Action action) {
         switch(action){

@@ -79,7 +79,7 @@ public class LeaderboardM {
                     leaderboard.addProfile(profile);
                 }
             }
-            System.out.println("Leaderboard loaded from " + filename);
+            //System.out.println("Leaderboard loaded from " + filename);
         } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
             System.err.println("Error while loading leaderboard.");

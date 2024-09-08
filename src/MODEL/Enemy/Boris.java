@@ -19,18 +19,31 @@ public class Boris extends Enemy {
 
 
     private final int points=2000;
-    private Timer attackTimer;
 
     public Boris( int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
         speed = 3;
-        attackTimer = new Timer(1000, e -> shoot());
-        attackTimer.setRepeats(true);
     }
     public Boris( GameStateManager gsm){
         this( 0, 0, true, gsm);
     }
 
+    public void move(){
+        if(isBubbled()) {
+            notifyObservers(Action.BUBBLED);
+        }
+        else if(isDead() &&!isBubbled()){
+            notifyObservers(Action.DIE);
+        }
+        if (!isBubbled() && !isDead()) {
+            if(player.getY() == y){
+                updateAction(Action.ATTACK);
+            }
+            else{onPlayer();
+                chasePlayer();
+            }
+        }
+    }
     @Override
     public void chasePlayer() {
         if(shortestPath.isEmpty()){
@@ -40,20 +53,11 @@ public class Boris extends Enemy {
             updateAction(Action.MOVE_VERTICALLY);
             return;
         }
-        if (player.getY() == y) {
-            onFloor = true;
-            updateAction(Action.ATTACK);
-            return;
-        }
         else if(player.getY() != y && attackTimer.isRunning()){
             attackTimer.stop();
         }
         if(shouldRetracePath()){
             findShortestPath();
-            System.out.println("retracing path");
-            for(Node node: shortestPath){
-                System.out.println(node.x + " " + node.y);
-            }
         }
         else{
             Node nextNode = shortestPath.get(0);
@@ -99,19 +103,8 @@ public class Boris extends Enemy {
         }
         return Math.abs(player.getY() - shortestPath.getLast().y )>80;
     }
-    @Override
-    void attack(){
-        if(player.getX() < x){
-            facingRight = false;
-        }
-        else{
-            facingRight = true;
-        }
-        if(!attackTimer.isRunning()) {
-            attackTimer.start();
-        }
-    }
-    private void shoot(){
+
+    void shoot(){
         Fireball fireball = new Fireball();
         fireball.setBoris(this);
         fireball.setPlayer(player);

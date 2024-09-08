@@ -10,8 +10,10 @@ public class LosePanel extends JPanel {
     private Font font = MainFrame.getPixelFont();
     private final JLabel testo = new JLabel("YOU LOSE");
     private final JLabel menuBT = new JLabel("MENU");
-    private final JLabel exitBT = new JLabel("EXIT");
+    private final JLabel nplaytBT = new JLabel("NEW GAME");
+    private final JLabel restartBT = new JLabel("RETRY");
     private final JLabel leaderboardBT = new JLabel("LEADERBOARD");
+    private final JLabel exitBT = new JLabel("EXIT");
     private final JLabel cursor = new JLabel();
     private int selectedOption = 0;
 
@@ -42,12 +44,31 @@ public class LosePanel extends JPanel {
         menuBT.setVisible(true);
         this.add(menuBT);
 
+        //button nplaytBT
+
+        nplaytBT.setFont(font.deriveFont(30f));
+        nplaytBT.setHorizontalAlignment(SwingConstants.CENTER);
+        nplaytBT.setBounds(MainFrame.FRAME_WIDTH/2-125, menuBT.getY()+menuBT.getHeight()+15, 250 , 50);
+        nplaytBT.setForeground(Color.white);
+        nplaytBT.setVisible(true);
+        this.add(nplaytBT);
+
+        //button restartBT
+
+        restartBT.setFont(font.deriveFont(30f));
+        restartBT.setHorizontalAlignment(SwingConstants.CENTER);
+        restartBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, nplaytBT.getY()+nplaytBT.getHeight()+15, 200 , 50);
+        restartBT.setForeground(Color.white);
+        restartBT.setVisible(true);
+        this.add(restartBT);
+
+
 
         //Leadbord Button
 
         leaderboardBT.setFont(font.deriveFont(30f));
         leaderboardBT.setHorizontalAlignment(SwingConstants.CENTER);
-        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH/2-200, menuBT.getY()+menuBT.getHeight()+15, 400 , 50);
+        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH/2-200, restartBT.getY()+restartBT.getHeight()+15, 400 , 50);
         leaderboardBT.setForeground(Color.white);
         leaderboardBT.setVisible(true);
         this.add(leaderboardBT);
@@ -86,7 +107,7 @@ public class LosePanel extends JPanel {
 
 
         public void cursorDown(){
-            if(selectedOption < 2){
+            if(selectedOption < 4){
                 selectedOption++;
                 cursor.setLocation(cursor.getX(), cursor.getY() + 65);
             }

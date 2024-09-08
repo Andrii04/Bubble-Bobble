@@ -26,6 +26,20 @@ public class Fireball extends Bubble{
 
     @Override
     public void updateLocation(int newX, int newY) {
+
+        try {
+            player.getHitbox();
+        } catch (NullPointerException e) {
+            System.out.println("must assign player to the bubble!");
+        }
+
+
+        try {
+            boris.getHitbox();
+        } catch (NullPointerException e) {
+            System.out.println("must assign boris to the bubble!");
+        }
+
         x = newX;
         y = newY;
         hitbox.setLocation(x, y);

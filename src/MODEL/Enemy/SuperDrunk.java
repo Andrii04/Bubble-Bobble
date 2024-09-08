@@ -102,6 +102,10 @@ public class SuperDrunk extends Enemy{
             case BUBBLED:
                 bubbled();
                 break;
+            case RAGE:
+                rage();
+                notifyObservers(Action.RAGE);
+                break;
             case DIE:
                 dead = true;
                 player.setPunteggio(player.getPunteggio() + points);
@@ -109,10 +113,6 @@ public class SuperDrunk extends Enemy{
                 System.out.println("SuperDrunk died");
                 break;
         }
-    }
-    void bubbled(){
-        bubbled = true;
-        notifyObservers(Action.BUBBLED);
     }
     @Override
     public int getX() {
@@ -122,6 +122,12 @@ public class SuperDrunk extends Enemy{
     @Override
     public int getY() {
         return y;
+    }
+    public int getLives(){
+        return lives;
+    }
+    public void setLives(){
+        this.lives = lives;
     }
 
     @Override

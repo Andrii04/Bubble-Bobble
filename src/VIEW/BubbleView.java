@@ -100,8 +100,19 @@ public class BubbleView {
         currentSkin = new ImageIcon(pomBubbleIMGresized);
     }
 
+    public void setLightningIMG() {
+        String currentSkinPath = bubble.getSkinsPath() + "3.png";
+        Image lightningIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image lightningIMGresized = lightningIMGoriginal.getScaledInstance(
+                30,
+                30,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(lightningIMGresized);
+    }
+
     public void draw(Graphics2D g2d) {
-        if (firing || (floating && !encapsulate) || exploding || pom) {
+        if (firing || (floating && !encapsulate) || exploding || pom || bubble.isEffect()) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
             g2d.draw(bubble.getHitbox());
         }
@@ -204,6 +215,8 @@ public class BubbleView {
     public ImageIcon getCurrentSkin() {return currentSkin;}
     public void setPom(boolean bool) {pom = bool;}
     public void setBoris(Boris boris) {this.boris = boris;}
+
+    public void setCurrentSkin(ImageIcon skin) {this.currentSkin = skin;}
 }
 
 

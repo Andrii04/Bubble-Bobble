@@ -45,12 +45,20 @@ public class LoseState extends GameState{
                                         gsm.setState(GameStateManager.menuState);
                                         break;
                                 case 1:
-                                        gsm.setState(GameStateManager.leaderboardState);
+                                        //crea una nuova partita dal primo livello+salva dati in leaderboard;
                                         break;
 
                                 case 2:
+                                        //ricomincia nuova partita da quel livello
+                                        break;
+
+                                case 3:
+                                        gsm.setState(GameStateManager.leaderboardState);
+                                        break;
+                                case 4:
                                         System.exit(0);
                                         break;
+
                         }
                 }
 

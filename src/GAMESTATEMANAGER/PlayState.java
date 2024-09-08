@@ -26,19 +26,20 @@ public class PlayState extends GameState {
 
 
     public PlayState(GameStateManager gsm) {
-        this.player =gsm.getCurrentPlayer();
+        this.player = gsm.getCurrentPlayer();
         this.gsm = gsm;
         player.updateAction(IDLE);
         loadNewLevel();
         player.addObserver(new Observer() {
             @Override
             public void update(Observable o, Object arg) {
-                if (arg.equals(Entity.Action.DIE)) {
+                // Check if arg is null before using equals
+                if (arg != null && arg.equals(Entity.Action.DIE)) {
                     gsm.setState(GameStateManager.loseState);
                 }
+                // You might want to handle other cases here
             }
-        });
-    }
+        });    }
 
     private void loadNewLevel(){
         // istantiate enemies
@@ -47,22 +48,16 @@ public class PlayState extends GameState {
             enemy.setPlayer(player);
             enemy.setCurrentLevel(gsm.getCurrentLevel());
         }
-        // add others
     }
     @Override
     public void update() {
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             if (enemy != null) {
-                if (!enemy.isBubbled() && !enemy.isDead()) {
-                    enemy.onPlayer();
-                    enemy.chasePlayer();
-                } else {
-                    enemy.updatePosition();
-                }
+                enemy.move();
             }
         }
-        if (!player.isOnFloor() | !player.isColliding(player.getX(), player.getY() +1)) {
+        if (!player.isOnFloor() ||  !player.isColliding(player.getX(), player.getY() +1)) {
             player.updateAction(MOVE_VERTICALLY);
         }
 
@@ -101,8 +96,8 @@ public class PlayState extends GameState {
                 player.updateAction(ATTACK);
                 break;
             case KeyEvent.VK_ESCAPE: {
-                    // Metti in pausa il gioco
-                    gsm.setState(pauseState);
+                gsm.setState(pauseState);  // Assicurati che il metodo getPauseState() esista e ritorni lo stato di pausa
+                break;
             }
         }
     }

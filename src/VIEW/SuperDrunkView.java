@@ -13,6 +13,8 @@ public class SuperDrunkView extends EnemyView {
     BufferedImage[] SuperdrunkBubbledLeft;
     BufferedImage[] SuperdrunkBubbledRight;
     BufferedImage[] SuperdrunkStart;
+    BufferedImage[] SuperdrunkRageLeft;
+    BufferedImage[] SuperdrunkRageRight;
 
     public SuperDrunkView(Enemy enemy) {
         super(enemy);
@@ -31,16 +33,22 @@ public class SuperDrunkView extends EnemyView {
             SuperdrunkHurtLeft = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt1.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt2.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt3.png")))
             };
             SuperdrunkHurtRight = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt1Right.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt2Right.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt3Right.png")))
             };
             SuperdrunkStart = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Start/Start.png"))),
             };
+            SuperdrunkRageLeft = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Rage.png")))
+            };
+            SuperdrunkRageRight = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/RageRight.png")))
+            };
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,6 +65,8 @@ public class SuperDrunkView extends EnemyView {
                 return enemy.getFacingRight() ? SuperdrunkBubbledRight : SuperdrunkBubbledLeft;
             case IDLE:
                 return SuperdrunkStart;
+            case RAGE:
+                return enemy.getFacingRight() ? SuperdrunkRageRight : SuperdrunkRageLeft;
         }
     }
 }

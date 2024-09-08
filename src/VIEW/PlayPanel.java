@@ -3,14 +3,18 @@ package VIEW;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Bubbles.Bubble;
+import MODEL.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Observable;
+
 
 public class PlayPanel extends JPanel implements Runnable {
 
+    private static final ImageIcon LIFE_ICON =new ImageIcon("src/Resources/Bubble Bobble Resources/Bubbles/GreenBubble3.png"); ;
     private GameStateManager gsm;
     private int TILE_SIZE = MainFrame.TILE_SIZE;
     private int FRAME_HEIGHT = MainFrame.FRAME_HEIGHT;
@@ -21,6 +25,9 @@ public class PlayPanel extends JPanel implements Runnable {
     private int arrayHeight = 42;
     private boolean isNewLevel = true;
     ArrayList<EnemyView> enemyViews;
+    private LivesPanel livesPanel;
+    private int lives;
+    private Player player;
 
 
 
@@ -28,7 +35,10 @@ public class PlayPanel extends JPanel implements Runnable {
     Thread gameThread;
 
     public PlayPanel(PlayerView playerView) {
+
         this.playerView = playerView;
+        this.player=playerView.getPlayer();
+        this.lives= player.getLives();
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.BLACK);
         this.setLayout(null);
@@ -37,6 +47,9 @@ public class PlayPanel extends JPanel implements Runnable {
 
         gsm = GameStateManager.getInstance();
         enemyViews = gsm.getCurrentLevel().getEnemyViews();
+        this.livesPanel = new LivesPanel(playerView.getPlayer());
+        this.add(livesPanel);
+        livesPanel.setBounds(10, 10, livesPanel.getPreferredSize().width, livesPanel.getPreferredSize().height);
         startGameThread();
 
     }
@@ -67,7 +80,7 @@ public class PlayPanel extends JPanel implements Runnable {
 
     public void update() {
         // test
-        // System.out.println("running");
+        //System.out.println("running");
     }
 
     public void paintComponent(Graphics g) {
@@ -80,20 +93,23 @@ public class PlayPanel extends JPanel implements Runnable {
                 bubble.getBubbleView().draw(g2d);
             }
         }
-        for(EnemyView enemyView : enemyViews){
+        for (EnemyView enemyView : enemyViews) {
             if (enemyView != null) enemyView.draw(g2d);
         }
-
-
+/*        for (int i = 0; i < lives; i++) {
+            g.drawImage(LIFE_ICON.getImage(), i * LIFE_ICON.getIconWidth(), 0, this);
+        }
+*/
         if (isNewLevel) {
             drawLevel(g2d, gsm.getCurrentLevel().getPattern());
-            //isNewLevel = false;    SE SI METTE QUESTO IL LIVELLO VIENE CANCELLATO, da fixxare
+            // isNewLevel = false;    SE SI METTE QUESTO IL LIVELLO VIENE CANCELLATO, da fixxare
         } else {
-            //metodi per aggiornare giocatore nemici bolle powerup etc, non il livello
+            // metodi per aggiornare giocatore nemici bolle powerup etc, non il livello
         }
 
         gsm.update();
     }
+
     public void drawLevel(Graphics g, int[][] pattern) {
         Graphics2D g2d = (Graphics2D) g;
         Map<Integer, Block> intBlockMap = gsm.getIntBlockMap();

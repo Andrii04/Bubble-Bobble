@@ -1,6 +1,9 @@
 package MODEL;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
+import MODEL.Bubbles.GreenBubble;
+import MODEL.Bubbles.LightningBubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.*;
 import VIEW.*;
@@ -44,6 +47,7 @@ public class Level {
                     if(enemy instanceof Blubba) return new BlubbaView(enemy);
                     if(enemy instanceof Boris) return new BorisView(enemy);
                     if(enemy instanceof BoaBoa) return new BoaBoaView(enemy);
+                    if(enemy instanceof Incendio) return new IncendioView(enemy);
                     if(enemy instanceof SuperDrunk) return new SuperDrunkView(enemy);
                     //altri casi
 
@@ -175,7 +179,10 @@ public class Level {
         return bubbles;
     }
 
-    public void spawnBubbles() {bubbles.addAll(spawnedBubbles);}
+    public void spawnBubbles() {
+        bubbles.addAll(spawnedBubbles);
+    }
+    public ArrayList<SpawnedBubble> getSpawnedBubbles() {return spawnedBubbles;}
 
 }
 

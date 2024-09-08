@@ -36,6 +36,7 @@ public abstract class Enemy extends Observable implements Entity {
 
     Timer rageTimer;
     Timer deathTimer;
+    Timer attackTimer;
     // A* search algorithm for pathfinding
     List<Node> shortestPath;
     class Node{
@@ -71,6 +72,9 @@ public abstract class Enemy extends Observable implements Entity {
         rageTimer = new Timer(100, e ->updateAction(Action.RAGE));
         rageTimer.setRepeats(false);
 
+        attackTimer = new Timer(1000, e -> shoot());
+        attackTimer.setRepeats(true);
+
         deathTimer = new Timer(600, e -> {
             explodes = true;
             removeEnemy();
@@ -78,6 +82,20 @@ public abstract class Enemy extends Observable implements Entity {
         hitbox = new Rectangle(x, y, 32, 32);
         shortestPath = new ArrayList<>();
     }
+
+    public void move(){
+        if(isBubbled()) {
+            notifyObservers(Action.BUBBLED);
+        }
+        else if(isDead() &&!isBubbled()){
+            notifyObservers(Action.DIE);
+        }
+        else{
+            chasePlayer();
+            onPlayer();
+        }
+    }
+
     public void onPlayer(){
         if (hitbox.intersects(player.getHitbox())){
             if (bubbled) {
@@ -397,23 +415,23 @@ public abstract class Enemy extends Observable implements Entity {
         speed *= 2;
         updateAction(Action.IDLE);
     }
-    // to be overridden
+    void shoot(){};
     void attack(){
-        //implementazione specifica
+        onFloor = true;
+        if(player.getX() < x){
+            facingRight = false;
+        }
+        else{
+            facingRight = true;
+        }
+        if(!attackTimer.isRunning()) {
+            attackTimer.start();
+        }
     }
 public Rectangle getHitbox(){
         return hitbox;
 }
     void die(){
-    }
-    public void updatePosition(){
-        if(isBubbled()) {
-            notifyObservers(Action.BUBBLED);
-        }
-        else if(isDead() &&!isBubbled()){
-            notifyObservers(Action.DIE);
-        }
-
     }
 
     //metodi per fare i test per quando il nemico è bubbled, Tiff poi cambiali/toglili se serve, basta che me lo
