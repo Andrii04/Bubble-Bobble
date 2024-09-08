@@ -64,9 +64,9 @@ public class Player extends Observable implements Entity {
 
     public boolean isColliding(int x, float y) {
         int left = x;
-        int right = x +32;
+        int right = x + Entity.WIDTH-1;
         float top = y;
-        float bottom = y+32;
+        float bottom = y+Entity.HEIGHT-1;
 
         int bottomInt = (int)bottom;
         int topInt = (int)top;

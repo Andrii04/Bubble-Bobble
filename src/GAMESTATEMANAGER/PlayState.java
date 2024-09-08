@@ -57,12 +57,7 @@ public class PlayState extends GameState {
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             if (enemy != null) {
-                if (!enemy.isBubbled() && !enemy.isDead()) {
-                    enemy.onPlayer();
-                    enemy.chasePlayer();
-                } else {
-                    enemy.updatePosition();
-                }
+                enemy.move();
             }
         }
         if (!player.isOnFloor() ||  !player.isColliding(player.getX(), player.getY() +1)) {

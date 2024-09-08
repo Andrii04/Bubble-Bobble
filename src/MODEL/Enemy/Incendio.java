@@ -18,7 +18,7 @@ public class Incendio extends Enemy{
 
     public Incendio(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight,gsm);
-        speed = 4;
+        speed = 5;
     }
     public Incendio(GameStateManager gsm){
         super(gsm);
@@ -53,59 +53,6 @@ public class Incendio extends Enemy{
             chasePlayer();
         }
         }
-
-    public void chasePlayer() {
-        if(shortestPath.isEmpty()){
-            updateAction(Action.IDLE);
-        }
-        if(!isOnFloor()){
-            updateAction(Action.MOVE_VERTICALLY);
-            return;
-        }
-        else if(player.getY() != y && attackTimer.isRunning()){
-            attackTimer.stop();
-        }
-        if(shouldRetracePath()){
-            findShortestPath();
-        }
-        else{
-            Node nextNode = shortestPath.get(0);
-            if(isAtNode(nextNode,x,y)){
-                shortestPath.remove(0);
-            }
-            if(nextNode.y<y) {
-                updateAction(Action.JUMP);}
-            else{
-                if (nextNode.x < x) {
-                    if(isSolidTile(nextNode.x,nextNode.y)){
-                        updateAction(Action.IDLE);
-                        return;
-                    }
-                    updateAction(Action.WALK);
-                    if (nextNode.y == y) {
-                        onFloor = true;
-                    } else {
-                        onFloor = false;
-                    }
-                }
-                else if (nextNode.x > x){
-                    if(isSolidTile(nextNode.x+ Block.WIDTH,nextNode.y)){
-                        updateAction(Action.IDLE);
-                        System.out.println("solid tile");
-                        return;
-                    }
-                    updateAction(Action.WALK);
-                    if(nextNode.y == y){
-                        onFloor = true;
-                    }
-                    else{
-                        onFloor = false;
-                    }
-                }
-
-            }
-        }
-    }
 
     void shoot(){
         // to do

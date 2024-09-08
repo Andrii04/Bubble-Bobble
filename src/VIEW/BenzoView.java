@@ -8,8 +8,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
-import static MODEL.Entity.Action.MOVE_RIGHT;
-
 public class BenzoView extends EnemyView {
 
     BufferedImage[] benzoWalkRight;

@@ -3,6 +3,8 @@ package MODEL;
 import java.awt.*;
 
 public interface Entity {
+    static final int WIDTH = 32;
+    static final int HEIGHT = 32;
     public enum Action{
         IDLE,
         JUMP,
