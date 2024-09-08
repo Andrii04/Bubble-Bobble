@@ -39,7 +39,7 @@ public class Player extends Observable implements Entity {
         this.profile=profile;
         this.x = 148;
         this.y = 384;
-        this.lives = 100; // default
+        this.lives = 3; // default
         this.speed = 16; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
@@ -251,6 +251,24 @@ public class Player extends Observable implements Entity {
 
     public Rectangle getHitbox() {return hitbox;}
     public int getLives() {return lives;}
+
+    // Metodo per ridurre le vite
+    public void loseLife() {
+        if (lives > 0) {
+            lives--;
+        }
+    }
+
+    // Metodo per guadagnare una vita
+    public void gainLife() {
+        lives++;
+    }
+
+    // Metodo per impostare direttamente le vite (se necessario)
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
 
     public Bubble getBubbleType() {return bubbleType;}
     public Level getCurrentLevel() {return currentLevel;}

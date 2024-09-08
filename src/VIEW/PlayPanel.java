@@ -25,7 +25,7 @@ public class PlayPanel extends JPanel implements Runnable {
     private int arrayHeight = 42;
     private boolean isNewLevel = true;
     ArrayList<EnemyView> enemyViews;
-    private LivesPanel livesPanel;
+    private LivesPanel livesPanel; // LivesPanel
     private int lives;
     private Player player;
 
@@ -47,9 +47,9 @@ public class PlayPanel extends JPanel implements Runnable {
 
         gsm = GameStateManager.getInstance();
         enemyViews = gsm.getCurrentLevel().getEnemyViews();
-        this.livesPanel = new LivesPanel(playerView.getPlayer());
+        this.livesPanel = new LivesPanel(player);
         this.add(livesPanel);
-        livesPanel.setBounds(10, 10, livesPanel.getPreferredSize().width, livesPanel.getPreferredSize().height);
+        livesPanel.setBounds(10,  MainFrame.FRAME_HEIGHT-22, livesPanel.getPreferredSize().width, livesPanel.getPreferredSize().height);
         startGameThread();
 
     }
@@ -81,6 +81,7 @@ public class PlayPanel extends JPanel implements Runnable {
     public void update() {
         // test
         //System.out.println("running");
+        livesPanel.updateLives();
     }
 
     public void paintComponent(Graphics g) {
