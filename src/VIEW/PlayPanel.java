@@ -28,6 +28,7 @@ public class PlayPanel extends JPanel implements Runnable {
     private LivesPanel livesPanel; // LivesPanel
     private int lives;
     private Player player;
+    private ScorePanel scorePanel;
 
 
 
@@ -47,6 +48,11 @@ public class PlayPanel extends JPanel implements Runnable {
 
         gsm = GameStateManager.getInstance();
         enemyViews = gsm.getCurrentLevel().getEnemyViews();
+
+        this.scorePanel = new ScorePanel(player); //Score Panel
+        this.add(scorePanel);
+        scorePanel.setBounds(10, 10, scorePanel.getPreferredSize().width, scorePanel.getPreferredSize().height);
+
         this.livesPanel = new LivesPanel(player);
         this.add(livesPanel);
         livesPanel.setBounds(10,  MainFrame.FRAME_HEIGHT-22, livesPanel.getPreferredSize().width, livesPanel.getPreferredSize().height);
@@ -82,6 +88,7 @@ public class PlayPanel extends JPanel implements Runnable {
         // test
         //System.out.println("running");
         livesPanel.updateLives();
+        scorePanel.updateScore();
     }
 
     public void paintComponent(Graphics g) {
