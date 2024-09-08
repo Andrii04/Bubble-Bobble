@@ -32,12 +32,6 @@ public abstract class SpawnedBubble extends Bubble {
 
         if (player == null) player = GameStateManager.getInstance().getCurrentPlayer();
 
-        try {
-            player.getHitbox();
-        } catch (NullPointerException e) {
-            System.out.println("must assign player to the bubble!");
-        }
-
         if (floating && player != null) {
             if (hitbox.intersects(player.getHitbox())) explode();
         }

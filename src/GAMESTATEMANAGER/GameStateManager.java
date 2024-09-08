@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import MODEL.*;
+import MODEL.Bubbles.FireBubble;
 import MODEL.Bubbles.GreenBubble;
 import MODEL.Bubbles.LightningBubble;
 import MODEL.Bubbles.SpawnedBubble;
@@ -199,11 +200,11 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         // liv 1
             ArrayList<Enemy> enemies = new ArrayList<>();
-            //enemies.add(new Benzo(105, 544, true, this ));
-            //enemies.add(new Blubba(135, 540, true, this ));
-            //enemies.add(new Benzo( 400, 624, true, this ));
-            //enemies.add(new Boris(80,464,true,this));
-            //enemies.add(new BoaBoa( 48,48,true,this));
+            enemies.add(new Benzo(105, 544, true, this ));
+            enemies.add(new Blubba(135, 540, true, this ));
+            enemies.add(new Benzo( 400, 624, true, this ));
+            enemies.add(new Boris(80,464,true,this));
+            enemies.add(new BoaBoa( 48,48,true,this));
             //enemies.add(new SuperDrunk( 160,160,true,this));
             enemies.add(new Incendio(400,624,true,this));
             ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
@@ -218,10 +219,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             LightningBubble lightning2 = new LightningBubble();
             spawnedBubbles.add(lightning1);
             spawnedBubbles.add(lightning2);
-            LightningBubble lightning3 = new LightningBubble();
-            LightningBubble lightning4 = new LightningBubble();
-            spawnedBubbles.add(lightning3);
-            spawnedBubbles.add(lightning4);
+            FireBubble fire1 = new FireBubble();
+            FireBubble fire2 = new FireBubble();
+            spawnedBubbles.add(fire1);
+            spawnedBubbles.add(fire2);
+
+
 
             level1.spawnBubbles();
             level1.setSpawnRate(8000);

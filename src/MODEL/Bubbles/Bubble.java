@@ -24,14 +24,14 @@ public abstract class Bubble {
     private boolean containEnemy;
     BubbleView bubbleView;
     Player player;
-    Boris boris;
+    Enemy enemy;
     GameStateManager gsm;
     String skinsPath; //sarà il path della skin senza il numero alla fine
     Level currentLevel;
     boolean erased;
 
-    private int shootingSpeed = 9;
-    private int floatingSpeed = 1;
+    int shootingSpeed = 9;
+    int floatingSpeed = 1;
     Rectangle hitbox;
 
     Enemy bubbledEnemy;
@@ -215,7 +215,14 @@ public abstract class Bubble {
 
     public void fireBubble() {
         firing = true;
-        updateLocation(getPlayer().getX() + 18, getPlayer().getY() + 20);
+
+        try {
+            updateLocation(getPlayer().getX() + 18, getPlayer().getY() + 20);
+        } catch (NullPointerException e)
+        {System.out.println("need to set" +
+                " the player for the bubble, use method" +
+                " bubble.setPlayer(Player");}
+
         bubbleView.startFiring();
         bubbleView.setFiring(true);
     }
@@ -225,6 +232,7 @@ public abstract class Bubble {
         firing = false;
         floating = false;
         pom = false;
+        effect = false;
         bubbleView.setExploding(false);
         bubbleView.setFiring(false);
         bubbleView.setFloating(false);
@@ -330,9 +338,13 @@ public abstract class Bubble {
     }
     public boolean isEffect() {return effect;}
 
-    public void setBoris(Boris boris) {
-        this.boris = boris;
-        bubbleView.setBoris(boris);
+    public void setEnemy(Enemy enemy) {
+        System.out.println("setting enemy");
+        this.enemy = enemy;
+        bubbleView.setEnemy(enemy);
     }
     public boolean getHitWall() {return hitWall;}
+    public int getShootingSpeed() {return shootingSpeed;}
+    public int getFloatingSpeed() {return floatingSpeed;}
+    public void updateLocation() {}
 }

@@ -2,6 +2,8 @@ package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Bubbles.Fireball;
+import MODEL.Bubbles.IncendioFireball;
 import MODEL.Entity;
 
 import javax.swing.*;
@@ -57,6 +59,11 @@ public class Incendio extends Enemy{
     void shoot(){
         // to do
         System.out.println("Incendio shoot");
+        IncendioFireball fireball = new IncendioFireball();
+        fireball.setEnemy(this);
+        fireball.setPlayer(player);
+        currentLevel.addBubble(fireball);
+        fireball.fireBubble();
     }
     @Override
     public int getX() {

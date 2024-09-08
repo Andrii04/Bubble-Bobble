@@ -105,8 +105,9 @@ public class Boris extends Enemy {
     }
 
     void shoot(){
+        System.out.println("shooting");
         Fireball fireball = new Fireball();
-        fireball.setBoris(this);
+        fireball.setEnemy(this);
         fireball.setPlayer(player);
         currentLevel.addBubble(fireball);
         fireball.fireBubble();
