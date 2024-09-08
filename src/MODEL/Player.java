@@ -2,11 +2,8 @@ package MODEL;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
-import MODEL.Bubbles.ExtendBubble;
 import MODEL.Bubbles.GreenBubble;
-import VIEW.BubbleView;
 import VIEW.MainFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,9 +25,11 @@ public class Player extends Observable implements Entity {
     private Action currentAction;
     private Timer cooldownTimer;
     private boolean cooldown = false;
-    private ArrayList<ExtendBubble> currentExtendBubbles;
-    private String currentLetters;
-    //physics
+    private ArrayList<Character> extendLetters;
+
+
+
+    // physics
     private boolean isJumping;
     private boolean onFloor;
     private float airSpeed = 0f;
@@ -47,8 +46,7 @@ public class Player extends Observable implements Entity {
         setCurrentLevel(gsm.getCurrentLevel());
 
         bubbleType = new GreenBubble();
-        currentExtendBubbles = new ArrayList<>();
-        currentLetters = "";
+        extendLetters = new ArrayList<>();
 
         cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
@@ -259,10 +257,12 @@ public class Player extends Observable implements Entity {
         }
     }
 
-    // Metodo per guadagnare una vita
+    // Aggiungi una vita al giocatore
     public void gainLife() {
         lives++;
     }
+
+
 
     // Metodo per impostare direttamente le vite (se necessario)
     public void setLives(int lives) {
@@ -270,28 +270,27 @@ public class Player extends Observable implements Entity {
     }
 
 
+    // Aggiunta della lettera raccolta
+    public void collectExtendLetter(char letter) {
+        if (!extendLetters.contains(letter)) {
+            extendLetters.add(letter);
+        }
+    }
+
+    public void resetExtend() {
+        extendLetters.clear();
+    }
+
+    public ArrayList<Character> getExtendLetters() {
+        return extendLetters;
+    }
+
+
+
     public Bubble getBubbleType() {return bubbleType;}
     public Level getCurrentLevel() {return currentLevel;}
     public Rectangle getHitbox(int x, int y) {return hitbox;}
     public Action getCurrentAction() {return currentAction;}
 
-    public ArrayList<ExtendBubble> getCurrentExtendBubbles() {return currentExtendBubbles;}
 
-    public void addExtendBubble(ExtendBubble bubble) {
-
-        if (!currentLetters.contains(bubble.getLetter())) {
-            currentExtendBubbles.add(bubble);
-            currentLetters += bubble.getLetter();
-        }
-        if (currentLetters.length() == 6) fullExtendBubbles();
-    }
-
-    public void fullExtendBubbles() {
-        //dona 1 vita in più al giocatore e inizializza le lettere accumulate
-
-        lives++;
-        //chiama metodo di ogni ExtendBubble
-        currentExtendBubbles.clear();
-        currentLetters = "";
-    }
 }

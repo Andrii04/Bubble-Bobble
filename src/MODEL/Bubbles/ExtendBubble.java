@@ -10,7 +10,7 @@ public class ExtendBubble extends SpawnedBubble{
 
     @Override
     public void startEffect() {
-        player.addExtendBubble(this);
+
     }
 
     @Override
