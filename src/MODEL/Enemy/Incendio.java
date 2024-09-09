@@ -1,12 +1,8 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
-import MODEL.Block;
-import MODEL.Bubbles.Fireball;
 import MODEL.Bubbles.IncendioFireball;
 import MODEL.Entity;
-
-import javax.swing.*;
 
 public class Incendio extends Enemy{
 
@@ -58,13 +54,18 @@ public class Incendio extends Enemy{
             chasePlayer();
         }
         }
-
     void shoot(){
         // to do
         System.out.println("Incendio shoot");
         IncendioFireball fireball = new IncendioFireball(player, this);
         currentLevel.addBubble(fireball);
         fireball.fireBubble();
+    }
+    void rage(){
+        enraged = true;
+        bubbled = false;
+        speed += 1;
+        attackTimer.setDelay(800);
     }
     @Override
     public int getX() {

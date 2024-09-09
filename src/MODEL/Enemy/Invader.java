@@ -1,10 +1,7 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
-import MODEL.Block;
 import MODEL.Entity;
-
-import java.util.*;
 
 public class Invader extends Enemy{
     public Invader(int x, int y, boolean facingRight, GameStateManager gsm){
@@ -13,21 +10,18 @@ public class Invader extends Enemy{
     }
     public Invader(GameStateManager gsm) {
         this(0, 0, true, gsm);
-    }
-    public void  chasePlayer() {
-        if (isSolidTile(x, y + Entity.HEIGHT + 1)) {
-            onFloor = true;
-        } else {
-            onFloor = false;
-        }
+    } @Override
+    void  chasePlayer() {
         if(!isSolidTile(x,y+Entity.HEIGHT+1)){
             onFloor = false;
         }
-        else{
-            onFloor = true;
+        updateAction(Action.ATTACK);
+        updateAction(Action.WALK);
+    }
+    void attack(){
+        if(!attackTimer.isRunning()){
+            attackTimer.start();
         }
-            updateAction(Action.ATTACK);
-            updateAction(Action.IDLE);
     }
     void shoot(){
         System.out.println("Invader shoots");

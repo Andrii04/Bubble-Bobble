@@ -24,7 +24,6 @@ public abstract class Enemy extends Observable implements Entity {
     boolean enraged;
     int speed;
     boolean facingRight;
-    boolean isJumping;
     boolean bubbled;
     boolean dead;
     boolean explodes;
@@ -107,7 +106,7 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
     //  pathfinding
-    public void chasePlayer() {
+    void chasePlayer() {
         if (!isOnFloor() || (!isSolidTile(x,y+Entity.HEIGHT+1) && !isSolidTile(x+Entity.WIDTH+1,y+Entity.HEIGHT+1))) { // fall
             onFloor = false;
             updateAction(Action.MOVE_VERTICALLY);
@@ -131,6 +130,7 @@ public abstract class Enemy extends Observable implements Entity {
                 updateAction(Action.MOVE_VERTICALLY);
                 return;
             }
+            facingRight= nextNode.x > x;
             if (nextNode.x < x) {
                 facingRight = false;
                 updateAction(Action.WALK);
@@ -234,10 +234,10 @@ public abstract class Enemy extends Observable implements Entity {
         return x >= 0 && x < MainFrame.FRAME_WIDTH-Block.HEIGHT-Entity.HEIGHT && y >= 0 && y < MainFrame.FRAME_HEIGHT-Block.HEIGHT-Entity.HEIGHT;
     }
 
-    int getDistance(Node a, Node b){
+    private int getDistance(Node a, Node b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
-    List<Node> retracePath(Node start, Node end){
+    private List<Node> retracePath(Node start, Node end){
         List<Node> path = new ArrayList<>();
         while(end != start && end != null){
             path.add(end);
@@ -262,14 +262,14 @@ public abstract class Enemy extends Observable implements Entity {
     // tile collision
 
     // entity can go through tile if isNotSolid
-    boolean isNotSolid(){
+    private boolean isNotSolid(){
        if(airSpeed<0 && y+airSpeed >= Block.HEIGHT){
             return true;
         }
         return false;
     }
 
-    public boolean isColliding(int x, float y) {
+    boolean isColliding(int x, float y) {
         int leftTile = x; // Leftmost tile
         int rightTile = x + 2 * Block.WIDTH; // Rightmost tile
         int topTile = (int) y; // Topmost tile
@@ -300,7 +300,6 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case MOVE_VERTICALLY:
                 if (!currentLevel.isClock()) {
-                    // if player is in block (error handling), if player isn't colliding with block, if player is jumping up and hitting a non wall block
                     verticalMovement();
                 }
                 break;
@@ -321,7 +320,7 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case RAGE:
                 rage();
-                notifyObservers(Action.RAGE);
+                updateAction(Action.WALK);
                 break;
             case BUBBLED:
                 // comportamenti
@@ -413,10 +412,9 @@ public abstract class Enemy extends Observable implements Entity {
         return onFloor;
     }
     //to be overriden
-    public void rage(){
+    void rage(){
         enraged = true;
-        speed *= 2;
-        updateAction(Action.IDLE);
+        speed +=1;
     }
     void shoot(){};
     void attack(){
