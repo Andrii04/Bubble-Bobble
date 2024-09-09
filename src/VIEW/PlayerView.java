@@ -123,10 +123,8 @@ public class PlayerView implements Observer {
 
     private BufferedImage[] getCurrentAnimation(){
         switch(currentAction){
-            case MOVE_RIGHT:
-                return walkRight;
-            case MOVE_LEFT:
-                return walkLeft;
+            case WALK:
+                return player.getFacingRight() ? walkRight : walkLeft;
             case MOVE_VERTICALLY:
                 if (player.getAirSpeed() < 0) {
                     return player.getFacingRight() ? jumpUpRight : jumpUpLeft;

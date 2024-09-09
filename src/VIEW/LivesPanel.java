@@ -5,42 +5,45 @@ import MODEL.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LivesPanel extends JPanel implements Observer {
+public class LivesPanel extends JPanel {
 
-    private static final ImageIcon LIFE_ICON = new ImageIcon("");
-    //non funziona se viene messo il path giusto
-    private int lives;
+    private ArrayList<JLabel> lifeIcons;  // Usa ArrayList per gestire dinamicamente le icone
+    private Player player;
 
     public LivesPanel(Player player) {
-        this.lives = player.getLives();
-        player.addObserver(this);
-        setOpaque(false);
+        this.player = player;
+        this.lifeIcons = new ArrayList<>();  // Inizializza l'ArrayList
+        this.setLayout(new FlowLayout());
+        updateLives();  // Inizializza le vite
+        this.setOpaque(false);
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        for (int i = 0; i < lives; i++) {
-            g.drawImage(LIFE_ICON.getImage(), i * LIFE_ICON.getIconWidth(), 0, this);
+    // Metodo per aggiornare il pannello delle vite
+    public void updateLives() {
+        int currentLives = player.getLives();
+
+        // Aggiungi o rimuovi icone per adattarsi al numero di vite attuali
+        if (currentLives > lifeIcons.size()) {
+            // Aggiungi icone se le vite sono aumentate
+            for (int i = lifeIcons.size(); i < currentLives; i++) {
+                JLabel lifeIcon = new JLabel(new ImageIcon("src/Resources/Bubble Bobble Resources/Bubbles/GreenBubble3.png"));
+                lifeIcons.add(lifeIcon);
+                this.add(lifeIcon);
+            }
+        } else if (currentLives < lifeIcons.size()) {
+            // Rimuovi icone se le vite sono diminuite
+            for (int i = lifeIcons.size() - 1; i >= currentLives; i--) {
+                this.remove(lifeIcons.get(i));  // Rimuovi dal JPanel
+                lifeIcons.remove(i);            // Rimuovi dall'ArrayList
+            }
         }
-    }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Player) {
-            Player player = (Player) o;
-            this.lives = player.getLives();
-            repaint();
-        }
-    }
-
-
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(LIFE_ICON.getIconWidth() * 5, LIFE_ICON.getIconHeight());
+        // Repaint per garantire che le modifiche siano visibili
+        this.revalidate();
+        this.repaint();
     }
 }

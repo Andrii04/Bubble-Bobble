@@ -2,6 +2,8 @@ package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Bubbles.Fireball;
+import MODEL.Bubbles.IncendioFireball;
 import MODEL.Entity;
 
 import javax.swing.*;
@@ -18,7 +20,7 @@ public class Incendio extends Enemy{
 
     public Incendio(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight,gsm);
-        speed = 5;
+        speed = 3;
     }
     public Incendio(GameStateManager gsm){
         super(gsm);
@@ -46,7 +48,10 @@ public class Incendio extends Enemy{
             notifyObservers(Action.DIE);
         }
         if(!isBubbled() && !isDead()){
-            if(player.getY() == y){
+            if(player.getY() != y && attackTimer.isRunning()){
+                attackTimer.stop();
+            }
+            else if(player.getY() == y){
                 updateAction(Action.ATTACK);
             }
             onPlayer();
@@ -57,6 +62,11 @@ public class Incendio extends Enemy{
     void shoot(){
         // to do
         System.out.println("Incendio shoot");
+        IncendioFireball fireball = new IncendioFireball();
+        fireball.setEnemy(this);
+        fireball.setPlayer(player);
+        currentLevel.addBubble(fireball);
+        fireball.fireBubble();
     }
     @Override
     public int getX() {

@@ -2,11 +2,8 @@ package MODEL;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
-import MODEL.Bubbles.ExtendBubble;
 import MODEL.Bubbles.GreenBubble;
-import VIEW.BubbleView;
 import VIEW.MainFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,27 +25,27 @@ public class Player extends Observable implements Entity {
     private Action currentAction;
     private Timer cooldownTimer;
     private boolean cooldown = false;
-    private ArrayList<ExtendBubble> currentExtendBubbles;
-    private String currentLetters;
-    //physics
-    private boolean isJumping;
+    private ArrayList<Character> extendLetters;
+
+
+
+    // physics
     private boolean onFloor;
     private float airSpeed = 0f;
 
     public Player(UserProfile profile){
         this.profile=profile;
-        this.x = 148;
-        this.y = 384;
+        this.x = 130;
+        this.y = 0;
         this.lives = 100; // default
-        this.speed = 16; // default
+        this.speed = 10; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
 
         bubbleType = new GreenBubble();
-        currentExtendBubbles = new ArrayList<>();
-        currentLetters = "";
+        extendLetters = new ArrayList<>();
 
         cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
@@ -56,121 +53,88 @@ public class Player extends Observable implements Entity {
     }
 
     private boolean isNotSolid(){
-        if(isJumping && airSpeed<0 && !(this.x+ airSpeed <0 || this.x+ airSpeed > MainFrame.FRAME_WIDTH|| this.y+ airSpeed <0 || this.y+ airSpeed > MainFrame.FRAME_HEIGHT) && isSolidTile(x/Block.WIDTH, y/Block.HEIGHT)){
+        if(airSpeed<0 && y+airSpeed >= Block.HEIGHT){
             return true;
         }
         return false;
     }
 
+    // if any point of entity is colliding with a solid tile
     public boolean isColliding(int x, float y) {
-        int left = x;
-        int right = x + Entity.WIDTH-1;
-        float top = y;
-        float bottom = y+Entity.HEIGHT-1;
-
-        int bottomInt = (int)bottom;
-        int topInt = (int)top;
-
-        for (int i = left; i < right; i++) {
-            for (int j = topInt; j < bottomInt; j++) {
-                if (isSolidTile(i, j)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        int leftTile = x; // Leftmost tile
+        int rightTile = x + 2 * Block.WIDTH; // Rightmost tile
+        int topTile = (int) y; // Topmost tile
+        int bottomTile = (int) y + 2 * Block.HEIGHT; // Bottommost tile
+        return isSolidTile(rightTile, topTile) || isSolidTile(leftTile, topTile) || isSolidTile(leftTile, bottomTile) || isSolidTile(rightTile, bottomTile);
     }
-    public boolean isSolidTile(int x ,int y){
+    // if a given position's tile is solid
+    boolean isSolidTile(int x ,int y){
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
-        if(tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length){
-            if(currentLevel.isItSolidBlock(tileY, tileX)){
-                // test
-                //System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX] + " x: " + x + " y: " + y);
-                return true;
-            }
-            else{
-                return false;
+        return tileX >=0 && tileX < currentLevel.getPattern()[0].length &&
+                tileY >= 0 && tileY < currentLevel.getPattern().length &&
+                currentLevel.isItSolidBlock(tileY, tileX);
 
-            }
-        }
-        return true;
-    }
-
-     public void setCurrentLevel (Level currentLevel) {
-         this.currentLevel = currentLevel;
-     }
-
-    public void notifyObservers(Action action) {
-        setChanged();
-        super.notifyObservers(action);
     }
 
     @Override
     public void updateAction(Action action) {
         switch(action){
             case JUMP:
-                isJumping = true;
                 currentAction = Action.JUMP;
                 if(isOnFloor()){
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
-                    notifyObservers(Action.MOVE_VERTICALLY);
                 }
                 break;
             case MOVE_VERTICALLY:
                 currentAction = Action.MOVE_VERTICALLY;
                 // if player is in block (error handling), if player isn't colliding with block, if player is jumping up and hitting a non wall block
-                if(isColliding(x,y) ||!isColliding(x, y+airSpeed)|| isNotSolid()) {
+                if(!isColliding(x, y+airSpeed)|| isNotSolid()) {
                     this.y += airSpeed;
                     hitbox.setLocation(x, y);
                     airSpeed += gravity;
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
-                //player is falling to the ground
-                else if(isColliding(x, y+airSpeed) && airSpeed > 0){
-                    isJumping = false;
-                    airSpeed = 0;
-                    onFloor = true;
-                    notifyObservers(Action.IDLE);
-                }
-                // when player hits something fall down
-                else{
-                    isJumping = false;
-                    airSpeed = 0;
+                //top and bottom connected
+                if (y + airSpeed >= MainFrame.FRAME_HEIGHT - Entity.HEIGHT) {
+                    this.y = 0;
+                    hitbox.setLocation(x, y);
                     onFloor = false;
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
+                //player is falling to the ground
+                else if(isColliding(x,y+airSpeed)&& airSpeed > 0 ){
+                    if( (isSolidTile(x,y)||isSolidTile(x+Entity.HEIGHT,y)|| isSolidTile(x+Block.WIDTH,y))){
+                        this.y += airSpeed;
+                        hitbox.setLocation(x, y);
+                        airSpeed += gravity;
+                        notifyObservers(Action.MOVE_VERTICALLY);
+                    }
+                    else {
+                        airSpeed = 0;
+                        onFloor = true;
+                        notifyObservers(Action.IDLE);
+                    }
+                }
                 break;
-            case MOVE_LEFT:
-                currentAction = Action.MOVE_LEFT;
-                if(!isColliding(x-speed, y)){
-                     if (!isOnFloor()){
-                         this.x -= airSpeed;
-                     }
-                     else{
+            case WALK:
+                System.out.println(y);
+                    currentAction = Action.WALK;
+                    if (!facingRight) {
+                        if (!isColliding(x - speed, y)) {
                             this.x -= speed;
-                     }
+                        }
+                    } else {
+                        if (!isColliding(x + speed, y)) {
+                            if (isOnFloor()) {
+                                this.x += speed;
+                            }
+                        }
+                    }
                     hitbox.setLocation(x, y);
-            }
-                facingRight = false;
-                notifyObservers(Action.MOVE_LEFT);
-                break;
-            case MOVE_RIGHT:
-                currentAction = Action.MOVE_RIGHT;
-                if(!isColliding(x+speed, y)){
-                    if (airSpeed > 0 && !isOnFloor()) {
-                        this.x += airSpeed;
-                        hitbox.setLocation(x, y);
-                    }
-                    else{
-                        this.x += speed;
-                        hitbox.setLocation(x, y);
-                    }
-            }
-                facingRight = true;
-                notifyObservers(Action.MOVE_RIGHT);
+                    notifyObservers(Action.WALK);
                 break;
             case ATTACK:
                 currentAction = Action.ATTACK;
@@ -200,11 +164,9 @@ public class Player extends Observable implements Entity {
                 break;
             default:
                 notifyObservers(Action.IDLE);
-                System.out.println("pl position: " + x + " " + y);
                 break;
         }
     }
-
     @Override
     public int getX() {
         return x;
@@ -216,6 +178,14 @@ public class Player extends Observable implements Entity {
     }
     public boolean getFacingRight(){
         return facingRight;
+    }
+    public void setCurrentLevel (Level currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public void notifyObservers(Action action) {
+        setChanged();
+        super.notifyObservers(action);
     }
 
     @Override
@@ -252,28 +222,50 @@ public class Player extends Observable implements Entity {
     public Rectangle getHitbox() {return hitbox;}
     public int getLives() {return lives;}
 
+    // Metodo per ridurre le vite
+    public void loseLife() {
+        if (lives > 0) {
+            lives--;
+        }
+    }
+
+    // Aggiungi una vita al giocatore
+    public void gainLife() {
+        lives++;
+    }
+
+
+
+    // Metodo per impostare direttamente le vite (se necessario)
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+
+    // Aggiunta della lettera raccolta
+    public void collectExtendLetter(char letter) {
+        if (!extendLetters.contains(letter)) {
+            extendLetters.add(letter);
+        }
+    }
+
+    public void resetExtend() {
+        extendLetters.clear();
+    }
+
+    public ArrayList<Character> getExtendLetters() {
+        return extendLetters;
+    }
+
+
+
     public Bubble getBubbleType() {return bubbleType;}
     public Level getCurrentLevel() {return currentLevel;}
     public Rectangle getHitbox(int x, int y) {return hitbox;}
     public Action getCurrentAction() {return currentAction;}
 
-    public ArrayList<ExtendBubble> getCurrentExtendBubbles() {return currentExtendBubbles;}
 
-    public void addExtendBubble(ExtendBubble bubble) {
-
-        if (!currentLetters.contains(bubble.getLetter())) {
-            currentExtendBubbles.add(bubble);
-            currentLetters += bubble.getLetter();
-        }
-        if (currentLetters.length() == 6) fullExtendBubbles();
-    }
-
-    public void fullExtendBubbles() {
-        //dona 1 vita in più al giocatore e inizializza le lettere accumulate
-
-        lives++;
-        //chiama metodo di ogni ExtendBubble
-        currentExtendBubbles.clear();
-        currentLetters = "";
+    public void setFacingRight(boolean facingRight) {
+        this.facingRight = facingRight;
     }
 }

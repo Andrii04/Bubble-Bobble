@@ -48,6 +48,7 @@ public class Level {
                     if(enemy instanceof Boris) return new BorisView(enemy);
                     if(enemy instanceof BoaBoa) return new BoaBoaView(enemy);
                     if(enemy instanceof Incendio) return new IncendioView(enemy);
+                    if(enemy instanceof Invader) return new InvaderView(enemy);
                     if(enemy instanceof SuperDrunk) return new SuperDrunkView(enemy);
                     //altri casi
 

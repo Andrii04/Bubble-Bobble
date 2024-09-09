@@ -1,9 +1,13 @@
 package MODEL.Bubbles;
 
+import VIEW.SpawnedBubbleView;
+
 public class WaterBubble extends SpawnedBubble{
+    {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/WaterBubble";}
     public WaterBubble() {
         super();
-        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/WaterBubble";
+        this.bubbleView = new SpawnedBubbleView(this);
+        hitbox.setSize(44, 45);
     }
 
     @Override

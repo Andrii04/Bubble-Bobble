@@ -24,59 +24,36 @@ public class BoaBoa extends Enemy {
 
     public void chasePlayer(){
         // pong mechanics
-        if (isColliding(x+speed,y)){
+        if (isSolidTile(x+speed+Entity.WIDTH,y)){
             facingRight = false;
         }
-        else if(isColliding(x- speed,y)){
+        else if(isSolidTile(x- speed,y)){
             facingRight = true;
         }
-        if(isColliding(x,y+ speed)){
+        if(isSolidTile(x,y+ speed+Entity.HEIGHT)){
             goUp = true;
         }
-        else if(isColliding(x,y- speed)){
+        else if(isSolidTile(x,y- speed)){
             goUp = false;
         }
         updateAction(Action.WALK);
         }
-
-    @Override
-    public void updateAction(Action action) {
-        switch(action){
-            default:
-                notifyObservers(Action.IDLE);
-                break;
-            case WALK:
-                if(facingRight){
-                    this.x+=speed;
-                }
-                else{
-                    this.x-=speed;
-                }
-                if(goUp){
-                    this.y-=speed;
-                }
-                else{
-                    this.y+=speed;
-                }
-                hitbox.setLocation(x,y);
-                notifyObservers(Action.WALK);
-                break;
-            case RAGE:
-                rage();
-                notifyObservers(Action.RAGE);
-                break;
-            case BUBBLED:
-                bubbled();
-                break;
-            case DIE:
-                dead = true;
-                player.setPunteggio(player.getPunteggio() + points);
-                deathTimer.start();
-                notifyObservers(Action.DIE);
-                break;
-        }
+void walk(){
+    if(facingRight){
+        this.x+=speed;
     }
-
+    else{
+        this.x-=speed;
+    }
+    if(goUp){
+        this.y-=speed;
+    }
+    else{
+        this.y+=speed;
+    }
+    hitbox.setLocation(x,y);
+    notifyObservers(Action.WALK);
+}
     @Override
     public int getX() {
         return x;

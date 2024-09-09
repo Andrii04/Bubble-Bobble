@@ -2,19 +2,21 @@ package MODEL.Bubbles;
 
 import MODEL.Block;
 import MODEL.Enemy.Boris;
+import MODEL.Enemy.Enemy;
 import MODEL.Entity;
 import MODEL.Player;
 import VIEW.FireballView;
 
 import java.awt.*;
 
-public class Fireball extends Bubble{
+public class Fireball extends Bubble {
     private int shootingSpeed = 9;
     private int floatingSpeed = 1;
+    {skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball";}
 
     public Fireball() {
         super();
-        skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/";
+
         this.bubbleView = new FireballView(this);
         super.hitbox = new Rectangle(x, y, 16*2, 16*2);
     }
@@ -26,19 +28,6 @@ public class Fireball extends Bubble{
 
     @Override
     public void updateLocation(int newX, int newY) {
-
-        try {
-            player.getHitbox();
-        } catch (NullPointerException e) {
-            System.out.println("must assign player to the bubble!");
-        }
-
-
-        try {
-            boris.getHitbox();
-        } catch (NullPointerException e) {
-            System.out.println("must assign boris to the bubble!");
-        }
 
         x = newX;
         y = newY;
@@ -53,11 +42,20 @@ public class Fireball extends Bubble{
 
     @Override
     public void fireBubble() {
+        System.out.println("firing");
         firing = true;
-        updateLocation(boris.getX(), boris.getY());
+
+        try {
+            updateLocation(enemy.getX(), enemy.getY());
+        } catch (NullPointerException e) {
+            System.out.println("Need to set the shooting " +
+                    "enemy for the Fireball," +
+                    " use method fireball.setEnemy(Enemy)");
+        }
+
         bubbleView.startFiring();
         bubbleView.setFiring(true);
     }
 
-    public Boris getBoris() {return boris;}
+    public Enemy getEnemy() {return enemy;}
 }

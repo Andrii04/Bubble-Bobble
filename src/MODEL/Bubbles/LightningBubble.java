@@ -7,9 +7,10 @@ import VIEW.SpawnedBubbleView;
 import javax.swing.*;
 public class LightningBubble extends SpawnedBubble{
     int lightningSpeed = 8;
+    {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/lightning";}
     public LightningBubble(){
         super();
-        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/lightning";
+
         bubbleView = new SpawnedBubbleView(this);
         hitbox.setSize(44, 45);
     }

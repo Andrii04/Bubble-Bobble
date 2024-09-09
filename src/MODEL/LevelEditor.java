@@ -72,4 +72,9 @@ public class LevelEditor {
             }
         }
     }
+    public void saveLevel(Level level) {
+        int levelIndex = gsm.getLevels().indexOf(level);
+        gsm.setLevel(levelIndex, level);
+
+    }
 }

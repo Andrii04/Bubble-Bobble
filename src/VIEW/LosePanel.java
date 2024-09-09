@@ -2,119 +2,139 @@ package VIEW;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.io.InputStream;
 
+
+/**
+ * La classe `LosePanel` rappresenta il pannello che viene visualizzato quando il giocatore perde la partita.
+ * Fornisce opzioni come tornare al menu principale, iniziare una nuova partita, ritentare, visualizzare la leaderboard, o uscire dal gioco.
+ * Il pannello include un cursore grafico per indicare l'opzione selezionata.
+ */
 public class LosePanel extends JPanel {
 
+    // Il font utilizzato per il testo e i pulsanti
     private Font font = MainFrame.getPixelFont();
+
+    // Etichetta che mostra il messaggio "YOU LOSE"
     private final JLabel testo = new JLabel("YOU LOSE");
+
+    // Pulsante per tornare al menu principale
     private final JLabel menuBT = new JLabel("MENU");
+
+    // Pulsante per avviare una nuova partita
     private final JLabel nplaytBT = new JLabel("NEW GAME");
+
+    // Pulsante per ritentare la partita corrente
     private final JLabel restartBT = new JLabel("RETRY");
+
+    // Pulsante per accedere alla leaderboard
     private final JLabel leaderboardBT = new JLabel("LEADERBOARD");
+
+    // Pulsante per uscire dal gioco
     private final JLabel exitBT = new JLabel("EXIT");
+
+    // Icona che rappresenta il cursore per selezionare le opzioni
     private final JLabel cursor = new JLabel();
+
+    // Indice dell'opzione attualmente selezionata (0 = prima opzione)
     private int selectedOption = 0;
 
-    public LosePanel(){
-
-
-        this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
+    /**
+     * Costruttore della classe `LosePanel`.
+     * Imposta la dimensione del pannello, il colore di sfondo, la disposizione degli elementi e crea le etichette e il cursore.
+     */
+    public LosePanel() {
+        this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.black);
         this.setLayout(null);
         this.setVisible(true);
 
-
-        //label
+        // Configurazione dell'etichetta "YOU LOSE"
         testo.setFont(font.deriveFont(60f));
         testo.setHorizontalAlignment(SwingConstants.CENTER);
-        testo.setBounds(MainFrame.FRAME_WIDTH/2-240,30,480,250);
+        testo.setBounds(MainFrame.FRAME_WIDTH / 2 - 240, 30, 480, 250);
         testo.setForeground(Color.red);
         testo.setVisible(true);
         this.add(testo);
 
-
-        //button Return to Menu
-
+        // Configurazione del pulsante "MENU"
         menuBT.setFont(font.deriveFont(30f));
         menuBT.setHorizontalAlignment(SwingConstants.CENTER);
-        menuBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, testo.getY() + testo.getHeight(), 200 , 50);
+        menuBT.setBounds((MainFrame.FRAME_WIDTH - 200) / 2, testo.getY() + testo.getHeight(), 200, 50);
         menuBT.setForeground(Color.white);
         menuBT.setVisible(true);
         this.add(menuBT);
 
-        //button nplaytBT
-
+        // Configurazione del pulsante "NEW GAME"
         nplaytBT.setFont(font.deriveFont(30f));
         nplaytBT.setHorizontalAlignment(SwingConstants.CENTER);
-        nplaytBT.setBounds(MainFrame.FRAME_WIDTH/2-125, menuBT.getY()+menuBT.getHeight()+15, 250 , 50);
+        nplaytBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 125, menuBT.getY() + menuBT.getHeight() + 15, 250, 50);
         nplaytBT.setForeground(Color.white);
         nplaytBT.setVisible(true);
         this.add(nplaytBT);
 
-        //button restartBT
-
+        // Configurazione del pulsante "RETRY"
         restartBT.setFont(font.deriveFont(30f));
         restartBT.setHorizontalAlignment(SwingConstants.CENTER);
-        restartBT.setBounds((MainFrame.FRAME_WIDTH-200)/2, nplaytBT.getY()+nplaytBT.getHeight()+15, 200 , 50);
+        restartBT.setBounds((MainFrame.FRAME_WIDTH - 200) / 2, nplaytBT.getY() + nplaytBT.getHeight() + 15, 200, 50);
         restartBT.setForeground(Color.white);
         restartBT.setVisible(true);
         this.add(restartBT);
 
-
-
-        //Leadbord Button
-
+        // Configurazione del pulsante "LEADERBOARD"
         leaderboardBT.setFont(font.deriveFont(30f));
         leaderboardBT.setHorizontalAlignment(SwingConstants.CENTER);
-        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH/2-200, restartBT.getY()+restartBT.getHeight()+15, 400 , 50);
+        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 200, restartBT.getY() + restartBT.getHeight() + 15, 400, 50);
         leaderboardBT.setForeground(Color.white);
         leaderboardBT.setVisible(true);
         this.add(leaderboardBT);
 
-
-
-
-        //Exit button
-
+        // Configurazione del pulsante "EXIT"
         exitBT.setFont(font.deriveFont(30f));
         exitBT.setHorizontalAlignment(SwingConstants.CENTER);
-        exitBT.setBounds(MainFrame.FRAME_WIDTH/2-100 , leaderboardBT.getY()+ leaderboardBT.getHeight()+15, 200 , 50);
+        exitBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 100, leaderboardBT.getY() + leaderboardBT.getHeight() + 15, 200, 50);
         exitBT.setForeground(Color.white);
         exitBT.setVisible(true);
         this.add(exitBT);
 
-        //cursor
-
+        // Configurazione del cursore
         ImageIcon cursorImg = new ImageIcon(getClass().getResource("/Resources/Bubble Bobble Resources/Bubbles/GreenBubble4.png"));
-        Image cursorScaled = cursorImg.getImage().getScaledInstance(cursorImg.getIconWidth()*2, cursorImg.getIconWidth()*2, Image.SCALE_SMOOTH);
+        Image cursorScaled = cursorImg.getImage().getScaledInstance(cursorImg.getIconWidth() * 2, cursorImg.getIconWidth() * 2, Image.SCALE_SMOOTH);
         cursor.setIcon(new ImageIcon(cursorScaled));
         cursor.setHorizontalAlignment(SwingConstants.CENTER);
-        cursor.setBounds(leaderboardBT.getX() - 100, menuBT.getY(), cursorImg.getIconWidth()*10, menuBT.getHeight());
+        cursor.setBounds(leaderboardBT.getX() - 100, menuBT.getY(), cursorImg.getIconWidth() * 10, menuBT.getHeight());
         cursor.setVisible(true);
         this.add(cursor);
     }
 
-
-        public void cursorUp()
-        {
-            if (selectedOption > 0) {
-                selectedOption--;
-                cursor.setLocation(cursor.getX(), cursor.getY() - 65);
-            }
-        }
-
-
-        public void cursorDown(){
-            if(selectedOption < 4){
-                selectedOption++;
-                cursor.setLocation(cursor.getX(), cursor.getY() + 65);
-            }
-        }
-        public int getSelectedOption(){
-            return selectedOption;
+    /**
+     * Sposta il cursore in alto, selezionando l'opzione precedente.
+     * Il cursore si muove solo se non si trova già sulla prima opzione.
+     */
+    public void cursorUp() {
+        if (selectedOption > 0) {
+            selectedOption--;
+            cursor.setLocation(cursor.getX(), cursor.getY() - 65);
         }
     }
 
+    /**
+     * Sposta il cursore in basso, selezionando l'opzione successiva.
+     * Il cursore si muove solo se non si trova già sull'ultima opzione.
+     */
+    public void cursorDown() {
+        if (selectedOption < 4) {
+            selectedOption++;
+            cursor.setLocation(cursor.getX(), cursor.getY() + 65);
+        }
+    }
+
+    /**
+     * Restituisce l'indice dell'opzione attualmente selezionata.
+     *
+     * @return l'indice dell'opzione selezionata, da 0 a 4
+     */
+    public int getSelectedOption() {
+        return selectedOption;
+    }
+}
 

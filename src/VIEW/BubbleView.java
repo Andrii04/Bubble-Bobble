@@ -21,10 +21,10 @@ public class BubbleView {
     int distanceTraveled;
     boolean facingRight;
     boolean startHorizontalMovement;
-    Boris boris;
+    Enemy enemy;
 
-    int shootingSpeed = 9;
-    int floatingSpeed = 1;
+    int shootingSpeed;
+    int floatingSpeed;
 
     int pomAnimationTimer;
     int explodingAnimationTimer;
@@ -32,11 +32,10 @@ public class BubbleView {
 
     public BubbleView(Bubble bubble) {
         this.bubble = bubble;
-        this.currentSkinPath = bubble.getSkinsPath() + "1.png";
+        this.shootingSpeed = bubble.getShootingSpeed();
+        this.floatingSpeed = bubble.getFloatingSpeed();
         // test
-        System.out.println(currentSkinPath);  // null
 
-        currentSkin = new ImageIcon(currentSkinPath); // getClass().getResource(currentSkinPath)
         firing = false;
         exploding = false;
         floating = false;
@@ -45,6 +44,10 @@ public class BubbleView {
         pomAnimationTimer = 0;
         explodingAnimationTimer = 0;
         encapsulateTimer = 0;
+
+        this.currentSkinPath = bubble.getSkinsPath() + "1.png";
+        currentSkin = new ImageIcon(currentSkinPath);
+        System.out.println(currentSkinPath); //null ?
     }
 
     public void startFiring() {
@@ -55,7 +58,7 @@ public class BubbleView {
     }
 
     public void setFloatingIMG() {
-        String currentSkinPath = bubble.getSkinsPath() + "3.png";
+        currentSkinPath = bubble.getSkinsPath() + "3.png";
         Image floatingBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image floatingBubbleIMGresized = floatingBubbleIMGoriginal.getScaledInstance(
                 45,
@@ -67,7 +70,7 @@ public class BubbleView {
     }
 
     public void setEncapsuleIMG() {
-        String currentSkinPath = bubble.getSkinsPath() + "4.png";
+        currentSkinPath = bubble.getSkinsPath() + "4.png";
         Image encapsuleBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image encapsuleBubbleIMGresized = encapsuleBubbleIMGoriginal.getScaledInstance(
                 45,
@@ -78,7 +81,7 @@ public class BubbleView {
     }
 
     public void setExplodeIMG() {
-        String currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BubbleExplode.png";
+        currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BubbleExplode.png";
 
         Image explodeBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image explodeBubbleIMGresized = explodeBubbleIMGoriginal.getScaledInstance(
@@ -90,7 +93,7 @@ public class BubbleView {
     }
 
     public void setPomIMG() {
-        String currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BubblePom.png";
+        currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BubblePom.png";
         Image pomBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image pomBubbleIMGresized = pomBubbleIMGoriginal.getScaledInstance(
                 45,
@@ -101,7 +104,7 @@ public class BubbleView {
     }
 
     public void setLightningIMG() {
-        String currentSkinPath = bubble.getSkinsPath() + "3.png";
+        currentSkinPath = bubble.getSkinsPath() + "3.png";
         Image lightningIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image lightningIMGresized = lightningIMGoriginal.getScaledInstance(
                 30,
@@ -111,8 +114,22 @@ public class BubbleView {
         currentSkin = new ImageIcon(lightningIMGresized);
     }
 
+    public void setFireIMG1() {
+        currentSkinPath = bubble.getSkinsPath() + "1.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+    }
+    public void setFireIMG2() {
+        currentSkinPath = bubble.getSkinsPath() + "2.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+    }
+    public void setFireIMG4() {
+        currentSkinPath = bubble.getSkinsPath() + "4.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+    }
+
     public void draw(Graphics2D g2d) {
-        if (firing || (floating && !encapsulate) || exploding || pom || bubble.isEffect()) {
+        if (!bubble.getErased() &&
+                (firing || (floating && !encapsulate) || exploding || pom || bubble.isEffect())) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
             g2d.draw(bubble.getHitbox());
         }
@@ -214,7 +231,7 @@ public class BubbleView {
     public boolean getStartHorizontalMovement() {return startHorizontalMovement;}
     public ImageIcon getCurrentSkin() {return currentSkin;}
     public void setPom(boolean bool) {pom = bool;}
-    public void setBoris(Boris boris) {this.boris = boris;}
+    public void setEnemy(Enemy enemy) {this.enemy = enemy;}
 
     public void setCurrentSkin(ImageIcon skin) {this.currentSkin = skin;}
 }

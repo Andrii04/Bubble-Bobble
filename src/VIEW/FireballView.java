@@ -9,20 +9,16 @@ import java.awt.*;
 
 public class FireballView extends BubbleView {
 
-    int shootingSpeed = 9;
-    int floatingSpeed = 1;
-
     public FireballView(Fireball bubble) {
-
         super(bubble);
     }
 
     @Override
     public void startFiring() {
         distanceTraveled = 0;
-        facingRight = boris.getFacingRight();
-        if (facingRight) currentSkinPath = bubble.getSkinsPath() + "Fireball2.png";
-        else currentSkinPath = bubble.getSkinsPath() + "Fireball1.png";
+        facingRight = enemy.getFacingRight();
+        if (facingRight) currentSkinPath = bubble.getSkinsPath() + "2.png";
+        else currentSkinPath = bubble.getSkinsPath() + "1.png";
         ImageIcon skin = new ImageIcon(getClass().getResource(currentSkinPath));
         Image img = skin.getImage().getScaledInstance(skin.getIconWidth()*2, skin.getIconHeight()*2, Image.SCALE_SMOOTH);
         currentSkin = new ImageIcon(img);
@@ -42,7 +38,7 @@ public class FireballView extends BubbleView {
         else if (exploding) {
             explodingAnimationTimer++;
             if (explodingAnimationTimer >= 10 && explodingAnimationTimer < 20) {
-                currentSkinPath = bubble.getSkinsPath() + "Fireball6.png";;
+                currentSkinPath = bubble.getSkinsPath() + "6.png";;
                 ImageIcon skin = new ImageIcon(getClass().getResource(currentSkinPath));
                 Image img = skin.getImage().getScaledInstance(skin.getIconWidth()*2, skin.getIconHeight()*2, Image.SCALE_SMOOTH);
                 currentSkin = new ImageIcon(img);
@@ -57,7 +53,7 @@ public class FireballView extends BubbleView {
     @Override
     public void setExplodeIMG() {
 
-        currentSkinPath = bubble.getSkinsPath() + "Fireball5.png";
+        currentSkinPath = bubble.getSkinsPath() + "5.png";
         ImageIcon skin = new ImageIcon(getClass().getResource(currentSkinPath));
         Image img = skin.getImage().getScaledInstance(skin.getIconWidth()*2, skin.getIconHeight()*2, Image.SCALE_SMOOTH);
         currentSkin = new ImageIcon(img);

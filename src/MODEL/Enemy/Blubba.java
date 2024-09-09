@@ -55,77 +55,44 @@ public class Blubba extends Enemy {
         for(int[] direction: directions){
             int newX = node.x + direction[0]* Block.WIDTH;
             int newY = node.y  + direction[1]* Block.HEIGHT;
-            if (newX < 17 || newX > MainFrame.FRAME_WIDTH || newY < 17 || newY > MainFrame.FRAME_HEIGHT){
-                continue;
-            }
-            if(!isSolidTile(newX,newY)){
-                neighbors.add(new Node(newX,newY, 0,0,node));
-            }
-            else{
-                if(isSolidTile(node.x,newY- Block.HEIGHT) || isSolidTile(node.x, newY+Block.HEIGHT)){
-                    neighbors.add(new Node(newX,-newY, 0,0,node));
+            if (isWithinBounds(newX,newY)){
+                if(!isSolidTile(newX,newY)){
+                    neighbors.add(new Node(newX,newY, 0,0,node));
                 }
-                else if (isSolidTile(newX-Block.WIDTH, node.y) || isSolidTile(newX+Block.WIDTH, node.y)){
-                    neighbors.add(new Node(-newX,newY, 0,0,node));
+                else{
+                    if(isSolidTile(node.x,newY- Block.HEIGHT) || isSolidTile(node.x, newY+Block.HEIGHT)){
+                        neighbors.add(new Node(newX,-newY, 0,0,node));
+                    }
+                    else if (isSolidTile(newX-Block.WIDTH, node.y) || isSolidTile(newX+Block.WIDTH, node.y)){
+                        neighbors.add(new Node(-newX,newY, 0,0,node));
+                    }
                 }
             }
         }
         return neighbors;
     }
 
-    public void updateAction(Action action){
-        switch (action){
-            case WALK:
-                if(facingRight){
-                    x += speed;
-                }
-                else{
-                    x -= speed;
-                }
-                if(goUp){
-                    y -= speed;
-                }
-                else{
-                    y += speed;
-                }
-                hitbox.setLocation(x,y);
-                if(enraged){
-                    notifyObservers(Action.RAGE);
-                }
-                else{
-                    notifyObservers(Action.WALK);
-                }
-                break;
-            case RAGE:
-                rage();
-                notifyObservers(Action.RAGE);
-                break;
-            case BUBBLED:
-                bubbled = true;
-                rageTimer.start();
-                notifyObservers(Action.BUBBLED);
-                break;
-            case DIE:
-                dead = true;
-                die();
-                player.setPunteggio(player.getPunteggio() + points);
-                deathTimer.start();
-                notifyObservers(Action.DIE);
-                break;
-            default:
-                if(facingRight){
-                    notifyObservers(Action.MOVE_RIGHT);
-                }
-                else{
-                    notifyObservers(Action.MOVE_LEFT);
-                }
-                break;
-        }
-    }
-
-    public void die(){
-        player.setPunteggio(player.getPunteggio() + points);
-    }
+   void walk(){
+       if(facingRight){
+           x += speed;
+       }
+       else{
+           x -= speed;
+       }
+       if(goUp){
+           y -= speed;
+       }
+       else{
+           y += speed;
+       }
+       hitbox.setLocation(x,y);
+       if(enraged){
+           notifyObservers(Action.RAGE);
+       }
+       else{
+           notifyObservers(Action.WALK);
+       }
+   }
     @Override
     public int getX() {
         return x;
@@ -144,8 +111,5 @@ public class Blubba extends Enemy {
     @Override
     public void spawn() {
 
-    }
-    public void rage(){
-        // comportamenti
     }
 }

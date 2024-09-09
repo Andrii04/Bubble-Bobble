@@ -54,14 +54,18 @@ public class PlayState extends GameState {
     }
     @Override
     public void update() {
+        // automatic fall
+
+        if (!player.isOnFloor() ||  !player.isColliding(player.getX(), player.getY() +1)) {
+            player.setIsOnFloor(false);
+            player.updateAction(MOVE_VERTICALLY);
+        }
+
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             if (enemy != null) {
                 enemy.move();
             }
-        }
-        if (!player.isOnFloor() ||  !player.isColliding(player.getX(), player.getY() +1)) {
-            player.updateAction(MOVE_VERTICALLY);
         }
 
         if (player.getLives() <= 0) {
@@ -90,10 +94,16 @@ public class PlayState extends GameState {
                 player.updateAction(JUMP);
                 break;
             case KeyEvent.VK_LEFT:
-                player.updateAction(MOVE_LEFT);
+                player.setFacingRight(false);
+                if(player.isOnFloor()) {
+                    player.updateAction(WALK);
+                }
                 break;
             case KeyEvent.VK_RIGHT:
-                player.updateAction(MOVE_RIGHT);
+                player.setFacingRight(true);
+                if(player.isOnFloor()){
+                    player.updateAction(WALK);
+                }
                 break;
             case KeyEvent.VK_E:
                 player.updateAction(ATTACK);
