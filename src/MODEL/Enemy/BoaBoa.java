@@ -1,10 +1,7 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
-import MODEL.Block;
 import MODEL.Entity;
-
-import javax.swing.*;
 
 public class BoaBoa extends Enemy {
 
@@ -22,7 +19,7 @@ public class BoaBoa extends Enemy {
     }
 
 
-    public void chasePlayer(){
+    void chasePlayer(){
         // pong mechanics
         if (isSolidTile(x+speed+Entity.WIDTH,y)){
             facingRight = false;

@@ -1,14 +1,8 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
-import MODEL.Block;
 import MODEL.Bubbles.Fireball;
 import MODEL.Entity;
-import VIEW.MainFrame;
-
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Boris extends Enemy {
 
@@ -57,6 +51,12 @@ public class Boris extends Enemy {
         return Math.abs(player.getY() - shortestPath.getLast().y )>80;
     }
 
+    void rage(){
+        enraged = true;
+        bubbled = false;
+        speed += 1;
+        attackTimer.setDelay(800);
+    }
     void shoot(){
         System.out.println("shooting");
         Fireball fireball = new Fireball(player, this);

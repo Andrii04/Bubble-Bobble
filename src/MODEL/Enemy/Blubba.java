@@ -3,9 +3,7 @@ package MODEL.Enemy;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Entity;
-import VIEW.MainFrame;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class Blubba extends Enemy {
         this( 0, 0, true, gsm);
     }
 
-    public void chasePlayer(){
+    void chasePlayer(){
         if(shouldRetracePath() || shortestPath.isEmpty()){
             findShortestPath();
         }

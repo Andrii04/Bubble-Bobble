@@ -3,7 +3,6 @@ package MODEL.Enemy;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bottle;
 import MODEL.Entity;
-import VIEW.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,7 @@ public class SuperDrunk extends Enemy{
     private boolean canBeHurt;
     public SuperDrunk(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
-        speed = 2;
+        speed = 3;
         updateAction(Action.IDLE);
         startTimer = new Timer(1000, e -> {
             startTimer.stop();
@@ -83,7 +82,7 @@ public class SuperDrunk extends Enemy{
         //shoot
         //System.out.println("SuperDrunk shooting");
     }
-    public void chasePlayer(){
+    void chasePlayer(){
         // pong mechanics
         if (isColliding(x+speed,y)){
             facingRight = false;
@@ -107,6 +106,9 @@ public class SuperDrunk extends Enemy{
                 notifyObservers(Action.IDLE);
                 break;
             case WALK:
+                if(!attackTimer.isRunning()){
+                    attackTimer.start();
+                }
                 if(facingRight){
                     this.x+=speed;
                 }
@@ -133,6 +135,9 @@ public class SuperDrunk extends Enemy{
                 }
                 break;
             case BUBBLED:
+                if(attackTimer.isRunning()){
+                    attackTimer.stop();
+                }
                 bubbled();
                 break;
             case RAGE:
@@ -146,6 +151,18 @@ public class SuperDrunk extends Enemy{
                 System.out.println("SuperDrunk died");
                 break;
         }
+    }
+    void die(){
+        if(attackTimer.isRunning()){
+            attackTimer.stop();
+        }
+    }
+    void rage(){
+        enraged = true;
+        bubbled = false;
+        speed += 2;
+        attackTimer.setDelay(800);
+        updateAction(Action.WALK);
     }
     @Override
     public int getX() {

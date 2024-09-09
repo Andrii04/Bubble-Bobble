@@ -60,6 +60,9 @@ public abstract class EnemyView implements Observer {
                 currentFrame = (currentFrame + 1) % currentAnimation.length;
                 lastTime = currentTime;
             }
+            if(currentFrame >= currentAnimation.length){
+                currentFrame = 0;
+            }
             g2d.drawImage(currentAnimation[currentFrame], x, y, null);
             g2d.setColor(Color.RED);
             g2d.draw(enemy.getHitbox());
