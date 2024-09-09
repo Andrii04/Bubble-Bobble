@@ -52,7 +52,7 @@ public class PlayPanel extends JPanel implements Runnable {
 
         this.scorePanel = new ScorePanel(player); //Score Panel
         this.add(scorePanel);
-        scorePanel.setBounds(10, 10, scorePanel.getPreferredSize().width, scorePanel.getPreferredSize().height);
+        scorePanel.setBounds(10, 10, MainFrame.FRAME_WIDTH/2, scorePanel.getPreferredSize().height);
 
         this.livesPanel = new LivesPanel(player);
         this.add(livesPanel);

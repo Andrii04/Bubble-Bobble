@@ -33,7 +33,7 @@ public class Level {
     public Level(int height, int width, int[][] pattern,
                  ArrayList<Enemy> enemies, ArrayList<SpawnedBubble> spawnedBubbles) {
         this.height = height;
-        this.width = height;
+        this.width = width;
         this.pattern = pattern;
         this.blockInt = pattern[0][0];
 
