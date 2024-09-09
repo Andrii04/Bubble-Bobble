@@ -1,6 +1,8 @@
 package MODEL.Bubbles;
 
+import MODEL.Enemy.Enemy;
 import MODEL.Entity;
+import MODEL.Player;
 import VIEW.BottleView;
 
 import java.awt.*;
@@ -29,12 +31,13 @@ public class Bottle extends Bubble{
     }
 
     public Bubble newInstance(BottleTrajectory trajectory) {
-        return new Bottle(trajectory);
+        return new Bottle(player, enemy, trajectory);
     }
     //fare in modo che SuperDrunk spari 5 bottiglie di traiettorie diverse
     //se facingRight tutte quelle RIGHT, altrimenti tutte quelle LEFT
-    public Bottle(BottleTrajectory trajectory) {
-        super();
+    public Bottle(Player player, Enemy enemy, BottleTrajectory trajectory) {
+        super(player);
+        this.enemy = enemy;
         this.bubbleView = new BottleView(this);
         super.hitbox = new Rectangle(x, y, 16*2, 16*2);
         this.trajectory = trajectory;
@@ -96,7 +99,7 @@ public class Bottle extends Bubble{
     }
 
     @Override
-    public Bubble newInstance() {
+    public Bubble newInstance(Player player) {
         System.out.println("Please use the overloaded method newInstance(BottleTrajectory");
         return null;
     }

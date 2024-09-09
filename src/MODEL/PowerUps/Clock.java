@@ -1,7 +1,5 @@
 package MODEL.PowerUps;
 
-import MODEL.PowerUp;
-
 import javax.swing.*;
 
 public class Clock extends PowerUp {
@@ -14,6 +12,6 @@ public class Clock extends PowerUp {
 
     @Override
     public void activateEffect() {
-
+        currentLevel.setClock(true);
     }
 }

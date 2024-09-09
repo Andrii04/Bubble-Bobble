@@ -4,13 +4,12 @@ import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Bubbles.Bubble;
 import MODEL.Player;
-import MODEL.PowerUp;
+import MODEL.PowerUps.PowerUp;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Observable;
 
 
 public class PlayPanel extends JPanel implements Runnable {

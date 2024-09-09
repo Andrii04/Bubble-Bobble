@@ -1,6 +1,6 @@
 package VIEW;
 
-import MODEL.PowerUp;
+import MODEL.PowerUps.PowerUp;
 
 import javax.swing.*;
 import java.awt.*;

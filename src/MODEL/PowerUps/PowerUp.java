@@ -1,6 +1,9 @@
-package MODEL;
+package MODEL.PowerUps;
 
 import GAMESTATEMANAGER.GameStateManager;
+import MODEL.Block;
+import MODEL.Level;
+import MODEL.Player;
 import VIEW.MainFrame;
 import VIEW.PowerUpView;
 
@@ -21,10 +24,15 @@ public abstract class PowerUp {
     boolean onFloor;
     boolean erased;
     PowerUpView powerUpView;
+    GameStateManager gsm;
     //il modo in cui spawnano sarà fatto dalla classe Player
     //ad esempio se il Player salta 35 volte viene spawnata una Pink Candy
 
     public PowerUp() {
+        gsm = GameStateManager.getInstance();
+        currentLevel = gsm.getCurrentLevel();
+        player = gsm.getCurrentPlayer();
+
         Random random = new Random();
         x = random.nextInt(Block.WIDTH + 30, MainFrame.FRAME_HEIGHT - Block.WIDTH - 30);
         y = random.nextInt(Block.HEIGHT + 30, MainFrame.FRAME_HEIGHT - Block.HEIGHT-30);
@@ -34,7 +42,6 @@ public abstract class PowerUp {
         erased = false;
         hitbox = new Rectangle(x, y, 30, 30);
         powerUpView = new PowerUpView(this);
-        currentLevel = GameStateManager.getInstance().getCurrentLevel();
     }
 
     public abstract void activateEffect();

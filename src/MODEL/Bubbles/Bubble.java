@@ -30,8 +30,8 @@ public abstract class Bubble {
     Level currentLevel;
     boolean erased;
 
-    int shootingSpeed = 9;
-    int floatingSpeed = 1;
+    int shootingSpeed;
+    int floatingSpeed;
     Rectangle hitbox;
 
     Enemy bubbledEnemy;
@@ -47,7 +47,7 @@ public abstract class Bubble {
     boolean hitWall;
     boolean facingRight;
 
-    public Bubble() {
+    public Bubble(Player player) {
         //gsm = GameStateManager.getInstance();
         //currentLevel = gsm.getCurrentLevel();
 
@@ -64,6 +64,8 @@ public abstract class Bubble {
         erased = false;
         hitWall = false;
         facingRight = true;
+
+        this.player = player;
     }
 
     public void explode() {
@@ -82,6 +84,12 @@ public abstract class Bubble {
             bubbledEnemy.setBubbled(false);
             bubbledEnemy.updateAction(Action.DIE);
         }
+
+        if (this instanceof GreenBubble) player.bubbleExploded();
+        else if (this instanceof WaterBubble) player.waterBubbleExploded();
+        else if (this instanceof LightningBubble) player.lightningBubblesExploded();
+
+        if (player.isRedRing()) {/* +100 punti */}
     }
 
 
@@ -210,7 +218,7 @@ public abstract class Bubble {
         this.player = player;
     }
 
-    public abstract Bubble newInstance();
+    public abstract Bubble newInstance(Player player);
 
 
     public void fireBubble() {

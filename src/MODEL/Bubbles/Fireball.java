@@ -10,20 +10,22 @@ import VIEW.FireballView;
 import java.awt.*;
 
 public class Fireball extends Bubble {
-    private int shootingSpeed = 9;
-    private int floatingSpeed = 1;
+
     {skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Boris/FireballAttack/Fireball";}
 
-    public Fireball() {
-        super();
+    public Fireball(Player player, Enemy enemy) {
+        super(player);
 
-        this.bubbleView = new FireballView(this);
+        shootingSpeed = 7;
+        floatingSpeed = 1;
+        this.enemy = enemy;
+        this.bubbleView = new FireballView(this, enemy);
         super.hitbox = new Rectangle(x, y, 16*2, 16*2);
     }
 
     @Override
-    public Bubble newInstance() {
-        return new Fireball();
+    public Bubble newInstance(Player player) {
+        return new Fireball(player, enemy);
     }
 
     @Override

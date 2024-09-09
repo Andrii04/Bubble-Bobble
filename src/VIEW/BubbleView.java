@@ -177,7 +177,7 @@ public class BubbleView {
             distanceTraveled++;  // Incrementa la distanza percorsa
 
 
-            if (distanceTraveled >= 20) bubble.startFloating();
+            if (distanceTraveled >= bubble.getPlayer().getMaxBubbleDistance()) bubble.startFloating();
         }
 
         else if (floating) {
@@ -186,7 +186,7 @@ public class BubbleView {
             bubble.handleFloatingCollision();
             //System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
-            if (distanceTraveled >= 400) bubble.explode();
+            //if (distanceTraveled >= 400) bubble.explode();
         }
 
         else if (exploding) {

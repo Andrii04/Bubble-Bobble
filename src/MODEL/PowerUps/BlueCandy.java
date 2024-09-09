@@ -1,6 +1,6 @@
 package MODEL.PowerUps;
 
-import MODEL.PowerUp;
+import MODEL.Player;
 
 import javax.swing.*;
 
@@ -14,6 +14,7 @@ public class BlueCandy extends PowerUp {
 
     @Override
     public void activateEffect() {
-
+        player.setBubbleSpeed(11);
+        player.eatBlueCandy();
     }
 }

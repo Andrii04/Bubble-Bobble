@@ -2,6 +2,7 @@ package MODEL.Bubbles;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Player;
 import VIEW.MainFrame;
 import VIEW.SpawnedBubbleView;
 
@@ -10,8 +11,10 @@ import java.util.Random;
 //classe per le bolle che spawnano automaticamente (non vengono sparate dal Player)
 public abstract class SpawnedBubble extends Bubble {
 
-    public SpawnedBubble() {
-        super();
+    public SpawnedBubble(Player player) {
+        super(player);
+        shootingSpeed = 7;
+        floatingSpeed = 1;
         //this.bubbleView = new SpawnedBubbleView(this); ricordare di settarla nelle sottoclassi
         floating = true;
         Random random = new Random();

@@ -62,9 +62,7 @@ public class Incendio extends Enemy{
     void shoot(){
         // to do
         System.out.println("Incendio shoot");
-        IncendioFireball fireball = new IncendioFireball();
-        fireball.setEnemy(this);
-        fireball.setPlayer(player);
+        IncendioFireball fireball = new IncendioFireball(player, this);
         currentLevel.addBubble(fireball);
         fireball.fireBubble();
     }
