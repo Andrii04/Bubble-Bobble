@@ -39,6 +39,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     private LevelEditor levelEditor;
     private List<Level> levels;
     private int currentLevel;
+    private int nextLevelInt;
     private static final String FILE_PATH = "levels.txt"; // Percorso del file di testo
 
     private Map<Integer, Block> intBlockMap;
@@ -67,7 +68,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.add(null); //così che i livelli incominciano dall'index 1
         generateLevels();
         currentLevel = 1;
-
+        nextLevelInt = 2;
 
     }
 
@@ -229,12 +230,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1,
                 enemies, spawnedBubbles);
 
-        LightningBubble lightning1 = new LightningBubble();
-        LightningBubble lightning2 = new LightningBubble();
+        LightningBubble lightning1 = new LightningBubble(currentPlayer);
+        LightningBubble lightning2 = new LightningBubble(currentPlayer);
         spawnedBubbles.add(lightning1);
         spawnedBubbles.add(lightning2);
-        FireBubble fire1 = new FireBubble();
-        FireBubble fire2 = new FireBubble();
+        FireBubble fire1 = new FireBubble(currentPlayer);
+        FireBubble fire2 = new FireBubble(currentPlayer);
         spawnedBubbles.add(fire1);
         spawnedBubbles.add(fire2);
 
@@ -391,5 +392,8 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             System.err.println("Errore durante il salvataggio dei livelli: " + e.getMessage());
         }
     }
+
+    public int getNextLevelInt() {return nextLevelInt;}
+    public void setNextLevelInt(int num) {nextLevelInt = num;}
 
 }

@@ -1,6 +1,8 @@
 package MODEL.Bubbles;
 
+import MODEL.Enemy.Enemy;
 import MODEL.Entity;
+import MODEL.Player;
 import VIEW.FireballView;
 import VIEW.LaserView;
 import VIEW.MainFrame;
@@ -11,12 +13,13 @@ public class Laser extends Bubble{
     {skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Invader/Attack/laser";}
     {shootingSpeed = 7;}
     @Override
-    public Bubble newInstance() {
-        return new Laser();
+    public Bubble newInstance(Player player) {
+        return new Laser(player, enemy);
     }
 
-    public Laser() {
-        super();
+    public Laser(Player player, Enemy enemy) {
+        super(player);
+        this.enemy = enemy;
         this.bubbleView = new LaserView(this);
         super.hitbox = new Rectangle(x, y, 16*2, 16*2);
     }

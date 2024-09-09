@@ -1,6 +1,7 @@
 package MODEL.Bubbles;
 
 import MODEL.Enemy.Enemy;
+import MODEL.Player;
 import VIEW.MainFrame;
 import VIEW.SpawnedBubbleView;
 
@@ -8,8 +9,8 @@ import javax.swing.*;
 public class LightningBubble extends SpawnedBubble{
     int lightningSpeed = 8;
     {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/lightning";}
-    public LightningBubble(){
-        super();
+    public LightningBubble(Player player){
+        super(player);
 
         bubbleView = new SpawnedBubbleView(this);
         hitbox.setSize(44, 45);
@@ -48,8 +49,8 @@ public class LightningBubble extends SpawnedBubble{
 
 
     @Override
-    public Bubble newInstance() {
-        return new LightningBubble();
+    public Bubble newInstance(Player player) {
+        return new LightningBubble(player);
     }
 }
 

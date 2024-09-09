@@ -1,10 +1,12 @@
 package MODEL.Bubbles;
 
+import MODEL.Player;
+
 public class ExtendBubble extends SpawnedBubble{
     private String letter;
 
-    public ExtendBubble(String letter) {
-        super();
+    public ExtendBubble(Player player, String letter) {
+        super(player);
         this.letter = letter;
         }
 
@@ -19,7 +21,7 @@ public class ExtendBubble extends SpawnedBubble{
     }
 
     @Override
-    public Bubble newInstance() {
+    public Bubble newInstance(Player player) {
         return null;
     }
 

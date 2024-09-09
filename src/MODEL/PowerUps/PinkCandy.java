@@ -1,7 +1,5 @@
 package MODEL.PowerUps;
 
-import MODEL.PowerUp;
-
 import javax.swing.*;
 
 public class PinkCandy extends PowerUp {
@@ -14,6 +12,7 @@ public class PinkCandy extends PowerUp {
 
     @Override
     public void activateEffect() {
-
+        player.setMaxBubbleDistance(100);
+        player.eatPinkCandy();
     }
 }

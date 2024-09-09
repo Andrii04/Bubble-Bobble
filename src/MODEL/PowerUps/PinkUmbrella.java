@@ -1,7 +1,5 @@
 package MODEL.PowerUps;
 
-import MODEL.PowerUp;
-
 import javax.swing.*;
 
 public class PinkUmbrella extends PowerUp {
@@ -14,6 +12,10 @@ public class PinkUmbrella extends PowerUp {
 
     @Override
     public void activateEffect() {
+        int nextLevelInt;
+        if (gsm.getNextLevelInt() + 6 < 24) nextLevelInt = gsm.getNextLevelInt() + 6;
+        else nextLevelInt = 24;
 
+        gsm.setNextLevelInt(nextLevelInt);
     }
 }

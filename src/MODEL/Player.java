@@ -3,6 +3,7 @@ package MODEL;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.GreenBubble;
+import MODEL.PowerUps.*;
 import VIEW.MainFrame;
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class Player extends Observable implements Entity {
     private int punteggio;
     private int lives;
     private int speed;
+    private int defaultSpeed = 16;
     private boolean facingRight = true;
     private Rectangle hitbox;
     private Level currentLevel;
@@ -33,23 +35,77 @@ public class Player extends Observable implements Entity {
     private boolean onFloor;
     private float airSpeed = 0f;
 
+    private boolean pinkRing;
+    private boolean redRing;
+    private boolean blueRing;
+
+    private int defaultMaxBubbleDistance = 30;
+    private int defaultBubbleSpeed = 7;
+
+    private int maxBubbleDistance;
+    private int bubbleSpeed;
+
+    private Timer fireRate;
+    private Timer defaultFireRate = new Timer(300, e -> {
+        ableToFire = true;
+        fireRate.stop();
+    });
+
+    private boolean ableToFire;
+
+    private int bubblesFired;
+    private int bubblesExploded;
+    private int waterBubblesExploded;
+    private int lightningBubblesExploded;
+    private int jumpsCount;
+
+    private int eatenPinkCandies;
+    private int eatenBlueCandies;
+    private int eatenGreenCandies;
+
+    private int distanceTraveled;
+
+    private boolean blueLantern;
+
     public Player(UserProfile profile){
         this.profile=profile;
-        this.x = 130;
-        this.y = 0;
-        this.lives = 100; // default
-        this.speed = 10; // default
+        this.x = 148;
+        this.y = 384;
+        this.lives = 3; // default
+        this.speed = defaultSpeed; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
         gsm = GameStateManager.getInstance();
         setCurrentLevel(gsm.getCurrentLevel());
 
-        bubbleType = new GreenBubble();
+        bubbleType = new GreenBubble(this);
         extendLetters = new ArrayList<>();
 
         cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
         });
+
+        pinkRing = false;
+        redRing = false;
+        blueRing = false;
+
+        maxBubbleDistance = defaultMaxBubbleDistance;
+        bubbleSpeed = defaultBubbleSpeed;
+
+        ableToFire = true;
+        fireRate = defaultFireRate;
+
+        bubblesFired = 0;
+        bubblesExploded = 0;
+        waterBubblesExploded = 0;
+        lightningBubblesExploded = 0;
+        jumpsCount = 0;
+
+        eatenGreenCandies = 0;
+        eatenPinkCandies = 0;
+        eatenBlueCandies = 0;
+
+        if ((profile.getPartiteTot() % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
     }
 
     private boolean isNotSolid(){
@@ -86,6 +142,13 @@ public class Player extends Observable implements Entity {
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
+                    if (pinkRing) {/* +100 punti*/}
+
+                    jumpsCount++;
+                    if (jumpsCount >= 35) {
+                        currentLevel.spawnPowerUp(new GreenCandy());
+                        jumpsCount = 0;
+                    }
                 }
                 break;
             case MOVE_VERTICALLY:
@@ -118,6 +181,9 @@ public class Player extends Observable implements Entity {
                         notifyObservers(Action.IDLE);
                     }
                 }
+
+                if (blueRing) {/* +10 punti */}
+
                 break;
             case WALK:
                 System.out.println(y);
@@ -135,14 +201,30 @@ public class Player extends Observable implements Entity {
                     }
                     hitbox.setLocation(x, y);
                     notifyObservers(Action.WALK);
+                if (blueRing) {/* +10 punti */}
+
+                distanceTraveled += speed;
+                if (distanceTraveled >= (MainFrame.FRAME_WIDTH-Block.WIDTH*2)*15) {
+                    currentLevel.spawnPowerUp(new Shoe());
+                    distanceTraveled = 0;
+                }
                 break;
             case ATTACK:
-                currentAction = Action.ATTACK;
-                Bubble firedBubble = bubbleType.newInstance();
-                firedBubble.setPlayer(this);
-                currentLevel.addBubble(firedBubble);
-                firedBubble.fireBubble();
-                notifyObservers(Action.ATTACK);
+                if (ableToFire) {
+                    currentAction = Action.ATTACK;
+                    Bubble firedBubble = bubbleType.newInstance(this);
+                    currentLevel.addBubble(firedBubble);
+                    firedBubble.fireBubble();
+                    ableToFire = false;
+                    fireRate.start();
+                    notifyObservers(Action.ATTACK);
+
+                    bubblesFired++;
+                    if (bubblesFired >= 35) {
+                        currentLevel.spawnPowerUp(new PinkCandy());
+                        bubblesFired = 0;
+                    }
+                }
                 break;
             case HURT:
                 if (!cooldown) {
@@ -264,8 +346,73 @@ public class Player extends Observable implements Entity {
     public Rectangle getHitbox(int x, int y) {return hitbox;}
     public Action getCurrentAction() {return currentAction;}
 
+    public int getMaxBubbleDistance() {return maxBubbleDistance;}
+    public int getBubbleSpeed() {return bubbleSpeed;}
+    public void setMaxBubbleDistance(int num) {maxBubbleDistance = num;}
+    public void setBubbleSpeed(int num) {bubbleSpeed = num;}
 
-    public void setFacingRight(boolean facingRight) {
-        this.facingRight = facingRight;
+    public Timer getFireRate() {return fireRate;}
+    public void setFireRate(int delay) {
+        Timer newFireRate = new Timer(delay, e -> {
+            ableToFire = true;
+            fireRate.stop();
+        });
+        fireRate = newFireRate;
     }
+
+    public void setSpeed(int num) {speed = num;}
+
+    public boolean isPinkRing() {return pinkRing;}
+    public boolean isRedRing() {return redRing;}
+    public boolean isBlueRing() {return blueRing;}
+    public void setPinkRing(boolean bool) {pinkRing = bool;}
+    public void setRedRing(boolean bool) {redRing = bool;}
+    public void setBlueRing(boolean bool) {blueRing = bool;}
+
+    public void bubbleExploded() {
+        bubblesExploded++;
+        if (bubblesExploded >= 35) {
+            currentLevel.spawnPowerUp(new BlueCandy());
+            bubblesExploded = 0;
+        }
+    }
+    public void waterBubbleExploded() {
+        waterBubblesExploded++;
+        if (waterBubblesExploded == 15) currentLevel.spawnPowerUp(new OrangeUmbrella());
+        else if (waterBubblesExploded == 20) currentLevel.spawnPowerUp(new PinkUmbrella());
+        else if (waterBubblesExploded >= 25) {
+            currentLevel.spawnPowerUp(new RedUmbrella());
+            waterBubblesExploded = 0;
+        }
+    }
+    public void lightningBubblesExploded() {
+        lightningBubblesExploded++;
+        if (lightningBubblesExploded >= 12) {
+            currentLevel.spawnPowerUp(new Clock());
+            lightningBubblesExploded = 0;
+        }
+    }
+
+    public void eatPinkCandy() {
+        eatenPinkCandies++;
+        if (eatenPinkCandies >= 3) {
+            currentLevel.spawnPowerUp(new PinkRing());
+            eatenPinkCandies = 0;
+        }
+    }
+    public void eatGreenCandy() {
+        eatenGreenCandies++;
+        if (eatenGreenCandies >= 3) {
+            currentLevel.spawnPowerUp(new RedRing());
+            eatenGreenCandies = 0;
+        }
+    }
+    public void eatBlueCandy() {
+        eatenBlueCandies++;
+        if (eatenBlueCandies >= 3) {
+            currentLevel.spawnPowerUp(new BlueRing());
+            eatenBlueCandies = 0;
+        }
+    }
+    public void setFacingRight(boolean bool) {facingRight = bool;}
 }

@@ -1,7 +1,5 @@
 package MODEL.PowerUps;
 
-import MODEL.PowerUp;
-
 import javax.swing.*;
 
 public class GreenCandy extends PowerUp {
@@ -14,6 +12,7 @@ public class GreenCandy extends PowerUp {
 
     @Override
     public void activateEffect() {
-
+        player.setFireRate(50);
+        player.eatGreenCandy();
     }
 }

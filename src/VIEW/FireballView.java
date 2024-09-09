@@ -3,14 +3,16 @@ package VIEW;
 import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.Fireball;
 import MODEL.Enemy.Boris;
+import MODEL.Enemy.Enemy;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class FireballView extends BubbleView {
 
-    public FireballView(Fireball bubble) {
+    public FireballView(Fireball bubble, Enemy enemy) {
         super(bubble);
+        this.enemy = enemy;
     }
 
     @Override

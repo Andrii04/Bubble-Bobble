@@ -1,7 +1,5 @@
 package MODEL.PowerUps;
 
-import MODEL.PowerUp;
-
 import javax.swing.*;
 
 public class BlueLantern extends PowerUp {
@@ -14,6 +12,8 @@ public class BlueLantern extends PowerUp {
 
     @Override
     public void activateEffect() {
-
+        player.setPinkRing(true);
+        player.setBlueRing(true);
+        player.setRedRing(true);
     }
 }

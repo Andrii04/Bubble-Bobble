@@ -1,17 +1,14 @@
 package MODEL;
 
-import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
-import MODEL.Bubbles.GreenBubble;
-import MODEL.Bubbles.LightningBubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.*;
+import MODEL.PowerUps.PowerUp;
 import VIEW.*;
 
 import javax.swing.Timer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Level {
@@ -29,6 +26,7 @@ public class Level {
     private ArrayList<PowerUp> powerUps;
     //private Integer lastBubbleY;
     //private Integer lastBubbleX;
+    private boolean clock;
 
     public Level(int height, int width, int[][] pattern,
                  ArrayList<Enemy> enemies, ArrayList<SpawnedBubble> spawnedBubbles) {
@@ -66,6 +64,7 @@ public class Level {
                         .toArray(Boolean[]::new))
                 .toArray(Boolean[][]::new);
 
+        clock = false;
     }
 
     public void setSpawnRate(int timerDelay) {
@@ -194,6 +193,9 @@ public class Level {
         this.powerUps.set(powerUps.indexOf(powerUp), null);
     }
     public ArrayList<PowerUp> getPowerUps() {return powerUps;}
+
+    public void setClock(boolean bool) {clock = bool;}
+    public boolean isClock() {return clock;}
 }
 
 

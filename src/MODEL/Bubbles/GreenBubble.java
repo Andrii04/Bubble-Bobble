@@ -3,17 +3,19 @@ import MODEL.Player;
 import VIEW.BubbleView;
 
 public class GreenBubble extends Bubble {
-    private int shootingSpeed = 9;
-    private int floatingSpeed = 1;
-    public GreenBubble() {
-        super();
+
+    public GreenBubble(Player player) {
+        super(player);
+
+        shootingSpeed = player.getBubbleSpeed();
+        floatingSpeed = 1;
         this.bubbleView = new BubbleView(this);
         skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/GreenBubble";
 
     }
 
     @Override
-    public Bubble newInstance() {
-        return new GreenBubble();
+    public Bubble newInstance(Player player) {
+        return new GreenBubble(player);
     }
 }

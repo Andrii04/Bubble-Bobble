@@ -2,6 +2,7 @@ package MODEL.Bubbles;
 
 import MODEL.Enemy.Enemy;
 import MODEL.Entity;
+import MODEL.Player;
 import VIEW.SpawnedBubbleView;
 
 public class FireBubble extends SpawnedBubble{
@@ -13,8 +14,8 @@ public class FireBubble extends SpawnedBubble{
     int burningEndX;
     int burningTimer;
 
-    public FireBubble() {
-        super();
+    public FireBubble(Player player) {
+        super(player);
         this.bubbleView = new SpawnedBubbleView(this);
         hitbox.setSize(44, 45);
         fireDistanceTraveled = 0;
@@ -23,8 +24,8 @@ public class FireBubble extends SpawnedBubble{
     }
 
     @Override
-    public Bubble newInstance() {
-        return new FireBubble();
+    public Bubble newInstance(Player player) {
+        return new FireBubble(player);
     }
 
     @Override

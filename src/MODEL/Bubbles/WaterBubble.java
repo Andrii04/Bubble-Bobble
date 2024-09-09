@@ -1,11 +1,12 @@
 package MODEL.Bubbles;
 
+import MODEL.Player;
 import VIEW.SpawnedBubbleView;
 
 public class WaterBubble extends SpawnedBubble{
     {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/WaterBubble";}
-    public WaterBubble() {
-        super();
+    public WaterBubble(Player player) {
+        super(player);
         this.bubbleView = new SpawnedBubbleView(this);
         hitbox.setSize(44, 45);
     }
@@ -21,7 +22,7 @@ public class WaterBubble extends SpawnedBubble{
     }
 
     @Override
-    public Bubble newInstance() {
-        return new WaterBubble();
+    public Bubble newInstance(Player player) {
+        return new WaterBubble(player);
     }
 }
