@@ -9,7 +9,7 @@ public class FrameProva extends JFrame {
     public static final int FRAME_WIDTH = 768; //  (256*3)
     public static final int FRAME_HEIGHT = 672; //(224*3)
     public static final int TILE_SIZE = 64;
-    private final WinPanel p = new WinPanel();
+    private final LosePanel p = new LosePanel();
 
     public FrameProva(){
 

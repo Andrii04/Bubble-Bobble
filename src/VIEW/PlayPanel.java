@@ -4,6 +4,7 @@ import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Bubbles.Bubble;
 import MODEL.Player;
+import MODEL.PowerUp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +52,7 @@ public class PlayPanel extends JPanel implements Runnable {
 
         this.scorePanel = new ScorePanel(player); //Score Panel
         this.add(scorePanel);
-        scorePanel.setBounds(10, 10, scorePanel.getPreferredSize().width, scorePanel.getPreferredSize().height);
+        scorePanel.setBounds(10, 10, MainFrame.FRAME_WIDTH/2, scorePanel.getPreferredSize().height);
 
         this.livesPanel = new LivesPanel(player);
         this.add(livesPanel);
@@ -103,6 +104,12 @@ public class PlayPanel extends JPanel implements Runnable {
         }
         for (EnemyView enemyView : enemyViews) {
             if (enemyView != null) enemyView.draw(g2d);
+        }
+        for (PowerUp powerUp : gsm.getCurrentLevel().getPowerUps()) {
+            if (powerUp != null) {
+                powerUp.getPowerUpView().update();
+                powerUp.getPowerUpView().draw(g2d);
+            }
         }
 /*        for (int i = 0; i < lives; i++) {
             g.drawImage(LIFE_ICON.getImage(), i * LIFE_ICON.getIconWidth(), 0, this);
