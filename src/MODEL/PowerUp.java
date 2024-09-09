@@ -21,6 +21,8 @@ public abstract class PowerUp {
     boolean onFloor;
     boolean erased;
     PowerUpView powerUpView;
+    //il modo in cui spawnano sarà fatto dalla classe Player
+    //ad esempio se il Player salta 35 volte viene spawnata una Pink Candy
 
     public PowerUp() {
         Random random = new Random();
