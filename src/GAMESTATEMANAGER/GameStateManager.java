@@ -295,4 +295,11 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     }
 
     public Player getPlayer() {return currentPlayer;}
+    public List<Level> getLevels() {return levels;}
+
+    public void setLevel(int index, Level level) {
+        levels.set(index, level);
+        System.out.println("Livello salvato");
+        //qua bisogna aggiornare il file di testo che contiene il saveFile dei livelli
+    }
 }
