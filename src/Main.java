@@ -12,6 +12,8 @@ public class Main {
         MainFrame frame = new MainFrame();
         GameStateManager gsm = GameStateManager.getInstance();
 
+
+
         //si può provare a settare i vari stati, ho reso i loro rispettivi pannelli
         //di colore diverso così si vede se funziona o no
 

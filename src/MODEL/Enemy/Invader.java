@@ -14,6 +14,21 @@ public class Invader extends Enemy{
     public Invader(GameStateManager gsm) {
         this(0, 0, true, gsm);
     }
+    public void  chasePlayer() {
+        if (isSolidTile(x, y + Entity.HEIGHT + 1)) {
+            onFloor = true;
+        } else {
+            onFloor = false;
+        }
+        if(!isSolidTile(x,y+Entity.HEIGHT+1)){
+            onFloor = false;
+        }
+        else{
+            onFloor = true;
+        }
+            updateAction(Action.ATTACK);
+            updateAction(Action.IDLE);
+    }
     void shoot(){
         System.out.println("Invader shoots");
     }

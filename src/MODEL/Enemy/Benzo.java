@@ -15,7 +15,7 @@ public class Benzo extends Enemy {
 
     public Benzo(int x, int y, boolean facingRight, GameStateManager gsm){
         super(x, y, facingRight, gsm);
-        speed =5;
+        speed =4;
     }
     public Benzo( GameStateManager gsm){
         this( 0, 0, true, gsm);
@@ -37,16 +37,6 @@ public class Benzo extends Enemy {
     }
 
     @Override
-    public void spawn() {
-
-    }
-    public void die(){
-        player.setPunteggio(player.getPunteggio() + points);
-    }
-    // to be overriden
-    public void attack(){}
-    public void rage(){
-        // comportamenti
-    }
+    public void spawn() {}
 
 }

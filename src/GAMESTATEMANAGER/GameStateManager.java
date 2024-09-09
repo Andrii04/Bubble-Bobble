@@ -156,7 +156,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         //48, 42
 
         int[][] pattern1 ={
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -197,22 +197,21 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+        {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         // liv 1
             ArrayList<Enemy> enemies = new ArrayList<>();
-            //enemies.add(new Benzo(105, 543, true, this ));
-            //enemies.add(new Blubba(135, 540, true, this ));
-            enemies.add(new Benzo( 400, 623, true,this ));
-            enemies.add(new Boris(70,463,true,this));
-            //enemies.add(new BoaBoa( 48,48,true,this));
-            enemies.add(new Benzo(105, 544, true, this ));
+            enemies.add(new Benzo(105, 543, true, this ));
             enemies.add(new Blubba(135, 540, true, this ));
-            enemies.add(new Benzo( 400, 624, true, this ));
-            enemies.add(new Boris(80,464,true,this));
+            //enemies.add(new Benzo( 400, 623, true,this ));
+            enemies.add(new Boris(70,463,true,this));
             enemies.add(new BoaBoa( 48,48,true,this));
-            //enemies.add(new SuperDrunk( 160,160,true,this));
+           // enemies.add(new Benzo(105, 543, true, this ));
+            //enemies.add(new Blubba(135, 540, true, this ));
+            //enemies.add(new Boris(80,463,true,this));
+            enemies.add(new BoaBoa( 48,48,true,this));
+            enemies.add(new SuperDrunk( 160,160,true,this));
             enemies.add(new Incendio(400,623,true,this));
-            enemies.add(new Invader(50,50,true,this));
+            //enemies.add(new Invader(50,50,true,this));
             ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
 
             //spawnedBubbles.add(new LightningBubble());

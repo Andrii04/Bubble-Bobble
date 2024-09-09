@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Blubba extends Enemy {
-
     //vola
     //si muova diagonalmente e colpito un muro gira 90 gradi
 
