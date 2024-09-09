@@ -5,30 +5,45 @@ import MODEL.Player;
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ * ScorePanel è un componente grafico che mostra il punteggio del giocatore
+ * durante il gioco. È collegato a un'istanza di {@link Player} da cui ottiene
+ * i dati relativi al punteggio.
+ */
 public class ScorePanel extends JPanel {
 
-    private JLabel scoreLabel; // Label per visualizzare i punti
-    private Player player;
-    private Font font = MainFrame.getPixelFont();
+    private JLabel scoreLabel; // Label per visualizzare il punteggio del giocatore
+    private Player player; // Istanza del giocatore di cui visualizzare il punteggio
+    private Font font = MainFrame.getPixelFont(); // Font personalizzato per il testo
 
+    /**
+     * Costruttore della classe ScorePanel.
+     * Inizializza il pannello con il punteggio corrente del giocatore.
+     *
+     * @param player L'istanza del giocatore da cui viene recuperato il punteggio.
+     */
     public ScorePanel(Player player) {
-        this.player = player; // Assegna il parametro player al campo player
-        this.setLayout(new FlowLayout());
-        this.setOpaque(false);
+        this.player = player; // Assegna l'istanza del giocatore al campo player
+        this.setLayout(new FlowLayout()); // Imposta un layout di tipo FlowLayout
+        this.setOpaque(false); // Rende il pannello trasparente
 
-        // Inizializza il label con il punteggio iniziale
-        scoreLabel = new JLabel("" + player.getPunteggio());
-        scoreLabel.setFont(font.deriveFont(20f)); // Imposta font e dimensione
-        scoreLabel.setForeground(Color.green);
-        scoreLabel.setVisible(true);
-        this.add(scoreLabel);
+        // Inizializza l'etichetta per visualizzare il punteggio
+        scoreLabel = new JLabel("" + player.getPunteggio()); // Punteggio iniziale
+        scoreLabel.setFont(font.deriveFont(20f)); // Imposta il font e la dimensione del testo
+        scoreLabel.setForeground(Color.green); // Imposta il colore del testo su verde
+        scoreLabel.setVisible(true); // Rende visibile l'etichetta
+        this.add(scoreLabel); // Aggiunge l'etichetta al pannello
     }
 
-    // Metodo per aggiornare il punteggio visualizzato
+    /**
+     * Aggiorna il punteggio visualizzato nel pannello.
+     * Questo metodo dovrebbe essere chiamato ogni volta che il punteggio del giocatore cambia.
+     */
     public void updateScore() {
-        scoreLabel.setText(""+player.getPunteggio());
+        scoreLabel.setText("" + player.getPunteggio()); // Aggiorna il testo del label con il nuovo punteggio
 
-        // Repaint per assicurare che le modifiche siano visibili
+        // Richiama i metodi revalidate() e repaint() per aggiornare la visualizzazione
         this.revalidate();
         this.repaint();
     }
