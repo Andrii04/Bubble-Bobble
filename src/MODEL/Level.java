@@ -26,6 +26,7 @@ public class Level {
     private ArrayList<EnemyView> enemyViews;
     private ArrayList<Bubble> bubbles;
     private ArrayList<SpawnedBubble> spawnedBubbles;
+    private ArrayList<PowerUp> powerUps;
     //private Integer lastBubbleY;
     //private Integer lastBubbleX;
 
@@ -38,6 +39,7 @@ public class Level {
 
 
         this.bubbles = new ArrayList<>();
+        this.powerUps = new ArrayList<>();
         this.spawnedBubbles = spawnedBubbles;
 
         this.enemies = enemies;
@@ -184,6 +186,13 @@ public class Level {
     }
     public ArrayList<SpawnedBubble> getSpawnedBubbles() {return spawnedBubbles;}
 
+    public void spawnPowerUp(PowerUp powerUp) {
+        this.powerUps.add(powerUp);
+    }
+    public void despawnPowerUp(PowerUp powerUp) {
+        this.powerUps.set(powerUps.indexOf(powerUp), null);
+    }
+    public ArrayList<PowerUp> getPowerUps() {return powerUps;}
 }
 
 
