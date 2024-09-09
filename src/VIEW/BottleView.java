@@ -14,7 +14,7 @@ public class BottleView extends BubbleView{
     @Override
     public void startFiring() {
         currentSkinPath = bubble.getSkinsPath() + "5.png";
-        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        //currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
     }
 
     @Override

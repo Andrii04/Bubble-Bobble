@@ -1,6 +1,7 @@
 package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
+import MODEL.Bubbles.Bottle;
 import MODEL.Entity;
 import VIEW.MainFrame;
 
@@ -47,6 +48,38 @@ public class SuperDrunk extends Enemy{
     }
 
     public void shoot(){
+        Bottle bottle1;
+        Bottle bottle2;
+        Bottle bottle3;
+        Bottle bottle4;
+        Bottle bottle5;
+
+        if (facingRight) {
+            bottle1 = new Bottle(player, this, Bottle.BottleTrajectory.UPUP_RIGHT);
+            bottle2 = new Bottle(player, this, Bottle.BottleTrajectory.UP_RIGHT);
+            bottle3 = new Bottle(player, this, Bottle.BottleTrajectory.HORIZONTAL_RIGHT);
+            bottle4 = new Bottle(player, this, Bottle.BottleTrajectory.DOWN_RIGHT);
+            bottle5 = new Bottle(player, this, Bottle.BottleTrajectory.DOWNDOWN_RIGHT);
+        }
+        else {
+            bottle1 = new Bottle(player, this, Bottle.BottleTrajectory.UPUP_LEFT);
+            bottle2 = new Bottle(player, this, Bottle.BottleTrajectory.UP_LEFT);
+            bottle3 = new Bottle(player, this, Bottle.BottleTrajectory.HORIZONTAL_LEFT);
+            bottle4 = new Bottle(player, this, Bottle.BottleTrajectory.DOWN_LEFT);
+            bottle5 = new Bottle(player, this, Bottle.BottleTrajectory.DOWNDOWN_LEFT);
+        }
+
+        currentLevel.addBubble(bottle1);
+        currentLevel.addBubble(bottle2);
+        currentLevel.addBubble(bottle3);
+        currentLevel.addBubble(bottle4);
+        currentLevel.addBubble(bottle5);
+
+        bottle1.fireBubble();
+        bottle2.fireBubble();
+        bottle3.fireBubble();
+        bottle4.fireBubble();
+        bottle5.fireBubble();
         //shoot
         //System.out.println("SuperDrunk shooting");
     }
