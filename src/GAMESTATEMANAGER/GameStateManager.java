@@ -301,5 +301,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.set(index, level);
         System.out.println("Livello salvato");
         //qua bisogna aggiornare il file di testo che contiene il saveFile dei livelli
+        //basta risalvare la lista levels in qualche modo nel file di testo
     }
 }
