@@ -20,12 +20,6 @@ public class LosePanel extends JPanel {
     // Pulsante per tornare al menu principale
     private final JLabel menuBT = new JLabel("MENU");
 
-    // Pulsante per avviare una nuova partita
-    private final JLabel nplaytBT = new JLabel("NEW GAME");
-
-    // Pulsante per ritentare la partita corrente
-    private final JLabel restartBT = new JLabel("RETRY");
-
     // Pulsante per accedere alla leaderboard
     private final JLabel leaderboardBT = new JLabel("LEADERBOARD");
 
@@ -64,26 +58,10 @@ public class LosePanel extends JPanel {
         menuBT.setVisible(true);
         this.add(menuBT);
 
-        // Configurazione del pulsante "NEW GAME"
-        nplaytBT.setFont(font.deriveFont(30f));
-        nplaytBT.setHorizontalAlignment(SwingConstants.CENTER);
-        nplaytBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 125, menuBT.getY() + menuBT.getHeight() + 15, 250, 50);
-        nplaytBT.setForeground(Color.white);
-        nplaytBT.setVisible(true);
-        this.add(nplaytBT);
-
-        // Configurazione del pulsante "RETRY"
-        restartBT.setFont(font.deriveFont(30f));
-        restartBT.setHorizontalAlignment(SwingConstants.CENTER);
-        restartBT.setBounds((MainFrame.FRAME_WIDTH - 200) / 2, nplaytBT.getY() + nplaytBT.getHeight() + 15, 200, 50);
-        restartBT.setForeground(Color.white);
-        restartBT.setVisible(true);
-        this.add(restartBT);
-
         // Configurazione del pulsante "LEADERBOARD"
         leaderboardBT.setFont(font.deriveFont(30f));
         leaderboardBT.setHorizontalAlignment(SwingConstants.CENTER);
-        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 200, restartBT.getY() + restartBT.getHeight() + 15, 400, 50);
+        leaderboardBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 200, menuBT.getY() + menuBT.getHeight() + 15, 400, 50);
         leaderboardBT.setForeground(Color.white);
         leaderboardBT.setVisible(true);
         this.add(leaderboardBT);
@@ -122,7 +100,7 @@ public class LosePanel extends JPanel {
      * Il cursore si muove solo se non si trova già sull'ultima opzione.
      */
     public void cursorDown() {
-        if (selectedOption < 4) {
+        if (selectedOption < 2) {
             selectedOption++;
             cursor.setLocation(cursor.getX(), cursor.getY() + 65);
         }
