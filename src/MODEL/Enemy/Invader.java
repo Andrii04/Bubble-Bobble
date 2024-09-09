@@ -2,6 +2,7 @@ package MODEL.Enemy;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
+import MODEL.Bubbles.Laser;
 import MODEL.Entity;
 
 import java.util.*;
@@ -30,6 +31,9 @@ public class Invader extends Enemy{
             updateAction(Action.IDLE);
     }
     void shoot(){
+        Laser laser = new Laser(player, this);
+        currentLevel.addBubble(laser);
+        laser.fireBubble();
         System.out.println("Invader shoots");
     }
     @Override
