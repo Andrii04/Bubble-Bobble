@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SuperDrunk extends Enemy{
-    private int lives = 10;
+    private int lives = 2;
     private boolean goUp;
     private final int points = 10000;
     private Timer startTimer;
@@ -129,7 +129,8 @@ public class SuperDrunk extends Enemy{
                 MainFrame.playSound(2);
                 lives--;
                 if( lives <= 0){
-                    updateAction(Action.DIE);
+                    enraged = false;
+                    updateAction(Action.BUBBLED);
                 }
                 else if(canBeHurt){
                     canBeHurt = false;

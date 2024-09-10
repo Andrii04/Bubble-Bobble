@@ -195,6 +195,7 @@ public class Level {
         return bubbles;
     }
 
+    public void addSpawnedBubble(SpawnedBubble bubble) {spawnedBubbles.add(bubble);}
     public void spawnBubbles() {
         bubbles.addAll(spawnedBubbles);
     }

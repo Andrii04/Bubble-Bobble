@@ -1,6 +1,8 @@
 package MODEL.Bubbles;
 
 import MODEL.Enemy.Enemy;
+import MODEL.Enemy.SuperDrunk;
+import MODEL.Entity;
 import MODEL.Player;
 import VIEW.MainFrame;
 import VIEW.SpawnedBubbleView;
@@ -39,9 +41,16 @@ public class LightningBubble extends SpawnedBubble{
         }
 
         for (Enemy enemy : currentLevel.getEnemies()) {
-            if (enemy != null && hitbox.intersects(enemy.getHitbox())) {
+            if ( enemy != null && !(enemy instanceof SuperDrunk) &&
+                    hitbox.intersects(enemy.getHitbox())) {
                 bubbledEnemy = enemy;
                 enemy.updateAction(MODEL.Entity.Action.DIE);
+                effect = false;
+            }
+            else if (enemy != null && enemy instanceof SuperDrunk &&
+            hitbox.intersects(enemy.getHitbox())) {
+                bubbledEnemy = enemy;
+                enemy.updateAction(Entity.Action.HURT);
                 effect = false;
             }
         }
