@@ -2,10 +2,7 @@ package GAMESTATEMANAGER;
 
 import java.awt.event.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import MODEL.*;
 import MODEL.Bubbles.FireBubble;
@@ -183,81 +180,21 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     }
 
     public void generateLevels() {
-        //rows di blocchi: 37 35
-        //lunghezza row: 42  42
-
         //48, 42
 
-        int[][] pattern1 ={
-                {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-        // liv 1
-
-            ArrayList<Enemy> enemies = new ArrayList<>();
-            //enemies.add(new Benzo(105, 543, true, this ));
-            enemies.add(new Blubba(135, 540, true, this ));
-            //enemies.add(new Benzo( 400, 623, true,this ));
-            enemies.add(new Boris(70,463,true,this));
-            //enemies.add(new BoaBoa( 48,48,true,this));
-           // enemies.add(new Benzo(105, 543, true, this ));
-            //enemies.add(new Blubba(135, 540, true, this ));
-            //enemies.add(new Boris(80,463,true,this));
-            //enemies.add(new BoaBoa( 48,48,true,this));
-            enemies.add(new SuperDrunk( 160,160,true,this));
-            enemies.add(new Incendio(400,623,true,this));
-            enemies.add(new Invader(50,50,true,this));
-
-        ArrayList<Enemy> enemies1 = new ArrayList<>();
-        enemies1.add(new Invader(50,50,true,this));
-
-        levels.get(1).setEnemies(enemies);
-        levels.get(2).setEnemies(enemies1);
+            addEnemies();
+            addSpecialBubbles();
 
 
+        //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
+        //(i blocchi del livello ovviamento sono gli interi associati al numero del livello
+        //ad esempio il livello 2 avra nell'array appunto i muri fatti dal suo blocco, ovvero l'intero 2
 
+        //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
+    }
+
+    public void addSpecialBubbles() {
         ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
-        //spawnedBubbles.add(new LightningBubble());
-        //aggiungere bolle che spawnano automaticamente nel livello qua
 
         LightningBubble lightning1 = new LightningBubble(currentPlayer);
         LightningBubble lightning2 = new LightningBubble(currentPlayer);
@@ -282,14 +219,133 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(1).addSpawnedBubble(lightning3);
         levels.get(2).addSpawnedBubble(lightning4);
         levels.get(1).spawnBubbles();
-
-        //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
-        //(i blocchi del livello ovviamento sono gli interi associati al numero del livello
-        //ad esempio il livello 2 avra nell'array appunto i muri fatti dal suo blocco, ovvero l'intero 2
-
-        //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
     }
+    public void addEnemies(){
+        ArrayList<Enemy> enemies1 = new ArrayList<>();
+        enemies1.add(new Benzo(50, 623, true, this ));
+        enemies1.add(new Benzo(400, 623, true, this ));
+        enemies1.add(new Benzo(600,623,true,this));
 
+        ArrayList<Enemy> enemies2 = new ArrayList<>();
+        enemies2.add(new Incendio(105, 543, true, this ));
+        enemies2.add(new Incendio(600, 543, true, this ));
+        enemies2.add(new Incendio(400, 453, true, this ));
+        ArrayList<Enemy> enemies3 = new ArrayList<>();
+        enemies3.add(new Benzo(105, 543, true, this ));
+        enemies3.add(new Benzo(650, 543, true, this ));
+        enemies3.add(new Incendio(105, 623, true, this ));
+        ArrayList<Enemy> enemies4 = new ArrayList<>();
+        enemies4.add(new Boris(105, 543, true, this ));
+        enemies4.add(new Boris(650, 543, true, this ));
+        enemies4.add(new Boris(400, 453, true, this ));
+        ArrayList<Enemy> enemies5 = new ArrayList<>();
+        enemies5.add(new Boris(105, 543, true, this ));
+        enemies5.add(new Boris(650, 543, true, this ));
+        enemies5.add(new Incendio(105, 623, true, this ));
+        ArrayList<Enemy> enemies6 = new ArrayList<>();
+        enemies6.add(new Benzo(105, 543, true, this ));
+        enemies6.add(new Blubba(650, 50, true, this ));
+        enemies6.add (new Blubba(100, 100, true, this));
+        enemies6.add(new Benzo(400, 453, true, this ));
+        ArrayList<Enemy> enemies7 = new ArrayList<>();
+        enemies7.add(new Blubba(105, 543, true, this ));
+        enemies7.add(new Blubba(650, 543, true, this ));
+        enemies7.add(new Blubba(105, 623, true, this ));
+        enemies7.add(new Blubba(400, 453, true, this ));
+        ArrayList<Enemy> enemies8 = new ArrayList<>();
+        enemies8.add(new Incendio(650, 543, true, this ));
+        enemies8.add(new Boris(105, 623, true, this ));
+        enemies8.add(new Boris(400, 453, true, this ));
+        enemies8.add(new Blubba(105, 543, true, this ));
+        ArrayList<Enemy> enemies9 = new ArrayList<>();
+        enemies9.add(new Benzo(105, 543, true, this ));
+        enemies9.add(new Benzo(650, 543, true, this ));
+        enemies9.add(new BoaBoa(600,40,true,this));
+        enemies9.add(new BoaBoa(100,40,true,this));
+        ArrayList<Enemy> enemies10 = new ArrayList<>();
+        enemies10.add(new BoaBoa(105, 20, true, this ));
+        enemies10.add(new BoaBoa(650, 543, true, this ));
+        enemies10.add(new BoaBoa(105, 623, true, this ));
+        enemies10.add(new BoaBoa(400, 20, true, this ));
+        ArrayList<Enemy> enemies11 = new ArrayList<>();
+        enemies11.add(new Blubba(105, 543, true, this ));
+        enemies11.add(new Blubba(105, 623, true, this ));
+        enemies11.add(new BoaBoa( 650, 543, true, this ));
+        enemies11.add(new BoaBoa( 400, 453, true, this ));
+        enemies11.add(new BoaBoa( 105, 543, true, this ));
+        ArrayList<Enemy> enemies12 = new ArrayList<>();
+        enemies12.add(new Incendio(105, 543, true, this ));
+        enemies12.add(new Incendio(650, 543, true, this ));
+        enemies12.add(new Incendio(105, 623, true, this ));
+        enemies12.add(new Incendio(400, 453, true, this ));
+        ArrayList<Enemy> enemies13 = new ArrayList<>();
+        enemies13.add(new Invader(105, 543, true, this ));
+        enemies13.add(new Invader(650, 543, true, this ));
+        enemies13.add(new Invader(105, 623, true, this ));
+        enemies13.add(new Invader(400, 453, true, this ));
+        ArrayList<Enemy> enemies14 = new ArrayList<>();
+        enemies14.add(new Benzo(105, 543, true, this ));
+        enemies14.add(new Benzo(650, 543, true, this ));
+        enemies14.add(new Boris(105, 623, true, this ));
+        enemies14.add(new Boris(400, 453, true, this ));
+        ArrayList<Enemy> enemies15 = new ArrayList<>();
+        enemies15.add(new Boris(105, 543, true, this ));
+        enemies15.add(new Boris(650, 543, true, this ));
+        enemies15.add(new Boris(105, 623, true, this ));
+        enemies15.add(new Boris(400, 453, true, this ));
+        ArrayList<Enemy> enemies16 = new ArrayList<>();
+        enemies16.add(new BoaBoa(105, 543, true, this ));
+        enemies16.add(new BoaBoa(650, 543, true, this ));
+        enemies16.add(new BoaBoa(105, 623, true, this ));
+        enemies16.add(new BoaBoa(400, 453, true, this ));
+        ArrayList<Enemy> enemies17 = new ArrayList<>();
+        enemies17.add(new Invader(105, 543, true, this ));
+        enemies17.add(new Invader(650, 543, true, this ));
+        enemies17.add(new Invader(105, 623, true, this ));
+        enemies17.add(new BoaBoa(400, 453, true, this));
+        ArrayList<Enemy> enemies18 = new ArrayList<>();
+        enemies18.add(new Benzo(105, 543, true, this ));
+        enemies18.add(new Benzo(650, 543, true, this ));
+        enemies18.add(new Invader(105, 383, true, this ));
+        enemies18.add(new Invader(400, 453, true, this ));
+        enemies18.add(new Invader(105, 543, true, this ));
+        ArrayList<Enemy> enemies19 = new ArrayList<>();
+        enemies19.add(new Benzo(105, 543, true, this ));
+        enemies19.add(new Boris(650, 543, true, this ));
+        enemies19.add(new Boris(105, 623, true, this ));
+        enemies19.add(new Blubba(400, 453, true, this ));
+        enemies19.add(new Blubba(105, 543, true, this ));
+        ArrayList<Enemy> enemies20 = new ArrayList<>();
+        enemies20.add(new BoaBoa(105, 543, true, this ));
+        enemies20.add(new BoaBoa(650, 543, true, this ));
+        enemies20.add(new Blubba(105, 623, true, this ));
+        enemies20.add(new Blubba(400, 453, true, this ));
+        enemies20.add(new Blubba(105, 543, true, this ));
+        ArrayList<Enemy> enemies21 = new ArrayList<>();
+        enemies21.add(new Incendio(105, 543, true, this ));
+        enemies21.add(new Incendio(650, 543, true, this ));
+        enemies21.add(new Incendio(105, 623, true, this ));
+        enemies21.add(new Benzo(105, 543, true, this ));
+        ArrayList<Enemy> enemies22 = new ArrayList<>();
+        enemies22.add(new Invader(105, 543, true, this ));
+        enemies22.add(new Invader(650, 543, true, this ));
+        enemies22.add(new Invader(105, 623, true, this ));
+        enemies22.add(new Incendio(400, 453, true, this ));
+        enemies22.add(new Incendio(105, 543, true, this ));
+        ArrayList<Enemy> enemies23 = new ArrayList<>();
+        enemies23.add(new Boris(105, 543, true, this ));
+        enemies23.add(new Boris(650, 543, true, this ));
+        enemies23.add(new Incendio(105, 623, true, this ));
+        enemies23.add(new Incendio(400, 453, true, this ));
+        enemies23.add(new Incendio(105, 543, true, this ));
+        ArrayList<Enemy> enemies24 = new ArrayList<>();
+        enemies24.add(new SuperDrunk(105, 303, true, this ));
+
+    List<ArrayList<Enemy>> enemiesList = Arrays.asList(enemies1, enemies2, enemies3, enemies4, enemies5, enemies6, enemies7, enemies8, enemies9, enemies10, enemies11, enemies12, enemies13, enemies14, enemies15, enemies16, enemies17, enemies18, enemies19, enemies20, enemies21, enemies22, enemies23, enemies24);
+        for (int i = 1; i < 24; i++) {
+            levels.get(i).setEnemies(enemiesList.get(i));
+        }
+    }
     public void addLevel(Level level) {
         levels.add(level);
         //Probabilmente qua verrà chiamato un metodo del Controller che
