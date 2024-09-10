@@ -30,6 +30,12 @@ public class SuperDrunkView extends EnemyView {
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Walk/Walk1Right.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Walk/Walk2Right.png")))
             };
+            SuperdrunkBubbledLeft = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Bubbled/Bubbled1.png"))),
+            };
+            SuperdrunkBubbledRight = new BufferedImage[]{
+                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Bubbled/Bubbled1Right.png"))),
+            };
             SuperdrunkHurtLeft = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt1.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/SuperDrunk/Hurt/Hurt2.png"))),

@@ -389,7 +389,7 @@ public abstract class Enemy extends Observable implements Entity {
                 // Moving left
                 if (!isColliding(x - speed, y)) {
                     this.x -= speed;
-                    if (!isSolidTile(x, y + Entity.HEIGHT+1)) {
+                    if (!isSolidTile(x-Entity.WIDTH, y + Entity.HEIGHT+1)) {
                         updateAction(Action.MOVE_VERTICALLY);
                     }
                 }

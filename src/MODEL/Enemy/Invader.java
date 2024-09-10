@@ -16,12 +16,12 @@ public class Invader extends Enemy{
         this(0, 0, true, gsm);
     }
     public void  chasePlayer() {
-        if (isSolidTile(x, y + Entity.HEIGHT + 1)) {
+        if (isSolidTile(x, y + Entity.HEIGHT + 1) && isSolidTile(x + Entity.WIDTH, y + Entity.HEIGHT + 1)) {
             onFloor = true;
         } else {
             onFloor = false;
         }
-        if(!isSolidTile(x,y+Entity.HEIGHT+1)){
+        if(!isSolidTile(x,y+Entity.HEIGHT+1) && !isSolidTile(x+Entity.WIDTH,y+Entity.HEIGHT+1)){
             onFloor = false;
         }
         else{
@@ -56,6 +56,11 @@ public class Invader extends Enemy{
         bubbled = false;
         speed += 1;
         attackTimer.setDelay(800);
+    }
+    void attack(){
+        if(!attackTimer.isRunning()){
+            attackTimer.start();
+        }
     }
     @Override
     public int getX() {
