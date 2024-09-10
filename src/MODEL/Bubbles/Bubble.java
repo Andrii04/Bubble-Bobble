@@ -182,7 +182,7 @@ public abstract class Bubble {
                 }
             }
             for (SpawnedBubble bubble : currentLevel.getSpawnedBubbles()) {
-                if (hitbox.intersects(bubble.getHitbox())) {
+                if (bubble != null && hitbox.intersects(bubble.getHitbox())) {
                     bubble.explode();
                     explode();
                 }
@@ -256,7 +256,7 @@ public abstract class Bubble {
         bubbleView.setPom(false);
 
         erased = true;
-        currentLevel.removeBubble(this);
+        if (currentLevel != null) currentLevel.removeBubble(this);
     }
 
     public boolean isSolidTile(int x, int y) {

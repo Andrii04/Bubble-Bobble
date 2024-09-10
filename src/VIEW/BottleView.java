@@ -3,6 +3,7 @@ package VIEW;
 import MODEL.Bubbles.Bubble;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class BottleView extends BubbleView{
     int bottleRotationTimer;
@@ -14,7 +15,9 @@ public class BottleView extends BubbleView{
     @Override
     public void startFiring() {
         currentSkinPath = bubble.getSkinsPath() + "5.png";
-        //currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        Image originalSkin = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image resizedSkin = originalSkin.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        currentSkin = new ImageIcon(resizedSkin);
     }
 
     @Override
@@ -50,6 +53,8 @@ public class BottleView extends BubbleView{
     public void setExplodeIMG() {
         //non c'è un'immagine di esplosione per le bottiglie quindi userei questa
         currentSkinPath = "/Resources/Bubble Bobble Resources/Bubbles/BlueBubble5.png";
-        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        Image originalSkin = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image resizedSkin = originalSkin.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        currentSkin = new ImageIcon(resizedSkin);
     }
 }
