@@ -15,5 +15,6 @@ public class BlueLantern extends PowerUp {
         player.setPinkRing(true);
         player.setBlueRing(true);
         player.setRedRing(true);
+        erase();
     }
 }

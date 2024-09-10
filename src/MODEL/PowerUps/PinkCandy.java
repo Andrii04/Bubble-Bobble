@@ -14,5 +14,6 @@ public class PinkCandy extends PowerUp {
     public void activateEffect() {
         player.setMaxBubbleDistance(100);
         player.eatPinkCandy();
+        erase();
     }
 }

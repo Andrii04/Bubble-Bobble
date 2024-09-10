@@ -17,5 +17,6 @@ public class OrangeUmbrella extends PowerUp {
         else nextLevelInt = 24;
 
         gsm.setNextLevelInt(nextLevelInt);
+        erase();
     }
 }

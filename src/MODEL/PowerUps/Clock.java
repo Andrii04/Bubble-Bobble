@@ -13,5 +13,6 @@ public class Clock extends PowerUp {
     @Override
     public void activateEffect() {
         currentLevel.setClock(true);
+        erase();
     }
 }

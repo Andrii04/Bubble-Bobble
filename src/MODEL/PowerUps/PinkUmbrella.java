@@ -17,5 +17,6 @@ public class PinkUmbrella extends PowerUp {
         else nextLevelInt = 24;
 
         gsm.setNextLevelInt(nextLevelInt);
+        erase();
     }
 }

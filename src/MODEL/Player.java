@@ -75,7 +75,7 @@ public class Player extends Observable implements Entity {
         this.profile=profile;
         this.x = defaultX;
         this.y = defaultY;
-        this.lives = 3; // default
+        this.lives = 100; // default
         this.speed = defaultSpeed; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 

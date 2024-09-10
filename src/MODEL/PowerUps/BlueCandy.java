@@ -16,5 +16,6 @@ public class BlueCandy extends PowerUp {
     public void activateEffect() {
         player.setBubbleSpeed(11);
         player.eatBlueCandy();
+        erase();
     }
 }

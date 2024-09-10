@@ -17,5 +17,6 @@ public class RedUmbrella extends PowerUp {
         else nextLevelInt = 24;
 
         gsm.setNextLevelInt(nextLevelInt);
+        erase();
     }
 }

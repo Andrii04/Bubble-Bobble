@@ -11,7 +11,7 @@ public class Bottle extends Bubble{
 
     {skinsPath = "Resources/Bubble Bobble Resources/Enemies/Superdrunk/drunkBottle/bottle";}
     BottleTrajectory trajectory;
-    {shootingSpeed = 6;}
+    {shootingSpeed = 4;}
 
     public enum BottleTrajectory {
 
@@ -66,19 +66,19 @@ public class Bottle extends Bubble{
             }
             case 5 -> {
                 x += shootingSpeed;
-                y += shootingSpeed/2;
+                y += shootingSpeed;
             }
             case 6 -> {
                 x += shootingSpeed;
-                y += shootingSpeed;
+                y += shootingSpeed*2;
             }
             case 7 -> {
                 x -= shootingSpeed;
-                y += shootingSpeed/2;
+                y += shootingSpeed;
             }
             case 8 -> {
                 x -= shootingSpeed;
-                y -= shootingSpeed;
+                y -= shootingSpeed*2;
             }
             case 9 -> x -= shootingSpeed;
         }

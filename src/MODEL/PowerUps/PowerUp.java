@@ -63,14 +63,14 @@ public abstract class PowerUp {
         }
 
         if (!onFloor && currentLevel.isItSolidBlock(y / Block.HEIGHT, x / Block.WIDTH)) {
-            y -= 2;
+            y -= Block.HEIGHT*2;
             hitbox.setLocation(x, y);
             onFloor = true;
         }
 
         if (hitbox.intersects(player.getHitbox())) {
-            activateEffect();
             explode();
+            activateEffect();
         }
     }
 
@@ -86,8 +86,16 @@ public abstract class PowerUp {
     }
 
     public void setSkin(ImageIcon skin) {
-        this.skin = skin;
+        Image resizedSkin = skin.getImage().getScaledInstance(
+                30,
+                30,
+                Image.SCALE_SMOOTH
+        );
+        this.skin = new ImageIcon(resizedSkin);
     }
 
     public PowerUpView getPowerUpView() {return powerUpView;}
+    public void stopExplosion() {
+        explode = false;
+    }
 }

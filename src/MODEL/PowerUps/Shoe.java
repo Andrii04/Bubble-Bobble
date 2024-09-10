@@ -13,5 +13,6 @@ public class Shoe extends PowerUp {
     @Override
     public void activateEffect() {
         player.setSpeed(32);
+        erase();
     }
 }

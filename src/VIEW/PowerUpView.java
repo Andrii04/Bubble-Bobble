@@ -26,7 +26,7 @@ public class PowerUpView {
             if (!powerUp.isActive()) powerUp.updateLocation();
             else if (powerUp.isExploding()) {
                 explodingAnimationTimer++;
-                if (explodingAnimationTimer >= 15) powerUp.erase();
+                if (explodingAnimationTimer >= 15) powerUp.stopExplosion();
 
             }
         }

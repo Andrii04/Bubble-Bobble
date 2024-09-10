@@ -14,5 +14,6 @@ public class GreenCandy extends PowerUp {
     public void activateEffect() {
         player.setFireRate(50);
         player.eatGreenCandy();
+        erase();
     }
 }

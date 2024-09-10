@@ -13,5 +13,6 @@ public class PinkRing extends PowerUp {
     @Override
     public void activateEffect() {
         player.setPinkRing(true);
+        erase();
     }
 }
