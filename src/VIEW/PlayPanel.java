@@ -29,6 +29,7 @@ public class PlayPanel extends JPanel implements Runnable {
     private int lives;
     private Player player;
     private ScorePanel scorePanel;
+    private ExtendPanel extendPanel;
 
 
 
@@ -52,6 +53,12 @@ public class PlayPanel extends JPanel implements Runnable {
         this.scorePanel = new ScorePanel(player); //Score Panel
         this.add(scorePanel);
         scorePanel.setBounds(10, 10, MainFrame.FRAME_WIDTH/2, scorePanel.getPreferredSize().height);
+
+        this.extendPanel = new ExtendPanel(player);
+        this.add(extendPanel);
+        // Posizionamento in verticale sul lato destro
+        extendPanel.setBounds(10, 100, 50, 200); // Posizionato sulla destra
+
 
         this.livesPanel = new LivesPanel(player);
         this.add(livesPanel);

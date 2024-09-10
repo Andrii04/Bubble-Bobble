@@ -12,7 +12,7 @@ public class ExtendBubble extends SpawnedBubble{
 
     @Override
     public void startEffect() {
-
+        player.addExtendBubble(this);  // Aggiungi la bolla alla collezione del giocatore
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ExtendBubble extends SpawnedBubble{
 
     @Override
     public Bubble newInstance(Player player) {
-        return null;
+        return new ExtendBubble(player, letter); // Crea nuova bolla con stessa lettera
     }
 
     public String getLetter() {return letter;}

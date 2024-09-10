@@ -2,6 +2,7 @@ package MODEL;
 
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
+import MODEL.Bubbles.ExtendBubble;
 import MODEL.Bubbles.GreenBubble;
 import MODEL.PowerUps.*;
 import VIEW.MainFrame;
@@ -29,7 +30,8 @@ public class Player extends Observable implements Entity {
     private Action currentAction;
     private Timer cooldownTimer;
     private boolean cooldown = false;
-    private ArrayList<Character> extendLetters;
+    private ArrayList<String> extendBubbles;
+    private static final String EXTEND = "EXTEND";  // La sequenza corretta
 
 
 
@@ -81,7 +83,7 @@ public class Player extends Observable implements Entity {
         setCurrentLevel(gsm.getCurrentLevel());
 
         bubbleType = new GreenBubble(this);
-        extendLetters = new ArrayList<>();
+        this.extendBubbles = new ArrayList<>();
 
         cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
@@ -337,20 +339,28 @@ public class Player extends Observable implements Entity {
         this.lives = lives;
     }
 
-
-    // Aggiunta della lettera raccolta
-    public void collectExtendLetter(char letter) {
-        if (!extendLetters.contains(letter)) {
-            extendLetters.add(letter);
+    public void addExtendBubble(ExtendBubble bubble) {
+        String letter = bubble.getLetter();
+        if (!extendBubbles.contains(letter)) {
+            extendBubbles.add(letter);
+            checkExtendCompletion();
         }
     }
 
-    public void resetExtend() {
-        extendLetters.clear();
+    private void resetExtend() {
+        extendBubbles.clear();
+        System.out.println("Reset bolle Extend!");
     }
 
-    public ArrayList<Character> getExtendLetters() {
-        return extendLetters;
+    public ArrayList<String> getExtendBubbles() {
+        return extendBubbles;
+    }
+
+    private void checkExtendCompletion() {
+        if (extendBubbles.size() == EXTEND.length()) {
+            gainLife();
+            resetExtend();
+        }
     }
 
 
