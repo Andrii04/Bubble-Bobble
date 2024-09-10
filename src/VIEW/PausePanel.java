@@ -50,7 +50,7 @@ public class PausePanel extends JPanel {
         // Impostazione del pulsante "EXIT"
         exitBT.setFont(font.deriveFont(30f));
         exitBT.setHorizontalAlignment(SwingConstants.CENTER);
-        exitBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 100, gameBT.getY() + gameBT.getHeight() + 15, 200, 50);
+        exitBT.setBounds(MainFrame.FRAME_WIDTH / 2 - 100, gameBT.getY() + gameBT.getHeight() + MainFrame.TILE_SIZE+15, 200, 50);
         exitBT.setForeground(Color.white);
         exitBT.setVisible(true);
         this.add(exitBT);

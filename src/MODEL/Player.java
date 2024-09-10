@@ -14,8 +14,8 @@ import java.util.Observable;
 public class Player extends Observable implements Entity {
 
     private UserProfile profile;
-    public static int defaultX = 148;
-    public static int defaultY = 384; ;
+    public static int defaultX = 20;
+    public static int defaultY = 623; ;
     private int x;
     private int y;
     private int punteggio;
@@ -75,7 +75,7 @@ public class Player extends Observable implements Entity {
         this.profile=profile;
         this.x = defaultX;
         this.y = defaultY;
-        this.lives = 3; // default
+        this.lives = 100; // default
         this.speed = defaultSpeed; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
@@ -113,7 +113,7 @@ public class Player extends Observable implements Entity {
     }
 
     boolean isNotSolid(){
-        if(airSpeed<0 && y+airSpeed >= Block.HEIGHT){
+        if(airSpeed<0 ){
             return true;
         }
         return false;
@@ -259,6 +259,7 @@ public class Player extends Observable implements Entity {
                 // gsm.setGameState(GameStateManager.GameState.GAMEOVER);
                 break;
             default:
+                System.out.println("player pos: " + x + " " + y);
                 notifyObservers(Action.IDLE);
                 break;
         }
