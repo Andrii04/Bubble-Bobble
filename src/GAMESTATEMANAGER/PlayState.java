@@ -57,7 +57,8 @@ public class PlayState extends GameState {
 
         if(currentEnemies.isEmpty()){
             if(gsm.getCurrentLevelInt()<gsm.getLevels().size()-1){
-                gsm.setCurrentLevel(gsm.getCurrentLevelInt()+1);
+                gsm.setNextLevelInt(gsm.getCurrentLevelInt() +1);
+                gsm.setCurrentLevel(gsm.getNextLevelInt());
                 player.setCurrentLevel(gsm.getCurrentLevel());
                 loadNewLevel();
             }

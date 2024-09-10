@@ -243,7 +243,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             //enemies.add(new Blubba(135, 540, true, this ));
             //enemies.add(new Boris(80,463,true,this));
             //enemies.add(new BoaBoa( 48,48,true,this));
-            //enemies.add(new SuperDrunk( 160,160,true,this));
+            enemies.add(new SuperDrunk( 160,160,true,this));
             enemies.add(new Incendio(400,623,true,this));
             //enemies.add(new Invader(50,50,true,this));
 
