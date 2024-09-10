@@ -148,6 +148,18 @@ public class BubbleView {
         currentSkin = new ImageIcon(resizedSkin);
     }
 
+    public void setExtendBubbleSkin(String letter) {
+        switch (letter) {
+            case "E" -> currentSkinPath = bubble.getSkinsPath() + " E.png";
+            case "X" -> currentSkinPath = bubble.getSkinsPath() + " X.png";
+            case "T" -> currentSkinPath = bubble.getSkinsPath() + " T.png";
+            case "N" -> currentSkinPath = bubble.getSkinsPath() + " N.png";
+            case "D" -> currentSkinPath = bubble.getSkinsPath() + " D.png";
+        }
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        setSkin(currentSkin);
+    }
+
     public void draw(Graphics2D g2d) {
         if (!bubble.getErased() &&
                 (firing || (floating && !encapsulate) || exploding || pom || bubble.isEffect())) {

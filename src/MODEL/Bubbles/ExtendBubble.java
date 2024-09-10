@@ -1,18 +1,24 @@
 package MODEL.Bubbles;
 
 import MODEL.Player;
+import VIEW.SpawnedBubbleView;
 
 public class ExtendBubble extends SpawnedBubble{
     private String letter;
-
+    {skinsPath = "Resources/Bubble Bobble Resources/Bubbles/extend";}
     public ExtendBubble(Player player, String letter) {
         super(player);
         this.letter = letter;
+        this.bubbleView = new SpawnedBubbleView(this);
+        bubbleView.setExtendBubbleSkin(letter);
+        floating = true;
+        hitbox.setSize(45, 45);
         }
 
     @Override
     public void startEffect() {
-        player.addExtendBubble(this);  // Aggiungi la bolla alla collezione del giocatore
+        player.addExtendBubble(this);// Aggiungi la bolla alla collezione del giocatore
+        erase();
     }
 
     @Override
