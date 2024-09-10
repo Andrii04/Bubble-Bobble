@@ -116,12 +116,20 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     }
 
-    public void startGame(Player player) {
+    public void resetGame() {
+        System.out.println("Game reset");
+        MainFrame.setPlayPanel(null);
+        savedPlayState = null;
+        currentPlayer = null;
+        currentLevel = 1;
+        nextLevelInt = 2;
+    }
+    public void startGame(UserProfile userProfile) {
         if (savedPlayState == null) {
-            currentPlayer = player;
+            generateLevels();
+            currentPlayer = new Player(userProfile);
             savedPlayState = new PlayState(this);
             currentState = savedPlayState;
-            stateNum = 1;
             currentState.draw();
         } else {
             throw new IllegalStateException("Game already started");
@@ -136,6 +144,13 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         } else {
             throw new IllegalStateException("No game to continue");
         }
+    }
+
+    public void setSavedPlayState(PlayState savedPlayState) {
+        this.savedPlayState = savedPlayState;
+    }
+    public PlayState getSavedPlayState() {
+        return savedPlayState;
     }
 
     public GameState getCurrentState() {
@@ -209,6 +224,9 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         // liv 1
+
+             this.levels =  loadLevelsFromFile();
+
             ArrayList<Enemy> enemies = new ArrayList<>();
             enemies.add(new Benzo(105, 543, true, this ));
             enemies.add(new Blubba(135, 540, true, this ));
@@ -219,16 +237,21 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             //enemies.add(new Blubba(135, 540, true, this ));
             //enemies.add(new Boris(80,463,true,this));
             enemies.add(new BoaBoa( 48,48,true,this));
-            enemies.add(new SuperDrunk( 160,160,true,this));
+            //enemies.add(new SuperDrunk( 160,160,true,this));
             enemies.add(new Incendio(400,623,true,this));
             //enemies.add(new Invader(50,50,true,this));
-            ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
 
+        ArrayList<Enemy> enemies1 = new ArrayList<>();
+        enemies1.add(new Invader(50,50,true,this));
+
+        levels.get(1).setEnemies(enemies);
+        levels.get(2).setEnemies(enemies1);
+
+
+
+        ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
         //spawnedBubbles.add(new LightningBubble());
         //aggiungere bolle che spawnano automaticamente nel livello qua
-
-        Level level1 = new Level(MainFrame.FRAME_HEIGHT, MainFrame.FRAME_WIDTH, pattern1,
-                enemies, spawnedBubbles);
 
         LightningBubble lightning1 = new LightningBubble(currentPlayer);
         LightningBubble lightning2 = new LightningBubble(currentPlayer);
@@ -238,12 +261,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         FireBubble fire2 = new FireBubble(currentPlayer);
         spawnedBubbles.add(fire1);
         spawnedBubbles.add(fire2);
-
-
-        level1.spawnBubbles();
-        level1.setSpawnRate(8000);
-
-        addLevel(level1);
 
         //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
         //(i blocchi del livello ovviamento sono gli interi associati al numero del livello
@@ -327,9 +344,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         return levels;
     }
 
-
     public void setLevel(int index, Level level) {
-        List<Level> levels = loadLevelsFromFile(); // Carica tutti i livelli
         if (index >= 0 && index < levels.size()) {
             levels.set(index, level); // Aggiorna il livello
             saveLevelsToFile(levels); // Salva tutti i livelli aggiornati

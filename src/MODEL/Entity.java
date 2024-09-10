@@ -23,9 +23,11 @@ public interface Entity {
     float gravity = 0.3f;
     public void updateAction(Action action);
 
-    public boolean getFacingRight();
-    public int getX();
-    public int getY();
+
+
+    boolean getFacingRight();
+    int getX();
+    int getY();
 
 
     public int compareLocation(Entity entity);

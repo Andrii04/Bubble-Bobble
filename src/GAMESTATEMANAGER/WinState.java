@@ -83,10 +83,12 @@ public class WinState extends GameState {
             switch (view.getSelectedOption()) {
                 case 0:
                     // Torna al menu principale
+                    gsm.resetGame();
                     gsm.setState(GameStateManager.menuState);
                     break;
                 case 1:
                     // Passa allo stato della classifica
+                    gsm.resetGame();
                     gsm.setState(GameStateManager.leaderboardState);
                     break;
                 case 2:

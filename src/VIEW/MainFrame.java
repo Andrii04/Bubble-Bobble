@@ -62,7 +62,11 @@ public class MainFrame {
         }
         return null;
     }
-
+public static void setPlayPanel(PlayerView playerView) {
+        if(playPanel != null) playPanel = null; // remove the old panel (if it exists
+    else{
+        playPanel = new PlayPanel(playerView);}
+    }
     public static void setPanel(JPanel panel) {
         gameFrame.getContentPane().removeAll();
         gameFrame.getContentPane().add(panel);

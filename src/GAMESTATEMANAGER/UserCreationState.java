@@ -75,7 +75,7 @@ public class UserCreationState extends GameState {
                 // fetch data from leaderboard
                 //  MainFrame.setUserProfile();
             }
-            gsm.startGame(new Player(userProfile));
+            gsm.startGame(userProfile);
         }
     }
 

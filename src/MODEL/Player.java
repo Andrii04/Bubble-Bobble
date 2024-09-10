@@ -18,7 +18,7 @@ public class Player extends Observable implements Entity {
     private int punteggio;
     private int lives;
     private int speed;
-    private int defaultSpeed = 16;
+    private int defaultSpeed = 8;
     private boolean facingRight = true;
     private Rectangle hitbox;
     private Level currentLevel;
@@ -108,7 +108,7 @@ public class Player extends Observable implements Entity {
         if ((profile.getPartiteTot() % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
     }
 
-    private boolean isNotSolid(){
+    boolean isNotSolid(){
         if(airSpeed<0 && y+airSpeed >= Block.HEIGHT){
             return true;
         }
@@ -116,7 +116,7 @@ public class Player extends Observable implements Entity {
     }
 
     // if any point of entity is colliding with a solid tile
-    public boolean isColliding(int x, float y) {
+    boolean isColliding(int x, float y) {
         int leftTile = x; // Leftmost tile
         int rightTile = x + 2 * Block.WIDTH; // Rightmost tile
         int topTile = (int) y; // Topmost tile
@@ -169,7 +169,7 @@ public class Player extends Observable implements Entity {
                 }
                 //player is falling to the ground
                 else if(isColliding(x,y+airSpeed)&& airSpeed > 0 ){
-                    if( (isSolidTile(x,y)||isSolidTile(x+Entity.HEIGHT,y)|| isSolidTile(x+Block.WIDTH,y))){
+                    if( (isSolidTile(x,y)||isSolidTile(x+Entity.WIDTH,y)|| isSolidTile(x+Block.WIDTH,y))){
                         this.y += airSpeed;
                         hitbox.setLocation(x, y);
                         airSpeed += gravity;
@@ -198,6 +198,9 @@ public class Player extends Observable implements Entity {
                                 this.x += speed;
                             }
                         }
+                    }
+                    if(!isColliding(x,y+Entity.HEIGHT+1)){
+                        onFloor = false;
                     }
                     hitbox.setLocation(x, y);
                     notifyObservers(Action.WALK);
@@ -234,7 +237,10 @@ public class Player extends Observable implements Entity {
                     this.lives--;
                     System.out.println("Lives: " + lives);
                     notifyObservers(Action.HURT);
-                    if (lives <= 0) {
+                    if(lives < 0){
+                        lives =0;
+                    }
+                    if (lives == 0) {
                         notifyObservers(Action.DIE);
                     }
                 }

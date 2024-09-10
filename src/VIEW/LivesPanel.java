@@ -25,7 +25,9 @@ public class LivesPanel extends JPanel {
     // Metodo per aggiornare il pannello delle vite
     public void updateLives() {
         int currentLives = player.getLives();
-
+        if(currentLives <0){
+            currentLives = 0;
+        }
         // Aggiungi o rimuovi icone per adattarsi al numero di vite attuali
         if (currentLives > lifeIcons.size()) {
             // Aggiungi icone se le vite sono aumentate

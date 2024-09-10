@@ -169,6 +169,24 @@ public class Level {
         }
     }
 
+    public void setEnemies(ArrayList<Enemy> enemies) {
+        this.enemies = enemies;
+        this.enemyViews = enemies.stream().
+                map(enemy -> {
+                    if (enemy instanceof Benzo) return new BenzoView(enemy);
+                    if(enemy instanceof Blubba) return new BlubbaView(enemy);
+                    if(enemy instanceof Boris) return new BorisView(enemy);
+                    if(enemy instanceof BoaBoa) return new BoaBoaView(enemy);
+                    if(enemy instanceof Incendio) return new IncendioView(enemy);
+                    if(enemy instanceof Invader) return new InvaderView(enemy);
+                    if(enemy instanceof SuperDrunk) return new SuperDrunkView(enemy);
+                    //altri casi
+
+                    return null;
+                })
+                .collect(Collectors.toCollection(ArrayList<EnemyView>::new));
+
+    }
     public void addBubble(Bubble bubble) {
         this.bubbles.add(bubble);
     }

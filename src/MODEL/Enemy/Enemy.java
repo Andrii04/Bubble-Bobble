@@ -68,7 +68,7 @@ public abstract class Enemy extends Observable implements Entity {
         this.gsm = gsm;
         currentLevel = gsm.getCurrentLevel();
         player = gsm.getCurrentPlayer();
-        rageTimer = new Timer(100, e ->updateAction(Action.RAGE));
+        rageTimer = new Timer(4000, e ->updateAction(Action.RAGE));
         rageTimer.setRepeats(false);
 
         attackTimer = new Timer(1000, e -> shoot());
@@ -102,6 +102,10 @@ public abstract class Enemy extends Observable implements Entity {
             }
             else{
                 player.updateAction(Action.HURT);
+                if(player.getLives()<=0 && attackTimer.isRunning()){
+                    attackTimer.stop();
+
+                }
             }
         }
     }

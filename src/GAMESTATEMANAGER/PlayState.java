@@ -30,16 +30,7 @@ public class PlayState extends GameState {
         this.gsm = gsm;
         player.updateAction(IDLE);
         loadNewLevel();
-        player.addObserver(new Observer() {
-            @Override
-            public void update(Observable o, Object arg) {
-                // Check if arg is null before using equals
-                if (arg != null && arg.equals(Entity.Action.DIE)) {
-                    gsm.setState(GameStateManager.loseState);
-                }
-                // You might want to handle other cases here
-            }
-        });    }
+    }
 
     private void loadNewLevel(){
         // istantiate enemies
@@ -56,7 +47,7 @@ public class PlayState extends GameState {
     public void update() {
         // automatic fall
 
-        if (!player.isOnFloor() ||  !player.isColliding(player.getX(), player.getY() +1)) {
+        if (!player.isOnFloor()) {
             player.setIsOnFloor(false);
             player.updateAction(MOVE_VERTICALLY);
         }
@@ -69,7 +60,7 @@ public class PlayState extends GameState {
         }
 
         if (player.getLives() <= 0) {
-            gsm.setState(GameStateManager.loseState); // Assumendo che esista uno stato per la schermata "Game Over"
+            gsm.setState(GameStateManager.loseState);
         }
 
 
