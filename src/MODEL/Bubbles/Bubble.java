@@ -7,6 +7,7 @@ import MODEL.Enemy.Enemy;
 
 import java.awt.*;
 
+import MODEL.Enemy.SuperDrunk;
 import MODEL.Level;
 import VIEW.BubbleView;
 import VIEW.MainFrame;
@@ -175,7 +176,8 @@ public abstract class Bubble {
         if (firing) {
             for (Enemy enemy : currentLevel.getEnemies()) {
                 if (enemy != null) {
-                    if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
+                    if ( !(enemy instanceof SuperDrunk) &&
+                            hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
                         if (enemy.isEnraged()) enemy.setEnraged(false);
                         encapsule(enemy);
                         return;
