@@ -28,6 +28,7 @@ public abstract class SpawnedBubble extends Bubble {
 
     @Override
     public void updateLocation(int newX, int newY) {
+        if (currentLevel == null) currentLevel = GameStateManager.getInstance().getCurrentLevel();
         x = newX;
         y = newY;
         hitbox.setLocation(x, y);

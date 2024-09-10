@@ -1,5 +1,6 @@
 package MODEL.Bubbles;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Enemy.Enemy;
 import MODEL.Entity;
 import MODEL.Player;
@@ -106,6 +107,7 @@ public class Bottle extends Bubble{
 
     @Override
     public void fireBubble() {
+        if (currentLevel == null) currentLevel = GameStateManager.getInstance().getCurrentLevel();
 
         try {
             x = enemy.getX() + 5;
