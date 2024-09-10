@@ -124,7 +124,12 @@ public class SuperDrunk extends Enemy{
                     this.y+=speed;
                 }
                 hitbox.setLocation(x,y);
-                notifyObservers(Action.WALK);
+                if(enraged){
+                    notifyObservers(Action.RAGE);
+                }
+                else{
+                    notifyObservers(Action.WALK);
+                }
                 break;
             case HURT:
                 MainFrame.playSound(2);
@@ -162,6 +167,7 @@ public class SuperDrunk extends Enemy{
         }
     }
     void rage(){
+        lives = 5;
         enraged = true;
         bubbled = false;
         speed += 2;

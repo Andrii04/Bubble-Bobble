@@ -267,7 +267,7 @@ public abstract class Enemy extends Observable implements Entity {
 
     // entity can go through tile if isNotSolid
     private boolean isNotSolid(){
-       if(airSpeed<0 && y+airSpeed >= Block.HEIGHT){
+       if(airSpeed<0 ){
             return true;
         }
         return false;

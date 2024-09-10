@@ -5,8 +5,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.net.URL;
 public class Sound {
-    Clip clip;
-    URL soundUrl[] = new URL[8];
+    private Clip clip;
+    private URL soundUrl[] = new URL[8];
 
     public Sound(){
         soundUrl[0] = getClass().getResource("/Resources/Bubble Bobble Resources/Sounds/assets_bubble.wav");
