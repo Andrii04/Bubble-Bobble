@@ -1,26 +1,32 @@
 package MODEL.Bubbles;
 
+import MODEL.Block;
 import MODEL.Enemy.Enemy;
 import MODEL.Enemy.SuperDrunk;
 import MODEL.Entity;
 import MODEL.Player;
+import VIEW.MainFrame;
 import VIEW.SpawnedBubbleView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class WaterBubble extends SpawnedBubble{
+public class WaterBubble extends SpawnedBubble {
+    {
+        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/WaterBubble";
+    }
+
     ArrayList<Enemy> bubbledEnemies;
     int bubbledEnemyIndex;
     boolean wave;
-    int waveSpeed = 6;
+    int waveSpeed = 4;
     int waveStartX;
     int waveEndX;
     int waveStartY;
     int waveEndY;
     int fallingSpeed = 4;
-    int waterDistanceTraveled;
-    {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/WaterBubble";}
+    int waveIdxOffset;
+
     public WaterBubble(Player player) {
         super(player);
         this.bubbleView = new SpawnedBubbleView(this);
@@ -30,12 +36,15 @@ public class WaterBubble extends SpawnedBubble{
         bubbledEnemies = new ArrayList<>(Arrays.asList(null, null, null, null, null));
         bubbledEnemyIndex = 0;
         wave = false;
-        waterDistanceTraveled = 0;
+        waveIdxOffset = 0;
     }
 
     @Override
     public void startEffect() {
         //setta immagine
+        bubbleView.setFallingWaterIMG();
+        if (x <= MainFrame.FRAME_WIDTH / 2) facingRight = true;
+        else facingRight = false;
         effect = true;
     }
 
@@ -44,26 +53,32 @@ public class WaterBubble extends SpawnedBubble{
         if (!wave) {
             y += fallingSpeed;
             hitbox.setLocation(x, y);
-            waterDistanceTraveled++;
-            if (waterDistanceTraveled >= 5 && waterDistanceTraveled < 11) {
-                //setta immagine
-            }
-            else if (waterDistanceTraveled >= 11) {
-                //setta immagine
-            }
         }
 
         if (isSolidTile(x, y) && !wave) {
             //setta immagine
+            y -= Block.HEIGHT*2;
+            if (facingRight) bubbleView.setWaveIMGright();
+            else bubbleView.setWaveIMGleft();
             wave = true;
             //setta hitbox
+            waveStartX = x-25;
+            waveEndX = x+25;
+            waveStartY = y-16;
+            waveEndY = y+ Block.HEIGHT;
+            hitbox.setLocation(waveStartX, waveStartY);
+            hitbox.setSize(85, 55);
         }
 
         if (wave) {
+            if (facingRight) x += waveSpeed;
+            else x -= waveSpeed;
+            hitbox.setLocation(x, y);
 
-            if (isSolidTile(x, y)) {
+            if (currentLevel.isLevelWall(this, x)) {
                 for (Enemy enemy : bubbledEnemies) {
                     if (enemy != null) {
+                        enemy.setWave(false);
                         enemy.updateAction(Entity.Action.DIE);
                         player.setPunteggio(player.getPunteggio() + 500);
                     }
@@ -79,13 +94,21 @@ public class WaterBubble extends SpawnedBubble{
                         && hitbox.intersects(enemy.getHitbox())) {
 
                     bubbledEnemies.set(bubbledEnemyIndex, enemy);
+                    enemy.setWave(true);
                     bubbledEnemyIndex++;
-                    enemy.updateAction(Entity.Action.BUBBLED);
 
                 }
             }
             for (Enemy enemy : bubbledEnemies) {
-                if (enemy != null) enemy.setPosition(enemy.getX()+waveSpeed, enemy.getY());
+                if (enemy != null) {
+                    if (facingRight) {
+                        enemy.setPosition(x + waveIdxOffset, enemy.getY());
+                    }
+                    else {
+                        enemy.setPosition(x - waveIdxOffset, enemy.getY());
+                    }
+                    waveIdxOffset++;
+                }
             }
         }
     }

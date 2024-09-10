@@ -1,10 +1,17 @@
 package VIEW;
 
 import MODEL.Enemy.Enemy;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+/**
+ * Rappresenta la vista grafica del nemico SuperDrunk.
+ * <p>
+ * Questa classe estende {@code EnemyView} e gestisce le animazioni e le immagini
+ * per il nemico SuperDrunk in base alle sue azioni e direzioni. Le immagini vengono
+ * caricate e scalate per adattarsi alla visualizzazione.
+ * </p>
+ */
 public class SuperDrunkView extends EnemyView {
     BufferedImage[] SuperdrunkMoveRight;
     BufferedImage[] SuperdrunkMoveLeft;
@@ -16,10 +23,25 @@ public class SuperDrunkView extends EnemyView {
     BufferedImage[] SuperdrunkRageLeft;
     BufferedImage[] SuperdrunkRageRight;
 
+    /**
+     * Costruisce un'istanza della classe {@code SuperDrunkView}.
+     * <p>
+     * Inizializza la vista grafica per il nemico SuperDrunk utilizzando le immagini
+     * caricate e scalate.
+     * </p>
+     *
+     * @param enemy Il nemico SuperDrunk associato a questa vista.
+     */
     public SuperDrunkView(Enemy enemy) {
         super(enemy);
     }
 
+    /**
+     * Carica le immagini necessarie per le animazioni del nemico SuperDrunk.
+     * <p>
+     * Le immagini vengono caricate da risorse e scalate per la visualizzazione.
+     * </p>
+     */
     public void loadImages() {
         try {
             SuperdrunkMoveLeft = new BufferedImage[]{
@@ -60,6 +82,14 @@ public class SuperDrunkView extends EnemyView {
         }
     }
 
+    /**
+     * Restituisce l'array di immagini correnti da visualizzare in base all'azione del nemico.
+     * <p>
+     * L'animazione restituita dipende dall'azione corrente del nemico e dalla sua direzione.
+     * </p>
+     *
+     * @return L'array di immagini per l'animazione corrente.
+     */
     @Override
     public BufferedImage[] getCurrentAnimation() {
         switch (currentAction) {
