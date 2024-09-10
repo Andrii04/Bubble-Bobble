@@ -29,6 +29,8 @@ public abstract class Enemy extends Observable implements Entity {
     boolean explodes;
     Rectangle hitbox;
 
+    boolean wave;
+
     // physics
     boolean onFloor;
     float airSpeed = 0f;
@@ -80,6 +82,8 @@ public abstract class Enemy extends Observable implements Entity {
         });
         hitbox = new Rectangle(x, y, 32, 32);
         shortestPath = new ArrayList<>();
+
+        wave = false;
     }
 
     public void move(){
@@ -294,7 +298,7 @@ public abstract class Enemy extends Observable implements Entity {
 
         switch(action){
             case JUMP:
-                if (!currentLevel.isClock()) {
+                if (!currentLevel.isClock() && !wave) {
                     if(isOnFloor()){
                         onFloor = false;
                         airSpeed = jumpSpeed;
@@ -303,12 +307,12 @@ public abstract class Enemy extends Observable implements Entity {
                 }
                 break;
             case MOVE_VERTICALLY:
-                if (!currentLevel.isClock()) {
+                if (!currentLevel.isClock() && !wave) {
                     verticalMovement();
                 }
                 break;
             case WALK:
-                if (!currentLevel.isClock()) {
+                if (!currentLevel.isClock() && !wave) {
                     walk();
                     hitbox.setLocation(x, y);
                     if (enraged) {
@@ -334,6 +338,7 @@ public abstract class Enemy extends Observable implements Entity {
                 // comportamenti
                     die();
                     dead = true;
+                    wave = false;
                     player.setPunteggio(player.getPunteggio() + points);
                     deathTimer.start();
                     MainFrame.playSound(5);
@@ -489,4 +494,5 @@ public Rectangle getHitbox(){
     }
     public boolean isEnraged() {return enraged;}
     public void setEnraged(boolean bool) {enraged = bool;}
+    public void setWave(boolean bool) {wave = bool;}
 }

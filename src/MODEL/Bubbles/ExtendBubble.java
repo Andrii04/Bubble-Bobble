@@ -5,7 +5,7 @@ import VIEW.SpawnedBubbleView;
 
 public class ExtendBubble extends SpawnedBubble{
     private String letter;
-    {skinsPath = "Resources/Bubble Bobble Resources/Bubbles/extend";}
+    {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/extend";}
     public ExtendBubble(Player player, String letter) {
         super(player);
         this.letter = letter;

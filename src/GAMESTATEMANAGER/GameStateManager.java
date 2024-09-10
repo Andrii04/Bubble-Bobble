@@ -5,10 +5,7 @@ import java.io.*;
 import java.util.*;
 
 import MODEL.*;
-import MODEL.Bubbles.FireBubble;
-import MODEL.Bubbles.GreenBubble;
-import MODEL.Bubbles.LightningBubble;
-import MODEL.Bubbles.SpawnedBubble;
+import MODEL.Bubbles.*;
 import MODEL.Enemy.*;
 import VIEW.*;
 
@@ -206,8 +203,8 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         spawnedBubbles.add(fire2);
         LightningBubble lightning3 = new LightningBubble(currentPlayer);
         LightningBubble lightning4 = new LightningBubble(currentPlayer);
-        LightningBubble lightning5 = new LightningBubble(currentPlayer);
-        LightningBubble lightning6 = new LightningBubble(currentPlayer);
+        WaterBubble lightning5 = new WaterBubble(currentPlayer);
+        WaterBubble lightning6 = new WaterBubble(currentPlayer);
         FireBubble lightning7 = new FireBubble(currentPlayer);
         FireBubble lightning8 = new FireBubble(currentPlayer);
         levels.get(1).addSpawnedBubble(lightning5);

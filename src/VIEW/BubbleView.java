@@ -160,6 +160,35 @@ public class BubbleView {
         setSkin(currentSkin);
     }
 
+    public void setFallingWaterIMG() {
+        currentSkinPath = bubble.getSkinsPath() + "2.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        setSkin(currentSkin);
+    }
+
+    public void setWaveIMGright() {
+        currentSkinPath = bubble.getSkinsPath() + "4.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+
+        Image resizedImage = currentSkin.getImage().getScaledInstance(
+                80,
+                45,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(resizedImage);
+    }
+
+    public void setWaveIMGleft() {
+        currentSkinPath = bubble.getSkinsPath() + "5.png";
+        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        Image resizedImage = currentSkin.getImage().getScaledInstance(
+                80,
+                45,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(resizedImage);
+    }
+
     public void draw(Graphics2D g2d) {
         if (!bubble.getErased() &&
                 (firing || (floating && !encapsulate) || exploding || pom || bubble.isEffect())) {
@@ -219,7 +248,7 @@ public class BubbleView {
             bubble.handleFloatingCollision();
             //System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
-            //if (distanceTraveled >= 400) bubble.explode();
+            if (distanceTraveled >= 400) bubble.explode();
         }
 
         else if (exploding) {
