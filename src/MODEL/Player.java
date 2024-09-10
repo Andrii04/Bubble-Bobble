@@ -31,6 +31,7 @@ public class Player extends Observable implements Entity {
     private Timer cooldownTimer;
     private boolean cooldown = false;
     private ArrayList<String> extendBubbles;
+    private int letterEcount;
     private static final String EXTEND = "EXTEND";  // La sequenza corretta
 
 
@@ -108,6 +109,7 @@ public class Player extends Observable implements Entity {
         eatenGreenCandies = 0;
         eatenPinkCandies = 0;
         eatenBlueCandies = 0;
+        letterEcount = 0;
 
         if ((profile.getPartiteTot() % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
     }
@@ -346,10 +348,18 @@ public class Player extends Observable implements Entity {
 
     public void addExtendBubble(ExtendBubble bubble) {
         String letter = bubble.getLetter();
-        if (!extendBubbles.contains(letter)) {
+        if (!letter.equals("E") && !extendBubbles.contains(letter)) {
             extendBubbles.add(letter);
-            checkExtendCompletion();
+
         }
+        else if (letter.equals("E")) {
+            if (letterEcount <= 1) {
+                extendBubbles.add(letter);
+                letterEcount++;
+            }
+        }
+
+        checkExtendCompletion();
     }
 
     private void resetExtend() {
