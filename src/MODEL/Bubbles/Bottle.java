@@ -107,21 +107,19 @@ public class Bottle extends Bubble{
 
     @Override
     public void fireBubble() {
-        if (currentLevel == null) currentLevel = GameStateManager.getInstance().getCurrentLevel();
-
-        try {
-            x = enemy.getX() + 5;
-            y = enemy.getY() + 5;
-        } catch (NullPointerException e) {
-            System.out.println("Need to set the shooting " +
-                    "enemy for the Bottle," +
-                    " use method bottle.setEnemy(Enemy)");
+        if(enemy.getCurrentLevelInt() == 24){
+            currentLevel = enemy.getCurrentLevel();
         }
 
-        hitbox.setLocation(x, y);
+        if(!(currentLevel == null)){
+            x = enemy.getX() + 5;
+            y = enemy.getY() + 5;
 
-        firing = true;
-        bubbleView.setFiring(true);
-        bubbleView.startFiring();
+            hitbox.setLocation(x, y);
+
+            firing = true;
+            bubbleView.setFiring(true);
+            bubbleView.startFiring();
+        }
     }
 }

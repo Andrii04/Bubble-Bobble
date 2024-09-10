@@ -62,23 +62,4 @@ public class Invader extends Enemy{
             attackTimer.start();
         }
     }
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int compareLocation(Entity entity) {
-        return 0;
-    }
-
-    @Override
-    public void spawn() {
-
-    }
 }

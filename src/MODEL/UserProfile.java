@@ -2,7 +2,6 @@ package MODEL;
 
 
 import javax.swing.*;
-import java.io.Serializable;
 
 public class UserProfile  {
 
@@ -28,6 +27,20 @@ public class UserProfile  {
         this.img = loadAvatarImage(avatarIndex);
     }
 
+    public void setPartiteVinte(int wins) throws IllegalArgumentException{
+
+        if(wins < 0){
+            throw new IllegalArgumentException("Il numero di vittorie non può essere negativo.");
+        }
+        this.partitePerse = wins;
+    }
+    public void setPartitePerse(int losses) throws IllegalArgumentException{
+
+        if(losses < 0){
+            throw new IllegalArgumentException("Il numero di sconfitte non può essere negativo.");
+        }
+        this.partitePerse = losses;
+    }
     public void setUsername(String username) throws IllegalArgumentException{
 
         if (username == null ||username.equals("")){
@@ -49,7 +62,12 @@ public class UserProfile  {
         }
         this.round = round;}
 
-
+    public int getPartiteVinte(){
+        return this.partiteVinte;
+    }
+    public int getPartitePerse(){
+        return this.partitePerse;
+    }
     public String getUsername() {
         return this.username;
     }
@@ -70,19 +88,12 @@ public class UserProfile  {
 
     //ogni nuova partita dovrebbe essere partiteTot++ ++a o vinte o perse
 
-    public int getPartiteVinte() {
-        return this.partiteVinte;
-    }
 
     public void incrementaPartiteVinte() {
         partiteVinte++;
         partiteTot++;
     }
 
-
-    public int getPartitePerse() {
-        return this.partitePerse;
-    }
 
     public void incrementaPartitePerse() {
         partitePerse++;
@@ -97,13 +108,6 @@ public class UserProfile  {
         this.avatarChosen = avatarChosen;
     }
 
-    public void setPartiteVinte(int partiteVinte) {
-        this.partiteVinte = partiteVinte;
-    }
-
-    public void setPartitePerse(int partitePerse) {
-        this.partitePerse = partitePerse;
-    }
 
     public void setPartiteTot(int partiteTot) {
         this.partiteTot = partiteTot;
@@ -175,5 +179,6 @@ public class UserProfile  {
     public int getSelectedAvatar() {
         return this.avatarIndex;
     }
+
 }
 

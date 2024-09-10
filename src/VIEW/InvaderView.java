@@ -10,8 +10,6 @@ public class InvaderView extends EnemyView {
     BufferedImage[] invaderDie;
     BufferedImage[] invaderEnraged;
     BufferedImage[] invaderBubbledGreen;
-    BufferedImage[] invaderBubbledBlue;
-    BufferedImage[] invaderBubbledRed;
 
     public InvaderView(Enemy enemy) {
         super(enemy);
@@ -37,14 +35,6 @@ public class InvaderView extends EnemyView {
             invaderBubbledGreen = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Invader/Bubbled/bubble1.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Invader/Bubbled/bubble2.png")))
-            };
-            invaderBubbledBlue = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Invader/Bubbled/bubble3.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Invader/Bubbled/bubble4.png")))
-            };
-            invaderBubbledRed = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Invader/Bubbled/bubble5.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Invader/Bubbled/bubble6.png")))
             };
         } catch (Exception e) {
             e.printStackTrace();

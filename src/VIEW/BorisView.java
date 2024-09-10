@@ -12,8 +12,6 @@ public class BorisView extends EnemyView{
     BufferedImage[] borisEnragedLeft;
     BufferedImage[] borisEnragedRight;
     BufferedImage[] borisBubbledGreen;
-    BufferedImage[] borisBubbledBlue;
-    BufferedImage[] borisBubbledRed;
     public BorisView(Enemy enemy) {
         super(enemy);
     }
@@ -49,14 +47,6 @@ public class BorisView extends EnemyView{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/GreenBubble/Enemy23.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/GreenBubble/Enemy24.png")))
             };
-            borisBubbledBlue = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/BlueBubble/Enemy25.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/BlueBubble/Enemy26.png")))
-            };
-            borisBubbledRed = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/RedBubble/Enemy27.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Boris/Bubbled/RedBubble/Enemy28.png")))
-            };
         }
         catch (Exception e){
             e.printStackTrace();
@@ -72,7 +62,7 @@ public class BorisView extends EnemyView{
                 return enemy.getFacingRight() ? borisEnragedRight : borisEnragedLeft;
             case BUBBLED:
 
-                return borisBubbledGreen; // borisBubbledBlue, borisBubbledRed
+                return borisBubbledGreen;
         }
     }
 }

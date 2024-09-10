@@ -82,6 +82,7 @@ public abstract class Enemy extends Observable implements Entity {
         shortestPath = new ArrayList<>();
     }
 
+    // movimento generale
     public void move(){
         if(isBubbled()) {
             notifyObservers(Action.BUBBLED);
@@ -95,6 +96,7 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
+    // quando interseca il player
     public void onPlayer(){
         if (hitbox.intersects(player.getHitbox())){
             if (bubbled) {
@@ -109,6 +111,7 @@ public abstract class Enemy extends Observable implements Entity {
             }
         }
     }
+
     //  pathfinding
     void chasePlayer() {
         if (!isOnFloor() || (!isSolidTile(x,y+Entity.HEIGHT+1) && !isSolidTile(x+Entity.WIDTH+1,y+Entity.HEIGHT+1))) { // fall
@@ -150,7 +153,6 @@ public abstract class Enemy extends Observable implements Entity {
             }
         }
     }
-
     boolean isAtNode(Node node, int targetX, int targetY){
 
         return node.x/Block.WIDTH == targetX/Block.WIDTH && node.y/Block.HEIGHT == targetY/Block.HEIGHT;
@@ -237,7 +239,6 @@ public abstract class Enemy extends Observable implements Entity {
     boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < MainFrame.FRAME_WIDTH-Block.HEIGHT-Entity.HEIGHT && y >= 0 && y < MainFrame.FRAME_HEIGHT-Block.HEIGHT-Entity.HEIGHT;
     }
-
     private int getDistance(Node a, Node b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
@@ -263,24 +264,22 @@ public abstract class Enemy extends Observable implements Entity {
         }
         return Math.abs(player.getX() - shortestPath.getLast().x) > 70 || Math.abs(player.getY() - shortestPath.getLast().y) > 100;
     }
-    // tile collision
 
-    // entity can go through tile if isNotSolid
+
+
     private boolean isNotSolid(){
        if(airSpeed<0 ){
             return true;
         }
         return false;
-    }
-
+    }     // entity può passare per i blocchi solidi se sta saltando
     boolean isColliding(int x, float y) {
         int leftTile = x; // Leftmost tile
         int rightTile = x + 2 * Block.WIDTH; // Rightmost tile
         int topTile = (int) y; // Topmost tile
         int bottomTile = (int) y + 2 * Block.HEIGHT; // Bottommost tile
         return isSolidTile(rightTile, topTile) || isSolidTile(leftTile, topTile) || isSolidTile(leftTile, bottomTile) || isSolidTile(rightTile, bottomTile);
-    }
-    // if a given position's tile is solid
+    }     // controlla se entity è in collisione con un blocco solido
     boolean isSolidTile(int x ,int y){
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
@@ -288,7 +287,7 @@ public abstract class Enemy extends Observable implements Entity {
                 tileY >= 0 && tileY < currentLevel.getPattern().length &&
                 currentLevel.isItSolidBlock(tileY, tileX);
 
-    }
+    }     // controlla se il blocco di una certa posizione è solido
 
     public void updateAction(Action action){
 
@@ -344,21 +343,25 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
         }
     }
+
+    // movimenti e comportamenti dei nemici
+    // possono essere implementati in modo diverso per ogni nemico
     void verticalMovement() {
+        // ll salto / la caduta
         if (!isColliding(x, y + airSpeed) || isNotSolid()) {
             this.y += airSpeed;
             hitbox.setLocation(x, y);
             airSpeed += gravity;
             notifyObservers(Action.MOVE_VERTICALLY);
         }
-        // Wrap-around logic to connect top and bottom
+        // se cade dal fondo dello schermo riappare in cima
         if (y + airSpeed >= MainFrame.FRAME_HEIGHT - Entity.HEIGHT) {
             this.y = 0;
             hitbox.setLocation(x, y);
             onFloor = false;
             notifyObservers(Action.MOVE_VERTICALLY);
         }
-        // Player is falling to the ground
+        // condizione per fermare la caduta
         else if (isColliding(x, y + airSpeed) && airSpeed > 0) {
             if (isSolidTile(x, y) || isSolidTile(x + Entity.HEIGHT, y) || isSolidTile(x + Block.WIDTH, y)) {
                 this.y += airSpeed;
@@ -403,26 +406,18 @@ public abstract class Enemy extends Observable implements Entity {
             updateAction(Action.MOVE_VERTICALLY);
 
         }
-    }
-    void bubbled(){
-        bubbled = true;
-        rageTimer.start();
-        notifyObservers(Action.BUBBLED);
-    }
-    void idle(){
-       updateAction(Action.WALK);
-    }
-
-    public boolean isOnFloor() {
-        return onFloor;
-    }
-    //to be overriden
+    } // movimento di default
     void rage(){
         bubbled = false;
         enraged = true;
         speed +=1;
-    }
-    void shoot(){};
+    } // comportamento di default rage = aumenta la velocità di uno
+    void bubbled(){
+        bubbled = true;
+        rageTimer.start();
+        notifyObservers(Action.BUBBLED);
+    } // uguali per tutti i nemici
+    void shoot(){}; // qui si implementano i proiettili
     void attack(){
         if(player.getX() < x){
             facingRight = false;
@@ -433,15 +428,19 @@ public abstract class Enemy extends Observable implements Entity {
         if(!attackTimer.isRunning()) {
             attackTimer.start();
         }
-    }
-public Rectangle getHitbox(){
-        return hitbox;
-}
+    } // comportameto di attacco default per quelli nemici che sparano
     void die(){
+    } // override per stoppare timer di attacco di alcuni nemici
+    void idle(){
+        updateAction(Action.WALK);
     }
-
     //metodi per fare i test per quando il nemico è bubbled, Tiff poi cambiali/toglili se serve, basta che me lo
     //scrivi poi sul commit su Git
+    public void removeEnemy() { // elimina il nemico dalla lista di nemici del livello
+        currentLevel.removeEnemy(this);
+    }
+
+    // metodi setters
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
@@ -450,21 +449,6 @@ public Rectangle getHitbox(){
     public void setBubbled(boolean bubbled){
         this.bubbled = bubbled;
     }
-    public boolean isBubbled() {return bubbled;}
-    // public void updateAction(Action action){
-    //implementazione specifica
-    // }
-    // private void updatePosition(){
-    // A* search algorithm
-    // uses UpdateAction
-    //  }
-
-    public boolean isDead() {
-        return dead;}
-    public void removeEnemy(){
-        currentLevel.removeEnemy(this);
-    }
-    public boolean isExploded() {return explodes;}
     public void setExploded(boolean bool) {explodes = bool;}
     public void setPlayer(Player player){
         this.player = player;
@@ -472,21 +456,44 @@ public Rectangle getHitbox(){
     public void setCurrentLevel(Level currentLevel){
         this.currentLevel = currentLevel;
     }
-    public int getPoints(Enemy enemy){
-        return points;
-    }
-    public boolean getFacingRight(){
-        return facingRight;
-    }
-
     public void notifyObservers(Action action) {
         setChanged();
         super.notifyObservers(action);
     }
+    public void setEnraged(boolean bool) {enraged = bool;}
 
+
+    // metodi getters
+    public boolean isOnFloor() {
+        return onFloor;
+    }
+    public Rectangle getHitbox(){
+        return hitbox;
+    }
+    public boolean isBubbled() {return bubbled;}
+    public boolean isDead() {
+        return dead;}
+    public int getCurrentLevelInt(){
+        return gsm.getCurrentLevelInt();
+    }
+    public Level getCurrentLevel(){
+        return currentLevel;
+    }
+    public boolean getFacingRight(){
+        return facingRight;
+    }
+    public boolean isExploded() {return explodes;}
     public Player getPlayer(){
         return player;
     }
     public boolean isEnraged() {return enraged;}
-    public void setEnraged(boolean bool) {enraged = bool;}
+    public int getPoints(Enemy enemy){
+        return points;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
 }

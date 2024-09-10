@@ -12,8 +12,6 @@ public class IncendioView extends EnemyView{
     BufferedImage[] incendioEnragedLeft;
     BufferedImage[] incendioEnragedRight;
     BufferedImage[] incendioBubbledGreen;
-    BufferedImage[] incendioBubbledBlue;
-    BufferedImage[] incendioBubbledRed;
     public IncendioView(Enemy enemy) {
         super(enemy);
     }
@@ -47,14 +45,6 @@ public class IncendioView extends EnemyView{
             incendioBubbledGreen = new BufferedImage[]{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Incendio/Bubbled/GreenBubble/Enemy93.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Incendio/Bubbled/GreenBubble/Enemy94.png")))
-            };
-            incendioBubbledBlue = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Incendio/Bubbled/BlueBubble/Enemy95.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Incendio/Bubbled/BlueBubble/Enemy96.png")))
-            };
-            incendioBubbledRed = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Incendio/Bubbled/RedBubble/Enemy97.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Incendio/Bubbled/RedBubble/Enemy98.png")))
             };
         } catch (Exception e) {
             e.printStackTrace();

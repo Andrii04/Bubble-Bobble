@@ -24,15 +24,4 @@ public interface Entity {
     public void updateAction(Action action);
 
 
-
-    boolean getFacingRight();
-    int getX();
-    int getY();
-
-
-    public int compareLocation(Entity entity);
-
-    public void spawn();
-
-
 }

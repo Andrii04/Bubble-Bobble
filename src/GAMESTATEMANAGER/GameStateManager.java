@@ -66,7 +66,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.addAll(loadLevelsFromFile());
         //così che i livelli incominciano dall'index 1
         generateLevels();
-        currentLevel = 1;
+        currentLevel = 24;
         nextLevelInt = 2;
 
     }
@@ -231,11 +231,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     }
     public void addEnemies(){
-        ArrayList<Enemy> enemies1 = new ArrayList<>();
-        enemies1.add(new Benzo(50, 623, true, this ));
-        enemies1.add(new Benzo(400, 623, true, this ));
-        enemies1.add(new Benzo(600,623,true,this));
-
         ArrayList<Enemy> enemies2 = new ArrayList<>();
         enemies2.add(new Incendio(105, 543, true, this ));
         enemies2.add(new Incendio(600, 543, true, this ));
@@ -349,10 +344,20 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         enemies23.add(new Incendio(400, 453, true, this ));
         enemies23.add(new Incendio(105, 543, true, this ));
         ArrayList<Enemy> enemies24 = new ArrayList<>();
-        enemies24.add(new SuperDrunk(105, 303, true, this ));
+        enemies24.add(new Blubba( 105, 543, true, this ));
+        enemies24.add(new Blubba( 650, 543, true, this ));
+        enemies24.add(new Incendio(105, 623, true, this ));
+        enemies24.add(new Incendio(400, 453, true, this ));
+        ArrayList<Enemy> enemies25 = new ArrayList<>();
+        enemies25.add(new BoaBoa(105, 543, true, this ));
+        enemies25.add(new Incendio(650, 543, true, this ));
+        enemies25.add(new Incendio(105, 623, true, this ));
+        enemies25.add(new Incendio(400, 453, true, this ));
+        ArrayList<Enemy> enemies26 = new ArrayList<>();
+        enemies26.add(new SuperDrunk(105, 303, true, this ));
 
-    List<ArrayList<Enemy>> enemiesList = Arrays.asList(enemies1, enemies2, enemies3, enemies4, enemies5, enemies6, enemies7, enemies8, enemies9, enemies10, enemies11, enemies12, enemies13, enemies14, enemies15, enemies16, enemies17, enemies18, enemies19, enemies20, enemies21, enemies22, enemies23, enemies24);
-        for (int i = 1; i < 24; i++) {
+    List<ArrayList<Enemy>> enemiesList = Arrays.asList(enemies2, enemies3, enemies4, enemies5, enemies6, enemies7, enemies8, enemies9, enemies10, enemies11, enemies12, enemies13, enemies14, enemies15, enemies16, enemies17, enemies18, enemies19, enemies20, enemies21, enemies22, enemies23, enemies24,enemies25,enemies26);
+        for (int i = 1; i < 25; i++) {
             levels.get(i).setEnemies(enemiesList.get(i));
         }
     }

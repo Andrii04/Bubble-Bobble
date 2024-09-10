@@ -1,7 +1,10 @@
 import VIEW.MainFrame;
 
 /**
- * Classe principale dell'applicazione JBubbleBobble.
+ *
+ *
+ *
+ * Classe principale dell'applicazione JB ubbleBobble.
  *
  * Questa classe contiene il metodo `main` che avvia l'applicazione creando e visualizzando
  * la finestra principale dell'interfaccia utente.
@@ -20,3 +23,4 @@ public class JBubbleBobble {
         MainFrame frame = new MainFrame(); // Crea e visualizza la finestra principale dell'applicazione
     }
 }
+

@@ -272,12 +272,9 @@ public class Player extends Observable implements Entity {
     public void setY(int y) {
         this.y = y;
     }
-    @Override
     public int getX() {
         return x;
     }
-
-    @Override
     public int getY() {
         return y;
     }
@@ -292,17 +289,6 @@ public class Player extends Observable implements Entity {
         setChanged();
         super.notifyObservers(action);
     }
-
-    @Override
-    public int compareLocation(Entity entity) {
-        return 0;
-    }
-
-    @Override
-    public void spawn() {
-    }
-
-
     public int addPunteggio(int punti){
 
         return punteggio+punti;
@@ -452,6 +438,12 @@ public class Player extends Observable implements Entity {
             currentLevel.spawnPowerUp(new BlueRing());
             eatenBlueCandies = 0;
         }
+    }
+    public UserProfile getProfile() {
+        return profile;
+    }
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
     }
     public void setFacingRight(boolean bool) {facingRight = bool;}
 }

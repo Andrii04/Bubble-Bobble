@@ -13,9 +13,6 @@ public class BlubbaView extends EnemyView {
     BufferedImage[] blubbaEnragedLeft;
     BufferedImage[] blubbaEnragedRight;
     BufferedImage[] blubbaBubbledGreen;
-    BufferedImage[] blubbaBubbledBlue;
-    BufferedImage[] blubbaBubbledRed;
-
     public BlubbaView(Enemy blubba) {
         super(blubba);
 
@@ -49,14 +46,6 @@ public class BlubbaView extends EnemyView {
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Blubba/Bubbled/GreenBubble/Enemy45.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Blubba/Bubbled/GreenBubble/Enemy46.png")))
             };
-            blubbaBubbledBlue = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Blubba/Bubbled/BlueBubble/Enemy47.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Blubba/Bubbled/BlueBubble/Enemy48.png")))
-            };
-            blubbaBubbledRed = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Blubba/Bubbled/RedBubble/Enemy49.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Blubba/Bubbled/RedBubble/Enemy50.png")))
-            };
             }
         catch (Exception e){
             e.printStackTrace();
@@ -71,11 +60,6 @@ public class BlubbaView extends EnemyView {
             case RAGE:
             return enemy.getFacingRight() ? blubbaEnragedRight : blubbaEnragedLeft;
             case BUBBLED:
-                /*
-                if (enemy.getColor() == Enemy.Color.GREEN) return blubbaBubbledGreen;
-                if (enemy.getColor() == Enemy.Color.BLUE) return blubbaBubbledBlue;
-                if (enemy.getColor() == Enemy.Color.RED) return blubbaBubbledRed;/*
-                 */
                 return blubbaBubbledGreen;
         }
     }

@@ -1,9 +1,7 @@
 package GAMESTATEMANAGER;
 
 import MODEL.Enemy.Enemy;
-import MODEL.Entity;
 import MODEL.Player;
-import VIEW.EnemyView;
 import VIEW.MainFrame;
 import VIEW.PlayerView;
 
@@ -11,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import static GAMESTATEMANAGER.GameStateManager.pauseState;
 import static MODEL.Entity.Action.*;
@@ -20,7 +16,7 @@ import static MODEL.Entity.Action.*;
 public class PlayState extends GameState {
     private Player player;
     private ArrayList<Enemy> currentEnemies;
-    private ArrayList<EnemyView> currentEnemiesView;
+
     // level
     private GameStateManager gsm;
 
@@ -67,6 +63,9 @@ public class PlayState extends GameState {
                 gsm.resetGame();
                 MainFrame.stopSound();
                 MainFrame.playSound(7);
+                player.getProfile().incrementaPartiteVinte();
+                player.getProfile().setPunteggio(player.getPunteggio());
+                player.getProfile().setRound(gsm.getCurrentLevelInt());
                 gsm.setState(GameStateManager.winState);
             }
         }
@@ -79,6 +78,9 @@ public class PlayState extends GameState {
 
         if (player.getLives() <= 0) {
             MainFrame.stopSound();
+            player.getProfile().incrementaPartitePerse();
+            player.getProfile().setPunteggio(player.getPunteggio());
+            player.getProfile().setRound(gsm.getCurrentLevelInt());
             gsm.setState(GameStateManager.loseState);
             MainFrame.playSound(4);
 

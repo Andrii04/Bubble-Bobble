@@ -174,29 +174,4 @@ public class SuperDrunk extends Enemy{
         attackTimer.setDelay(800);
         updateAction(Action.WALK);
     }
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-    public int getLives(){
-        return lives;
-    }
-    public void setLives(){
-        this.lives = lives;
-    }
-
-    @Override
-    public int compareLocation(Entity entity) {
-        return 0;
-    }
-
-    @Override
-    public void spawn() {
-
-    }
 }

@@ -11,9 +11,6 @@ public class BoaBoaView extends EnemyView{
     BufferedImage[] boaBoaDie;
     BufferedImage[] boaBoaEnraged;
     BufferedImage[] boaBoaBubbledGreen;
-    BufferedImage[] boaBoaBubbledBlue;
-    BufferedImage[] boaBoaBubbledRed;
-
     public BoaBoaView(Enemy enemy) {
         super(enemy);
     }
@@ -37,14 +34,6 @@ public class BoaBoaView extends EnemyView{
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Bubbled/GreenBubble/Enemy61.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Bubbled/GreenBubble/Enemy62.png")))
             };
-            boaBoaBubbledBlue = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Bubbled/BlueBubble/Enemy63.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Bubbled/BlueBubble/Enemy64.png")))
-            };
-            boaBoaBubbledRed = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Bubbled/RedBubble/Enemy65.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Bubbled/RedBubble/Enemy66.png")))
-            };
             }
         catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +49,7 @@ public class BoaBoaView extends EnemyView{
                 return boaBoaEnraged;
             case BUBBLED:
 
-                return boaBoaBubbledGreen; // boaBoaBubbledBlue, boaBoaBubbledRed
+                return boaBoaBubbledGreen;
         }
     }
 }

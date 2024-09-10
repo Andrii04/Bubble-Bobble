@@ -77,29 +77,4 @@ public class Boris extends Enemy {
             attackTimer.stop();
         }
     }
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int compareLocation(Entity entity) {
-        return 0;
-    }
-
-    @Override
-    public void spawn() {
-
-    }
-
-    @Override
-    public int getPoints(Enemy enemy){
-        return points;
-    }
-
 }

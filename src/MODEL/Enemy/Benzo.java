@@ -20,23 +20,4 @@ public class Benzo extends Enemy {
     public Benzo( GameStateManager gsm){
         this( 0, 0, true, gsm);
     }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int compareLocation(Entity entity) {
-        return 0;
-    }
-
-    @Override
-    public void spawn() {}
-
 }

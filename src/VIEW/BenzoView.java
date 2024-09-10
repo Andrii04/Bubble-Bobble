@@ -16,9 +16,6 @@ public class BenzoView extends EnemyView {
     BufferedImage[] benzoEnragedLeft;
     BufferedImage[] benzoEnragedRight;
     BufferedImage[] benzoBubbledGreen;
-    BufferedImage[] benzoBubbledBlue;
-    BufferedImage[] benzoBubbledRed;
-
 
     public BenzoView(Enemy benzo){
         super(benzo);
@@ -57,14 +54,6 @@ public class BenzoView extends EnemyView {
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/GreenBubble/Enemy7.png"))),
                     scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/GreenBubble/Enemy8.png"))),
             };
-            benzoBubbledBlue = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/BlueBubble/Enemy9.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/BlueBubble/Enemy10.png")))
-            };
-            benzoBubbledRed = new BufferedImage[]{
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/RedBubble/Enemy11.png"))),
-                    scaleImage(ImageIO.read(getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/Enemies/Benzo/Bubbled/RedBubble/Enemy12.png")))
-            };
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +69,7 @@ public class BenzoView extends EnemyView {
                 return enemy.getFacingRight() ? benzoEnragedRight : benzoEnragedLeft;
             case BUBBLED:
 
-                return benzoBubbledGreen; // benzoBubbledBlue, benzoBubbledRed
+                return benzoBubbledGreen;
         }
     }
 }
