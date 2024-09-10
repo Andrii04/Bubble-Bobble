@@ -214,7 +214,7 @@ public class Level {
     public boolean isClock() {return clock;}
 
     @Override
-    public String toString() {return "" + GameStateManager.getInstance().getLevels().indexOf(this);}
+    public String toString() {return "livello_" + GameStateManager.getInstance().getLevels().indexOf(this);}
 }
 
 
