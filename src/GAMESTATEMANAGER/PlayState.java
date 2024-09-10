@@ -18,6 +18,7 @@ import static GAMESTATEMANAGER.GameStateManager.pauseState;
 import static MODEL.Entity.Action.*;
 
 public class PlayState extends GameState {
+    private int numOfLevels;
     private Player player;
     private ArrayList<Enemy> currentEnemies;
     private ArrayList<EnemyView> currentEnemiesView;
@@ -29,10 +30,14 @@ public class PlayState extends GameState {
         this.player = gsm.getCurrentPlayer();
         this.gsm = gsm;
         player.updateAction(IDLE);
+        numOfLevels = 24;
         loadNewLevel();
     }
 
     private void loadNewLevel(){
+        // player position
+        player.setX(Player.defaultX);
+        player.setY(Player.defaultY);
         // istantiate enemies
         currentEnemies = gsm.getCurrentLevel().getEnemies();
         for(Enemy enemy: currentEnemies){
@@ -52,6 +57,17 @@ public class PlayState extends GameState {
             player.updateAction(MOVE_VERTICALLY);
         }
 
+        if(currentEnemies.isEmpty()){
+            if(gsm.getCurrentLevelInt()<numOfLevels){
+                gsm.setCurrentLevel(gsm.getCurrentLevelInt()+1);
+                player.setCurrentLevel(gsm.getCurrentLevel());
+                loadNewLevel();
+            }
+            else{
+                gsm.resetGame();
+                gsm.setState(GameStateManager.winState);
+            }
+        }
         // update enemy positions based on player position
         for(Enemy enemy: currentEnemies){
             if (enemy != null) {

@@ -72,6 +72,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     }
 
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+    public int getCurrentLevelInt() {
+        return currentLevel;
+    }
     public static GameStateManager getInstance() {
 
         if (instance == null) instance = new GameStateManager();
@@ -228,15 +234,15 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
              this.levels =  loadLevelsFromFile();
 
             ArrayList<Enemy> enemies = new ArrayList<>();
-            enemies.add(new Benzo(105, 543, true, this ));
+            //enemies.add(new Benzo(105, 543, true, this ));
             enemies.add(new Blubba(135, 540, true, this ));
             //enemies.add(new Benzo( 400, 623, true,this ));
             enemies.add(new Boris(70,463,true,this));
-            enemies.add(new BoaBoa( 48,48,true,this));
+            //enemies.add(new BoaBoa( 48,48,true,this));
            // enemies.add(new Benzo(105, 543, true, this ));
             //enemies.add(new Blubba(135, 540, true, this ));
             //enemies.add(new Boris(80,463,true,this));
-            enemies.add(new BoaBoa( 48,48,true,this));
+            //enemies.add(new BoaBoa( 48,48,true,this));
             //enemies.add(new SuperDrunk( 160,160,true,this));
             enemies.add(new Incendio(400,623,true,this));
             //enemies.add(new Invader(50,50,true,this));

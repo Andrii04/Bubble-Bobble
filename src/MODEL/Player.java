@@ -13,6 +13,8 @@ import java.util.Observable;
 public class Player extends Observable implements Entity {
 
     private UserProfile profile;
+    public static int defaultX = 148;
+    public static int defaultY = 384; ;
     private int x;
     private int y;
     private int punteggio;
@@ -69,8 +71,8 @@ public class Player extends Observable implements Entity {
 
     public Player(UserProfile profile){
         this.profile=profile;
-        this.x = 148;
-        this.y = 384;
+        this.x = defaultX;
+        this.y = defaultY;
         this.lives = 3; // default
         this.speed = defaultSpeed; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
@@ -254,6 +256,12 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.IDLE);
                 break;
         }
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
     }
     @Override
     public int getX() {

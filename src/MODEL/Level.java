@@ -50,8 +50,6 @@ public class Level {
                     if(enemy instanceof Incendio) return new IncendioView(enemy);
                     if(enemy instanceof Invader) return new InvaderView(enemy);
                     if(enemy instanceof SuperDrunk) return new SuperDrunkView(enemy);
-                    //altri casi
-
                     return null;
                 })
                 .collect(Collectors.toCollection(ArrayList<EnemyView>::new));
@@ -164,8 +162,8 @@ public class Level {
     public void removeEnemy(Enemy enemy) {
         int enemyIDX = enemies.indexOf(enemy);
         if (enemyIDX != -1) {
-            enemies.set(enemyIDX, null);
-            enemyViews.set(enemyIDX, null);
+            enemies.remove(enemyIDX);
+            enemyViews.remove(enemyIDX);
         }
     }
 
@@ -180,8 +178,6 @@ public class Level {
                     if(enemy instanceof Incendio) return new IncendioView(enemy);
                     if(enemy instanceof Invader) return new InvaderView(enemy);
                     if(enemy instanceof SuperDrunk) return new SuperDrunkView(enemy);
-                    //altri casi
-
                     return null;
                 })
                 .collect(Collectors.toCollection(ArrayList<EnemyView>::new));
