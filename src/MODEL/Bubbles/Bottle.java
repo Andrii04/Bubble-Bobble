@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class Bottle extends Bubble{
 
-    {skinsPath = "Resources/Bubble Bobble Resources/Enemies/Superdrunk/drunkBottle/bottle";}
+    {skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Superdrunk/drunkBottle/bottle";}
     BottleTrajectory trajectory;
     {shootingSpeed = 4;}
 
