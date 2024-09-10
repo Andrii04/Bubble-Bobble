@@ -101,6 +101,9 @@ public class PlayPanel extends JPanel implements Runnable {
                 bubble.getBubbleView().draw(g2d);
             }
         }
+        if (enemyViews.isEmpty()){
+            enemyViews = gsm.getCurrentLevel().getEnemyViews();
+        }
         for (EnemyView enemyView : enemyViews) {
             if (enemyView != null) enemyView.draw(g2d);
         }
