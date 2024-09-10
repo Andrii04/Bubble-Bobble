@@ -1,6 +1,8 @@
 package MODEL.Bubbles;
 
+import MODEL.Block;
 import MODEL.Enemy.Enemy;
+import MODEL.Enemy.SuperDrunk;
 import MODEL.Entity;
 import MODEL.Player;
 import VIEW.SpawnedBubbleView;
@@ -12,12 +14,15 @@ public class FireBubble extends SpawnedBubble{
     boolean burning;
     int burningStartX;
     int burningEndX;
+    int burningStartY;
+    int burningEndY;
     int burningTimer;
 
     public FireBubble(Player player) {
         super(player);
         this.bubbleView = new SpawnedBubbleView(this);
-        hitbox.setSize(44, 45);
+        startFloating();
+        hitbox.setSize(45, 45);
         fireDistanceTraveled = 0;
         burning = false;
         burningTimer = 0;
@@ -47,21 +52,32 @@ public class FireBubble extends SpawnedBubble{
         }
 
         if (isSolidTile(x, y)) {
+            y -= Block.HEIGHT*2;
             burning = true;
-            burningStartX = x-50;
-            burningEndX = x+50;
+            bubbleView.setFireIMG4();
+            burningStartX = x-25;
+            burningEndX = x+25;
+            burningStartY = y-16;
+            burningEndY = y+Block.HEIGHT;
+            hitbox.setLocation(burningStartX, burningStartY);
+            hitbox.setSize(95, 55);
         }
 
         if (burning) {
             //immagine burning sull'area delle coordinate
             for (Enemy enemy : currentLevel.getEnemies()) {
-                if (enemy != null && enemy.getX() >= burningStartX && enemy.getX() <= burningEndX
-                 && enemy.getY() >= y-50 && enemy.getY() <= y+50) {
+                if (enemy != null && !(enemy instanceof SuperDrunk)
+                        && enemy.getX() >= burningStartX && enemy.getX() <= burningEndX
+                 && enemy.getY() >= burningStartY && enemy.getY() <= burningEndY) {
                     enemy.updateAction(Entity.Action.DIE);
+                    player.setPunteggio(player.getPunteggio() + 500);
                 }
             }
             burningTimer++;
-            if (burningTimer >= 200) erase();
+            if (burningTimer >= 350) {
+                effect = false;
+                erase();
+            }
         }
     }
 }
