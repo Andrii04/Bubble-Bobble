@@ -139,7 +139,7 @@ public abstract class Bubble {
     }
 
     public void updateLocation(int x, int y) {
-        currentLevel = GameStateManager.getInstance().getCurrentLevel();
+        if (currentLevel == null) currentLevel = GameStateManager.getInstance().getCurrentLevel();
         if (player == null) player = GameStateManager.getInstance().getCurrentPlayer();
 
         try {

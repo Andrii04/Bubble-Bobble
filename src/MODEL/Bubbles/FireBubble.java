@@ -51,7 +51,7 @@ public class FireBubble extends SpawnedBubble{
             else if (fireDistanceTraveled >= 11) bubbleView.setFireIMG4();
         }
 
-        if (isSolidTile(x, y)) {
+        if (isSolidTile(x, y) && !burning) {
             y -= Block.HEIGHT*2;
             burning = true;
             bubbleView.setFireIMG4();
@@ -67,8 +67,7 @@ public class FireBubble extends SpawnedBubble{
             //immagine burning sull'area delle coordinate
             for (Enemy enemy : currentLevel.getEnemies()) {
                 if (enemy != null && !(enemy instanceof SuperDrunk)
-                        && enemy.getX() >= burningStartX && enemy.getX() <= burningEndX
-                 && enemy.getY() >= burningStartY && enemy.getY() <= burningEndY) {
+                        && hitbox.intersects(enemy.getHitbox())) {
                     enemy.updateAction(Entity.Action.DIE);
                     player.setPunteggio(player.getPunteggio() + 500);
                 }
