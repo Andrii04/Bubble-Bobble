@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SuperDrunk extends Enemy{
-    private int lives = 1;
+    private int lives = 2;
     private boolean goUp;
     private final int points = 10000;
     private Timer startTimer;
