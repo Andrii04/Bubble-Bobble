@@ -4,6 +4,7 @@ import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.Laser;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LaserView extends BubbleView{
     public LaserView(Bubble bubble) {
@@ -13,7 +14,9 @@ public class LaserView extends BubbleView{
     @Override
     public void startFiring() {
         currentSkinPath = bubble.getSkinsPath() + "2.png";
-        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        Image originalSkin = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image resizedSkin = originalSkin.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        currentSkin = new ImageIcon(resizedSkin);
     }
 
     @Override
@@ -30,6 +33,8 @@ public class LaserView extends BubbleView{
     @Override
     public void setExplodeIMG() {
         currentSkinPath = bubble.getSkinsPath() + "3.png";
-        currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        Image originalSkin = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image resizedSkin = originalSkin.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        currentSkin = new ImageIcon(resizedSkin);
     }
 }
