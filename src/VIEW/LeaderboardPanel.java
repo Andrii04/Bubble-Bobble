@@ -1,28 +1,35 @@
 package VIEW;
 
-import GAMESTATEMANAGER.MenuState;
-import MODEL.UserProfile;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
 
+
+/**
+ * Pannello per visualizzare la classifica del gioco.
+ * <p>
+ * Questo pannello visualizza una tabella con le informazioni sui migliori giocatori,
+ * inclusi avatar, nome, livello, punteggio, vittorie, sconfitte e totale partite.
+ * Include anche i pulsanti per tornare al menu e uscire dal gioco.
+ * </p>
+ */
 public class LeaderboardPanel extends JPanel {
 
-    //AVATAR| NAME | LEVEL | HIGHSCORE | W | L | TOT
-    // 5 PLAYERS MAX
     private Font font = MainFrame.getPixelFont();
     private JTable leaderboardTable;
     private JLabel menuLabel;
     private JLabel exitLabel;
 
+    /**
+     * Costruisce un'istanza della classe {@code LeaderboardPanel} e inizializza l'interfaccia utente.
+     * <p>
+     * Crea la tabella della classifica con colonne per l'avatar, il nome, il livello, il punteggio,
+     * le vittorie, le sconfitte e il totale delle partite. Configura anche i pulsanti "MENU" e "EXIT".
+     * </p>
+     */
     public LeaderboardPanel() {
-
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.BLACK);
         this.setLayout(new BorderLayout());
@@ -136,21 +143,41 @@ public class LeaderboardPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Restituisce l'etichetta per il pulsante "MENU".
+     *
+     * @return L'etichetta per il pulsante "MENU".
+     */
     public JLabel getMenuLabel() {
         return menuLabel;
     }
 
+    /**
+     * Restituisce l'etichetta per il pulsante "EXIT".
+     *
+     * @return L'etichetta per il pulsante "EXIT".
+     */
     public JLabel getExitLabel() {
         return exitLabel;
     }
 
+    /**
+     * Aggiorna la tabella della classifica con i dati forniti.
+     * <p>
+     * Pulisce la tabella esistente e aggiunge nuove righe basate sui dati forniti.
+     * Ridimensiona anche le icone degli avatar se necessario.
+     * </p>
+     *
+     * @param data Dati da visualizzare nella tabella. Ogni riga deve essere un array di oggetti,
+     *             dove il primo elemento può essere un {@code ImageIcon} per l'avatar.
+     */
     public void updateLeaderboard(Object[][] data) {
         DefaultTableModel model = (DefaultTableModel) leaderboardTable.getModel();
         model.setRowCount(0); // Pulisce la tabella esistente
 
         for (Object[] rowData : data) {
             try {
-                // Supponendo che rowData[1] sia un ImageIcon già pronto
+                // Supponendo che rowData[0] sia un ImageIcon già pronto
                 if (rowData[0] instanceof ImageIcon) {
                     ImageIcon avatarIcon = (ImageIcon) rowData[0];
 
@@ -165,9 +192,5 @@ public class LeaderboardPanel extends JPanel {
 
             model.addRow(rowData);
         }
-
     }
-
 }
-
-
