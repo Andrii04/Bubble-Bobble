@@ -175,6 +175,7 @@ public abstract class Bubble {
             for (Enemy enemy : currentLevel.getEnemies()) {
                 if (enemy != null) {
                     if (hitbox.intersects(enemy.getHitbox()) && !enemy.isBubbled()) {
+                        if (enemy.isEnraged()) enemy.setEnraged(false);
                         encapsule(enemy);
                         return;
                     }

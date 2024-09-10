@@ -487,4 +487,5 @@ public Rectangle getHitbox(){
         return player;
     }
     public boolean isEnraged() {return enraged;}
+    public void setEnraged(boolean bool) {enraged = bool;}
 }
