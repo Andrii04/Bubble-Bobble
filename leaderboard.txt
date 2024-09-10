@@ -1,4 +1,5 @@
 src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,PlayerOne,15,5000,10,2,12
+src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,E,1,0,10,2,12
 src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,A,1,0,10,2,12
 src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,A,1,0,10,2,12
 src/Resources/Bubble Bobble Resources/Character/Run/Run2.png,A,1,0,10,2,12
