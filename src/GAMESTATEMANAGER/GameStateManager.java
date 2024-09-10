@@ -64,8 +64,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
         stateNum = menuState;
         setState(GameStateManager.menuState);
-        levels = loadLevelsFromFile();
-        levels.add(null); //così che i livelli incominciano dall'index 1
+        levels = new ArrayList<>();
+        levels.add(null);
+        levels.addAll(loadLevelsFromFile());
+        //così che i livelli incominciano dall'index 1
         generateLevels();
         currentLevel = 1;
         nextLevelInt = 2;
@@ -230,8 +232,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         // liv 1
-
-             this.levels =  loadLevelsFromFile();
 
             ArrayList<Enemy> enemies = new ArrayList<>();
             //enemies.add(new Benzo(105, 543, true, this ));
