@@ -47,7 +47,7 @@ public class BubbleView {
 
         this.currentSkinPath = bubble.getSkinsPath() + "1.png";
         currentSkin = new ImageIcon(currentSkinPath);
-        System.out.println(currentSkinPath); //null ?
+        //System.out.println(currentSkinPath); //null ?
     }
 
     public void startFiring() {

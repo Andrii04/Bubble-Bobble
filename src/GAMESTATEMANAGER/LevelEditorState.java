@@ -59,14 +59,17 @@ public class LevelEditorState extends GameState {
                     return; }
                 case "SELECT LEVEL" -> {view.chooseLevel();
                     return; }
+                case "SAVE" -> {levelEditor.saveLevel();
+                    return; }
+                case "MENU" -> {GameStateManager.getInstance().setState(GameStateManager.menuState);}
             }
+            source.setForeground(Color.green);
         }
-
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-
-        if (levelEditor.getCurrentLevel() != null) levelEditor.handleBlockClick(mouseX, mouseY);
-        //logica clicco blocchi
+        else if (levelEditor.getCurrentLevel() != null) {
+            int mouseX = e.getX();
+            int mouseY = e.getY();
+            levelEditor.handleBlockClick(mouseX, mouseY);
+        }
     }
 
     @Override

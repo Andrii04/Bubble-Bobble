@@ -1,5 +1,6 @@
 package MODEL;
 
+import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bubble;
 import MODEL.Bubbles.SpawnedBubble;
 import MODEL.Enemy.*;
@@ -211,6 +212,9 @@ public class Level {
 
     public void setClock(boolean bool) {clock = bool;}
     public boolean isClock() {return clock;}
+
+    @Override
+    public String toString() {return "" + GameStateManager.getInstance().getLevels().indexOf(this);}
 }
 
 

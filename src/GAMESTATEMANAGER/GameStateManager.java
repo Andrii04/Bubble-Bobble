@@ -404,9 +404,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
 
         for (int i = 0; i < height; i++) {
-            String[] parts = reader.readLine().split(" ");
-            for (int j = 0; j < width; j++) {
-                pattern[i][j] = Integer.parseInt(parts[j]);
+            String line = reader.readLine();
+            if (line != null) {
+                String[] parts = line.split(" ");
+                for (int j = 0; j < width; j++) {
+                    pattern[i][j] = Integer.parseInt(parts[j]);
+                }
             }
         }
         return new Level(height, width, pattern, enemies, spawnedBubbles);
@@ -415,14 +418,16 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     private void saveLevelsToFile(List<Level> levels) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Level level : levels) {
-                int[][] pattern = level.getPattern();
-                for (int[] row : pattern) {
-                    for (int val : row) {
-                        writer.write(val + " ");
+                if (level != null) {
+                    int[][] pattern = level.getPattern();
+                    for (int[] row : pattern) {
+                        for (int val : row) {
+                            writer.write(val + " ");
+                        }
+                        writer.newLine();
                     }
-                    writer.newLine();
+                    writer.newLine(); // Separatore tra livelli
                 }
-                writer.newLine(); // Separatore tra livelli
             }
         } catch (IOException e) {
             System.err.println("Errore durante il salvataggio dei livelli: " + e.getMessage());

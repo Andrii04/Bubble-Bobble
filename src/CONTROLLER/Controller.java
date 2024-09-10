@@ -89,4 +89,10 @@ public class Controller implements KeyListener, MouseListener, ActionListener {
         //ancora da programmare come appaiono i blocchi non solidi nel levelEditor
         //probabilmente un po' opachi e trasparenti
     }
+
+    public void LEredrawLevel() {
+        LevelEditorPanel levelEditorPanel = MainFrame.getLevelEditorPanel();
+        levelEditorPanel.setRedrawingLevel(true);
+        levelEditorPanel.repaint();
+    }
 }

@@ -37,6 +37,8 @@ public class LevelEditorPanel extends JPanel {
 
     JLabel solidBT;
     JLabel removeBT;
+    JLabel saveLevel;
+    JLabel menu;
 
     Level currentLevel;
     JLabel selectLevel;
@@ -44,6 +46,7 @@ public class LevelEditorPanel extends JPanel {
 
     JTextField levelNfield;
     boolean selectingLevel = false;
+    boolean redrawingLevel = false;
 
     public LevelEditorPanel() {
 
@@ -61,37 +64,52 @@ public class LevelEditorPanel extends JPanel {
         removeBT = new JLabel("REMOVE");
         solidBT = new JLabel("SOLID");
         selectLevel = new JLabel("SELECT LEVEL");
+        saveLevel = new JLabel("SAVE");
+        menu = new JLabel("MENU");
         removeBT.setFont(font.deriveFont(12f));
         solidBT.setFont(font.deriveFont(12f));
         selectLevel.setFont(font.deriveFont(12f));
+        saveLevel.setFont(font.deriveFont(12f));
+        menu.setFont(font.deriveFont(12f));
         removeBT.addMouseListener(controller);
         solidBT.addMouseListener(controller);
         selectLevel.addMouseListener(controller);
+        saveLevel.addMouseListener(controller);
+        menu.addMouseListener(controller);
 
         buttonsLayer = new JPanel();
         buttonsLayer.setLayout(null);
 
-        removeBT.setBounds(115, FRAME_HEIGHT-70, 80, 35);
+        removeBT.setBounds(40, FRAME_HEIGHT-40, 80, 35);
         //removeBT.setBackground(Color.white);
         //removeBT.setOpaque(true);
         removeBT.setForeground(Color.green);
         //selectBlock.setBackground(Color.white);
         //selectBlock.setOpaque(true);
-        solidBT.setBounds(removeBT.getX() + 200, FRAME_HEIGHT-70, 80, 35);
+        solidBT.setBounds(removeBT.getX() + 150, FRAME_HEIGHT-40, 80, 35);
         //solidBT.setBackground(Color.white);
         //solidBT.setOpaque(true);
         solidBT.setForeground(Color.green);
-        selectLevel.setBounds(solidBT.getX() + 155, FRAME_HEIGHT-70, 160, 35);
+        selectLevel.setBounds(solidBT.getX() + 130, FRAME_HEIGHT-40, 160, 35);
         //selectLevel.setBackground(Color.white);
         selectLevel.setForeground(Color.green);
         //selectLevel.setOpaque(true);
+        saveLevel.setBounds(selectLevel.getX() + 200, FRAME_HEIGHT-40, 80, 35);
+        saveLevel.setForeground(Color.green);
+
+        menu.setBounds(saveLevel.getX() + 120, FRAME_HEIGHT-40, 80, 35);
+        menu.setForeground(Color.green);
 
         removeBT.setVisible(true);
         selectLevel.setVisible(true);
         solidBT.setVisible(true);
+        saveLevel.setVisible(true);
+        menu.setVisible(true);
         buttonsLayer.add(removeBT);
         buttonsLayer.add(selectLevel);
         buttonsLayer.add(solidBT);
+        buttonsLayer.add(saveLevel);
+        buttonsLayer.add(menu);
 
 
         levelLayer = new JPanel();
@@ -214,7 +232,7 @@ public class LevelEditorPanel extends JPanel {
                     int x = j * blockWidth; //200 per test
                     int y = i * blockHeight; //200 per test
                     //chiama il metodo ma non disegna sul frame (appare nero).
-                    System.out.println("Disegnando blocco" + skin);
+                    //System.out.println("Disegnando blocco" + skin);
                     g.drawImage(skin.getImage(), x, y, blockWidth, blockHeight, null);
                 }
 
@@ -225,8 +243,16 @@ public class LevelEditorPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (selectingLevel) drawCurrentLevel(g);
-
+        if (selectingLevel) {
+            drawCurrentLevel(g);
+            selectingLevel = false;
+        }
+        else if (redrawingLevel) {
+            drawCurrentLevel(g);
+            redrawingLevel = false;
+        }
     }
+
+    public void setRedrawingLevel(boolean bool) {redrawingLevel = bool;}
 
 }

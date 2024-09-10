@@ -12,13 +12,13 @@ public class LevelEditor {
     boolean solidON;
     boolean removeON;
     Level currentLevel;
+    int currentLevelIndex;
 
     final int blockWidth = 16;
     final int blockHeight = 16;
 
     private LevelEditor() {
         //gsm = GameStateManager.getInstance();
-
     }
     
     public static LevelEditor getInstance() {
@@ -28,7 +28,10 @@ public class LevelEditor {
 
     public void setCurrentLevel(Level level) {
         //seleziona il livello da modificare
+        if (gsm == null) gsm = GameStateManager.getInstance();
         this.currentLevel = level;
+        currentLevelIndex = gsm.getLevels().indexOf(currentLevel);
+        System.out.println(currentLevelIndex);
     }
     public void setSolid() {
         solidON = !solidON;
@@ -71,10 +74,15 @@ public class LevelEditor {
                 Controller.getInstance().LEaddBlock(blockRow, blockCol);
             }
         }
+        //qui dovrei far ridisegnare il livello dopo che è stato cambiato il pattern
+        Controller.getInstance().LEredrawLevel();
     }
-    public void saveLevel(Level level) {
-        int levelIndex = gsm.getLevels().indexOf(level);
-        gsm.setLevel(levelIndex, level);
-
+    public void saveLevel() {
+        if (gsm == null) gsm = GameStateManager.getInstance();
+        System.out.println("levels before modifying " + gsm.getLevels().toString());
+        System.out.println("size list levels before modifying " + gsm.getLevels().size());
+        gsm.setLevel(currentLevelIndex, currentLevel);
+        System.out.println("levels after modifying " + gsm.getLevels().toString());
+        System.out.println("size list levels after modifying " + gsm.getLevels().size());
     }
 }
