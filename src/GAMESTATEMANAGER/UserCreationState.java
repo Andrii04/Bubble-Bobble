@@ -9,10 +9,7 @@ import VIEW.UserCreationPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class UserCreationState extends GameState {
     private UserCreationPanel view = MainFrame.getUserCreationPanel();
@@ -67,13 +64,13 @@ public class UserCreationState extends GameState {
             if (view.getUsername() == null || (view.getUsername().equals(""))) {
                 e.consume();
                 return;
-            } else if (!searchUser(view.getUsername(), "leaderboard.txt")) {
+            } else  {
 
                 userProfile = new UserProfile(view.getUsername(), 0, 1, view.getSelectedAvatar());
                 // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
-            } else {
-                // fetch data from leaderboard
-                //  MainFrame.setUserProfile();
+                System.out.println("Nuovo utente creato: " + userProfile.getUsername()); // Debug
+                // Salva il profilo nel file leaderboard.txt
+                saveUserProfile(userProfile, "leaderboard.txt");
             }
             gsm.startGame(userProfile);
         }
@@ -109,23 +106,19 @@ public class UserCreationState extends GameState {
 
     }
 
-    private boolean searchUser(String username, String path) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            while (reader.readLine() != null) {
-                if (reader.readLine() != null && reader.readLine().contains(username)) {
-                    return true;
-                }
+
+
+    private void saveUserProfile(UserProfile userProfile, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            // Scrive il profilo utente nel file usando il metodo toString() della classe UserProfile
+            String dataToWrite = userProfile.toString();
+            if (!dataToWrite.trim().isEmpty()) {  // Controlla che i dati non siano vuoti
+                writer.write(dataToWrite);
+                writer.newLine();  // Vai a capo solo dopo aver scritto una riga valida
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 }
 

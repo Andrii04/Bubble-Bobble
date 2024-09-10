@@ -62,6 +62,7 @@ public class UserProfile  {
 
 
 
+
     public String getAvatarChosen() {
         return this.avatarChosen;
     }
@@ -136,6 +137,26 @@ public class UserProfile  {
         }
     }
 
+    // Metodo per ottenere il percorso dell'immagine dell'avatar
+    public String loadAvatarImagePath(int avatarIndex) {
+        String[] avatarPaths = {
+                "src/Resources/Bubble Bobble Resources/Character/Run/Run2.png", // bub
+                "src/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png", // benzo
+                "src/Resources/Bubble Bobble Resources/Enemies/Blubba/Walk/Enemy39.png", // blubba
+                "src/Resources/Bubble Bobble Resources/Enemies/BoaBoa/Walk/Enemy55.png", // boaboa
+                "src/Resources/Bubble Bobble Resources/Enemies/Invader/Idle/idle1.png", // invader
+                "src/Resources/Bubble Bobble Resources/Enemies/Boris/Walk/Enemy17.png", // boris
+                "src/Resources/Bubble Bobble Resources/Enemies/Incendio/Walk/Walk1.png", // incendio
+                "src/Resources/Bubble Bobble Resources/Enemies/Superdrunk/Walk/NES - Bubble Bobble - Boss & Final Scene - Super Drunk5.png"
+        };
+
+        if (avatarIndex >= 0 && avatarIndex < avatarPaths.length) {
+            return avatarPaths[avatarIndex];
+        } else {
+            return "Avatar non trovato";
+        }
+    }
+
     public ImageIcon getAvatarImage() {
         return img;
     }
@@ -146,11 +167,13 @@ public class UserProfile  {
 
     @Override
     public String toString(){
-        return  avatarChosen +"," + username +  "," + round + "," + punteggio +
-        "," + partiteVinte + "," + partitePerse + "," + partiteTot;
+        String imagePath = loadAvatarImagePath(avatarIndex);
+        return   imagePath +"," + username +  "," + round + "," + punteggio +
+                "," + partiteVinte + "," + partitePerse + "," + partiteTot;
     }
 
     public int getSelectedAvatar() {
         return this.avatarIndex;
     }
 }
+

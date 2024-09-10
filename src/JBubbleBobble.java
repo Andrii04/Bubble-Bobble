@@ -7,5 +7,6 @@ public class JBubbleBobble {
 
         MainFrame frame = new MainFrame();
     }
+
 }
 
