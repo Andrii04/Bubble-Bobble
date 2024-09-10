@@ -3,6 +3,7 @@ package MODEL.Enemy;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Bubbles.Bottle;
 import MODEL.Entity;
+import VIEW.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -125,6 +126,7 @@ public class SuperDrunk extends Enemy{
                 notifyObservers(Action.WALK);
                 break;
             case HURT:
+                MainFrame.playSound(2);
                 lives--;
                 if( lives <= 0){
                     updateAction(Action.DIE);

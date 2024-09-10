@@ -332,11 +332,12 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case DIE:
                 // comportamenti
-                die();
-                dead = true;
-                player.setPunteggio(player.getPunteggio() + points);
-                deathTimer.start();
-                notifyObservers(Action.DIE);
+                    die();
+                    dead = true;
+                    player.setPunteggio(player.getPunteggio() + points);
+                    deathTimer.start();
+                    MainFrame.playSound(5);
+                    notifyObservers(Action.DIE);
                 break;
             default: // idle
                 idle();

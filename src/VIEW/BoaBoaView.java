@@ -59,6 +59,7 @@ public class BoaBoaView extends EnemyView{
             case RAGE:
                 return boaBoaEnraged;
             case BUBBLED:
+
                 return boaBoaBubbledGreen; // boaBoaBubbledBlue, boaBoaBubbledRed
         }
     }

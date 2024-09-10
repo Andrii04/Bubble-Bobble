@@ -2,6 +2,7 @@ package VIEW;
 
 import CONTROLLER.Controller;
 import GAMESTATEMANAGER.GameStateManager;
+import MODEL.Sound;
 import MODEL.UserProfile;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class MainFrame {
     private static LosePanel losePanel;
     private static WinPanel winPanel;
 
+    private static Sound sound = new Sound();
     public MainFrame() {
 
         gameFrame = new JFrame("Bubble Bobble");
@@ -40,7 +42,6 @@ public class MainFrame {
         gameFrame.addKeyListener(Controller.getInstance());
         gameFrame.addMouseListener(Controller.getInstance());
         gameFrame.setVisible(true);
-
         GameStateManager gsm = GameStateManager.getInstance();
         gsm.setState(0);
     }
@@ -108,5 +109,17 @@ public static void setPlayPanel(PlayerView playerView) {
     public static WinPanel getWinPanel(){
         if ( winPanel== null) winPanel = new WinPanel();
         return winPanel;
+    }
+    public static void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+    public static void playSound(int i){
+        sound.setFile(i);
+        sound.play();
+    }
+    public static void stopSound(){
+        sound.stop();
     }
 }

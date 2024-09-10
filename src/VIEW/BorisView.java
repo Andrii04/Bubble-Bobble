@@ -71,6 +71,7 @@ public class BorisView extends EnemyView{
             case RAGE:
                 return enemy.getFacingRight() ? borisEnragedRight : borisEnragedLeft;
             case BUBBLED:
+
                 return borisBubbledGreen; // borisBubbledBlue, borisBubbledRed
         }
     }

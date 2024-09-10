@@ -72,11 +72,13 @@ public class LoseState extends GameState{
                         switch (view.getSelectedOption()) {
                                 case 0:
                                         gsm.resetGame(); // Torna al menu principale
+                                        MainFrame.stopSound();
                                         gsm.setState(GameStateManager.menuState);
                                         break;
 
                                 case 1:
                                         gsm.resetGame();
+                                        MainFrame.stopSound();
                                         gsm.setState(GameStateManager.leaderboardState); // Mostra la classifica
                                         break;
                                 case 2:

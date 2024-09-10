@@ -143,6 +143,7 @@ public class Player extends Observable implements Entity {
             case JUMP:
                 currentAction = Action.JUMP;
                 if(isOnFloor()){
+                    MainFrame.playSound(3);
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
@@ -218,6 +219,7 @@ public class Player extends Observable implements Entity {
                 break;
             case ATTACK:
                 if (ableToFire) {
+                    MainFrame.playSound(0);
                     currentAction = Action.ATTACK;
                     Bubble firedBubble = bubbleType.newInstance(this);
                     currentLevel.addBubble(firedBubble);
@@ -235,6 +237,7 @@ public class Player extends Observable implements Entity {
                 break;
             case HURT:
                 if (!cooldown) {
+                    MainFrame.playSound(2);
                     cooldown = true;
                     cooldownTimer.start();
                     currentAction = Action.HURT;
@@ -250,6 +253,7 @@ public class Player extends Observable implements Entity {
                 }
                 break;
             case DIE:
+                MainFrame.playSound(1);
                 currentAction = Action.DIE;
                 notifyObservers(Action.DIE);
                 // gsm.setGameState(GameStateManager.GameState.GAMEOVER);

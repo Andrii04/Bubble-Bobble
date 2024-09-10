@@ -33,7 +33,6 @@ public class MenuPanel extends JPanel {
      * inclusa l'animazione del titolo e i pulsanti.
      */
     public MenuPanel() {
-
         // Imposta la dimensione e altre proprietà del pannello
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.black); // Sfondo nero

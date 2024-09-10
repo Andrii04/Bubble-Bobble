@@ -79,6 +79,7 @@ public class BenzoView extends EnemyView {
             case RAGE:
                 return enemy.getFacingRight() ? benzoEnragedRight : benzoEnragedLeft;
             case BUBBLED:
+
                 return benzoBubbledGreen; // benzoBubbledBlue, benzoBubbledRed
         }
     }

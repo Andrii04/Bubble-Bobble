@@ -9,6 +9,7 @@ import java.awt.*;
 
 import MODEL.Level;
 import VIEW.BubbleView;
+import VIEW.MainFrame;
 import VIEW.PlayPanel;
 import MODEL.Entity.Action;
 import MODEL.Player;

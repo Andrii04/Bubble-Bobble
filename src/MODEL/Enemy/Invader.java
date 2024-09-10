@@ -36,6 +36,27 @@ public class Invader extends Enemy{
         laser.fireBubble();
         System.out.println("Invader shoots");
     }
+
+    void bubbled(){
+        if(attackTimer.isRunning()){
+            attackTimer.stop();
+        }
+        bubbled = true;
+        rageTimer.start();
+        notifyObservers(Action.BUBBLED);
+
+    }
+    void die(){
+        if(attackTimer.isRunning()){
+            attackTimer.stop();
+        }
+    }
+    void rage(){
+        enraged = true;
+        bubbled = false;
+        speed += 1;
+        attackTimer.setDelay(800);
+    }
     @Override
     public int getX() {
         return x;

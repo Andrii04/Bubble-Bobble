@@ -37,10 +37,12 @@ public class LosePanel extends JPanel {
      * Imposta la dimensione del pannello, il colore di sfondo, la disposizione degli elementi e crea le etichette e il cursore.
      */
     public LosePanel() {
+
         this.setSize(MainFrame.FRAME_WIDTH, MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.black);
         this.setLayout(null);
         this.setVisible(true);
+
 
         // Configurazione dell'etichetta "YOU LOSE"
         testo.setFont(font.deriveFont(60f));

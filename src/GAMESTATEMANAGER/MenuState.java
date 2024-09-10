@@ -25,6 +25,7 @@ public class MenuState extends GameState {
      */
 
     public MenuState(GameStateManager gsm) {
+        MainFrame.playMusic(6);
         this.gsm = gsm;
     }
 
