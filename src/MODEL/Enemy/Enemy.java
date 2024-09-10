@@ -417,6 +417,7 @@ public abstract class Enemy extends Observable implements Entity {
     }
     //to be overriden
     void rage(){
+        bubbled = false;
         enraged = true;
         speed +=1;
     }
@@ -485,4 +486,5 @@ public Rectangle getHitbox(){
     public Player getPlayer(){
         return player;
     }
+    public boolean isEnraged() {return enraged;}
 }

@@ -102,6 +102,8 @@ public abstract class Bubble {
         bubbleView.setPom(true);
 
         bubbleView.setPomIMG();
+        if (bubbledEnemy != null) player.setPunteggio(player.getPunteggio()+500);
+        else player.setPunteggio(player.getPunteggio() + 100);
     }
 
     public void encapsule(Enemy enemy) {
@@ -186,7 +188,13 @@ public abstract class Bubble {
             }
         }
 
-        if (floating && encapsulate) bubbledEnemy.setPosition(x, y);
+        if (floating && encapsulate) {
+            if (bubbledEnemy.isEnraged()) {
+                bubbledEnemy = null;
+                explode();
+            }
+            else bubbledEnemy.setPosition(x, y);
+        }
         if (floating && encapsulate && hitbox.intersects(player.getHitbox())) {
             explode();
         }
