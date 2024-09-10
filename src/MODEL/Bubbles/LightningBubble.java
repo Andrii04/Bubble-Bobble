@@ -15,7 +15,9 @@ public class LightningBubble extends SpawnedBubble{
         super(player);
 
         bubbleView = new SpawnedBubbleView(this);
-        hitbox.setSize(44, 45);
+        startFloating();
+        bubbleView.setLightningFloatingIMG();
+        hitbox.setSize(45, 45);
     }
 
     @Override
@@ -23,7 +25,7 @@ public class LightningBubble extends SpawnedBubble{
         if (x <= MainFrame.FRAME_WIDTH/2) facingRight = true;
         else facingRight = false;
         bubbleView.setLightningIMG();
-        hitbox.setSize(30,30);
+        hitbox.setSize(45,45);
         effect = true;
     }
 

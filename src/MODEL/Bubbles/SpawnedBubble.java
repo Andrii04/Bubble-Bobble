@@ -16,7 +16,6 @@ public abstract class SpawnedBubble extends Bubble {
         shootingSpeed = 7;
         floatingSpeed = 1;
         //this.bubbleView = new SpawnedBubbleView(this); ricordare di settarla nelle sottoclassi
-        floating = true;
         Random random = new Random();
         x = random.nextInt(Block.WIDTH + 30, MainFrame.FRAME_HEIGHT - Block.WIDTH - 30);
         y = random.nextInt(Block.HEIGHT + 30, MainFrame.FRAME_HEIGHT - Block.HEIGHT - 30);

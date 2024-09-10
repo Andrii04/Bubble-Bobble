@@ -8,7 +8,7 @@ public class WaterBubble extends SpawnedBubble{
     public WaterBubble(Player player) {
         super(player);
         this.bubbleView = new SpawnedBubbleView(this);
-        hitbox.setSize(44, 45);
+        hitbox.setSize(45, 45);
     }
 
     @Override

@@ -107,8 +107,8 @@ public class BubbleView {
         currentSkinPath = bubble.getSkinsPath() + "3.png";
         Image lightningIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
         Image lightningIMGresized = lightningIMGoriginal.getScaledInstance(
-                30,
-                30,
+                45,
+                45,
                 Image.SCALE_SMOOTH
         );
         currentSkin = new ImageIcon(lightningIMGresized);
@@ -117,14 +117,35 @@ public class BubbleView {
     public void setFireIMG1() {
         currentSkinPath = bubble.getSkinsPath() + "1.png";
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        setSkin(currentSkin);
     }
     public void setFireIMG2() {
         currentSkinPath = bubble.getSkinsPath() + "2.png";
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        setSkin(currentSkin);
     }
     public void setFireIMG4() {
         currentSkinPath = bubble.getSkinsPath() + "4.png";
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
+        setSkin(currentSkin);
+    }
+    public void setLightningFloatingIMG() {
+        currentSkinPath = bubble.getSkinsPath() + "1.png";
+        Image floatingBubbleIMGoriginal = new ImageIcon(getClass().getResource(currentSkinPath)).getImage();
+        Image floatingBubbleIMGresized = floatingBubbleIMGoriginal.getScaledInstance(
+                45,
+                45,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(floatingBubbleIMGresized);
+    }
+    public void setSkin(ImageIcon skin) {
+        Image resizedSkin = skin.getImage().getScaledInstance(
+                45,
+                45,
+                Image.SCALE_SMOOTH
+        );
+        currentSkin = new ImageIcon(resizedSkin);
     }
 
     public void draw(Graphics2D g2d) {

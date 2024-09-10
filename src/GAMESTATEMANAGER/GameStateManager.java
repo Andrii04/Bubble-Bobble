@@ -208,8 +208,8 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         LightningBubble lightning4 = new LightningBubble(currentPlayer);
         LightningBubble lightning5 = new LightningBubble(currentPlayer);
         LightningBubble lightning6 = new LightningBubble(currentPlayer);
-        LightningBubble lightning7 = new LightningBubble(currentPlayer);
-        LightningBubble lightning8 = new LightningBubble(currentPlayer);
+        FireBubble lightning7 = new FireBubble(currentPlayer);
+        FireBubble lightning8 = new FireBubble(currentPlayer);
         levels.get(1).addSpawnedBubble(lightning5);
         levels.get(1).addSpawnedBubble(lightning6);
         levels.get(1).addSpawnedBubble(lightning7);

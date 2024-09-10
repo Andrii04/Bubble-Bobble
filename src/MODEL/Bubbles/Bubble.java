@@ -91,7 +91,7 @@ public abstract class Bubble {
         else if (this instanceof WaterBubble) player.waterBubbleExploded();
         else if (this instanceof LightningBubble) player.lightningBubblesExploded();
 
-        if (player.isRedRing()) {/* +100 punti */}
+        if (player != null && player.isRedRing()) {/* +100 punti */}
     }
 
 
