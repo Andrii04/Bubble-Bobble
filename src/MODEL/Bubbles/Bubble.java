@@ -71,7 +71,6 @@ public abstract class Bubble {
     }
 
     public void explode() {
-        System.out.println("exploding");
         floating = false;
         firing = false;
         exploding = true;
@@ -113,7 +112,7 @@ public abstract class Bubble {
     public void encapsule(Enemy enemy) {
         bubbledEnemy = enemy;
         enemy.setBubbled(true);
-        System.out.println("Enemy bubbled");
+        //System.out.println("Enemy bubbled");
 
         firing = false;
         floating = true;
@@ -126,8 +125,7 @@ public abstract class Bubble {
         hitbox.setSize(bubbleView.getCurrentSkin().getIconWidth(),
                 bubbleView.getCurrentSkin().getIconHeight());
 
-        enemy.updateAction(Action.BUBBLED);
-
+        if (!(enemy instanceof SuperDrunk)) enemy.updateAction(Action.BUBBLED);
     }
 
     public void startFloating() {

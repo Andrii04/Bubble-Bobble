@@ -421,7 +421,7 @@ public class Player extends Observable implements Entity {
     }
     public void lightningBubblesExploded() {
         lightningBubblesExploded++;
-        if (lightningBubblesExploded >= 12) {
+        if (lightningBubblesExploded >= 12 && gsm.getCurrentLevelInt() != 24) {
             currentLevel.spawnPowerUp(new Clock());
             lightningBubblesExploded = 0;
         }

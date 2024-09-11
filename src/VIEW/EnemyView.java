@@ -1,6 +1,7 @@
 package VIEW;
 
 import MODEL.Enemy.Enemy;
+import MODEL.Enemy.SuperDrunk;
 import MODEL.Entity;
 import MODEL.Player;
 
@@ -63,7 +64,7 @@ public abstract class EnemyView implements Observer {
      * Metodo di aggiornamento richiamato quando ci sono cambiamenti nell'oggetto osservato.
      * Aggiorna la posizione e l'azione del nemico in base ai cambiamenti.
      *
-     * @param o L'oggetto osservato (Enemy).
+     * @param o   L'oggetto osservato (Enemy).
      * @param arg L'argomento passato, tipicamente l'azione corrente del nemico (Entity.Action).
      */
     @Override

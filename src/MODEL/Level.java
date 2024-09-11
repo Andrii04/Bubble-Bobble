@@ -30,6 +30,7 @@ public class Level {
     //private Integer lastBubbleX;
     private boolean clock;
 
+
     public Level(int height, int width, int[][] pattern,
                  ArrayList<Enemy> enemies, ArrayList<SpawnedBubble> spawnedBubbles) {
         this.height = height;
@@ -39,6 +40,7 @@ public class Level {
 
 
         this.bubbles = new ArrayList<>();
+
         this.powerUps = new ArrayList<>(Arrays.asList(null, null, null, null, null
         , null, null, null, null, null, null,
                 null, null, null, null, null,
@@ -227,6 +229,6 @@ public class Level {
 
     @Override
     public String toString() {return "livello_" + GameStateManager.getInstance().getLevels().indexOf(this);}
-}
+    }
 
 

@@ -145,6 +145,7 @@ public class SuperDrunk extends Enemy{
                 }
                 break;
             case BUBBLED:
+                System.out.println("SuperDrunk bubbled");
                 if(attackTimer.isRunning()){
                     attackTimer.stop();
                 }
@@ -179,5 +180,24 @@ public class SuperDrunk extends Enemy{
         speed += 2;
         attackTimer.setDelay(800);
         updateAction(Action.WALK);
+    }
+
+    @Override
+    public void move(){
+        if(isBubbled()) {
+            if (hitbox.intersects(player.getHitbox())) {
+                updateAction(Action.DIE);
+                notifyObservers(Action.DIE);
+                return;
+            }
+            notifyObservers(Action.BUBBLED);
+        }
+        else if(isDead() &&!isBubbled()){
+            notifyObservers(Action.DIE);
+        }
+        else if(!isDead() && !isBubbled()){
+            onPlayer();
+            chasePlayer();
+        }
     }
 }

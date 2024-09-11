@@ -103,6 +103,7 @@ public abstract class Enemy extends Observable implements Entity {
 
     // quando interseca il player
     public void onPlayer(){
+        System.out.println(bubbled);
         if (hitbox.intersects(player.getHitbox())){
             System.out.println("Intersects");
             System.out.println(bubbled);
@@ -427,6 +428,7 @@ public abstract class Enemy extends Observable implements Entity {
         speed +=1;
     } // comportamento di default rage = aumenta la velocità di uno
     void bubbled(){
+        enraged = false;
         bubbled = true;
         rageTimer.start();
         System.out.println("Bubbled");
