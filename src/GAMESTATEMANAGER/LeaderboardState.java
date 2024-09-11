@@ -19,10 +19,9 @@ public class LeaderboardState extends GameState {
     public LeaderboardState(GameStateManager gsm) {
 
         this.gsm = gsm;
-        model = new LeaderboardM();
+        leaderboardController = gsm.getLeaderboard();
+        model = leaderboardController.getModel();
         leaderboardPanel = MainFrame.getLeaderboardPanel();
-        leaderboardController = new Leaderboard(model, leaderboardPanel);
-        leaderboardController.loadLeaderboard("leaderboard.txt");
         addListeners();
 
         // Aggiungi i listener ai pulsanti

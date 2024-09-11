@@ -38,7 +38,8 @@ public abstract class Enemy extends Observable implements Entity {
     Timer rageTimer;
     Timer deathTimer;
     Timer attackTimer;
-    // A* search algorithm for pathfinding
+
+    // pathfinding
     List<Node> shortestPath;
     class Node{
         int x;
@@ -49,12 +50,12 @@ public abstract class Enemy extends Observable implements Entity {
         public Node(int x, int y, int g, int h, Node parent){
             this.x = x;
             this.y = y;
-            this.g = g; // g cost = distance from start point
-            this.h = h; // h cost = distance from end point
+            this.g = g; // g cost = distanza dal nodo iniziale
+            this.h = h; // h cost = distanza dal nodo finale
             this.parent = parent;
         }
         public int getF(){
-            return g+h; // f cost = total cost
+            return g+h; // f cost
         }
     }
 
@@ -103,7 +104,10 @@ public abstract class Enemy extends Observable implements Entity {
     // quando interseca il player
     public void onPlayer(){
         if (hitbox.intersects(player.getHitbox())){
+            System.out.println("Intersects");
+            System.out.println(bubbled);
             if (bubbled) {
+                System.out.println("HIT");
                 updateAction(Action.DIE);
             }
             else{
@@ -118,40 +122,41 @@ public abstract class Enemy extends Observable implements Entity {
 
     //  pathfinding
     void chasePlayer() {
-        if (!isOnFloor() || (!isSolidTile(x,y+Entity.HEIGHT+1) && !isSolidTile(x+Entity.WIDTH+1,y+Entity.HEIGHT+1))) { // fall
+        if (!isOnFloor() || (!isSolidTile(x,y+Entity.HEIGHT+1) && !isSolidTile(x+Entity.WIDTH+1,y+Entity.HEIGHT+1))) { // se non è sul pavimento cade
             onFloor = false;
             updateAction(Action.MOVE_VERTICALLY);
             return;
         }
-        if(!player.isOnFloor()){
+        if(!player.isOnFloor()){ // se il player non è sul pavimento il nemico va in idle
             updateAction(Action.IDLE);
             return;
         }
-        if (isOnFloor() && shouldRetracePath()) {
+        if (isOnFloor() && shouldRetracePath()) { // se il nemico è sul pavimento e deve ricalcolare il percorso: ricalcola il percorso
             findShortestPath();
             return;
         }
         else {
-            onFloor = isSolidTile(x, y + Entity.HEIGHT + 1);
-            Node nextNode = shortestPath.get(0);
-            if (isAtNode(nextNode, x, y)) {
+            onFloor = isSolidTile(x, y + Entity.HEIGHT + 1); // setta onFloor a true se il nemico è sul pavimento
+            Node nextNode = shortestPath.get(0); // prende il prossimo nodo
+            if (isAtNode(nextNode, x, y)) { // se il nemico è arrivato al nodo toglie il nodo dalla lista
                 shortestPath.remove(0);
             }
-            if(nextNode.x == x && nextNode.y > y){
+            if(nextNode.x == x && nextNode.y > y){ // se il nodo è sotto il nemico allora cade
                 updateAction(Action.MOVE_VERTICALLY);
                 return;
-            }
-            facingRight= nextNode.x > x;
+            }// se il nodo è a destra del nemico allora il nemico guarda a destra e cammina a destra
             if (nextNode.x < x) {
                 facingRight = false;
                 updateAction(Action.WALK);
                 return;
             }
+            // se il nodo è a sinistra del nemico allora il nemico guarda a sinistra e cammina a sinistra
             if (nextNode.x > x) {
                 facingRight = true;
                 updateAction(Action.WALK);
                 return;
             }
+            // se il nodo è sopra il nemico allora il nemico salta
             if(nextNode.x == x && nextNode.y < y){
                 updateAction(Action.JUMP);
             }
@@ -165,30 +170,31 @@ public abstract class Enemy extends Observable implements Entity {
         return x + "," + y;
     }
     void findShortestPath() {
-        PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(Node::getF));
-        HashMap<String, Node> openMap = new HashMap<>(); // "x,y" -> Node
-        HashSet<String> closed = new HashSet<>(); // "x,y"
+        PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(Node::getF)); // coda con priorità: nodo con il minor f cost
+        HashMap<String, Node> openMap = new HashMap<>(); // "x,y" : Node
+        HashSet<String> closed = new HashSet<>(); // "x,y" , contiene solo le chiavi della mappa
 
-        Node start = new Node(x, y, 0, Math.abs(player.getX() - x) + Math.abs(player.getY() - y), null);
-        Node end = new Node(player.getX(), player.getY(), 0, 0, null);
+        Node start = new Node(x, y, 0, Math.abs(player.getX() - x) + Math.abs(player.getY() - y), null); // posizione corrente
+        Node end = new Node(player.getX(), player.getY(), 0, 0, null); // posizione del player
         open.add(start);
         openMap.put(getKey(start.x, start.y), start);
+
         while (!open.isEmpty()) {
-            Node current = open.poll(); // get lowest F
+            Node current = open.poll(); // prende il primo nodo ( con il minor f cost)
             openMap.remove(getKey(current.x, current.y));
             closed.add(getKey(current.x, current.y));
-            if (isAtNode(current, end.x, end.y)){
+            if (isAtNode(current, end.x, end.y)){ // ricorsione si ferma quando il nodo corrente è uguale al nodo finale
                 shortestPath = retracePath(start, current);
                return;
             }
-            for (Node neighbor : getNeighbors(current)) {
+            for (Node neighbor : getNeighbors(current)) { // prende i vicini del nodo corrente
                 String neighborKey = getKey(neighbor.x, neighbor.y);
-                if (closed.contains(neighborKey)) {
+                if (closed.contains(neighborKey)) { // se è presente nella lista closed va avanti
                     continue;
                 }
-                int distanceToNeighbor = current.g + getDistance(current, neighbor);
-                boolean isBetterPath = !openMap.containsKey(neighborKey) || distanceToNeighbor < neighbor.g;
-                if (isBetterPath) {
+                int distanceToNeighbor = current.g + getDistance(current, neighbor); // g cost del vicino
+                boolean isBetterPath = !openMap.containsKey(neighborKey) || distanceToNeighbor < neighbor.g; // se il vicino non è presente nella lista open o il g cost è minore allora è il percorso migliore
+                if (isBetterPath) { // aggiunge il vicino ( percorso migliore ) alla lista open
                     neighbor.g = distanceToNeighbor;
                     neighbor.h = getDistance(neighbor, end);
                     neighbor.parent = current;
@@ -202,29 +208,31 @@ public abstract class Enemy extends Observable implements Entity {
     }
      List<Node> getNeighbors(Node node) {
         List<Node> neighbors = new ArrayList<>();
-        int[][] directions = {{speed, 0}, {-speed, 0}}; // Horizontal movements: right and left
+        int[][] directions = {{speed, 0}, {-speed, 0}}; // sinistra e destra
 
-        // Horizontal neighbors
+        // sinistra e destra
         for (int[] direction : directions) {
             int newX = node.x + direction[0];
             int newY = node.y;
 
             if (isWithinBounds(newX, newY)) {
-                // jumping scenario
+                // caso in cui c'è un blocco solido sopra a jump distance
                 if (isSolidTile(node.x+ direction[0]*3, newY -Entity.HEIGHT-Block.HEIGHT +1) && !isSolidTile(newX, newY - Entity.HEIGHT*2 +1)) {
                     neighbors.add(new Node(node.x + direction[0]*3, node.y - Entity.HEIGHT*2 - Block.HEIGHT, 0, 0, node));
                 }
-                // horizontal movement: check if there is a solid tile below and if there isn't a solid tile in front of iit
+                // caso in cui c'è un blocco solido sotto e non c'è un blocco solido di fronte
                 if (isSolidTile(newX, newY + Entity.HEIGHT+1) && !isSolidTile(newX,newY)) {
                     neighbors.add(new Node(newX, newY, 0, 0, node));
 
                 }
+                // caso in cui non c'è un blocco solido sotto
                 else if(!isSolidTile(newX,newY+Entity.HEIGHT+1)) {
-                    // Falling down scenario: scan downwards to find the next platform
+                    // cerca la piattaforma più vicina
                     for (int i = 3; i < currentLevel.getPattern().length-1; i++) {
                         int fallY = node.y + Block.HEIGHT * i +1 ;
                         if (isSolidTile(newX, fallY)) {
-                            // entity positioned above block
+                            // aggiunge il nemico sopra la piattaforma
+                            // 2 casi per assicurare che il nemico non si incastra al bordo della piattaforma
                             if(facingRight){
                                 neighbors.add(new Node(node.x+direction[0]*3, fallY - Entity.HEIGHT, 0, 0, node));
                                 break;}
@@ -242,11 +250,12 @@ public abstract class Enemy extends Observable implements Entity {
     }
     boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < MainFrame.FRAME_WIDTH-Block.HEIGHT-Entity.HEIGHT && y >= 0 && y < MainFrame.FRAME_HEIGHT-Block.HEIGHT-Entity.HEIGHT;
-    }
+    } // controlla se la posizione è all'interno dei limiti dello schermo
     private int getDistance(Node a, Node b){
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
     private List<Node> retracePath(Node start, Node end){
+        // ritorna il percorso più breve = shortestPath
         List<Node> path = new ArrayList<>();
         while(end != start && end != null){
             path.add(end);
@@ -261,11 +270,11 @@ public abstract class Enemy extends Observable implements Entity {
         }
         return path;
     }
-     boolean shouldRetracePath(){
-        if(shortestPath.isEmpty()){
+     boolean shouldRetracePath(){ // caso in cui il nemico deve ricalcolare il percorso
+        if(shortestPath.isEmpty()){ // se non è raggiungibile allora IDLE
             updateAction(Action.IDLE);
             return true;
-        }
+        } // se il player si allontana di troppo ricalcola
         return Math.abs(player.getX() - shortestPath.getLast().x) > 70 || Math.abs(player.getY() - shortestPath.getLast().y) > 100;
     }
 
@@ -420,6 +429,7 @@ public abstract class Enemy extends Observable implements Entity {
     void bubbled(){
         bubbled = true;
         rageTimer.start();
+        System.out.println("Bubbled");
         notifyObservers(Action.BUBBLED);
     } // uguali per tutti i nemici
     void shoot(){}; // qui si implementano i proiettili
@@ -445,6 +455,11 @@ public abstract class Enemy extends Observable implements Entity {
         currentLevel.removeEnemy(this);
     }
 
+    public void notifyObservers(Action action) {
+        setChanged();
+        super.notifyObservers(action);
+    }
+
     // metodi setters
     public void setPosition(int x, int y) {
         this.x = x;
@@ -460,10 +475,6 @@ public abstract class Enemy extends Observable implements Entity {
     }
     public void setCurrentLevel(Level currentLevel){
         this.currentLevel = currentLevel;
-    }
-    public void notifyObservers(Action action) {
-        setChanged();
-        super.notifyObservers(action);
     }
     public void setEnraged(boolean bool) {enraged = bool;}
 
@@ -492,9 +503,6 @@ public abstract class Enemy extends Observable implements Entity {
         return player;
     }
     public boolean isEnraged() {return enraged;}
-    public int getPoints(Enemy enemy){
-        return points;
-    }
     public int getX(){
         return x;
     }

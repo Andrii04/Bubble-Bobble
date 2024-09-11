@@ -1,9 +1,8 @@
 package MODEL;
+import java.io.Serializable;
 
-
-import javax.swing.*;
-
-public class UserProfile  {
+public class UserProfile implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private String username;
     private int punteggio;
@@ -13,7 +12,7 @@ public class UserProfile  {
     private int partiteTot;
     private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "Invader", "Boris", "Incendio", "Superdrunk"};
     private String avatarChosen;
-    private ImageIcon img;
+    private String imgPath;
     private int avatarIndex;
 
     public UserProfile(String username, int punteggio, int round, int avatarIndex) throws IllegalArgumentException{
@@ -24,7 +23,7 @@ public class UserProfile  {
         this.punteggio = punteggio;
         this.round = round;
         this.avatarChosen = avatars[avatarIndex];
-        this.img = loadAvatarImage(avatarIndex);
+        this.imgPath = loadAvatarImage(avatarIndex);
     }
 
     public void setPartiteVinte(int wins) throws IllegalArgumentException{
@@ -79,13 +78,6 @@ public class UserProfile  {
     }
 
 
-
-
-    public String getAvatarChosen() {
-        return this.avatarChosen;
-    }
-
-
     //ogni nuova partita dovrebbe essere partiteTot++ ++a o vinte o perse
 
 
@@ -104,18 +96,13 @@ public class UserProfile  {
         return this.partiteTot;
     }
 
-    public void setAvatarChosen(String avatarChosen) {
-        this.avatarChosen = avatarChosen;
-    }
-
-
     public void setPartiteTot(int partiteTot) {
         this.partiteTot = partiteTot;
     }
 
 
     // Metodo per caricare l'immagine avatar
-    private ImageIcon loadAvatarImage(int avatarIndex) {
+    private String loadAvatarImage(int avatarIndex) {
         String[] avatarPaths = {
                 "src/Resources/Bubble Bobble Resources/Character/Run/Run2.png", // bub
                 "src/Resources/Bubble Bobble Resources/Enemies/Benzo/Walk/Enemy1.png", // benzo
@@ -128,17 +115,9 @@ public class UserProfile  {
 
         if (avatarIndex >= 0 && avatarIndex < avatarPaths.length) {
             String path = avatarPaths[avatarIndex];
-            ImageIcon icon = new ImageIcon(path);
-
-            if (icon.getImage() != null && icon.getIconWidth() > 0) {
-                return icon;
-            } else {
-                System.err.println("Immagine non trovata o non caricata correttamente: " + path);
-                return null;
-            }
-        } else {
-            return null;
+            return path;
         }
+        return null;
     }
 
     // Metodo per ottenere il percorso dell'immagine dell'avatar
@@ -161,12 +140,8 @@ public class UserProfile  {
         }
     }
 
-    public ImageIcon getAvatarImage() {
-        return img;
-    }
-
-    public void setAvatarImage(ImageIcon img) {
-        this.img = img;
+    public String getAvatarImage() {
+        return imgPath;
     }
 
     @Override
@@ -174,10 +149,6 @@ public class UserProfile  {
         String imagePath = loadAvatarImagePath(avatarIndex);
         return   imagePath +"," + username +  "," + round + "," + punteggio +
                 "," + partiteVinte + "," + partitePerse + "," + partiteTot;
-    }
-
-    public int getSelectedAvatar() {
-        return this.avatarIndex;
     }
 
 }

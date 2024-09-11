@@ -1,92 +1,82 @@
 package MODEL;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 public class LeaderboardM {
-    private List<UserProfile> profiles;
+    private static final String path = "leaderboard.ser";
+    private Map<String,UserProfile> users;
 
     public LeaderboardM() {
-        profiles = new ArrayList<>();
+        users = loadUsers();
     }
 
-    public void addProfile(UserProfile profile) {
-        profiles.add(profile);
-        sortProfiles();
-    }
+    // prende hashmap di tutti i profili utente
+    public Map<String, UserProfile> loadUsers(){
+        File file = new File(path);
+        if (!file.exists() || file.length() == 0) {
+            // File does not exist or is empty, return a new empty HashMap
+            return new HashMap<>();
+        }
 
-    private void sortProfiles() {
-        Collections.sort(profiles, Comparator.comparingInt(UserProfile::getPunteggio).reversed());
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            return (Map<String, UserProfile>) ois.readObject();
+        } catch (EOFException e) {
+            // Handle EOFException specifically if file is partially written
+            System.err.println("File is empty or corrupted.");
+            return new HashMap<>();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new HashMap<>();
+        }
     }
-
-    public List<UserProfile> getSortedLeaderboard() {
-        sortProfiles();
-        return profiles;
-    }
-
-    public void saveToFile(String filename) throws IOException {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filename))) {
-            for (UserProfile profile : profiles) {
-                bufferedWriter.write(profile.getAvatarChosen() + "," + // Avatar path
-                        profile.getUsername() + "," +
-                        profile.getPunteggio() + "," +
-                        profile.getRound() + "," +
-                        profile.getPartiteVinte() + "," +
-                        profile.getPartitePerse() + "," +
-                        profile.getPartiteTot());
-                bufferedWriter.newLine();
+    // aggiunge un utente alla hashmap ( se gia esiste e il punteggio è minore di quello attuale, lo sovrascrive, se no continua)
+    public void addUser(UserProfile profile){
+        if(users.get(profile.getUsername()) == null){
+            if(users.size() >= 10){ // se ci sono già 10 utenti, rimuove l'utente con il punteggio minore
+                users.remove(users.entrySet().stream().min(Comparator.comparingInt(e -> e.getValue().getPunteggio())).get().getKey());
+            }UserProfile oldUser = users.get(profile.getUsername());
+            users.put(profile.getUsername(), profile);
+            saveUsers();
+        }
+        else{
+            // se l'utente esiste già, controlla se il punteggio è minore di quello attuale se si lo sovrascrive
+            if(users.get(profile.getUsername()).getPunteggio() > profile.getPunteggio()){
+                if(users.get(profile.getUsername()).getRound() < profile.getRound()){
+                    profile.setRound(users.get(profile.getUsername()).getRound());
+                }
+                profile.setPunteggio(users.get(profile.getUsername()).getPunteggio());
             }
-            System.out.println("Leaderboard saved on " + filename);
+                profile.setPartiteVinte(users.get(profile.getUsername()).getPartiteVinte()+ profile.getPartiteVinte());
+                profile.setPartitePerse(users.get(profile.getUsername()).getPartitePerse()+ profile.getPartitePerse());
+                profile.setPartiteTot(users.get(profile.getUsername()).getPartiteTot()+ profile.getPartiteTot());
+                users.put(profile.getUsername(), profile);
+                saveUsers();
+        }
+    }
+
+    // salva la hashmap su file
+    public void saveUsers(){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path))){
+            oos.writeObject(users);
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error while saving leaderboard.");
+
         }
     }
 
-    public static LeaderboardM loadFromFile(String filename) throws IOException {
-        LeaderboardM leaderboard = new LeaderboardM();
-        File file = new File(filename);
-        if (!file.exists()) {
-            file.createNewFile();
-            return leaderboard;
+    public List<UserProfile> getSortedUsers() {
+        users = loadUsers();
+        if (users != null) {
+            return users.values().stream()
+                    .sorted(Comparator.comparingInt(UserProfile::getPunteggio)
+                            .reversed()).toList();
         }
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split(",");
-
-                if (parts.length == 7) {
-                    String avatarPath = parts[0];  // Assume che questa sia la stringa del percorso dell'avatar
-                    String username = parts[1];
-                    int round = Integer.parseInt(parts[2]);
-                    int punteggio = Integer.parseInt(parts[3]);
-                    int partiteVinte = Integer.parseInt(parts[4]);
-                    int partitePerse = Integer.parseInt(parts[5]);
-                    int partiteTot = Integer.parseInt(parts[6]);
-
-                    UserProfile profile = new UserProfile(username, punteggio, round, 0);
-                    profile.setAvatarImage(new ImageIcon(avatarPath));  // Carica l'immagine avatar
-                    profile.setPartiteVinte(partiteVinte);
-                    profile.setPartitePerse(partitePerse);
-                    profile.setPartiteTot(partiteTot);
-
-                    leaderboard.addProfile(profile);
-                }
-            }
-            //System.out.println("Leaderboard loaded from " + filename);
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-            System.err.println("Error while loading leaderboard.");
-        }
-
-        return leaderboard;
+        return null;
     }
-
 
 }

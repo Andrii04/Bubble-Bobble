@@ -1,6 +1,5 @@
 package VIEW;
 
-import CONTROLLER.UserCreationC;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
@@ -24,8 +23,6 @@ public class UserCreationPanel extends JPanel {
     private JLabel cursor = new JLabel();
     private int charCount = 0;
     private int selectedAvatar = 0;
-    private UserCreationC controller = new UserCreationC();
-
     /**
      * Costruttore del pannello di creazione utente.
      *
@@ -39,7 +36,6 @@ public class UserCreationPanel extends JPanel {
         this.setVisible(true);
         this.setLayout(null);
         this.setFocusable(true);
-        usernameField.addActionListener(e -> confirmUserCreation());
 
         // Configura il campo di testo per il nome utente
         username.setBounds(MainFrame.TILE_SIZE * 2, MainFrame.TILE_SIZE, 500, 50);
@@ -143,18 +139,6 @@ public class UserCreationPanel extends JPanel {
      * del controller per salvare i dati dell'utente. Mostra un messaggio di successo
      * o di errore a seconda che il nome utente sia valido o meno.
      */
-    private void confirmUserCreation() {
-        String username = getUsername();
-        int avatar = getSelectedAvatar();
-
-        // Controlla che l'username non sia vuoto
-        if (!username.isEmpty()) {
-            controller.saveUser(username, avatar);
-            System.out.println("Utente salvato con successo!");
-        } else {
-            System.out.println("Per favore, inserisci un nome.");
-        }
-    }
 
     /**
      * Restituisce il nome utente inserito.

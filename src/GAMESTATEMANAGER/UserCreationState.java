@@ -68,9 +68,6 @@ public class UserCreationState extends GameState {
 
                 userProfile = new UserProfile(view.getUsername(), 0, 1, view.getSelectedAvatar());
                 // aggiornamento della leaderboard avverrà dopo ( WinState e LoseState )
-                System.out.println("Nuovo utente creato: " + userProfile.getUsername()); // Debug
-                // Salva il profilo nel file leaderboard.txt
-                saveUserProfile(userProfile, "leaderboard.txt");
             }
             gsm.startGame(userProfile);
         }
@@ -106,20 +103,6 @@ public class UserCreationState extends GameState {
 
     }
 
-
-
-    private void saveUserProfile(UserProfile userProfile, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            // Scrive il profilo utente nel file usando il metodo toString() della classe UserProfile
-            String dataToWrite = userProfile.toString();
-            if (!dataToWrite.trim().isEmpty()) {  // Controlla che i dati non siano vuoti
-                writer.write(dataToWrite);
-                writer.newLine();  // Vai a capo solo dopo aver scritto una riga valida
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
 
 

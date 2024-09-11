@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
+import CONTROLLER.Leaderboard;
 import MODEL.*;
 import MODEL.Bubbles.*;
 import MODEL.Enemy.*;
@@ -26,6 +27,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     private static GameStateManager instance;
     private List<GameState> gsm;
+    private Leaderboard leaderboard = new Leaderboard(new LeaderboardM(), MainFrame.getLeaderboardPanel());
     private GameState currentState;
     private Player currentPlayer;
     private int stateNum;
@@ -42,7 +44,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     private int levelNumRows = 37;
 
     private GameStateManager() {
-
         gsm = new ArrayList<GameState>();
 
         gsm.add(new MenuState(this));
@@ -68,6 +69,9 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     }
 
+    public Leaderboard getLeaderboard() {
+        return leaderboard;
+    }
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
     }
@@ -195,7 +199,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
 
         ExtendBubble extendE1 = new ExtendBubble(currentPlayer, "E");
-
         ExtendBubble extendE2 = new ExtendBubble(currentPlayer, "E");
 
         spawnedBubbles.add(extendE1);
@@ -218,17 +221,40 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         ExtendBubble extendD1 = new ExtendBubble(currentPlayer, "D");
         spawnedBubbles.add(extendD1);
 
+
         WaterBubble water1 = new WaterBubble(currentPlayer);
         WaterBubble water2 = new WaterBubble(currentPlayer);
         WaterBubble water3 = new WaterBubble(currentPlayer);
         WaterBubble water4 = new WaterBubble(currentPlayer);
         WaterBubble water5 = new WaterBubble(currentPlayer);
+        WaterBubble water6 = new WaterBubble(currentPlayer);
+        WaterBubble water7 = new WaterBubble(currentPlayer);
+        WaterBubble water8 = new WaterBubble(currentPlayer);
+        WaterBubble water9 = new WaterBubble(currentPlayer);
+        WaterBubble water10 = new WaterBubble(currentPlayer);
+        WaterBubble water11 = new WaterBubble(currentPlayer);
+        WaterBubble water12 = new WaterBubble(currentPlayer);
+        WaterBubble water13 = new WaterBubble(currentPlayer);
+        WaterBubble water14 = new WaterBubble(currentPlayer);
+        WaterBubble water15 = new WaterBubble(currentPlayer);
+        WaterBubble water16 = new WaterBubble(currentPlayer);
 
         spawnedBubbles.add(water1);
         spawnedBubbles.add(water2);
         spawnedBubbles.add(water3);
         spawnedBubbles.add(water4);
         spawnedBubbles.add(water5);
+        spawnedBubbles.add(water6);
+        spawnedBubbles.add(water7);
+        spawnedBubbles.add(water8);
+        spawnedBubbles.add(water9);
+        spawnedBubbles.add(water10);
+        spawnedBubbles.add(water11);
+        spawnedBubbles.add(water12);
+        spawnedBubbles.add(water13);
+        spawnedBubbles.add(water14);
+        spawnedBubbles.add(water15);
+        spawnedBubbles.add(water16);
 
         FireBubble fire1 = new FireBubble(currentPlayer);
         FireBubble fire2 = new FireBubble(currentPlayer);
@@ -237,6 +263,22 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         FireBubble fire5 = new FireBubble(currentPlayer);
         FireBubble fire6 = new FireBubble(currentPlayer);
         FireBubble fire7 = new FireBubble(currentPlayer);
+        FireBubble fire8 = new FireBubble(currentPlayer);
+        FireBubble fire9 = new FireBubble(currentPlayer);
+        FireBubble fire10 = new FireBubble(currentPlayer);
+        FireBubble fire11 = new FireBubble(currentPlayer);
+        FireBubble fire12 = new FireBubble(currentPlayer);
+        FireBubble fire13 = new FireBubble(currentPlayer);
+        FireBubble fire14 = new FireBubble(currentPlayer);
+        FireBubble fire15 = new FireBubble(currentPlayer);
+        FireBubble fire16 = new FireBubble(currentPlayer);
+        FireBubble fire17 = new FireBubble(currentPlayer);
+        FireBubble fire18 = new FireBubble(currentPlayer);
+        FireBubble fire19 = new FireBubble(currentPlayer);
+        FireBubble fire20 = new FireBubble(currentPlayer);
+        FireBubble fire21 = new FireBubble(currentPlayer);
+        FireBubble fire22 = new FireBubble(currentPlayer);
+        FireBubble fire23 = new FireBubble(currentPlayer);
 
         spawnedBubbles.add(fire1);
         spawnedBubbles.add(fire2);
@@ -245,6 +287,24 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         spawnedBubbles.add(fire5);
         spawnedBubbles.add(fire6);
         spawnedBubbles.add(fire7);
+        spawnedBubbles.add(fire8);
+        spawnedBubbles.add(fire9);
+        spawnedBubbles.add(fire10);
+        spawnedBubbles.add(fire11);
+        spawnedBubbles.add(fire12);
+        spawnedBubbles.add(fire13);
+        spawnedBubbles.add(fire14);
+        spawnedBubbles.add(fire15);
+        spawnedBubbles.add(fire15);
+        spawnedBubbles.add(fire16);
+        spawnedBubbles.add(fire17);
+        spawnedBubbles.add(fire18);
+        spawnedBubbles.add(fire19);
+        spawnedBubbles.add(fire20);
+        spawnedBubbles.add(fire21);
+        spawnedBubbles.add(fire22);
+        spawnedBubbles.add(fire23);
+
 
         LightningBubble lightning1 = new LightningBubble(currentPlayer);
         LightningBubble lightning2 = new LightningBubble(currentPlayer);
@@ -274,7 +334,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         LightningBubble lightning26 = new LightningBubble(currentPlayer);
         LightningBubble lightning27 = new LightningBubble(currentPlayer);
         LightningBubble lightning28 = new LightningBubble(currentPlayer);
-
+        LightningBubble lightning29 = new LightningBubble(currentPlayer);
+        LightningBubble lightning30 = new LightningBubble(currentPlayer);
+        LightningBubble lightning31 = new LightningBubble(currentPlayer);
+        LightningBubble lightning32 = new LightningBubble(currentPlayer);
 
         spawnedBubbles.add(lightning1);
         spawnedBubbles.add(lightning2);
@@ -304,6 +367,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         spawnedBubbles.add(lightning26);
         spawnedBubbles.add(lightning27);
         spawnedBubbles.add(lightning28);
+        spawnedBubbles.add(lightning29);
+        spawnedBubbles.add(lightning30);
+        spawnedBubbles.add(lightning31);
+        spawnedBubbles.add(lightning32);
 
 
         levels.get(1).addSpawnedBubble(lightning1);
@@ -366,6 +433,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(6).addSpawnedBubble(lightning2);
         levels.get(6).addSpawnedBubble(lightning3);
         levels.get(6).addSpawnedBubble(lightning4);
+        levels.get(6).addSpawnedBubble(water1);
+        levels.get(6).addSpawnedBubble(water2);
+        levels.get(6).addSpawnedBubble(water3);
+        levels.get(6).addSpawnedBubble(water4);
         levels.get(6).addSpawnedBubble(extendE1);
         levels.get(6).addSpawnedBubble(extendN1);
         levels.get(6).spawnBubbles();
@@ -375,6 +446,17 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(7).addSpawnedBubble(lightning3);
         levels.get(7).addSpawnedBubble(lightning4);
         levels.get(7).addSpawnedBubble(lightning3);
+        levels.get(7).addSpawnedBubble(lightning4);
+        levels.get(7).addSpawnedBubble(lightning3);
+        levels.get(7).addSpawnedBubble(lightning4);
+        levels.get(7).addSpawnedBubble(water1);
+        levels.get(7).addSpawnedBubble(water2);
+        levels.get(7).addSpawnedBubble(water3);
+        levels.get(7).addSpawnedBubble(water4);
+        levels.get(7).addSpawnedBubble(water5);
+        levels.get(7).addSpawnedBubble(water6);
+        levels.get(7).addSpawnedBubble(water7);
+        levels.get(7).addSpawnedBubble(water8);
         levels.get(7).addSpawnedBubble(extendE1);
         levels.get(7).addSpawnedBubble(extendX1);
         levels.get(7).spawnBubbles();
@@ -382,11 +464,19 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(8).addSpawnedBubble(lightning1);
         levels.get(8).addSpawnedBubble(lightning2);
         levels.get(8).addSpawnedBubble(lightning3);
+        levels.get(8).addSpawnedBubble(lightning4);
+        levels.get(8).addSpawnedBubble(lightning3);
+        levels.get(8).addSpawnedBubble(lightning4);
+        levels.get(8).addSpawnedBubble(lightning3);
+        levels.get(8).addSpawnedBubble(lightning4);
         levels.get(8).addSpawnedBubble(water1);
         levels.get(8).addSpawnedBubble(water2);
         levels.get(8).addSpawnedBubble(water3);
         levels.get(8).addSpawnedBubble(water4);
         levels.get(8).addSpawnedBubble(water5);
+        levels.get(8).addSpawnedBubble(water6);
+        levels.get(8).addSpawnedBubble(water7);
+        levels.get(8).addSpawnedBubble(water8);
         levels.get(8).addSpawnedBubble(extendT1);
         levels.get(8).addSpawnedBubble(extendE1);
         levels.get(8).spawnBubbles();
@@ -396,8 +486,17 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(9).addSpawnedBubble(lightning3);
         levels.get(9).addSpawnedBubble(lightning4);
         levels.get(9).addSpawnedBubble(lightning3);
+        levels.get(9).addSpawnedBubble(lightning4);
+        levels.get(9).addSpawnedBubble(lightning3);
+        levels.get(9).addSpawnedBubble(lightning4);
         levels.get(9).addSpawnedBubble(water1);
         levels.get(9).addSpawnedBubble(water2);
+        levels.get(9).addSpawnedBubble(water3);
+        levels.get(9).addSpawnedBubble(water4);
+        levels.get(9).addSpawnedBubble(water5);
+        levels.get(9).addSpawnedBubble(water6);
+        levels.get(9).addSpawnedBubble(water7);
+        levels.get(9).addSpawnedBubble(water8);
         levels.get(9).addSpawnedBubble(extendN1);
         levels.get(9).addSpawnedBubble(extendD1);
         levels.get(9).spawnBubbles();
@@ -422,6 +521,17 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(11).addSpawnedBubble(extendN1);
         levels.get(11).spawnBubbles();
 
+        levels.get(12).addSpawnedBubble(water1);
+        levels.get(12).addSpawnedBubble(water2);
+        levels.get(12).addSpawnedBubble(water3);
+        levels.get(12).addSpawnedBubble(water4);
+        levels.get(12).addSpawnedBubble(water4);
+        levels.get(12).addSpawnedBubble(water5);
+        levels.get(12).addSpawnedBubble(water6);
+        levels.get(12).addSpawnedBubble(water7);
+        levels.get(12).addSpawnedBubble(water8);
+        levels.get(12).addSpawnedBubble(water9);
+        levels.get(12).addSpawnedBubble(water10);
         levels.get(12).addSpawnedBubble(fire1);
         levels.get(12).addSpawnedBubble(fire2);
         levels.get(12).addSpawnedBubble(fire3);
@@ -437,8 +547,18 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(13).addSpawnedBubble(fire2);
         levels.get(13).addSpawnedBubble(fire3);
         levels.get(13).addSpawnedBubble(fire4);
+        levels.get(13).addSpawnedBubble(fire4);
+        levels.get(13).addSpawnedBubble(fire5);
+        levels.get(13).addSpawnedBubble(fire6);
+        levels.get(13).addSpawnedBubble(fire7);
+        levels.get(13).addSpawnedBubble(fire8);
+        levels.get(13).addSpawnedBubble(fire9);
+        levels.get(13).addSpawnedBubble(fire10);
         levels.get(13).addSpawnedBubble(water1);
         levels.get(13).addSpawnedBubble(water2);
+        levels.get(13).addSpawnedBubble(water3);
+        levels.get(13).addSpawnedBubble(water4);
+        levels.get(13).addSpawnedBubble(water5);
         levels.get(13).addSpawnedBubble(extendE1);
         levels.get(13).addSpawnedBubble(extendN1);
         levels.get(13).addSpawnedBubble(extendT1);
@@ -448,6 +568,22 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(14).addSpawnedBubble(water1);
         levels.get(14).addSpawnedBubble(water2);
         levels.get(14).addSpawnedBubble(water3);
+        levels.get(14).addSpawnedBubble(water4);
+        levels.get(14).addSpawnedBubble(water4);
+        levels.get(14).addSpawnedBubble(water5);
+        levels.get(14).addSpawnedBubble(water6);
+        levels.get(14).addSpawnedBubble(water7);
+        levels.get(14).addSpawnedBubble(water8);
+        levels.get(14).addSpawnedBubble(water9);
+        levels.get(14).addSpawnedBubble(water10);
+        levels.get(14).addSpawnedBubble(water11);
+        levels.get(14).addSpawnedBubble(water12);
+        levels.get(14).addSpawnedBubble(water13);
+        levels.get(14).addSpawnedBubble(water14);
+        levels.get(14).addSpawnedBubble(water15);
+        levels.get(14).addSpawnedBubble(lightning11);
+        levels.get(14).addSpawnedBubble(lightning22);
+        levels.get(14).addSpawnedBubble(lightning3);
         levels.get(14).addSpawnedBubble(lightning4);
         levels.get(14).addSpawnedBubble(lightning4);
         levels.get(14).addSpawnedBubble(lightning5);
@@ -458,22 +594,53 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(14).spawnBubbles();
 
         levels.get(15).addSpawnedBubble(water1);
+        levels.get(15).addSpawnedBubble(water2);
+        levels.get(15).addSpawnedBubble(water3);
+        levels.get(15).addSpawnedBubble(water4);
+        levels.get(15).addSpawnedBubble(water4);
+        levels.get(15).addSpawnedBubble(water5);
+        levels.get(15).addSpawnedBubble(water6);
+        levels.get(15).addSpawnedBubble(water7);
+        levels.get(15).addSpawnedBubble(water8);
+        levels.get(15).addSpawnedBubble(water9);
+        levels.get(15).addSpawnedBubble(water10);
+        levels.get(15).addSpawnedBubble(water11);
+        levels.get(15).addSpawnedBubble(water12);
+        levels.get(15).addSpawnedBubble(water13);
+        levels.get(15).addSpawnedBubble(water14);
+        levels.get(15).addSpawnedBubble(water15);
         levels.get(15).addSpawnedBubble(lightning11);
         levels.get(15).addSpawnedBubble(lightning22);
         levels.get(15).addSpawnedBubble(lightning3);
         levels.get(15).addSpawnedBubble(lightning4);
+        levels.get(15).addSpawnedBubble(lightning4);
+        levels.get(15).addSpawnedBubble(lightning5);
         levels.get(15).addSpawnedBubble(extendT1);
         levels.get(15).addSpawnedBubble(extendX1);
         levels.get(15).addSpawnedBubble(extendN1);
         levels.get(15).addSpawnedBubble(extendD1);
         levels.get(15).spawnBubbles();
 
+        levels.get(16).addSpawnedBubble(water1);
+        levels.get(16).addSpawnedBubble(water2);
+        levels.get(16).addSpawnedBubble(water3);
+        levels.get(16).addSpawnedBubble(water4);
+        levels.get(16).addSpawnedBubble(water4);
+        levels.get(16).addSpawnedBubble(water5);
+        levels.get(16).addSpawnedBubble(water6);
+        levels.get(16).addSpawnedBubble(water7);
+        levels.get(16).addSpawnedBubble(water8);
+        levels.get(15).addSpawnedBubble(water9);
+        levels.get(16).addSpawnedBubble(water10);
         levels.get(16).addSpawnedBubble(lightning1);
         levels.get(16).addSpawnedBubble(lightning2);
         levels.get(16).addSpawnedBubble(lightning3);
         levels.get(16).addSpawnedBubble(lightning4);
         levels.get(16).addSpawnedBubble(lightning5);
         levels.get(16).addSpawnedBubble(lightning6);
+        levels.get(16).addSpawnedBubble(lightning7);
+        levels.get(16).addSpawnedBubble(lightning8);
+        levels.get(16).addSpawnedBubble(lightning9);
         levels.get(16).addSpawnedBubble(extendE1);
         levels.get(16).addSpawnedBubble(extendE1);
         levels.get(16).addSpawnedBubble(extendT1);
@@ -484,12 +651,26 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(17).addSpawnedBubble(water2);
         levels.get(17).addSpawnedBubble(water3);
         levels.get(17).addSpawnedBubble(water4);
+        levels.get(17).addSpawnedBubble(water4);
+        levels.get(17).addSpawnedBubble(water5);
+        levels.get(17).addSpawnedBubble(water6);
+        levels.get(17).addSpawnedBubble(water7);
+        levels.get(17).addSpawnedBubble(water8);
+        levels.get(17).addSpawnedBubble(water9);
+        levels.get(17).addSpawnedBubble(water10);
         levels.get(17).addSpawnedBubble(lightning1);
         levels.get(17).addSpawnedBubble(lightning2);
         levels.get(17).addSpawnedBubble(lightning3);
         levels.get(17).addSpawnedBubble(lightning4);
         levels.get(17).addSpawnedBubble(lightning5);
         levels.get(17).addSpawnedBubble(lightning6);
+        levels.get(17).addSpawnedBubble(lightning7);
+        levels.get(17).addSpawnedBubble(lightning8);
+        levels.get(17).addSpawnedBubble(lightning9);
+        levels.get(17).addSpawnedBubble(lightning10);
+        levels.get(17).addSpawnedBubble(lightning11);
+        levels.get(17).addSpawnedBubble(lightning12);
+        levels.get(17).addSpawnedBubble(lightning13);
         levels.get(17).addSpawnedBubble(extendE1);
         levels.get(17).addSpawnedBubble(extendT1);
         levels.get(17).addSpawnedBubble(extendN1);
@@ -504,9 +685,24 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(18).addSpawnedBubble(water3);
         levels.get(18).addSpawnedBubble(water4);
         levels.get(18).addSpawnedBubble(water5);
+        levels.get(18).addSpawnedBubble(water6);
+        levels.get(18).addSpawnedBubble(water7);
+        levels.get(18).addSpawnedBubble(water8);
+        levels.get(18).addSpawnedBubble(water9);
+        levels.get(18).addSpawnedBubble(water10);
         levels.get(18).addSpawnedBubble(lightning1);
         levels.get(18).addSpawnedBubble(lightning2);
         levels.get(18).addSpawnedBubble(lightning3);
+        levels.get(18).addSpawnedBubble(lightning4);
+        levels.get(18).addSpawnedBubble(lightning5);
+        levels.get(18).addSpawnedBubble(lightning6);
+        levels.get(18).addSpawnedBubble(lightning7);
+        levels.get(18).addSpawnedBubble(lightning8);
+        levels.get(18).addSpawnedBubble(lightning9);
+        levels.get(18).addSpawnedBubble(lightning10);
+        levels.get(18).addSpawnedBubble(lightning11);
+        levels.get(18).addSpawnedBubble(lightning12);
+        levels.get(18).addSpawnedBubble(lightning13);
         levels.get(18).addSpawnedBubble(extendE1);
         levels.get(18).addSpawnedBubble(extendX1);
         levels.get(18).addSpawnedBubble(extendT1);
@@ -518,9 +714,23 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(19).addSpawnedBubble(water3);
         levels.get(19).addSpawnedBubble(water4);
         levels.get(19).addSpawnedBubble(water5);
+        levels.get(19).addSpawnedBubble(water6);
+        levels.get(19).addSpawnedBubble(water7);
+        levels.get(19).addSpawnedBubble(water8);
+        levels.get(19).addSpawnedBubble(water9);
+        levels.get(19).addSpawnedBubble(water10);
         levels.get(19).addSpawnedBubble(lightning1);
         levels.get(19).addSpawnedBubble(lightning2);
         levels.get(19).addSpawnedBubble(lightning3);
+        levels.get(19).addSpawnedBubble(lightning4);
+        levels.get(19).addSpawnedBubble(lightning5);
+        levels.get(19).addSpawnedBubble(lightning6);
+        levels.get(19).addSpawnedBubble(lightning7);
+        levels.get(19).addSpawnedBubble(lightning8);
+        levels.get(19).addSpawnedBubble(lightning9);
+        levels.get(19).addSpawnedBubble(lightning10);
+        levels.get(19).addSpawnedBubble(lightning11);
+        levels.get(19).addSpawnedBubble(lightning12);
         levels.get(19).addSpawnedBubble(lightning13);
         levels.get(19).addSpawnedBubble(extendE1);
         levels.get(19).addSpawnedBubble(extendX1);
@@ -535,7 +745,26 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(20).addSpawnedBubble(fire5);
         levels.get(20).addSpawnedBubble(fire6);
         levels.get(20).addSpawnedBubble(fire7);
+        levels.get(20).addSpawnedBubble(fire8);
+        levels.get(20).addSpawnedBubble(fire9);
+        levels.get(20).addSpawnedBubble(fire10);
         levels.get(20).addSpawnedBubble(lightning1);
+        levels.get(20).addSpawnedBubble(lightning2);
+        levels.get(20).addSpawnedBubble(lightning3);
+        levels.get(20).addSpawnedBubble(lightning4);
+        levels.get(20).addSpawnedBubble(lightning5);
+        levels.get(20).addSpawnedBubble(lightning6);
+        levels.get(20).addSpawnedBubble(lightning7);
+        levels.get(20).addSpawnedBubble(lightning8);
+        levels.get(20).addSpawnedBubble(lightning9);
+        levels.get(20).addSpawnedBubble(lightning10);
+        levels.get(20).addSpawnedBubble(lightning11);
+        levels.get(20).addSpawnedBubble(lightning12);
+        levels.get(20).addSpawnedBubble(lightning14);
+        levels.get(20).addSpawnedBubble(lightning15);
+        levels.get(20).addSpawnedBubble(lightning16);
+        levels.get(20).addSpawnedBubble(lightning17);
+        levels.get(20).addSpawnedBubble(lightning18);
         levels.get(20).addSpawnedBubble(extendE1);
         levels.get(20).addSpawnedBubble(extendE2);
         levels.get(20).addSpawnedBubble(extendN1);
@@ -546,11 +775,32 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(21).addSpawnedBubble(fire2);
         levels.get(21).addSpawnedBubble(fire3);
         levels.get(21).addSpawnedBubble(fire4);
+        levels.get(21).addSpawnedBubble(fire5);
+        levels.get(21).addSpawnedBubble(fire6);
+        levels.get(21).addSpawnedBubble(fire7);
+        levels.get(21).addSpawnedBubble(fire8);
+        levels.get(21).addSpawnedBubble(fire9);
+        levels.get(21).addSpawnedBubble(fire10);
         levels.get(21).addSpawnedBubble(lightning1);
         levels.get(21).addSpawnedBubble(lightning2);
         levels.get(21).addSpawnedBubble(lightning3);
         levels.get(21).addSpawnedBubble(lightning4);
         levels.get(21).addSpawnedBubble(lightning5);
+        levels.get(21).addSpawnedBubble(lightning6);
+        levels.get(21).addSpawnedBubble(lightning7);
+        levels.get(21).addSpawnedBubble(lightning8);
+        levels.get(21).addSpawnedBubble(lightning9);
+        levels.get(21).addSpawnedBubble(lightning10);
+        levels.get(21).addSpawnedBubble(lightning11);
+        levels.get(21).addSpawnedBubble(lightning12);
+        levels.get(21).addSpawnedBubble(lightning14);
+        levels.get(21).addSpawnedBubble(lightning15);
+        levels.get(21).addSpawnedBubble(lightning16);
+        levels.get(21).addSpawnedBubble(lightning17);
+        levels.get(21).addSpawnedBubble(lightning18);
+        levels.get(21).addSpawnedBubble(lightning19);
+        levels.get(21).addSpawnedBubble(lightning20);
+        levels.get(21).addSpawnedBubble(lightning21);
         levels.get(21).addSpawnedBubble(extendD1);
         levels.get(21).addSpawnedBubble(extendE1);
         levels.get(21).addSpawnedBubble(extendT1);
@@ -560,12 +810,33 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(22).addSpawnedBubble(water1);
         levels.get(22).addSpawnedBubble(water2);
         levels.get(22).addSpawnedBubble(water3);
+        levels.get(22).addSpawnedBubble(water4);
+        levels.get(22).addSpawnedBubble(water5);
+        levels.get(22).addSpawnedBubble(water6);
+        levels.get(22).addSpawnedBubble(water7);
+        levels.get(22).addSpawnedBubble(water8);
+        levels.get(22).addSpawnedBubble(water9);
+        levels.get(22).addSpawnedBubble(water10);
         levels.get(22).addSpawnedBubble(lightning1);
         levels.get(22).addSpawnedBubble(lightning2);
         levels.get(22).addSpawnedBubble(lightning3);
         levels.get(22).addSpawnedBubble(lightning4);
         levels.get(22).addSpawnedBubble(lightning5);
         levels.get(22).addSpawnedBubble(lightning6);
+        levels.get(22).addSpawnedBubble(lightning7);
+        levels.get(22).addSpawnedBubble(lightning8);
+        levels.get(22).addSpawnedBubble(lightning9);
+        levels.get(22).addSpawnedBubble(lightning10);
+        levels.get(22).addSpawnedBubble(lightning11);
+        levels.get(22).addSpawnedBubble(lightning12);
+        levels.get(22).addSpawnedBubble(lightning14);
+        levels.get(22).addSpawnedBubble(lightning15);
+        levels.get(22).addSpawnedBubble(lightning16);
+        levels.get(22).addSpawnedBubble(lightning17);
+        levels.get(22).addSpawnedBubble(lightning18);
+        levels.get(22).addSpawnedBubble(lightning19);
+        levels.get(22).addSpawnedBubble(lightning20);
+        levels.get(22).addSpawnedBubble(lightning21);
         levels.get(22).addSpawnedBubble(extendN1);
         levels.get(22).addSpawnedBubble(extendE1);
         levels.get(22).addSpawnedBubble(extendE2);
@@ -577,6 +848,11 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(23).addSpawnedBubble(water3);
         levels.get(23).addSpawnedBubble(water4);
         levels.get(23).addSpawnedBubble(water5);
+        levels.get(23).addSpawnedBubble(water6);
+        levels.get(23).addSpawnedBubble(water7);
+        levels.get(23).addSpawnedBubble(water8);
+        levels.get(23).addSpawnedBubble(water9);
+        levels.get(23).addSpawnedBubble(water10);
         levels.get(23).addSpawnedBubble(lightning1);
         levels.get(23).addSpawnedBubble(lightning2);
         levels.get(23).addSpawnedBubble(lightning3);
@@ -587,12 +863,25 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(23).addSpawnedBubble(lightning8);
         levels.get(23).addSpawnedBubble(lightning9);
         levels.get(23).addSpawnedBubble(lightning10);
+        levels.get(23).addSpawnedBubble(lightning11);
+        levels.get(23).addSpawnedBubble(lightning12);
+        levels.get(23).addSpawnedBubble(lightning14);
+        levels.get(23).addSpawnedBubble(lightning15);
+        levels.get(23).addSpawnedBubble(lightning16);
+        levels.get(23).addSpawnedBubble(lightning17);
+        levels.get(23).addSpawnedBubble(lightning18);
+        levels.get(23).addSpawnedBubble(lightning19);
+        levels.get(23).addSpawnedBubble(lightning20);
+        levels.get(23).addSpawnedBubble(lightning21);
+        levels.get(23).addSpawnedBubble(lightning22);
+        levels.get(23).addSpawnedBubble(lightning23);
+        levels.get(23).addSpawnedBubble(lightning24);
+        levels.get(23).addSpawnedBubble(lightning25);
         levels.get(23).addSpawnedBubble(extendT1);
         levels.get(23).addSpawnedBubble(extendE1);
         levels.get(23).addSpawnedBubble(extendN1);
         levels.get(23).addSpawnedBubble(extendX1);
         levels.get(23).spawnBubbles();
-
 
         levels.get(24).addSpawnedBubble(lightning1);
         levels.get(24).addSpawnedBubble(lightning2);
@@ -619,6 +908,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(24).addSpawnedBubble(lightning24);
         levels.get(24).addSpawnedBubble(lightning25);
         levels.get(24).addSpawnedBubble(lightning26);
+        levels.get(24).addSpawnedBubble(lightning27);
+        levels.get(24).addSpawnedBubble(lightning28);
+        levels.get(24).addSpawnedBubble(lightning29);
+        levels.get(24).addSpawnedBubble(lightning30);
+        levels.get(24).addSpawnedBubble(lightning31);
+        levels.get(24).addSpawnedBubble(lightning32);
         levels.get(24).addSpawnedBubble(extendT1);
         levels.get(24).addSpawnedBubble(extendE1);
         levels.get(24).addSpawnedBubble(extendD1);
@@ -635,18 +930,18 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         enemies3.add(new Benzo(650, 543, true, this ));
         enemies3.add(new Incendio(105, 623, true, this ));
         ArrayList<Enemy> enemies4 = new ArrayList<>();
-        enemies4.add(new Boris(105, 543, true, this ));
+        enemies4.add(new Boris(105, 159, true, this ));
         enemies4.add(new Boris(650, 543, true, this ));
         enemies4.add(new Boris(400, 453, true, this ));
         ArrayList<Enemy> enemies5 = new ArrayList<>();
         enemies5.add(new Boris(105, 543, true, this ));
-        enemies5.add(new Boris(650, 543, true, this ));
-        enemies5.add(new Incendio(105, 623, true, this ));
+        enemies5.add(new Boris(650, 223, true, this ));
+        enemies5.add(new Incendio(105, 383, true, this ));
         ArrayList<Enemy> enemies6 = new ArrayList<>();
         enemies6.add(new Benzo(105, 543, true, this ));
         enemies6.add(new Blubba(650, 50, true, this ));
         enemies6.add (new Blubba(100, 100, true, this));
-        enemies6.add(new Benzo(400, 453, true, this ));
+        enemies6.add(new Benzo(400, 440, true, this ));
         ArrayList<Enemy> enemies7 = new ArrayList<>();
         enemies7.add(new Blubba(105, 543, true, this ));
         enemies7.add(new Blubba(650, 543, true, this ));

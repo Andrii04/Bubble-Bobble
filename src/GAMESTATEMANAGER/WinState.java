@@ -1,5 +1,7 @@
 package GAMESTATEMANAGER;
 
+import CONTROLLER.Leaderboard;
+import MODEL.UserProfile;
 import VIEW.MainFrame;
 import VIEW.WinPanel;
 
@@ -15,7 +17,7 @@ import java.awt.event.MouseEvent;
 public class WinState extends GameState {
     // Gestore degli stati del gioco
     GameStateManager gsm;
-
+    Leaderboard leaderboardController;
     // Riferimento alla vista del pannello della schermata di vittoria
     WinPanel view = MainFrame.getWinPanel();
 
@@ -80,6 +82,10 @@ public class WinState extends GameState {
         }
         // Selezione dell'opzione con il tasto INVIO
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            Leaderboard leaderboard = gsm.getLeaderboard();
+            UserProfile user = gsm.getCurrentPlayer().getProfile();
+            leaderboardController.getModel().addUser(user);
+            leaderboardController.updateView();
             switch (view.getSelectedOption()) {
                 case 0:
                     // Torna al menu principale
