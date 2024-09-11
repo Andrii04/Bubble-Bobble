@@ -1,15 +1,12 @@
 package GAMESTATEMANAGER;
 
-import MODEL.Player;
+
 import MODEL.UserProfile;
 import VIEW.MainFrame;
-import VIEW.PlayerView;
 import VIEW.UserCreationPanel;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.*;
 
 public class UserCreationState extends GameState {
     private UserCreationPanel view = MainFrame.getUserCreationPanel();

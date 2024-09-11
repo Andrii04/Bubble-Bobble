@@ -916,8 +916,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(24).addSpawnedBubble(lightning32);
         levels.get(24).addSpawnedBubble(extendT1);
         levels.get(24).addSpawnedBubble(extendE1);
+        levels.get(24).addSpawnedBubble(extendE2);
         levels.get(24).addSpawnedBubble(extendD1);
         levels.get(24).addSpawnedBubble(extendX1);
+        levels.get(24).addSpawnedBubble(extendN1);
         levels.get(24).spawnBubbles();
     }
     public void addEnemies(){

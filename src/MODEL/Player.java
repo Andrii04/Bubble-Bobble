@@ -11,6 +11,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 
+
+/**
+ * Rappresenta un giocatore nel gioco, gestendo posizione, punteggio, vite e azioni.
+ * La classe estende {@link Observable} per permettere la notifica degli osservatori
+ * riguardo ai cambiamenti dello stato del giocatore.
+ */
 public class Player extends Observable implements Entity {
 
     private UserProfile profile;
@@ -34,9 +40,7 @@ public class Player extends Observable implements Entity {
     private int letterEcount;
     private static final String EXTEND = "EXTEND";  // La sequenza corretta
 
-
-
-    // physics
+    // Physics
     private boolean onFloor;
     private float airSpeed = 0f;
 
@@ -57,26 +61,30 @@ public class Player extends Observable implements Entity {
     });
 
     private boolean ableToFire;
-
     private int bubblesFired;
     private int bubblesExploded;
     private int waterBubblesExploded;
     private int lightningBubblesExploded;
-    private int jumpsCount;
 
+    private int jumpsCount;
     private int eatenPinkCandies;
     private int eatenBlueCandies;
     private int eatenGreenCandies;
-
     private int distanceTraveled;
 
     private boolean blueLantern;
 
+
+    /**
+     * Crea un nuovo giocatore con il profilo specificato.
+     *
+     * @param profile il profilo utente associato al giocatore
+     */
     public Player(UserProfile profile){
         this.profile=profile;
         this.x = defaultX;
         this.y = defaultY;
-        this.lives = 5; // default
+        this.lives = 3; // default
         this.speed = defaultSpeed; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
@@ -115,6 +123,12 @@ public class Player extends Observable implements Entity {
         if (((profile.getPartiteTot()) % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
     }
 
+
+    /**
+     * Verifica se il giocatore non è solido (ad esempio, se sta saltando).
+     *
+     * @return true se il giocatore non è solido, altrimenti false
+     */
     boolean isNotSolid(){
         if(airSpeed<0 ){
             return true;
@@ -122,7 +136,13 @@ public class Player extends Observable implements Entity {
         return false;
     }
 
-    // if any point of entity is colliding with a solid tile
+    /**
+     * Verifica se il giocatore sta collidendo con un blocco solido nella posizione specificata.
+     *
+     * @param x la coordinata x della posizione da controllare
+     * @param y la coordinata y della posizione da controllare
+     * @return true se c'è una collisione con un blocco solido, altrimenti false
+     */
     boolean isColliding(int x, float y) {
         int leftTile = x; // Leftmost tile
         int rightTile = x + 2 * Block.WIDTH; // Rightmost tile
@@ -130,7 +150,14 @@ public class Player extends Observable implements Entity {
         int bottomTile = (int) y + 2 * Block.HEIGHT; // Bottommost tile
         return isSolidTile(rightTile, topTile) || isSolidTile(leftTile, topTile) || isSolidTile(leftTile, bottomTile) || isSolidTile(rightTile, bottomTile);
     }
-    // if a given position's tile is solid
+
+    /**
+     * Verifica se il tile nella posizione specificata è solido.
+     *
+     * @param x la coordinata x del tile da controllare
+     * @param y la coordinata y del tile da controllare
+     * @return true se il tile è solido, altrimenti false
+     */
     boolean isSolidTile(int x ,int y){
         int tileX = x / Block.WIDTH;
         int tileY = y / Block.HEIGHT;
@@ -140,6 +167,11 @@ public class Player extends Observable implements Entity {
 
     }
 
+    /**
+     * Aggiorna l'azione corrente del giocatore.
+     *
+     * @param action l'azione da eseguire
+     */
     @Override
     public void updateAction(Action action) {
         switch(action){
@@ -276,78 +308,179 @@ public class Player extends Observable implements Entity {
                 break;
         }
     }
+
+    /**
+     * Imposta la coordinata x del giocatore.
+     *
+     * @param x la nuova coordinata x
+     */
     public void setX(int x) {
         this.x = x;
     }
+
+    /**
+     * Imposta la coordinata y del giocatore.
+     *
+     * @param y la nuova coordinata y
+     */
     public void setY(int y) {
         this.y = y;
     }
+
+    /**
+     * Restituisce la coordinata x del giocatore.
+     *
+     * @return la coordinata x
+     */
     public int getX() {
         return x;
     }
+
+    /**
+     * Restituisce la coordinata y del giocatore.
+     *
+     * @return la coordinata y
+     */
     public int getY() {
         return y;
     }
-    public boolean getFacingRight(){
+
+    /**
+     * Restituisce se il giocatore sta guardando verso destra.
+     *
+     * @return true se il giocatore sta guardando verso destra, altrimenti false
+     */
+    public boolean getFacingRight() {
         return facingRight;
     }
-    public void setCurrentLevel (Level currentLevel) {
+
+    /**
+     * Imposta il livello corrente del giocatore.
+     *
+     * @param currentLevel il livello corrente
+     */
+    public void setCurrentLevel(Level currentLevel) {
         this.currentLevel = currentLevel;
     }
 
+    /**
+     * Notifica gli osservatori riguardo a un cambiamento dell'azione.
+     *
+     * @param action l'azione che ha cambiato
+     */
     public void notifyObservers(Action action) {
         setChanged();
         super.notifyObservers(action);
     }
-    public int addPunteggio(int punti){
 
-        return punteggio+punti;
+    /**
+     * Aggiunge punti al punteggio del giocatore.
+     *
+     * @param punti i punti da aggiungere
+     * @return il nuovo punteggio
+     */
+    public int addPunteggio(int punti) {
+        return punteggio + punti;
     }
-    public void setPunteggio(int punteggio){
+
+    /**
+     * Imposta il punteggio del giocatore.
+     *
+     * @param punteggio il nuovo punteggio
+     */
+    public void setPunteggio(int punteggio) {
         this.punteggio = punteggio;
     }
-    public int getPunteggio(){
 
+    /**
+     * Restituisce il punteggio del giocatore.
+     *
+     * @return il punteggio
+     */
+    public int getPunteggio() {
         return this.punteggio;
     }
-    public boolean isOnFloor(){
+
+    /**
+     * Restituisce se il giocatore è attualmente a terra.
+     *
+     * @return true se il giocatore è a terra, altrimenti false
+     */
+    public boolean isOnFloor() {
         return onFloor;
     }
-    public void setIsOnFloor(boolean onFloor){
+
+    /**
+     * Imposta se il giocatore è a terra.
+     *
+     * @param onFloor true se il giocatore è a terra, altrimenti false
+     */
+    public void setIsOnFloor(boolean onFloor) {
         this.onFloor = onFloor;
     }
-    public float getAirSpeed(){
+
+    /**
+     * Restituisce la velocità dell'aria del giocatore.
+     *
+     * @return la velocità dell'aria
+     */
+    public float getAirSpeed() {
         return airSpeed;
     }
 
-    public Rectangle getHitbox() {return hitbox;}
-    public int getLives() {return lives;}
+    /**
+     * Restituisce la hitbox del giocatore.
+     *
+     * @return la hitbox
+     */
+    public Rectangle getHitbox() {
+        return hitbox;
+    }
 
-    // Metodo per ridurre le vite
+    /**
+     * Restituisce il numero di vite del giocatore.
+     *
+     * @return il numero di vite
+     */
+    public int getLives() {
+        return lives;
+    }
+
+    /**
+     * Riduce di una vita il numero di vite del giocatore.
+     */
     public void loseLife() {
         if (lives > 0) {
             lives--;
         }
     }
 
-    // Aggiungi una vita al giocatore
+    /**
+     * Aggiunge una vita al giocatore.
+     */
     public void gainLife() {
         lives++;
     }
 
-
-
-    // Metodo per impostare direttamente le vite (se necessario)
+    /**
+     * Imposta direttamente il numero di vite del giocatore.
+     *
+     * @param lives il numero di vite da impostare
+     */
     public void setLives(int lives) {
         this.lives = lives;
     }
 
+    /**
+     * Aggiunge una bolla Extend al giocatore.
+     *
+     * @param bubble la bolla Extend da aggiungere
+     */
     public void addExtendBubble(ExtendBubble bubble) {
         String letter = bubble.getLetter();
         if (!letter.equals("E") && !extendBubbles.contains(letter)) {
             extendBubbles.add(letter);
-        }
-        else if (letter.equals("E")) {
+        } else if (letter.equals("E")) {
             if (letterEcount <= 1) {
                 extendBubbles.add(letter);
                 letterEcount++;
@@ -357,15 +490,26 @@ public class Player extends Observable implements Entity {
         checkExtendCompletion();
     }
 
+    /**
+     * Resetta le bolle Extend del giocatore.
+     */
     private void resetExtend() {
         extendBubbles.clear();
         System.out.println("Reset bolle Extend!");
     }
 
+    /**
+     * Restituisce la lista delle bolle Extend raccolte dal giocatore.
+     *
+     * @return la lista delle bolle Extend
+     */
     public ArrayList<String> getExtendBubbles() {
         return extendBubbles;
     }
 
+    /**
+     * Controlla se il giocatore ha completato la sequenza di bolle Extend e, in tal caso, guadagna una vita.
+     */
     private void checkExtendCompletion() {
         if (extendBubbles.size() == EXTEND.length()) {
             gainLife();
@@ -373,19 +517,94 @@ public class Player extends Observable implements Entity {
         }
     }
 
+    /**
+     * Restituisce il tipo di bolla attualmente selezionata dal giocatore.
+     *
+     * @return il tipo di bolla
+     */
+    public Bubble getBubbleType() {
+        return bubbleType;
+    }
 
+    /**
+     * Restituisce il livello corrente del giocatore.
+     *
+     * @return il livello corrente
+     */
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
 
-    public Bubble getBubbleType() {return bubbleType;}
-    public Level getCurrentLevel() {return currentLevel;}
-    public Rectangle getHitbox(int x, int y) {return hitbox;}
-    public Action getCurrentAction() {return currentAction;}
+    /**
+     * Restituisce la hitbox del giocatore basata su coordinate specificate.
+     *
+     * @param x la coordinata x
+     * @param y la coordinata y
+     * @return la hitbox
+     */
+    public Rectangle getHitbox(int x, int y) {
+        return hitbox;
+    }
 
-    public int getMaxBubbleDistance() {return maxBubbleDistance;}
-    public int getBubbleSpeed() {return bubbleSpeed;}
-    public void setMaxBubbleDistance(int num) {maxBubbleDistance = num;}
-    public void setBubbleSpeed(int num) {bubbleSpeed = num;}
+    /**
+     * Restituisce l'azione corrente del giocatore.
+     *
+     * @return l'azione corrente
+     */
+    public Action getCurrentAction() {
+        return currentAction;
+    }
 
-    public Timer getFireRate() {return fireRate;}
+    /**
+     * Restituisce la distanza massima che le bolle possono raggiungere.
+     *
+     * @return la distanza massima delle bolle
+     */
+    public int getMaxBubbleDistance() {
+        return maxBubbleDistance;
+    }
+
+    /**
+     * Restituisce la velocità delle bolle.
+     *
+     * @return la velocità delle bolle
+     */
+    public int getBubbleSpeed() {
+        return bubbleSpeed;
+    }
+
+    /**
+     * Imposta la distanza massima che le bolle possono raggiungere.
+     *
+     * @param num la nuova distanza massima delle bolle
+     */
+    public void setMaxBubbleDistance(int num) {
+        maxBubbleDistance = num;
+    }
+
+    /**
+     * Imposta la velocità delle bolle.
+     *
+     * @param num la nuova velocità delle bolle
+     */
+    public void setBubbleSpeed(int num) {
+        bubbleSpeed = num;
+    }
+
+    /**
+     * Restituisce il timer per il tasso di fuoco delle bolle.
+     *
+     * @return il timer del tasso di fuoco
+     */
+    public Timer getFireRate() {
+        return fireRate;
+    }
+
+    /**
+     * Imposta il tasso di fuoco delle bolle con un nuovo intervallo.
+     *
+     * @param delay il nuovo intervallo in millisecondi
+     */
     public void setFireRate(int delay) {
         Timer newFireRate = new Timer(delay, e -> {
             ableToFire = true;
@@ -394,15 +613,71 @@ public class Player extends Observable implements Entity {
         fireRate = newFireRate;
     }
 
-    public void setSpeed(int num) {speed = num;}
+    /**
+     * Imposta la velocità del giocatore.
+     *
+     * @param num la nuova velocità del giocatore
+     */
+    public void setSpeed(int num) {
+        speed = num;
+    }
 
-    public boolean isPinkRing() {return pinkRing;}
-    public boolean isRedRing() {return redRing;}
-    public boolean isBlueRing() {return blueRing;}
-    public void setPinkRing(boolean bool) {pinkRing = bool;}
-    public void setRedRing(boolean bool) {redRing = bool;}
-    public void setBlueRing(boolean bool) {blueRing = bool;}
+    /**
+     * Restituisce se il giocatore ha l'anello rosa.
+     *
+     * @return true se il giocatore ha l'anello rosa, altrimenti false
+     */
+    public boolean isPinkRing() {
+        return pinkRing;
+    }
 
+    /**
+     * Restituisce se il giocatore ha l'anello rosso.
+     *
+     * @return true se il giocatore ha l'anello rosso, altrimenti false
+     */
+    public boolean isRedRing() {
+        return redRing;
+    }
+    /**
+     * Restituisce se il giocatore ha l'anello blu.
+     *
+     * @return true se il giocatore ha l'anello blu, altrimenti false
+     */
+    public boolean isBlueRing() {
+        return blueRing;
+    }
+
+    /**
+     * Imposta se il giocatore ha l'anello rosa.
+     *
+     * @param bool true se il giocatore ha l'anello rosa, altrimenti false
+     */
+    public void setPinkRing(boolean bool) {
+        pinkRing = bool;
+    }
+
+    /**
+     * Imposta se il giocatore ha l'anello rosso.
+     *
+     * @param bool true se il giocatore ha l'anello rosso, altrimenti false
+     */
+    public void setRedRing(boolean bool) {
+        redRing = bool;
+    }
+
+    /**
+     * Imposta se il giocatore ha l'anello blu.
+     *
+     * @param bool true se il giocatore ha l'anello blu, altrimenti false
+     */
+    public void setBlueRing(boolean bool) {
+        blueRing = bool;
+    }
+
+    /**
+     * Incrementa il contatore delle bolle esplose e controlla se deve spawnare un PowerUp.
+     */
     public void bubbleExploded() {
         bubblesExploded++;
         if (bubblesExploded >= 35) {
@@ -410,6 +685,10 @@ public class Player extends Observable implements Entity {
             bubblesExploded = 0;
         }
     }
+
+    /**
+     * Incrementa il contatore delle bolle d'acqua esplose e controlla se deve spawnare un PowerUp.
+     */
     public void waterBubbleExploded() {
         waterBubblesExploded++;
         if (waterBubblesExploded == 15) currentLevel.spawnPowerUp(new OrangeUmbrella());
@@ -419,6 +698,10 @@ public class Player extends Observable implements Entity {
             waterBubblesExploded = 0;
         }
     }
+
+    /**
+     * Incrementa il contatore delle bolle di fulmine esplose e controlla se deve spawnare un PowerUp.
+     */
     public void lightningBubblesExploded() {
         lightningBubblesExploded++;
         if (lightningBubblesExploded >= 12 && gsm.getCurrentLevelInt() != 24) {
@@ -427,6 +710,9 @@ public class Player extends Observable implements Entity {
         }
     }
 
+    /**
+     * Incrementa il contatore delle caramelle rosa mangiate e controlla se deve spawnare un PowerUp.
+     */
     public void eatPinkCandy() {
         eatenPinkCandies++;
         if (eatenPinkCandies >= 3) {
@@ -434,6 +720,10 @@ public class Player extends Observable implements Entity {
             eatenPinkCandies = 0;
         }
     }
+
+    /**
+     * Incrementa il contatore delle caramelle verdi mangiate e controlla se deve spawnare un PowerUp.
+     */
     public void eatGreenCandy() {
         eatenGreenCandies++;
         if (eatenGreenCandies >= 3) {
@@ -441,6 +731,10 @@ public class Player extends Observable implements Entity {
             eatenGreenCandies = 0;
         }
     }
+
+    /**
+     * Incrementa il contatore delle caramelle blu mangiate e controlla se deve spawnare un PowerUp.
+     */
     public void eatBlueCandy() {
         eatenBlueCandies++;
         if (eatenBlueCandies >= 3) {
@@ -448,11 +742,31 @@ public class Player extends Observable implements Entity {
             eatenBlueCandies = 0;
         }
     }
+
+    /**
+     * Restituisce il profilo utente del giocatore.
+     *
+     * @return il profilo utente
+     */
     public UserProfile getProfile() {
         return profile;
     }
+
+    /**
+     * Imposta il profilo utente del giocatore.
+     *
+     * @param profile il profilo utente da impostare
+     */
     public void setProfile(UserProfile profile) {
         this.profile = profile;
     }
-    public void setFacingRight(boolean bool) {facingRight = bool;}
+
+    /**
+     * Imposta la direzione verso cui il giocatore sta guardando.
+     *
+     * @param bool true se il giocatore sta guardando verso destra, altrimenti false
+     */
+    public void setFacingRight(boolean bool) {
+        facingRight = bool;
+    }
 }
