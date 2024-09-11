@@ -56,7 +56,9 @@ public abstract class PowerUp {
     public boolean isErased() {return erased;}
 
     public void updateLocation() {
-
+        if(gsm.getPlayer() != null && player == null){
+            player = gsm.getPlayer();
+        }
         if (!onFloor) {
             y += fallingSpeed;
             hitbox.setLocation(x, y);
@@ -67,11 +69,11 @@ public abstract class PowerUp {
             hitbox.setLocation(x, y);
             onFloor = true;
         }
+            if (hitbox.intersects(player.getHitbox())) {
+                explode();
+                activateEffect();
+            }
 
-        if (hitbox.intersects(player.getHitbox())) {
-            explode();
-            activateEffect();
-        }
     }
 
     public void erase() {

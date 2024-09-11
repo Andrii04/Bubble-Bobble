@@ -88,6 +88,7 @@ public class Player extends Observable implements Entity {
 
         cooldownTimer = new Timer(2000, e -> {
             cooldown = false;
+            notifyObservers(Action.IDLE);
         });
 
         pinkRing = false;
@@ -111,7 +112,7 @@ public class Player extends Observable implements Entity {
         eatenBlueCandies = 0;
         letterEcount = 0;
 
-        if ((profile.getPartiteTot() % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
+        if (((profile.getPartitePerse() + profile.getPartiteVinte()) % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
     }
 
     boolean isNotSolid(){
@@ -149,7 +150,9 @@ public class Player extends Observable implements Entity {
                     onFloor = false;
                     airSpeed = jumpSpeed;
                     updateAction(Action.MOVE_VERTICALLY);
-                    if (pinkRing) {/* +100 punti*/}
+                    if (pinkRing) {
+                        punteggio += 100;
+                    }
 
                     jumpsCount++;
                     if (jumpsCount >= 35) {
@@ -189,7 +192,9 @@ public class Player extends Observable implements Entity {
                     }
                 }
 
-                if (blueRing) {/* +10 punti */}
+                if (blueRing) {
+                    punteggio += 10;
+                }
 
                 break;
             case WALK:
@@ -198,11 +203,17 @@ public class Player extends Observable implements Entity {
                     if (!facingRight) {
                         if (!isColliding(x - speed, y)) {
                             this.x -= speed;
+                            if (blueRing) {
+                                punteggio += 10;
+                            }
                         }
                     } else {
                         if (!isColliding(x + speed, y)) {
                             if (isOnFloor()) {
                                 this.x += speed;
+                                if (blueRing) {
+                                    punteggio += 10;
+                                }
                             }
                         }
                     }
@@ -211,7 +222,6 @@ public class Player extends Observable implements Entity {
                     }
                     hitbox.setLocation(x, y);
                     notifyObservers(Action.WALK);
-                if (blueRing) {/* +10 punti */}
 
                 distanceTraveled += speed;
                 if (distanceTraveled >= (MainFrame.FRAME_WIDTH-Block.WIDTH*2)*15) {

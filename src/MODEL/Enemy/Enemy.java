@@ -501,6 +501,5 @@ public abstract class Enemy extends Observable implements Entity {
     public int getY(){
         return y;
     }
-    public void setEnraged(boolean bool) {enraged = bool;}
     public void setWave(boolean bool) {wave = bool;}
 }

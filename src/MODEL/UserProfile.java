@@ -8,9 +8,9 @@ public class UserProfile  {
     private String username;
     private int punteggio;
     private int round; // livello
-    private static int partiteVinte;
-    private static int partitePerse;
-    private static int partiteTot;
+    private int partiteVinte;
+    private int partitePerse;
+    private int partiteTot;
     private String[]  avatars = {"Bub", "Benzo", " Blubba", "BoaBoa", "Invader", "Boris", "Incendio", "Superdrunk"};
     private String avatarChosen;
     private ImageIcon img;
