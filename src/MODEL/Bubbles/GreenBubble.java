@@ -8,7 +8,7 @@ import VIEW.BubbleView;
  * <p>Questa bolla ha una velocità di sparo che dipende dalla velocità della bolla del giocatore e una velocità di galleggiamento fissa.</p>
  */
 public class GreenBubble extends Bubble {
-
+    {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/GreenBubble";}
     /**
      * Crea una nuova istanza di {@code GreenBubble} associata al giocatore specificato.
      *
@@ -20,7 +20,6 @@ public class GreenBubble extends Bubble {
         shootingSpeed = player.getBubbleSpeed();
         floatingSpeed = 1;
         this.bubbleView = new BubbleView(this);
-        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/GreenBubble";
     }
 
     /**
