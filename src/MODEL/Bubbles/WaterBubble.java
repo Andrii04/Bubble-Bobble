@@ -11,6 +11,10 @@ import VIEW.SpawnedBubbleView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * La classe {@code WaterBubble} rappresenta una bolla d'acqua che può essere lanciata dal giocatore.
+ * Questa bolla ha la capacità di intrappolare nemici e generare un'onda quando tocca un blocco solido.
+ */
 public class WaterBubble extends SpawnedBubble {
     {
         skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/WaterBubble";
@@ -27,6 +31,11 @@ public class WaterBubble extends SpawnedBubble {
     int fallingSpeed = 4;
     int waveIdxOffset;
 
+    /**
+     * Costruttore della bolla d'acqua.
+     *
+     * @param player Il giocatore che ha lanciato la bolla.
+     */
     public WaterBubble(Player player) {
         super(player);
         this.bubbleView = new SpawnedBubbleView(this);
@@ -39,6 +48,11 @@ public class WaterBubble extends SpawnedBubble {
         waveIdxOffset = 0;
     }
 
+
+    /**
+     * Avvia l'effetto della bolla d'acqua.
+     * Imposta l'immagine della bolla e determina la direzione in cui sta andando.
+     */
     @Override
     public void startEffect() {
         //setta immagine
@@ -48,6 +62,10 @@ public class WaterBubble extends SpawnedBubble {
         effect = true;
     }
 
+    /**
+     * Aggiorna la posizione e l'effetto della bolla d'acqua.
+     * Gestisce la caduta della bolla e l'attivazione dell'onda quando tocca un blocco solido.
+     */
     @Override
     public void updateEffectLocation() {
         if (!wave) {
@@ -113,6 +131,12 @@ public class WaterBubble extends SpawnedBubble {
         }
     }
 
+    /**
+     * Crea una nuova istanza di {@code WaterBubble} per il giocatore specificato.
+     *
+     * @param player Il giocatore per cui creare la nuova bolla.
+     * @return Una nuova istanza di {@code WaterBubble}.
+     */
     @Override
     public Bubble newInstance(Player player) {
         return new WaterBubble(player);

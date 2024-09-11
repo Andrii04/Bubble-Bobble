@@ -14,34 +14,37 @@ import static GAMESTATEMANAGER.GameStateManager.pauseState;
 import static MODEL.Entity.Action.*;
 
 public class PlayState extends GameState {
-    private Player player;
-    private ArrayList<Enemy> currentEnemies;
+    private Player player; // Riferimento al giocatore
+    private ArrayList<Enemy> currentEnemies; // Lista degli attuali nemici nel livello
 
-    // level
+    // Riferimento al gestore degli stati del gioco
     private GameStateManager gsm;
 
-
+    // Costruttore che inizializza il giocatore e carica il livello
     public PlayState(GameStateManager gsm) {
-        this.player = gsm.getCurrentPlayer();
+        this.player = gsm.getCurrentPlayer(); // Ottiene il giocatore corrente dal gestore degli stati
         this.gsm = gsm;
-        player.updateAction(IDLE);
-        loadNewLevel();
+        player.updateAction(IDLE); // Imposta l'azione del giocatore a "IDLE" (fermo)
+        loadNewLevel(); // Carica il nuovo livello
     }
 
-    private void loadNewLevel(){
-        // player position
+    // Metodo per caricare un nuovo livello
+    private void loadNewLevel() {
+        // Imposta la posizione iniziale del giocatore
         player.setX(Player.defaultX);
         player.setY(Player.defaultY);
-        // istantiate enemies
+
+        // Inizializza i nemici nel livello corrente
         currentEnemies = gsm.getCurrentLevel().getEnemies();
-        for(Enemy enemy: currentEnemies){
+        for (Enemy enemy : currentEnemies) {
             if (enemy != null) {
-                enemy.setPlayer(player);
-                enemy.setCurrentLevel(gsm.getCurrentLevel());
+                enemy.setPlayer(player); // Associa il giocatore al nemico
+                enemy.setCurrentLevel(gsm.getCurrentLevel()); // Associa il livello corrente al nemico
             }
         }
-        // add others
     }
+
+    // Metodo che viene chiamato ad ogni frame per aggiornare lo stato del gioco
     @Override
     public void update() {
         // automatic fall
@@ -68,13 +71,15 @@ public class PlayState extends GameState {
                 gsm.setState(GameStateManager.winState);
             }
         }
-        // update enemy positions based on player position
-        for(Enemy enemy: currentEnemies){
+
+        // Aggiorna la posizione dei nemici in base alla posizione del giocatore
+        for (Enemy enemy : currentEnemies) {
             if (enemy != null) {
                 enemy.move();
             }
         }
 
+        // Controlla se il giocatore ha finito le vite
         if (player.getLives() <= 0) {
             MainFrame.stopSound();
             player.getProfile().incrementaPartitePerse();
@@ -90,11 +95,14 @@ public class PlayState extends GameState {
     public Player getPlayer(){
         return player;
     }
+
+    // Disegna la schermata di gioco
     @Override
     public void draw() {
         MainFrame.setPanel(MainFrame.getPlayPanel(new PlayerView(player)));
     }
 
+    // Metodo per gestire quando viene premuto un tasto (non utilizzato qui)
     @Override
     public void keyTyped(KeyEvent k) {
 
@@ -128,6 +136,7 @@ public class PlayState extends GameState {
         }
     }
 
+    // Gestisce quando un tasto viene rilasciato
     @Override
     public void keyReleased(KeyEvent k) {
         if( k.getKeyCode() == KeyEvent.VK_LEFT || k.getKeyCode() == KeyEvent.VK_RIGHT|| k.getKeyCode() == KeyEvent.VK_E){
@@ -137,6 +146,7 @@ public class PlayState extends GameState {
 
     }
 
+    // Metodo per gestire l'azione eseguita (non utilizzato qui)
     @Override
     public void actionPerformed(ActionEvent e) {
 

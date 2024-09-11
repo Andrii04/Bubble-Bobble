@@ -96,16 +96,18 @@ public class LeaderboardM {
 
     /**
      * Ritorna una lista di profili utente ordinati in base al punteggio,
-     * in ordine decrescente.
+     * in ordine decrescente. (Se il puntaggio è uguale, ordina per round.)
      *
-     * @return Lista di profili utente ordinati per punteggio.
+     * @return Lista di profili utente ordinati per punteggio e round.
      */
     public List<UserProfile> getSortedUsers() {
         users = loadUsers();
         if (users != null) {
             return users.values().stream()
                     .sorted(Comparator.comparingInt(UserProfile::getPunteggio)
-                            .reversed())
+                            .reversed()
+                            .thenComparing(Comparator.comparingInt(UserProfile::getRound
+                            ).reversed()))
                     .collect(Collectors.toList());
         }
         return null;
