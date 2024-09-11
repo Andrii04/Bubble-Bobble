@@ -1,6 +1,8 @@
 package GAMESTATEMANAGER;
 
 
+import CONTROLLER.Leaderboard;
+import MODEL.UserProfile;
 import VIEW.LosePanel;
 import VIEW.MainFrame;
 import VIEW.MenuPanel;
@@ -16,7 +18,7 @@ import java.awt.event.MouseEvent;
  */
 
 public class LoseState extends GameState{
-
+        private Leaderboard leaderboardController; // Il controller della classifica
         private final GameStateManager gsm;  // Gestore degli stati di gioco
         private final LosePanel view= MainFrame.getLosePanel(); // Vista del pannello di sconfitta
 
@@ -68,17 +70,20 @@ public class LoseState extends GameState{
                         view.cursorDown();  // Muove il cursore verso il basso nel menu
                 }
                 if (k.getKeyCode() == KeyEvent.VK_ENTER) {
+                        MainFrame.stopSound();
+                        leaderboardController = gsm.getLeaderboard();
+                        UserProfile user = gsm.getCurrentPlayer().getProfile();
+                        leaderboardController.getModel().addUser(user);
+                        leaderboardController.updateView();
                         // Esegue l'azione in base all'opzione selezionata
                         switch (view.getSelectedOption()) {
                                 case 0:
                                         gsm.resetGame(); // Torna al menu principale
-                                        MainFrame.stopSound();
                                         gsm.setState(GameStateManager.menuState);
                                         break;
 
                                 case 1:
                                         gsm.resetGame();
-                                        MainFrame.stopSound();
                                         gsm.setState(GameStateManager.leaderboardState); // Mostra la classifica
                                         break;
                                 case 2:

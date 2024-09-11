@@ -76,7 +76,7 @@ public class Player extends Observable implements Entity {
         this.profile=profile;
         this.x = defaultX;
         this.y = defaultY;
-        this.lives = 100; // default
+        this.lives = 5; // default
         this.speed = defaultSpeed; // default
         this.hitbox = new Rectangle(x, y, 32, 32);
 
@@ -112,7 +112,7 @@ public class Player extends Observable implements Entity {
         eatenBlueCandies = 0;
         letterEcount = 0;
 
-        if (((profile.getPartitePerse() + profile.getPartiteVinte()) % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
+        if (((profile.getPartiteTot()) % 5) == 0) currentLevel.spawnPowerUp(new BlueLantern());
     }
 
     boolean isNotSolid(){

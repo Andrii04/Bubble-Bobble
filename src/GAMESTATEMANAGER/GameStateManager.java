@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
+import CONTROLLER.Leaderboard;
 import MODEL.*;
 import MODEL.Bubbles.*;
 import MODEL.Enemy.*;
@@ -26,6 +27,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     private static GameStateManager instance;
     private List<GameState> gsm;
+    private Leaderboard leaderboard = new Leaderboard(new LeaderboardM(), MainFrame.getLeaderboardPanel());
     private GameState currentState;
     private Player currentPlayer;
     private int stateNum;
@@ -42,7 +44,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     private int levelNumRows = 37;
 
     private GameStateManager() {
-
         gsm = new ArrayList<GameState>();
 
         gsm.add(new MenuState(this));
@@ -63,11 +64,14 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.addAll(loadLevelsFromFile());
         //così che i livelli incominciano dall'index 1
         generateLevels();
-        currentLevel = 24;
+        currentLevel = 1;
         nextLevelInt = 2;
 
     }
 
+    public Leaderboard getLeaderboard() {
+        return leaderboard;
+    }
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
     }
@@ -896,16 +900,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(23).addSpawnedBubble(extendX1);
         levels.get(23).spawnBubbles();
 
-        levels.get(24).addSpawnedBubble(water1);
-        levels.get(24).addSpawnedBubble(water2);
-        levels.get(24).addSpawnedBubble(water3);
-        levels.get(24).addSpawnedBubble(water4);
-        levels.get(24).addSpawnedBubble(water5);
-        levels.get(24).addSpawnedBubble(water6);
-        levels.get(24).addSpawnedBubble(water7);
-        levels.get(24).addSpawnedBubble(water8);
-        levels.get(24).addSpawnedBubble(water9);
-        levels.get(24).addSpawnedBubble(water10);
         levels.get(24).addSpawnedBubble(lightning1);
         levels.get(24).addSpawnedBubble(lightning2);
         levels.get(24).addSpawnedBubble(lightning3);
@@ -953,18 +947,18 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         enemies3.add(new Benzo(650, 543, true, this ));
         enemies3.add(new Incendio(105, 623, true, this ));
         ArrayList<Enemy> enemies4 = new ArrayList<>();
-        enemies4.add(new Boris(105, 543, true, this ));
+        enemies4.add(new Boris(105, 159, true, this ));
         enemies4.add(new Boris(650, 543, true, this ));
         enemies4.add(new Boris(400, 453, true, this ));
         ArrayList<Enemy> enemies5 = new ArrayList<>();
         enemies5.add(new Boris(105, 543, true, this ));
-        enemies5.add(new Boris(650, 543, true, this ));
-        enemies5.add(new Incendio(105, 623, true, this ));
+        enemies5.add(new Boris(650, 223, true, this ));
+        enemies5.add(new Incendio(105, 383, true, this ));
         ArrayList<Enemy> enemies6 = new ArrayList<>();
         enemies6.add(new Benzo(105, 543, true, this ));
         enemies6.add(new Blubba(650, 50, true, this ));
         enemies6.add (new Blubba(100, 100, true, this));
-        enemies6.add(new Benzo(400, 453, true, this ));
+        enemies6.add(new Benzo(400, 440, true, this ));
         ArrayList<Enemy> enemies7 = new ArrayList<>();
         enemies7.add(new Blubba(105, 543, true, this ));
         enemies7.add(new Blubba(650, 543, true, this ));
