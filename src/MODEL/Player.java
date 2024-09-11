@@ -346,7 +346,6 @@ public class Player extends Observable implements Entity {
         String letter = bubble.getLetter();
         if (!letter.equals("E") && !extendBubbles.contains(letter)) {
             extendBubbles.add(letter);
-
         }
         else if (letter.equals("E")) {
             if (letterEcount <= 1) {
@@ -354,7 +353,7 @@ public class Player extends Observable implements Entity {
                 letterEcount++;
             }
         }
-
+        System.out.println(getExtendBubbles().toString());
         checkExtendCompletion();
     }
 

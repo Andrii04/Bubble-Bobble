@@ -150,11 +150,11 @@ public class BubbleView {
 
     public void setExtendBubbleSkin(String letter) {
         switch (letter) {
-            case "E" -> currentSkinPath = bubble.getSkinsPath() + " E.png";
-            case "X" -> currentSkinPath = bubble.getSkinsPath() + " X.png";
-            case "T" -> currentSkinPath = bubble.getSkinsPath() + " T.png";
-            case "N" -> currentSkinPath = bubble.getSkinsPath() + " N.png";
-            case "D" -> currentSkinPath = bubble.getSkinsPath() + " D.png";
+            case "E" -> currentSkinPath = bubble.getSkinsPath() + "E.png";
+            case "X" -> currentSkinPath = bubble.getSkinsPath() + "X.png";
+            case "T" -> currentSkinPath = bubble.getSkinsPath() + "T.png";
+            case "N" -> currentSkinPath = bubble.getSkinsPath() + "N.png";
+            case "D" -> currentSkinPath = bubble.getSkinsPath() + "D.png";
         }
         currentSkin = new ImageIcon(getClass().getResource(currentSkinPath));
         setSkin(currentSkin);
@@ -193,7 +193,6 @@ public class BubbleView {
         if (!bubble.getErased() &&
                 (firing || (floating && !encapsulate) || exploding || pom || bubble.isEffect())) {
             g2d.drawImage(currentSkin.getImage(), bubble.getX(), bubble.getY(), null);
-            g2d.draw(bubble.getHitbox());
         }
     }
 

@@ -195,7 +195,9 @@ public class Level {
     }
 
     public void removeBubble(Bubble bubble) {
-        this.bubbles.set(bubbles.indexOf(bubble), null);
+        if (bubbles.indexOf(bubble) != -1) {
+            this.bubbles.set(bubbles.indexOf(bubble), null);
+        }
     }
 
     public ArrayList<Bubble> getBubbles() {
@@ -205,6 +207,7 @@ public class Level {
     public void addSpawnedBubble(SpawnedBubble bubble) {spawnedBubbles.add(bubble);}
     public void spawnBubbles() {
         bubbles.addAll(spawnedBubbles);
+        System.out.println(spawnedBubbles.toString());
     }
     public ArrayList<SpawnedBubble> getSpawnedBubbles() {return spawnedBubbles;}
 

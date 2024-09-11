@@ -11,8 +11,11 @@ public class ExtendPanel extends JPanel {
 
     public ExtendPanel(Player player) {
         this.player = player;
-        this.setOpaque(false);
-        setPreferredSize(new Dimension(50, 200));  // Dimensioni a piacere
+        setPreferredSize(new Dimension(50, 200)); // Dimensioni a piacere
+        this.setLayout(new FlowLayout());
+        this.setOpaque(true);
+        this.setBackground(Color.green);
+        this.setVisible(true);
     }
 
     @Override

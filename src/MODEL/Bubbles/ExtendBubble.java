@@ -23,7 +23,6 @@ public class ExtendBubble extends SpawnedBubble{
 
     @Override
     public void updateEffectLocation() {
-
     }
 
     @Override

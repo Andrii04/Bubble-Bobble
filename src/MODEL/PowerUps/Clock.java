@@ -12,7 +12,7 @@ public class Clock extends PowerUp {
 
     @Override
     public void activateEffect() {
-        currentLevel.setClock(true);
+        currentLevel.setClock(!currentLevel.isClock());
         erase();
     }
 }
