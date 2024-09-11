@@ -47,7 +47,9 @@ public class MainFrame {
      * </p>
      */
     public MainFrame() {
+
         gameFrame = new JFrame("Bubble Bobble");
+        gameFrame.setIconImage(new ImageIcon(getClass().getResource("/Resources/Bubble Bobble Resources/General/icon.png")).getImage());
         gameFrame.getContentPane().setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         gameFrame.pack();
         gameFrame.setResizable(false);

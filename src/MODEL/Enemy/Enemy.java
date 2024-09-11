@@ -102,21 +102,14 @@ public abstract class Enemy extends Observable implements Entity {
     }
 
     // quando interseca il player
-    public void onPlayer(){
+    void onPlayer(){
         System.out.println(bubbled);
         if (hitbox.intersects(player.getHitbox())){
-            System.out.println("Intersects");
-            System.out.println(bubbled);
-            if (bubbled) {
-                System.out.println("HIT");
-                updateAction(Action.DIE);
-            }
-            else{
+            if(!bubbled)
+                System.out.println("HURT");
                 player.updateAction(Action.HURT);
                 if(player.getLives()<=0 && attackTimer.isRunning()){
                     attackTimer.stop();
-
-                }
             }
         }
     }
@@ -345,7 +338,7 @@ public abstract class Enemy extends Observable implements Entity {
                 break;
             case DIE:
                 // comportamenti
-                    die();
+                    stop();
                     dead = true;
                     wave = false;
                     player.setPunteggio(player.getPunteggio() + points);
@@ -435,6 +428,11 @@ public abstract class Enemy extends Observable implements Entity {
         notifyObservers(Action.BUBBLED);
     } // uguali per tutti i nemici
     void shoot(){}; // qui si implementano i proiettili
+    public void stop(){
+        if(attackTimer.isRunning()){
+            attackTimer.stop();
+        }
+    }
     void attack(){
         if(player.getX() < x){
             facingRight = false;

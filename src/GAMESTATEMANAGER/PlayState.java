@@ -52,7 +52,7 @@ public class PlayState extends GameState {
         }
 
         if(currentEnemies.isEmpty()){
-            if(gsm.getCurrentLevelInt()<gsm.getLevels().size()-1){
+            if(gsm.getCurrentLevelInt()<24){
                 gsm.setNextLevelInt(gsm.getCurrentLevelInt() +1);
 
                 gsm.setCurrentLevel(gsm.getNextLevelInt());
@@ -60,7 +60,6 @@ public class PlayState extends GameState {
                 loadNewLevel();
             }
             else{
-                gsm.resetGame();
                 MainFrame.stopSound();
                 MainFrame.playSound(7);
                 player.getProfile().incrementaPartiteVinte();

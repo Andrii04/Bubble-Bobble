@@ -23,20 +23,16 @@ public class Incendio extends Enemy{
     }
 
     void bubbled(){
-        if(attackTimer.isRunning()){
-            attackTimer.stop();
-        }
+        stop();
         bubbled = true;
         rageTimer.start();
         notifyObservers(Action.BUBBLED);
 
     }
-    void die(){
-        if(attackTimer.isRunning()){
-            attackTimer.stop();
-        }
-    }
     public void move(){
+        if(player.getLives()<=0){
+            stop();
+        }
         if(isBubbled()) {
             notifyObservers(Action.BUBBLED);
         }

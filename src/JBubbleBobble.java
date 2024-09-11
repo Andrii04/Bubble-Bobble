@@ -4,6 +4,9 @@ import VIEW.MainFrame;
  *
  *
  *
+ *
+ *
+ *
  * Classe principale dell'applicazione JB ubbleBobble.
  *
  * Questa classe contiene il metodo `main` che avvia l'applicazione creando e visualizzando

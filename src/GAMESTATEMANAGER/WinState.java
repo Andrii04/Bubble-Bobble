@@ -86,6 +86,7 @@ public class WinState extends GameState {
             UserProfile user = gsm.getCurrentPlayer().getProfile();
             leaderboardController.getModel().addUser(user);
             leaderboardController.updateView();
+            gsm.resetGame();
             switch (view.getSelectedOption()) {
                 case 0:
                     // Torna al menu principale

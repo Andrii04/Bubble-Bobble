@@ -84,7 +84,16 @@ public class SuperDrunk extends Enemy{
             //System.out.println("SuperDrunk shooting");
         }
     }
-
+void onPlayer(){
+        if(hitbox.intersects(player.getHitbox())){
+            if(bubbled){
+                updateAction(Action.DIE);
+            }
+            else{
+                player.updateAction(Action.HURT);
+            }
+        }
+}
     void chasePlayer(){
         // pong mechanics
         if (isColliding(x+speed,y)){
@@ -145,10 +154,7 @@ public class SuperDrunk extends Enemy{
                 }
                 break;
             case BUBBLED:
-                System.out.println("SuperDrunk bubbled");
-                if(attackTimer.isRunning()){
-                    attackTimer.stop();
-                }
+                stop();
                 bubbled();
                 break;
             case RAGE:
@@ -156,8 +162,7 @@ public class SuperDrunk extends Enemy{
                 notifyObservers(Action.RAGE);
                 break;
             case DIE:
-                die();
-                System.out.println("SuperDrunk died");
+                stop();
                 dead = true;
                 wave = false;
                 player.setPunteggio(player.getPunteggio() + points);
@@ -168,11 +173,6 @@ public class SuperDrunk extends Enemy{
         }
     }
 
-    void die(){
-        if(attackTimer.isRunning()){
-            attackTimer.stop();
-        }
-    }
     void rage(){
         lives = 5;
         enraged = true;
