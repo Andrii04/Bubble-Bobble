@@ -124,8 +124,7 @@ public class SuperDrunk extends Enemy {
             bottle3.fireBubble();
             bottle4.fireBubble();
             bottle5.fireBubble();
-            // shoot
-            // System.out.println("SuperDrunk shooting");
+            //shoot
         }
     }
 
@@ -167,23 +166,25 @@ void onPlayer(){
      */
     @Override
     public void updateAction(Action action) {
-        switch (action) {
+        switch(action){
             default:
                 notifyObservers(Action.IDLE);
                 break;
             case WALK:
-                if (!attackTimer.isRunning()) {
+                if(!attackTimer.isRunning()){
                     attackTimer.start();
                 }
-                if (facingRight) {
-                    this.x += speed;
-                } else {
-                    this.x -= speed;
+                if(facingRight){
+                    this.x+=speed;
                 }
-                if (goUp) {
-                    this.y -= speed;
-                } else {
-                    this.y += speed;
+                else{
+                    this.x-=speed;
+                }
+                if(goUp){
+                    this.y-=speed;
+                }
+                else{
+                    this.y+=speed;
                 }
                 hitbox.setLocation(x,y);
                 if(enraged){

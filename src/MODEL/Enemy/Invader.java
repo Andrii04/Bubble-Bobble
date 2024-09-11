@@ -65,7 +65,6 @@ public class Invader extends Enemy {
         Laser laser = new Laser(player, this);
         currentLevel.addBubble(laser);
         laser.fireBubble();
-        System.out.println("Invader shoots");
     }
 
     /**

@@ -26,6 +26,7 @@ public class Bottle extends Bubble {
      * Enum che definisce le diverse traiettorie che la bottiglia può seguire.
      */
     public enum BottleTrajectory {
+
         HORIZONTAL_RIGHT(0),
         UP_RIGHT(1), UPUP_RIGHT(2),
         UP_LEFT(3), UPUP_LEFT(4),
@@ -39,14 +40,13 @@ public class Bottle extends Bubble {
             this.trajectory = trajectory;
         }
 
+
         /**
          * Restituisce il valore associato alla traiettoria.
          *
          * @return Il valore della traiettoria.
          */
-        public int getTrajectory() {
-            return trajectory;
-        }
+        public int getTrajectory() {return trajectory;}
     }
 
     /**
@@ -89,7 +89,7 @@ public class Bottle extends Bubble {
             }
             case 3 -> {
                 x -= shootingSpeed;
-                y -= shootingSpeed / 2;
+                y -= shootingSpeed/2;
             }
             case 4 -> {
                 x -= shootingSpeed;
@@ -101,7 +101,7 @@ public class Bottle extends Bubble {
             }
             case 6 -> {
                 x += shootingSpeed;
-                y += shootingSpeed * 2;
+                y += shootingSpeed*2;
             }
             case 7 -> {
                 x -= shootingSpeed;
@@ -109,7 +109,7 @@ public class Bottle extends Bubble {
             }
             case 8 -> {
                 x -= shootingSpeed;
-                y += shootingSpeed * 2;
+                y -= shootingSpeed*2;
             }
             case 9 -> x -= shootingSpeed;
         }
@@ -121,8 +121,8 @@ public class Bottle extends Bubble {
                 player.updateAction(Entity.Action.HURT);
                 explode();
             }
-        } catch (NullPointerException e) {
-            System.out.println("Need to set the player for the bottle, use method bottle.setPlayer(Player)");
+        } catch (NullPointerException e){
+            System.out.println("Player not found");
         }
 
         if (firing && isSolidTile(x, y)) explode();
@@ -130,17 +130,16 @@ public class Bottle extends Bubble {
 
     @Override
     public Bubble newInstance(Player player) {
-        System.out.println("Please use the overloaded method newInstance(BottleTrajectory)");
         return null;
     }
 
     @Override
     public void fireBubble() {
-        if (enemy.getCurrentLevelInt() == 24) {
+        if(enemy.getCurrentLevelInt() == 24){
             currentLevel = enemy.getCurrentLevel();
         }
 
-        if (!(currentLevel == null)) {
+        if(!(currentLevel == null)){
             x = enemy.getX() + 5;
             y = enemy.getY() + 5;
 

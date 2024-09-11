@@ -72,7 +72,6 @@ public class Fireball extends Bubble {
      */
     @Override
     public void fireBubble() {
-        System.out.println("firing");
         firing = true;
 
         try {

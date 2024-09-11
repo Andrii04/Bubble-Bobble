@@ -27,7 +27,6 @@ public class LevelEditor {
      * Costruttore privato per il pattern Singleton.
      */
     private LevelEditor() {
-        //gsm = GameStateManager.getInstance();
     }
 
     /**
@@ -50,7 +49,6 @@ public class LevelEditor {
         if (gsm == null) gsm = GameStateManager.getInstance();
         this.currentLevel = level;
         currentLevelIndex = gsm.getLevels().indexOf(currentLevel);
-        System.out.println(currentLevelIndex);
     }
 
     /**
@@ -136,10 +134,6 @@ public class LevelEditor {
      */
     public void saveLevel() {
         if (gsm == null) gsm = GameStateManager.getInstance();
-        System.out.println("levels before modifying " + gsm.getLevels().toString());
-        System.out.println("size list levels before modifying " + gsm.getLevels().size());
         gsm.setLevel(currentLevelIndex, currentLevel);
-        System.out.println("levels after modifying " + gsm.getLevels().toString());
-        System.out.println("size list levels after modifying " + gsm.getLevels().size());
     }
 }

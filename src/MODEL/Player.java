@@ -40,7 +40,7 @@ public class Player extends Observable implements Entity {
     private int letterEcount;
     private static final String EXTEND = "EXTEND";  // La sequenza corretta
 
-    // Physics
+    // fisica del giocatore
     private boolean onFloor;
     private float airSpeed = 0f;
 
@@ -94,7 +94,7 @@ public class Player extends Observable implements Entity {
         bubbleType = new GreenBubble(this);
         this.extendBubbles = new ArrayList<>();
 
-        cooldownTimer = new Timer(2000, e -> {
+        cooldownTimer = new Timer(1500, e -> {
             cooldown = false;
             notifyObservers(Action.IDLE);
         });
@@ -125,9 +125,9 @@ public class Player extends Observable implements Entity {
 
 
     /**
-     * Verifica se il giocatore non è solido (ad esempio, se sta saltando).
+     * Verifica se il giocatore può attraversare un blocco solido
      *
-     * @return true se il giocatore non è solido, altrimenti false
+     * @return true se il giocatore sta saltando, altrimenti false
      */
     boolean isNotSolid(){
         if(airSpeed<0 ){
@@ -175,7 +175,7 @@ public class Player extends Observable implements Entity {
     @Override
     public void updateAction(Action action) {
         switch(action){
-            case JUMP:
+            case JUMP: // setta airSpeed (move vertically gestisce il movimento)
                 currentAction = Action.JUMP;
                 if(isOnFloor()){
                     MainFrame.playSound(3);
@@ -195,22 +195,23 @@ public class Player extends Observable implements Entity {
                 break;
             case MOVE_VERTICALLY:
                 currentAction = Action.MOVE_VERTICALLY;
-                // if player is in block (error handling), if player isn't colliding with block, if player is jumping up and hitting a non wall block
+                // player sta per aria (saltando/cadendo)
                 if(!isColliding(x, y+airSpeed)|| isNotSolid()) {
                     this.y += airSpeed;
                     hitbox.setLocation(x, y);
                     airSpeed += gravity;
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
-                //top and bottom connected
+                //se tocca il bordo inferiore dello schermo ricomincia da sopra
                 if (y + airSpeed >= MainFrame.FRAME_HEIGHT - Entity.HEIGHT) {
                     this.y = 0;
                     hitbox.setLocation(x, y);
                     onFloor = false;
                     notifyObservers(Action.MOVE_VERTICALLY);
                 }
-                //player is falling to the ground
+                // player sta toccando il suolo
                 else if(isColliding(x,y+airSpeed)&& airSpeed > 0 ){
+                    // può fermarsi solo se è un pavimento e non un muro
                     if( (isSolidTile(x,y)||isSolidTile(x+Entity.WIDTH,y)|| isSolidTile(x+Block.WIDTH,y))){
                         this.y += airSpeed;
                         hitbox.setLocation(x, y);
@@ -229,8 +230,7 @@ public class Player extends Observable implements Entity {
                 }
 
                 break;
-            case WALK:
-                System.out.println(y);
+            case WALK: // player si muove orrizontalmente
                     currentAction = Action.WALK;
                     if (!facingRight) {
                         if (!isColliding(x - speed, y)) {
@@ -279,14 +279,13 @@ public class Player extends Observable implements Entity {
                     }
                 }
                 break;
-            case HURT:
+            case HURT: // puo essere colpito solo se non è in cooldown
                 if (!cooldown) {
                     MainFrame.playSound(2);
                     cooldown = true;
                     cooldownTimer.start();
                     currentAction = Action.HURT;
                     this.lives--;
-                    System.out.println("Lives: " + lives);
                     notifyObservers(Action.HURT);
                     if(lives < 0){
                         lives =0;
@@ -300,10 +299,8 @@ public class Player extends Observable implements Entity {
                 MainFrame.playSound(1);
                 currentAction = Action.DIE;
                 notifyObservers(Action.DIE);
-                // gsm.setGameState(GameStateManager.GameState.GAMEOVER);
                 break;
-            default:
-                System.out.println("player pos: " + x + " " + y);
+            default: // idle : quando è fermo
                 notifyObservers(Action.IDLE);
                 break;
         }
@@ -326,25 +323,6 @@ public class Player extends Observable implements Entity {
     public void setY(int y) {
         this.y = y;
     }
-
-    /**
-     * Restituisce la coordinata x del giocatore.
-     *
-     * @return la coordinata x
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * Restituisce la coordinata y del giocatore.
-     *
-     * @return la coordinata y
-     */
-    public int getY() {
-        return y;
-    }
-
     /**
      * Restituisce se il giocatore sta guardando verso destra.
      *
@@ -373,15 +351,6 @@ public class Player extends Observable implements Entity {
         super.notifyObservers(action);
     }
 
-    /**
-     * Aggiunge punti al punteggio del giocatore.
-     *
-     * @param punti i punti da aggiungere
-     * @return il nuovo punteggio
-     */
-    public int addPunteggio(int punti) {
-        return punteggio + punti;
-    }
 
     /**
      * Imposta il punteggio del giocatore.
@@ -390,6 +359,29 @@ public class Player extends Observable implements Entity {
      */
     public void setPunteggio(int punteggio) {
         this.punteggio = punteggio;
+    }
+    /**
+     * Imposta se il giocatore è a terra.
+     *
+     * @param onFloor true se il giocatore è a terra, altrimenti false
+     */
+    public void setIsOnFloor(boolean onFloor) {
+        this.onFloor = onFloor;
+    }
+
+    /**
+     * Aggiunge una vita al giocatore.
+     */
+    public void gainLife() {
+        lives++;
+    }
+
+    /** Imposta se il giocatore sta guardando verso destra.
+     *
+     * @param facingRight
+     */
+    public void setFacingRight(boolean facingRight) {
+        this.facingRight = facingRight;
     }
 
     /**
@@ -408,15 +400,6 @@ public class Player extends Observable implements Entity {
      */
     public boolean isOnFloor() {
         return onFloor;
-    }
-
-    /**
-     * Imposta se il giocatore è a terra.
-     *
-     * @param onFloor true se il giocatore è a terra, altrimenti false
-     */
-    public void setIsOnFloor(boolean onFloor) {
-        this.onFloor = onFloor;
     }
 
     /**
@@ -445,85 +428,22 @@ public class Player extends Observable implements Entity {
     public int getLives() {
         return lives;
     }
-
     /**
-     * Riduce di una vita il numero di vite del giocatore.
-     */
-    public void loseLife() {
-        if (lives > 0) {
-            lives--;
-        }
-    }
-
-    /**
-     * Aggiunge una vita al giocatore.
-     */
-    public void gainLife() {
-        lives++;
-    }
-
-    /**
-     * Imposta direttamente il numero di vite del giocatore.
+     * Restituisce la coordinata x del giocatore.
      *
-     * @param lives il numero di vite da impostare
+     * @return la coordinata x
      */
-    public void setLives(int lives) {
-        this.lives = lives;
+    public int getX() {
+        return x;
     }
 
     /**
-     * Aggiunge una bolla Extend al giocatore.
+     * Restituisce la coordinata y del giocatore.
      *
-     * @param bubble la bolla Extend da aggiungere
+     * @return la coordinata y
      */
-    public void addExtendBubble(ExtendBubble bubble) {
-        String letter = bubble.getLetter();
-        if (!letter.equals("E") && !extendBubbles.contains(letter)) {
-            extendBubbles.add(letter);
-        } else if (letter.equals("E")) {
-            if (letterEcount <= 1) {
-                extendBubbles.add(letter);
-                letterEcount++;
-            }
-        }
-        System.out.println(getExtendBubbles().toString());
-        checkExtendCompletion();
-    }
-
-    /**
-     * Resetta le bolle Extend del giocatore.
-     */
-    private void resetExtend() {
-        extendBubbles.clear();
-        System.out.println("Reset bolle Extend!");
-    }
-
-    /**
-     * Restituisce la lista delle bolle Extend raccolte dal giocatore.
-     *
-     * @return la lista delle bolle Extend
-     */
-    public ArrayList<String> getExtendBubbles() {
-        return extendBubbles;
-    }
-
-    /**
-     * Controlla se il giocatore ha completato la sequenza di bolle Extend e, in tal caso, guadagna una vita.
-     */
-    private void checkExtendCompletion() {
-        if (extendBubbles.size() == EXTEND.length()) {
-            gainLife();
-            resetExtend();
-        }
-    }
-
-    /**
-     * Restituisce il tipo di bolla attualmente selezionata dal giocatore.
-     *
-     * @return il tipo di bolla
-     */
-    public Bubble getBubbleType() {
-        return bubbleType;
+    public int getY() {
+        return y;
     }
 
     /**
@@ -554,7 +474,59 @@ public class Player extends Observable implements Entity {
     public Action getCurrentAction() {
         return currentAction;
     }
+    /**
+     * Restituisce il profilo utente del giocatore.
+     *
+     * @return il profilo utente
+     */
+    public UserProfile getProfile() {
+        return profile;
+    }
 
+
+    /**
+     * Aggiunge una bolla Extend al giocatore.
+     *
+     * @param bubble la bolla Extend da aggiungere
+     */
+    public void addExtendBubble(ExtendBubble bubble) {
+        String letter = bubble.getLetter();
+        if (!letter.equals("E") && !extendBubbles.contains(letter)) {
+            extendBubbles.add(letter);
+        } else if (letter.equals("E")) {
+            if (letterEcount <= 1) {
+                extendBubbles.add(letter);
+                letterEcount++;
+            }
+        }
+        checkExtendCompletion();
+    }
+
+    /**
+     * Resetta le bolle Extend del giocatore.
+     */
+    private void resetExtend() {
+        extendBubbles.clear();
+    }
+
+    /**
+     * Restituisce la lista delle bolle Extend raccolte dal giocatore.
+     *
+     * @return la lista delle bolle Extend
+     */
+    public ArrayList<String> getExtendBubbles() {
+        return extendBubbles;
+    }
+
+    /**
+     * Controlla se il giocatore ha completato la sequenza di bolle Extend e, in tal caso, guadagna una vita.
+     */
+    private void checkExtendCompletion() {
+        if (extendBubbles.size() == EXTEND.length()) {
+            gainLife();
+            resetExtend();
+        }
+    }
     /**
      * Restituisce la distanza massima che le bolle possono raggiungere.
      *
@@ -574,52 +546,12 @@ public class Player extends Observable implements Entity {
     }
 
     /**
-     * Imposta la distanza massima che le bolle possono raggiungere.
-     *
-     * @param num la nuova distanza massima delle bolle
-     */
-    public void setMaxBubbleDistance(int num) {
-        maxBubbleDistance = num;
-    }
-
-    /**
-     * Imposta la velocità delle bolle.
-     *
-     * @param num la nuova velocità delle bolle
-     */
-    public void setBubbleSpeed(int num) {
-        bubbleSpeed = num;
-    }
-
-    /**
      * Restituisce il timer per il tasso di fuoco delle bolle.
      *
      * @return il timer del tasso di fuoco
      */
     public Timer getFireRate() {
         return fireRate;
-    }
-
-    /**
-     * Imposta il tasso di fuoco delle bolle con un nuovo intervallo.
-     *
-     * @param delay il nuovo intervallo in millisecondi
-     */
-    public void setFireRate(int delay) {
-        Timer newFireRate = new Timer(delay, e -> {
-            ableToFire = true;
-            fireRate.stop();
-        });
-        fireRate = newFireRate;
-    }
-
-    /**
-     * Imposta la velocità del giocatore.
-     *
-     * @param num la nuova velocità del giocatore
-     */
-    public void setSpeed(int num) {
-        speed = num;
     }
 
     /**
@@ -646,6 +578,47 @@ public class Player extends Observable implements Entity {
      */
     public boolean isBlueRing() {
         return blueRing;
+    }
+
+
+    /**
+     * Imposta la distanza massima che le bolle possono raggiungere.
+     *
+     * @param num la nuova distanza massima delle bolle
+     */
+    public void setMaxBubbleDistance(int num) {
+        maxBubbleDistance = num;
+    }
+
+    /**
+     * Imposta la velocità delle bolle.
+     *
+     * @param num la nuova velocità delle bolle
+     */
+    public void setBubbleSpeed(int num) {
+        bubbleSpeed = num;
+    }
+
+    /**
+     * Imposta il tasso di fuoco delle bolle con un nuovo intervallo.
+     *
+     * @param delay il nuovo intervallo in millisecondi
+     */
+    public void setFireRate(int delay) {
+        Timer newFireRate = new Timer(delay, e -> {
+            ableToFire = true;
+            fireRate.stop();
+        });
+        fireRate = newFireRate;
+    }
+
+    /**
+     * Imposta la velocità del giocatore.
+     *
+     * @param num la nuova velocità del giocatore
+     */
+    public void setSpeed(int num) {
+        speed = num;
     }
 
     /**
@@ -743,30 +716,4 @@ public class Player extends Observable implements Entity {
         }
     }
 
-    /**
-     * Restituisce il profilo utente del giocatore.
-     *
-     * @return il profilo utente
-     */
-    public UserProfile getProfile() {
-        return profile;
-    }
-
-    /**
-     * Imposta il profilo utente del giocatore.
-     *
-     * @param profile il profilo utente da impostare
-     */
-    public void setProfile(UserProfile profile) {
-        this.profile = profile;
-    }
-
-    /**
-     * Imposta la direzione verso cui il giocatore sta guardando.
-     *
-     * @param bool true se il giocatore sta guardando verso destra, altrimenti false
-     */
-    public void setFacingRight(boolean bool) {
-        facingRight = bool;
-    }
 }

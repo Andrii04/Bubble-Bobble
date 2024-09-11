@@ -120,10 +120,8 @@ public abstract class Enemy extends Observable implements Entity {
      * Gestisce l'interazione del nemico con il giocatore.
      */
     void onPlayer(){
-        System.out.println(bubbled);
         if (hitbox.intersects(player.getHitbox())){
             if(!bubbled)
-                System.out.println("HURT");
                 player.updateAction(Action.HURT);
                 if(player.getLives()<=0 && attackTimer.isRunning()){
                     attackTimer.stop();
@@ -480,7 +478,6 @@ public abstract class Enemy extends Observable implements Entity {
         enraged = false;
         bubbled = true;
         rageTimer.start();
-        System.out.println("Bubbled");
         notifyObservers(Action.BUBBLED);
     }
 

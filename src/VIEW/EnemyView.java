@@ -98,8 +98,6 @@ public abstract class EnemyView implements Observer {
             }
             g2d.drawImage(currentAnimation[currentFrame], x, y, null); // Disegna il frame corrente
             g2d.draw(enemy.getHitbox()); // Disegna la hitbox del nemico
-        } else {
-            System.out.println("No animation found"); // Stampa un messaggio se non ci sono animazioni
         }
     }
 

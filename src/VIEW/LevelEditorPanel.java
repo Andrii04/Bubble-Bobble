@@ -4,7 +4,9 @@ import CONTROLLER.Controller;
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Level;
+
 import javax.swing.*;
+import javax.swing.text.Caret;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -89,11 +91,16 @@ public class LevelEditorPanel extends JPanel {
         buttonsLayer.setLayout(null);
 
         removeBT.setBounds(40, FRAME_HEIGHT-40, 80, 35);
+
         removeBT.setForeground(Color.green);
+
         solidBT.setBounds(removeBT.getX() + 150, FRAME_HEIGHT-40, 80, 35);
+
         solidBT.setForeground(Color.green);
         selectLevel.setBounds(solidBT.getX() + 130, FRAME_HEIGHT-40, 160, 35);
+
         selectLevel.setForeground(Color.green);
+
         saveLevel.setBounds(selectLevel.getX() + 200, FRAME_HEIGHT-40, 80, 35);
         saveLevel.setForeground(Color.green);
 

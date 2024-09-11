@@ -54,7 +54,6 @@ public class BubbleView {
 
         this.currentSkinPath = bubble.getSkinsPath() + "1.png";
         currentSkin = new ImageIcon(currentSkinPath);
-        //System.out.println(currentSkinPath); //null ?
     }
 
     /**
@@ -311,10 +310,7 @@ public class BubbleView {
         }
 
         else if (floating) {
-            //System.out.println("Entered floating");
-            //System.out.println("originalX = " + bubble.getX() + "originalY = " + bubble.getY());
             bubble.handleFloatingCollision();
-            //System.out.println("newX = " + bubble.getX() + "newY = " + bubble.getY());
             distanceTraveled++;
             if (distanceTraveled >= 400) bubble.explode();
         }
