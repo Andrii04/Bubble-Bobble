@@ -112,7 +112,6 @@ public abstract class Bubble {
     public void encapsule(Enemy enemy) {
         bubbledEnemy = enemy;
         enemy.setBubbled(true);
-        //System.out.println("Enemy bubbled");
 
         firing = false;
         floating = true;

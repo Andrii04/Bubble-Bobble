@@ -61,7 +61,6 @@ public class Boris extends Enemy {
         attackTimer.setDelay(800);
     }
     void shoot(){
-        System.out.println("shooting");
         Fireball fireball = new Fireball(player, this);
         currentLevel.addBubble(fireball);
         fireball.fireBubble();
