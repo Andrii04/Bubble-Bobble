@@ -299,9 +299,12 @@ public abstract class Bubble {
         try {
             updateLocation(getPlayer().getX() + 18, getPlayer().getY() + 20);
         } catch (NullPointerException e)
-        {
+        {System.out.println("need to set" +
+                " the player for the bubble, use method" +
+                " bubble.setPlayer(Player");}
+
         bubbleView.startFiring();
-        bubbleView.setFiring(true);}
+        bubbleView.setFiring(true);
     }
 
     /**
