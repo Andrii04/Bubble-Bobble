@@ -1,12 +1,11 @@
 package VIEW;
+
 import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Block;
 import MODEL.Bubbles.*;
 import MODEL.Enemy.*;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class BubbleView {
 
