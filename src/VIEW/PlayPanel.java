@@ -57,7 +57,7 @@ public class PlayPanel extends JPanel implements Runnable {
         this.extendPanel = new ExtendPanel(player);
         this.add(extendPanel);
         // Posizionamento in verticale sul lato destro
-        extendPanel.setBounds(10, 100, 50, 200); // Posizionato sulla destra
+        extendPanel.setBounds(10, 100, 50, 300); // Posizionato sulla destra
 
 
         this.livesPanel = new LivesPanel(player);

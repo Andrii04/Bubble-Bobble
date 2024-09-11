@@ -11,11 +11,9 @@ public class ExtendPanel extends JPanel {
 
     public ExtendPanel(Player player) {
         this.player = player;
-        setPreferredSize(new Dimension(50, 200)); // Dimensioni a piacere
+        setPreferredSize(new Dimension(70, 550));
         this.setLayout(new FlowLayout());
-        this.setOpaque(true);
-        this.setBackground(Color.green);
-        this.setVisible(true);
+        this.setOpaque(false);
     }
 
     @Override
@@ -26,14 +24,14 @@ public class ExtendPanel extends JPanel {
         int y = 10;  // Posizione iniziale verticale
         for (char letter : extend.toCharArray()) {
             if (collectedBubbles.contains(String.valueOf(letter))) {
-                g.drawImage(getBubbleIcon(letter), 10, y, null);  // Disposizione verticale
+                g.drawImage(getBubbleIcon(letter), 0, y, 40, 40, null);  // Disposizione verticale
             }
-            y += 30;  // Spazio tra le bolle in verticale
+            y += 50;  // Spazio tra le bolle in verticale
         }
     }
 
     private Image getBubbleIcon(char letter) {
         // Metodo per ottenere l'icona in base alla lettera
-        return Toolkit.getDefaultToolkit().getImage("src/Resources/Bubble Bobble Resources/Bubbles/" + letter + ".png");
+        return Toolkit.getDefaultToolkit().getImage("src/Resources/Bubble Bobble Resources/Bubbles/extend" + letter + ".png");
     }
 }

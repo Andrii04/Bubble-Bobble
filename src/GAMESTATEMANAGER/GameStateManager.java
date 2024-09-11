@@ -503,20 +503,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
         levels.get(10).addSpawnedBubble(lightning1);
         levels.get(10).addSpawnedBubble(lightning2);
-        levels.get(10).addSpawnedBubble(lightning3);
-        levels.get(10).addSpawnedBubble(lightning4);
-        levels.get(10).addSpawnedBubble(lightning3);
-        levels.get(10).addSpawnedBubble(lightning4);
-        levels.get(10).addSpawnedBubble(lightning3);
-        levels.get(10).addSpawnedBubble(lightning4);
         levels.get(10).addSpawnedBubble(water1);
         levels.get(10).addSpawnedBubble(water2);
         levels.get(10).addSpawnedBubble(water3);
         levels.get(10).addSpawnedBubble(water4);
-        levels.get(10).addSpawnedBubble(water5);
-        levels.get(10).addSpawnedBubble(water6);
-        levels.get(10).addSpawnedBubble(water7);
-        levels.get(10).addSpawnedBubble(water8);
         levels.get(10).addSpawnedBubble(extendE1);
         levels.get(10).addSpawnedBubble(extendD1);
         levels.get(10).spawnBubbles();
@@ -527,13 +517,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(11).addSpawnedBubble(water4);
         levels.get(11).addSpawnedBubble(water4);
         levels.get(11).addSpawnedBubble(water5);
-        levels.get(11).addSpawnedBubble(water6);
-        levels.get(11).addSpawnedBubble(water7);
-        levels.get(11).addSpawnedBubble(water8);
-        levels.get(11).addSpawnedBubble(water9);
-        levels.get(11).addSpawnedBubble(water10);
-        levels.get(11).addSpawnedBubble(extendX1);
-        levels.get(11).addSpawnedBubble(extendT1);
         levels.get(11).addSpawnedBubble(extendE1);
         levels.get(11).addSpawnedBubble(extendN1);
         levels.get(11).spawnBubbles();
