@@ -7,17 +7,29 @@ import MODEL.Entity;
 import MODEL.Player;
 import VIEW.SpawnedBubbleView;
 
-public class FireBubble extends SpawnedBubble{
-    {skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/fire";}
-    int fireDistanceTraveled;
-    int fallingSpeed = 4;
-    boolean burning;
-    int burningStartX;
-    int burningEndX;
-    int burningStartY;
-    int burningEndY;
-    int burningTimer;
+/**
+ * Rappresenta una bolla di fuoco che viene generata automaticamente e può danneggiare i nemici.
+ * <p>La bolla di fuoco cade verso il basso, cambia immagine durante la caduta e crea un'area di fuoco quando tocca un muro.</p>
+ */
+public class FireBubble extends SpawnedBubble {
+    private int fireDistanceTraveled;
+    private int fallingSpeed = 4;
+    private boolean burning;
+    private int burningStartX;
+    private int burningEndX;
+    private int burningStartY;
+    private int burningEndY;
+    private int burningTimer;
 
+    {
+        skinsPath = "/Resources/Bubble Bobble Resources/Bubbles/fire";
+    }
+
+    /**
+     * Crea una nuova istanza di {@code FireBubble} associata al giocatore specificato.
+     *
+     * @param player Il giocatore a cui è associata la bolla.
+     */
     public FireBubble(Player player) {
         super(player);
         this.bubbleView = new SpawnedBubbleView(this);
@@ -28,43 +40,57 @@ public class FireBubble extends SpawnedBubble{
         burningTimer = 0;
     }
 
+    /**
+     * Crea una nuova istanza di {@code FireBubble} associata al giocatore specificato.
+     *
+     * @param player Il giocatore a cui è associata la nuova bolla.
+     * @return Una nuova istanza di {@code FireBubble}.
+     */
     @Override
     public Bubble newInstance(Player player) {
         return new FireBubble(player);
     }
 
+    /**
+     * Avvia l'effetto della bolla di fuoco, cambiando l'immagine della bolla e impostando l'effetto come attivo.
+     */
     @Override
-
     public void startEffect() {
         bubbleView.setFireIMG1();
         effect = true;
-
     }
 
+    /**
+     * Aggiorna la posizione e l'effetto della bolla di fuoco.
+     * <p>La bolla cade verso il basso e cambia immagine in base alla distanza percorsa. Quando tocca un muro, diventa infuocata e crea un'area di fuoco.</p>
+     */
     @Override
     public void updateEffectLocation() {
         if (!burning) {
             y += fallingSpeed;
             hitbox.setLocation(x, y);
             fireDistanceTraveled++;
-            if (fireDistanceTraveled >= 5 && fireDistanceTraveled < 11) bubbleView.setFireIMG2();
-            else if (fireDistanceTraveled >= 11) bubbleView.setFireIMG4();
+            if (fireDistanceTraveled >= 5 && fireDistanceTraveled < 11) {
+                bubbleView.setFireIMG2();
+            } else if (fireDistanceTraveled >= 11) {
+                bubbleView.setFireIMG4();
+            }
         }
 
         if (isSolidTile(x, y) && !burning) {
-            y -= Block.HEIGHT*2;
+            y -= Block.HEIGHT * 2;
             burning = true;
             bubbleView.setFireIMG4();
-            burningStartX = x-25;
-            burningEndX = x+25;
-            burningStartY = y-16;
-            burningEndY = y+Block.HEIGHT;
+            burningStartX = x - 25;
+            burningEndX = x + 25;
+            burningStartY = y - 16;
+            burningEndY = y + Block.HEIGHT;
             hitbox.setLocation(burningStartX, burningStartY);
             hitbox.setSize(95, 55);
         }
 
         if (burning) {
-            //immagine burning sull'area delle coordinate
+            // Applica l'effetto di incendio sull'area delle coordinate
             for (Enemy enemy : currentLevel.getEnemies()) {
                 if (enemy != null && !(enemy instanceof SuperDrunk)
                         && hitbox.intersects(enemy.getHitbox())) {
@@ -80,5 +106,3 @@ public class FireBubble extends SpawnedBubble{
         }
     }
 }
-
-//fatta logica e funziona, da vedere più precisamente l'area di effetto del fuoco e fixxare le immagini.

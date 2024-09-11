@@ -55,14 +55,11 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         gsm.add(new LoseState(this));
         gsm.add(new WinState(this));
 
-        //levelEditor = LevelEditor.getInstance();
-
         stateNum = menuState;
         setState(GameStateManager.menuState);
         levels = new ArrayList<>();
         levels.add(null);
         levels.addAll(loadLevelsFromFile());
-        //così che i livelli incominciano dall'index 1
         generateLevels();
         currentLevel = 1;
         nextLevelInt = 2;
@@ -185,12 +182,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             addEnemies();
             addSpecialBubbles();
 
-
-        //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
-        //(i blocchi del livello ovviamento sono gli interi associati al numero del livello
-        //ad esempio il livello 2 avra nell'array appunto i muri fatti dal suo blocco, ovvero l'intero 2
-
-        //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
     }
 
     public void addSpecialBubbles() {
