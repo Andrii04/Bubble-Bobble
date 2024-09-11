@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+/**
+ * La classe PauseState gestisce lo stato di pausa del gioco.
+ * Quando il gioco è in pausa, mostra un menu con opzioni come "Continua", "Leaderboard" e "Esci".
+ */
 public class PauseState extends GameState {
 
     // Riferimento al gestore degli stati del gioco
@@ -14,24 +18,42 @@ public class PauseState extends GameState {
     // Riferimento al pannello di pausa (view) recuperato dal MainFrame
     private final PausePanel view = MainFrame.getPausePanel();
 
-    // Costruttore che riceve il gestore degli stati del gioco
+    /**
+     * Costruttore che inizializza lo stato di pausa.
+     *
+     * @param gsm il gestore degli stati del gioco che controlla i vari stati del gioco
+     */
     public PauseState(GameStateManager gsm) {
         this.gsm = gsm;
     }
 
-    // Metodo vuoto update: in pausa non ci sono aggiornamenti da fare
+    /**
+     * Metodo di aggiornamento dello stato. In questo caso, non ci sono aggiornamenti
+     * da eseguire mentre il gioco è in pausa.
+     */
     public void update() {}
 
-    // Metodo che disegna la schermata di pausa, impostando il pannello corretto
+    /**
+     * Disegna il pannello di pausa, impostando il pannello corretto nella finestra principale.
+     */
     public void draw() {
         MainFrame.setPanel(view); // Cambia il pannello visualizzato alla schermata di pausa
     }
 
-    // Metodo per gestire l'evento di un tasto premuto (non utilizzato in questo stato)
+    /**
+     * Gestisce l'evento di digitazione di un tasto. Non è utilizzato in questo stato.
+     *
+     * @param k l'evento KeyEvent generato dalla pressione di un tasto
+     */
     @Override
     public void keyTyped(KeyEvent k) {}
 
-    // Metodo per gestire quando viene premuto un tasto
+    /**
+     * Gestisce la pressione di un tasto durante lo stato di pausa.
+     * Implementa la navigazione nel menu e la selezione delle opzioni.
+     *
+     * @param k l'evento KeyEvent generato dalla pressione di un tasto
+     */
     @Override
     public void keyPressed(KeyEvent k) {
         // Verifica quale tasto è stato premuto
@@ -89,27 +111,60 @@ public class PauseState extends GameState {
         }
     }
 
-    // Metodo per gestire quando viene rilasciato un tasto (non utilizzato in questo stato)
+    /**
+     * Gestisce il rilascio di un tasto. Non utilizzato in questo stato.
+     *
+     * @param k l'evento KeyEvent generato dal rilascio di un tasto
+     */
     @Override
     public void keyReleased(KeyEvent k) {}
 
-    // Metodo per gestire l'azione quando viene eseguita un'azione (non utilizzato in questo stato)
+    /**
+     * Gestisce l'azione eseguita da un componente che genera un ActionEvent.
+     * Non è utilizzato in questo stato.
+     *
+     * @param e l'evento ActionEvent
+     */
     @Override
     public void actionPerformed(ActionEvent e) {}
 
-    // Metodi relativi agli eventi del mouse (non utilizzati in questo stato)
+    /**
+     * Gestisce l'evento di clic del mouse. Non è utilizzato in questo stato.
+     *
+     * @param e l'evento MouseEvent
+     */
     @Override
     public void mouseClicked(MouseEvent e) {}
 
+    /**
+     * Gestisce la pressione del mouse. Non è utilizzato in questo stato.
+     *
+     * @param e l'evento MouseEvent
+     */
     @Override
     public void mousePressed(MouseEvent e) {}
 
+    /**
+     * Gestisce il rilascio del mouse. Non è utilizzato in questo stato.
+     *
+     * @param e l'evento MouseEvent
+     */
     @Override
     public void mouseReleased(MouseEvent e) {}
 
+    /**
+     * Gestisce l'evento di ingresso del mouse su un componente. Non è utilizzato in questo stato.
+     *
+     * @param e l'evento MouseEvent
+     */
     @Override
     public void mouseEntered(MouseEvent e) {}
 
+    /**
+     * Gestisce l'evento di uscita del mouse da un componente. Non è utilizzato in questo stato.
+     *
+     * @param e l'evento MouseEvent
+     */
     @Override
     public void mouseExited(MouseEvent e) {}
 }

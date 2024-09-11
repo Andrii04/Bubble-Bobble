@@ -1,6 +1,5 @@
 package MODEL.Bubbles;
 
-import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Enemy.Enemy;
 import MODEL.Entity;
 import MODEL.Player;
