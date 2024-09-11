@@ -12,6 +12,10 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Classe astratta che rappresenta un nemico nel gioco.
+ * Gestisce le azioni, il movimento e le interazioni del nemico con il giocatore e l'ambiente.
+ */
 public abstract class Enemy extends Observable implements Entity {
 
     GameStateManager gsm;
@@ -47,6 +51,7 @@ public abstract class Enemy extends Observable implements Entity {
         int g;
         int h;
         Node parent;
+
         public Node(int x, int y, int g, int h, Node parent){
             this.x = x;
             this.y = y;
@@ -59,9 +64,17 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
+    /**
+     * Costruttore di default del nemico.
+     * Imposta le coordinate iniziali e crea i timer per le azioni.
+     */
     public Enemy(GameStateManager gsm){
         this(0,0,true,gsm);
     }
+
+    /**
+     * Costruttore del nemico con coordinate specifiche e direzione iniziale.
+     */
     public Enemy(int x, int y, boolean facingRight, GameStateManager gsm){
         this.x = x;
         this.y = y;
@@ -87,7 +100,9 @@ public abstract class Enemy extends Observable implements Entity {
         wave = false;
     }
 
-    // movimento generale
+    /**
+     * Gestisce il movimento del nemico in base al suo stato.
+     */
     public void move(){
         if(isBubbled()) {
             notifyObservers(Action.BUBBLED);
@@ -101,12 +116,12 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
-    // quando interseca il player
+    /**
+     * Gestisce l'interazione del nemico con il giocatore.
+     */
     void onPlayer(){
-        System.out.println(bubbled);
         if (hitbox.intersects(player.getHitbox())){
             if(!bubbled)
-                System.out.println("HURT");
                 player.updateAction(Action.HURT);
                 if(player.getLives()<=0 && attackTimer.isRunning()){
                     attackTimer.stop();
@@ -114,7 +129,10 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
-    //  pathfinding
+
+    /**
+     * Gestisce il movimento del nemico per inseguire il giocatore.
+     */
     void chasePlayer() {
         if (!isOnFloor() || (!isSolidTile(x,y+Entity.HEIGHT+1) && !isSolidTile(x+Entity.WIDTH+1,y+Entity.HEIGHT+1))) { // se non è sul pavimento cade
             onFloor = false;
@@ -156,13 +174,26 @@ public abstract class Enemy extends Observable implements Entity {
             }
         }
     }
+
+
+    /**
+     * Controlla se il nemico è arrivato al nodo specificato.
+     */
     boolean isAtNode(Node node, int targetX, int targetY){
 
         return node.x/Block.WIDTH == targetX/Block.WIDTH && node.y/Block.HEIGHT == targetY/Block.HEIGHT;
     }
+    /**
+     * Restituisce una chiave univoca per una posizione (x, y).
+     */
     String getKey(int x, int y){
         return x + "," + y;
     }
+
+
+    /**
+     * Trova il percorso più breve verso il giocatore usando l'algoritmo A*.
+     */
     void findShortestPath() {
         PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingInt(Node::getF)); // coda con priorità: nodo con il minor f cost
         HashMap<String, Node> openMap = new HashMap<>(); // "x,y" : Node
@@ -200,6 +231,10 @@ public abstract class Enemy extends Observable implements Entity {
             }
         }
     }
+
+    /**
+     * Restituisce i nodi vicini a un nodo specificato.
+     */
      List<Node> getNeighbors(Node node) {
         List<Node> neighbors = new ArrayList<>();
         int[][] directions = {{speed, 0}, {-speed, 0}}; // sinistra e destra
@@ -242,6 +277,8 @@ public abstract class Enemy extends Observable implements Entity {
         }
         return neighbors;
     }
+
+
     boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < MainFrame.FRAME_WIDTH-Block.HEIGHT-Entity.HEIGHT && y >= 0 && y < MainFrame.FRAME_HEIGHT-Block.HEIGHT-Entity.HEIGHT;
     } // controlla se la posizione è all'interno dei limiti dello schermo
@@ -296,6 +333,10 @@ public abstract class Enemy extends Observable implements Entity {
 
     }     // controlla se il blocco di una certa posizione è solido
 
+    /**
+     * Metodo che aggiorna l'azione del nemico in base al tipo di azione passata come parametro.
+     * @param action L'azione da eseguire (es. camminare, saltare, attaccare, ecc.).
+     */
     public void updateAction(Action action){
 
         switch(action){
@@ -352,8 +393,9 @@ public abstract class Enemy extends Observable implements Entity {
         }
     }
 
-    // movimenti e comportamenti dei nemici
-    // possono essere implementati in modo diverso per ogni nemico
+    /**
+     * Metodo per gestire il movimento verticale del nemico (saltare o cadere).
+     */
     void verticalMovement() {
         // ll salto / la caduta
         if (!isColliding(x, y + airSpeed) || isNotSolid()) {
@@ -383,6 +425,10 @@ public abstract class Enemy extends Observable implements Entity {
             }
         }
     }
+
+    /**
+     * Metodo per gestire il movimento orizzontale del nemico (camminare).
+     */
     void walk(){
         if(isOnFloor()){
             if (facingRight) {
@@ -414,25 +460,46 @@ public abstract class Enemy extends Observable implements Entity {
             updateAction(Action.MOVE_VERTICALLY);
 
         }
-    } // movimento di default
+    }
+
+    /**
+     * Metodo per gestire l'azione di rabbia del nemico (aumenta la velocità e cambia lo stato del nemico).
+     */
     void rage(){
         bubbled = false;
         enraged = true;
         speed +=1;
-    } // comportamento di default rage = aumenta la velocità di uno
+    }
+
+    /**
+     * Metodo per gestire l'azione quando il nemico è bubbled (cambia stato e avvia il timer di rabbia).
+     */
     void bubbled(){
         enraged = false;
         bubbled = true;
         rageTimer.start();
-        System.out.println("Bubbled");
         notifyObservers(Action.BUBBLED);
-    } // uguali per tutti i nemici
-    void shoot(){}; // qui si implementano i proiettili
+    }
+
+    /**
+     * Metodo per gestire l'azione di sparo del nemico.
+     * Deve essere implementato nei sottoclassi specifiche se il nemico può sparare.
+     */
+    void shoot(){};
+
+
+    /**
+     * Metodo per gestire l'azione di attacco del nemico (ferma il timer di attacco).
+     */
     public void stop(){
         if(attackTimer.isRunning()){
             attackTimer.stop();
         }
     }
+
+    /**
+     * Metodo per gestire l'azione di attacco del nemico (avvia il timer di attacco).
+     */
     void attack(){
         if(player.getX() < x){
             facingRight = false;
@@ -443,65 +510,159 @@ public abstract class Enemy extends Observable implements Entity {
         if(!attackTimer.isRunning()) {
             attackTimer.start();
         }
-    } // comportameto di attacco default per quelli nemici che sparano
-    void die(){
-    } // override per stoppare timer di attacco di alcuni nemici
+    }
+
+
+    /**
+     * Metodo per gestire l'azione di inattività del nemico (imposta l'azione a camminare).
+     */
+
     void idle(){
         updateAction(Action.WALK);
     }
-    //metodi per fare i test per quando il nemico è bubbled, Tiff poi cambiali/toglili se serve, basta che me lo
-    //scrivi poi sul commit su Git
+
+    /**
+     * Rimuove il nemico dalla lista di nemici del livello corrente.
+     */
     public void removeEnemy() { // elimina il nemico dalla lista di nemici del livello
         currentLevel.removeEnemy(this);
     }
 
+    /**
+     * Notifica gli osservatori riguardo a un'azione del nemico.
+     * @param action L'azione da notificare.
+     */
     public void notifyObservers(Action action) {
         setChanged();
         super.notifyObservers(action);
     }
 
-    // metodi setters
+    /**
+     * Imposta la posizione del nemico.
+     * @param x La coordinata x.
+     * @param y La coordinata y.
+     */
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
         hitbox.setLocation(x, y);
     }
+
+    /**
+     * Imposta lo stato di bubbled del nemico.
+     * @param bubbled Il nuovo stato bubbled.
+     */
     public void setBubbled(boolean bubbled){
         this.bubbled = bubbled;
     }
+
+    /**
+     * Imposta lo stato di esplosione del nemico.
+     * @param bool Il nuovo stato di esplosione.
+     */
     public void setExploded(boolean bool) {explodes = bool;}
+
+    /**
+     * Imposta il giocatore attuale.
+     * @param player Il giocatore da impostare.
+     */
     public void setPlayer(Player player){
         this.player = player;
     }
+
+    /**
+     * Imposta il livello corrente.
+     * @param currentLevel Il livello da impostare.
+     */
     public void setCurrentLevel(Level currentLevel){
         this.currentLevel = currentLevel;
     }
+
+    /**
+     * Imposta lo stato di rabbia del nemico.
+     * @param bool Il nuovo stato di rabbia.
+     */
     public void setEnraged(boolean bool) {enraged = bool;}
 
 
     // metodi getters
+
+    /**
+     * Restituisce se il nemico è sul pavimento.
+     * @return true se il nemico è sul pavimento, false altrimenti.
+     */
     public boolean isOnFloor() {
         return onFloor;
     }
+
+    /**
+     * Restituisce la hitbox del nemico.
+     * @return La hitbox del nemico.
+     */
     public Rectangle getHitbox(){
         return hitbox;
     }
-    public boolean isBubbled() {return bubbled;}
+
+    /**
+     * Restituisce se il nemico è bubbled.
+     * @return true se il nemico è bubbled, false altrimenti.
+     */
+    public boolean isBubbled() {
+        return bubbled;
+    }
+
+    /**
+     * Restituisce se il nemico è morto.
+     * @return true se il nemico è morto, false altrimenti.
+     */
     public boolean isDead() {
-        return dead;}
+        return dead;
+    }
+
+    /**
+     * Restituisce l'intero che rappresenta il livello corrente.
+     * @return L'intero del livello corrente.
+     */
     public int getCurrentLevelInt(){
         return gsm.getCurrentLevelInt();
     }
+
+    /**
+     * Restituisce il livello corrente.
+     * @return Il livello corrente.
+     */
     public Level getCurrentLevel(){
         return currentLevel;
     }
+
+    /**
+     * Restituisce se il nemico sta guardando a destra.
+     * @return true se il nemico guarda a destra, false altrimenti.
+     */
     public boolean getFacingRight(){
         return facingRight;
     }
-    public boolean isExploded() {return explodes;}
+
+    /**
+     * Restituisce se il nemico è esploso.
+     * @return true se il nemico è esploso, false altrimenti.
+     */
+    public boolean isExploded() {
+        return explodes;
+    }
+
+    /**
+     * Restituisce il giocatore attuale.
+     * @return Il giocatore attuale.
+     */
     public Player getPlayer(){
         return player;
     }
+
+    /**
+     * Restituisce se il nemico è arrabbiato.
+     * @return true se il nemico è arrabbiato, false altrimenti.
+     */
     public boolean isEnraged() {return enraged;}
     public int getX(){
         return x;

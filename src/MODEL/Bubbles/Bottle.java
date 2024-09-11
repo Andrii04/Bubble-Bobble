@@ -1,6 +1,5 @@
 package MODEL.Bubbles;
 
-import GAMESTATEMANAGER.GameStateManager;
 import MODEL.Enemy.Enemy;
 import MODEL.Entity;
 import MODEL.Player;
@@ -8,12 +7,23 @@ import VIEW.BottleView;
 
 import java.awt.*;
 
-public class Bottle extends Bubble{
+/**
+ * Rappresenta una bottiglia lanciata come proiettile da un nemico di tipo SuperDrunk.
+ *
+ * <p>La bottiglia può seguire diverse traiettorie, che vengono definite tramite l'enum {@code BottleTrajectory}.
+ * La velocità di sparo di questa bottiglia è definita da {@code shootingSpeed}.</p>
+ */
+public class Bottle extends Bubble {
 
+    // Percorso delle immagini per la bottiglia.
     {skinsPath = "/Resources/Bubble Bobble Resources/Enemies/Superdrunk/drunkBottle/bottle";}
     BottleTrajectory trajectory;
+    // Velocità di sparo della bottiglia.
     {shootingSpeed = 4;}
 
+    /**
+     * Enum che definisce le diverse traiettorie che la bottiglia può seguire.
+     */
     public enum BottleTrajectory {
 
         HORIZONTAL_RIGHT(0),
@@ -28,14 +38,33 @@ public class Bottle extends Bubble{
         BottleTrajectory(int trajectory) {
             this.trajectory = trajectory;
         }
+
+
+        /**
+         * Restituisce il valore associato alla traiettoria.
+         *
+         * @return Il valore della traiettoria.
+         */
         public int getTrajectory() {return trajectory;}
     }
 
+    /**
+     * Crea una nuova istanza di {@code Bottle} con la traiettoria specificata.
+     *
+     * @param trajectory La traiettoria che la bottiglia deve seguire.
+     * @return Una nuova bottiglia con la traiettoria specificata.
+     */
     public Bubble newInstance(BottleTrajectory trajectory) {
         return new Bottle(player, enemy, trajectory);
     }
-    //fare in modo che SuperDrunk spari 5 bottiglie di traiettorie diverse
-    //se facingRight tutte quelle RIGHT, altrimenti tutte quelle LEFT
+
+    /**
+     * Crea una nuova bottiglia con le impostazioni specificate.
+     *
+     * @param player     Il giocatore associato a questa bottiglia.
+     * @param enemy      Il nemico che ha lanciato la bottiglia.
+     * @param trajectory La traiettoria che la bottiglia deve seguire.
+     */
     public Bottle(Player player, Enemy enemy, BottleTrajectory trajectory) {
         super(player);
         this.enemy = enemy;
@@ -46,12 +75,12 @@ public class Bottle extends Bubble{
 
     @Override
     public void updateLocation() {
-
+        // Aggiorna la posizione della bottiglia in base alla traiettoria.
         switch(trajectory.getTrajectory()) {
             case 0 -> x += shootingSpeed;
             case 1 -> {
                 x += shootingSpeed;
-                y -= shootingSpeed/2;
+                y -= shootingSpeed / 2;
             }
             case 2 -> {
                 x += shootingSpeed;
@@ -91,17 +120,15 @@ public class Bottle extends Bubble{
                 player.updateAction(Entity.Action.HURT);
                 explode();
             }
-        } catch (NullPointerException e)
-        {System.out.println("need to set" +
-                " the player for the bottle, use method" +
-                " bottle.setPlayer(Player");}
+        } catch (NullPointerException e){
+            System.out.println("Player not found");
+        }
 
         if (firing && isSolidTile(x, y)) explode();
     }
 
     @Override
     public Bubble newInstance(Player player) {
-        System.out.println("Please use the overloaded method newInstance(BottleTrajectory");
         return null;
     }
 

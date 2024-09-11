@@ -55,38 +55,62 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         gsm.add(new LoseState(this));
         gsm.add(new WinState(this));
 
-        //levelEditor = LevelEditor.getInstance();
-
         stateNum = menuState;
         setState(GameStateManager.menuState);
         levels = new ArrayList<>();
         levels.add(null);
         levels.addAll(loadLevelsFromFile());
-        //così che i livelli incominciano dall'index 1
         generateLevels();
         currentLevel = 1;
         nextLevelInt = 2;
     }
 
+    /**
+     *  Restituisce la leaderboard
+     * @return leaderboard
+     */
     public Leaderboard getLeaderboard() {
         return leaderboard;
     }
+
+    /**
+     *  Imposta il livello corrente
+     * @param currentLevel il livello corrente
+     */
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
     }
+
+    /**
+     * Restituisce il numero del livello corrente
+     * @return numero del livello corrente
+     */
     public int getCurrentLevelInt() {
         return currentLevel;
     }
+
+    /**
+     * Restituisce un'istanza della GameStateManager
+     * @return game state manager
+     */
     public static GameStateManager getInstance() {
 
         if (instance == null) instance = new GameStateManager();
         return instance;
     }
 
+    /**
+     * Restituisce il numero dello stato corrente
+     * @return stato corrente
+     */
     public int getStateNum() {
         return stateNum;
     }
 
+    /**
+     *  Restituisce una mappa che associa un intero ad un blocco.
+     * @return mappa Integer, Block
+     */
     public Map<Integer, Block> getIntBlockMap() {
 
         if (intBlockMap == null) {
@@ -107,10 +131,19 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         return intBlockMap;
     }
 
+    /**
+     * Restituisce il livello corrente
+     * @return il livello corrente
+     */
     public Level getCurrentLevel() {
         return levels.get(currentLevel);
     }
 
+    /**
+     * Restituisce un livello dato un intero
+     * @param levelID
+     * @return livello
+     */
     public Level getLevel(int levelID) {
 
         if (levelID < 1 || levelID > 24) {
@@ -121,51 +154,82 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
 
     }
 
+    /**
+     * Resetta il gioco
+     */
     public void resetGame() {
-        System.out.println("Game reset");
         MainFrame.setPlayPanel(null);
         savedPlayState = null;
         currentPlayer = null;
         currentLevel = 1;
         nextLevelInt = 2;
     }
-    public void startGame(UserProfile userProfile) {
-        if (savedPlayState == null) {
-            generateLevels();
-            currentPlayer = new Player(userProfile);
-            savedPlayState = new PlayState(this);
-            currentState = savedPlayState;
-            currentState.draw();
-        } else {
-            throw new IllegalStateException("Game already started");
-        }
-    }
 
+    /**
+     * Inizia il gioco
+     * @param userProfile
+     */
+     public void startGame(UserProfile userProfile) {
+     if (savedPlayState == null) {
+     generateLevels();
+     currentPlayer = new Player(userProfile);
+     savedPlayState = new PlayState(this);
+     currentState = savedPlayState;
+     currentState.draw();
+     } else {
+     throw new IllegalStateException("Game already started");
+     }
+     }
+
+    /**
+     * Fa continuare il gioco
+     */
     public void continueGame() {
-        if (savedPlayState != null) {
-            currentState = savedPlayState;
-            stateNum = 1;
-            currentState.draw();
-        } else {
-            throw new IllegalStateException("No game to continue");
-        }
-    }
+     if (savedPlayState != null) {
+     currentState = savedPlayState;
+     stateNum = 1;
+     currentState.draw();
+     } else {
+     throw new IllegalStateException("No game to continue");
+     }
+     }
 
+    /**
+     * Setta il playState salvato
+     * @param savedPlayState
+     */
     public void setSavedPlayState(PlayState savedPlayState) {
-        this.savedPlayState = savedPlayState;
-    }
-    public PlayState getSavedPlayState() {
-        return savedPlayState;
-    }
+     this.savedPlayState = savedPlayState;
+     }
 
+    /**
+     * Ritorna il playState salvato
+     * @return
+     */
+    public PlayState getSavedPlayState() {
+     return savedPlayState;
+     }
+
+     /**
+     * Getter per lo stato corrente
+     * @return
+     */
     public GameState getCurrentState() {
         return currentState;
     }
 
+    /**
+     * Getter per il giocatore corrente
+     * @return ritorna il giocatore corrente
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Setta lo stato corrente di gioco
+     * @param state intero rappresentante lo stato
+     */
     public void setState(int state) {
         if (state == 1) {
             throw new IllegalStateException("Use startGame() to start the game or continueGame() to continue");
@@ -179,20 +243,20 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         }
     }
 
+    /**
+     * Chiama i metodi per aggiungere i nemici e le bolle speciali a tutti i livelli
+     */
     public void generateLevels() {
-        //48, 42
+        // width = 48,  height = 42
 
             addEnemies();
             addSpecialBubbles();
 
-
-        //for che crea 24 livelli tutti con i muri attorno e dentro vuoti
-        //(i blocchi del livello ovviamento sono gli interi associati al numero del livello
-        //ad esempio il livello 2 avra nell'array appunto i muri fatti dal suo blocco, ovvero l'intero 2
-
-        //Creeremo i livelli in se poi con il LevelEditor (sarà divertente actually che ride)
     }
 
+    /**
+     * Aggiunge le bolle speciali a tutti i livelli
+     */
     public void addSpecialBubbles() {
 
         ArrayList<SpawnedBubble> spawnedBubbles = new ArrayList<>();
@@ -807,6 +871,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.get(24).addSpawnedBubble(extendN1);
         levels.get(24).spawnBubbles();
     }
+
+    /**
+     * Aggiunge i nemici a tutti i livelli
+     */
     public void addEnemies(){
         ArrayList<Enemy> enemies2 = new ArrayList<>();
         enemies2.add(new Incendio(105, 543, true, this ));
@@ -938,24 +1006,33 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
             levels.get(i).setEnemies(enemiesList.get(i));
         }
     }
+
+    /**
+     *  Aggiunge un livello alla lista dei livelli
+     * @param level
+     */
     public void addLevel(Level level) {
         levels.add(level);
-        //Probabilmente qua verrà chiamato un metodo del Controller che
-        //Dice alla View di aggiungere il livello alla rispettiva lista
-        //nel LevelEditor
     }
 
+    /**
+     *  Rimuove un livello dalla lista dei livelli
+     * @param level
+     */
     public void removeLevel(Level level) {
         levels.remove(level);
-        //Probabilmente qua verrà chiamato un metodo del Controller che
-        //Dice alla View di togliere il livello dalla rispettiva lista
-        //nel LevelEditor
     }
 
+    /**
+     * Aggiorna lo stato corrente
+     */
     public void update() {
         currentState.update();
     }
 
+    /**
+     * Disegna il panello dello stato corrente
+     */
     public void draw() {
         currentState.draw();
     }
@@ -1005,14 +1082,26 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         currentState.actionPerformed(e);
     }
 
+    /** getter del Player
+     * @return player corrente
+     */
     public Player getPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * getter per la lista dei livelli
+     * @return la lista dei livelli
+     */
     public List<Level> getLevels() {
         return levels;
     }
 
+    /**Setta il livello aggiornato nella lista levels, usato dal LevelEditor
+     *
+     * @param index
+     * @param level
+     */
     public void setLevel(int index, Level level) {
         if (index >= 0 && index < levels.size()) {
             levels.set(index, level); // Aggiorna il livello
@@ -1022,6 +1111,10 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         }
     }
 
+    /**
+     * Carica i livelli dal file di testo
+     * @return lista dei livelli
+     */
     private List<Level> loadLevelsFromFile() {
         List<Level> levels = new ArrayList<>();
 
@@ -1040,7 +1133,12 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         return levels;
     }
 
-
+    /**
+     * Trasforma stringa presa dal file di testo a un istanza di Livello
+     * @param reader
+     * @return
+     * @throws IOException
+     */
     private Level parseLevel(BufferedReader reader) throws IOException {
         // Supponiamo che il livello sia rappresentato come una matrice di interi
         // e che la dimensione del livello sia fissa, ad esempio 10x10
@@ -1063,6 +1161,9 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         return new Level(height, width, pattern, enemies, spawnedBubbles);
     }
 
+    /**Salva i livelli al file di testo
+     * @param levels
+     */
     private void saveLevelsToFile(List<Level> levels) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (Level level : levels) {
@@ -1082,7 +1183,14 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         }
     }
 
+    /**
+     * getter per il nextLevel
+     */
     public int getNextLevelInt() {return nextLevelInt;}
+
+    /**
+     * getter per il nextLevel
+     */
     public void setNextLevelInt(int num) {nextLevelInt = num;}
 
 }

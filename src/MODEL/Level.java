@@ -309,7 +309,6 @@ public class Level {
      */
     public void spawnBubbles() {
         bubbles.addAll(spawnedBubbles);
-        System.out.println(spawnedBubbles.toString());
     }
 
     /**

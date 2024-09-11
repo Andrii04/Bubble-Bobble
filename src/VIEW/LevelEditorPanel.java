@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+/**
+ * La classe LevelEditorPanel è responsabile per la visualizzazione e l'editing dei livelli di gioco.
+ * Gestisce l'interfaccia utente per la modifica dei livelli e l'interazione con il pannello di gioco.
+ */
 public class LevelEditorPanel extends JPanel {
     //uso di Graphics e Graphics 2D per disegnare i livelli
     //i blocchi saranno disegnati, non saranno ciascuno un label
@@ -48,12 +52,17 @@ public class LevelEditorPanel extends JPanel {
     boolean selectingLevel = false;
     boolean redrawingLevel = false;
 
+    /**
+     * Costruttore della classe LevelEditorPanel.
+     * Configura l'interfaccia utente per l'editing dei livelli.
+     */
     public LevelEditorPanel() {
 
         this.setSize(MainFrame.FRAME_WIDTH,MainFrame.FRAME_HEIGHT);
         this.setBackground(Color.black);
         this.setLayout(null);
-        //custom font
+
+        // Carica il font personalizzato
         try{
             InputStream fontFile= getClass().getResourceAsStream("/Resources/Bubble Bobble Resources/General/classic-nes-font.ttf");
             font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
@@ -61,6 +70,7 @@ public class LevelEditorPanel extends JPanel {
             e.printStackTrace();
         }
 
+        // Inizializza i bottoni dell'interfaccia
         removeBT = new JLabel("REMOVE");
         solidBT = new JLabel("SOLID");
         selectLevel = new JLabel("SELECT LEVEL");
@@ -81,19 +91,16 @@ public class LevelEditorPanel extends JPanel {
         buttonsLayer.setLayout(null);
 
         removeBT.setBounds(40, FRAME_HEIGHT-40, 80, 35);
-        //removeBT.setBackground(Color.white);
-        //removeBT.setOpaque(true);
+
         removeBT.setForeground(Color.green);
-        //selectBlock.setBackground(Color.white);
-        //selectBlock.setOpaque(true);
+
         solidBT.setBounds(removeBT.getX() + 150, FRAME_HEIGHT-40, 80, 35);
-        //solidBT.setBackground(Color.white);
-        //solidBT.setOpaque(true);
+
         solidBT.setForeground(Color.green);
         selectLevel.setBounds(solidBT.getX() + 130, FRAME_HEIGHT-40, 160, 35);
-        //selectLevel.setBackground(Color.white);
+
         selectLevel.setForeground(Color.green);
-        //selectLevel.setOpaque(true);
+
         saveLevel.setBounds(selectLevel.getX() + 200, FRAME_HEIGHT-40, 80, 35);
         saveLevel.setForeground(Color.green);
 
@@ -153,7 +160,12 @@ public class LevelEditorPanel extends JPanel {
         InsertLevelNumber.setForeground(Color.white);
         InsertLevelNumber.setVisible(true);
 
-        //logica textField per scegliere il livello da modificare
+        /**
+         * Creato un KeyListener per il campo di testo del numero del livello.
+         *
+         * @return Il KeyListener creato.
+         */
+
         KeyListener textFieldKL = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -203,6 +215,11 @@ public class LevelEditorPanel extends JPanel {
 
         this.add(layeredPane);
     }
+
+    /**
+     * Apre il campo di testo per scegliere il numero del livello da modificare.
+     */
+
     public void chooseLevel() {
         //apre text field che ti fa scegliere il numero del livello da modificare
         buttonsLayer.add(levelNfield);
@@ -210,8 +227,20 @@ public class LevelEditorPanel extends JPanel {
         buttonsLayer.revalidate();
         buttonsLayer.repaint();
     }
+
+    /**
+     * Imposta il livello corrente da modificare.
+     *
+     * @param level Il livello da impostare.
+     */
     public void setCurrentLevel(Level level) {this.currentLevel = level;}
 
+
+    /**
+     * Disegna il livello corrente sul pannello.
+     *
+     * @param g L'oggetto Graphics utilizzato per disegnare.
+     */
     public void drawCurrentLevel(Graphics g) {
 
         Map<Integer, Block> intBlockMap = gsm.getIntBlockMap();
@@ -240,6 +269,8 @@ public class LevelEditorPanel extends JPanel {
         }
         selectingLevel = false;
     }
+
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -253,6 +284,12 @@ public class LevelEditorPanel extends JPanel {
         }
     }
 
+
+    /**
+     * Imposta se il pannello deve essere ridisegnato.
+     *
+     * @param bool Indica se ridisegnare il pannello.
+     */
     public void setRedrawingLevel(boolean bool) {redrawingLevel = bool;}
 
 }
