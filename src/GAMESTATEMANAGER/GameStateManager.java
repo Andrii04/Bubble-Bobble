@@ -64,7 +64,7 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
         levels.addAll(loadLevelsFromFile());
         //così che i livelli incominciano dall'index 1
         generateLevels();
-        currentLevel = 1;
+        currentLevel = 24;
         nextLevelInt = 2;
 
     }

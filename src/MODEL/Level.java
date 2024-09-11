@@ -352,7 +352,7 @@ public class Level {
     }
 
     /**
-     * Imposta lo stato del clock (tempo di gioco).
+     * Imposta lo stato del clock (PowerUp).
      *
      * @param bool valore booleano per indicare se il clock è attivo o meno
      */
