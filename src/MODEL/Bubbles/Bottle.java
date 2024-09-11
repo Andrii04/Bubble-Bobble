@@ -91,17 +91,15 @@ public class Bottle extends Bubble{
                 player.updateAction(Entity.Action.HURT);
                 explode();
             }
-        } catch (NullPointerException e)
-        {System.out.println("need to set" +
-                " the player for the bottle, use method" +
-                " bottle.setPlayer(Player");}
+        } catch (NullPointerException e){
+            System.out.println("Player not found");
+        }
 
         if (firing && isSolidTile(x, y)) explode();
     }
 
     @Override
     public Bubble newInstance(Player player) {
-        System.out.println("Please use the overloaded method newInstance(BottleTrajectory");
         return null;
     }
 

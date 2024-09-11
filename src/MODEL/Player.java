@@ -301,7 +301,6 @@ public class Player extends Observable implements Entity {
                 notifyObservers(Action.DIE);
                 break;
             default: // idle : quando è fermo
-                System.out.println("player pos: " + x + " " + y);
                 notifyObservers(Action.IDLE);
                 break;
         }
@@ -500,7 +499,6 @@ public class Player extends Observable implements Entity {
                 letterEcount++;
             }
         }
-        System.out.println(getExtendBubbles().toString());
         checkExtendCompletion();
     }
 
@@ -509,7 +507,6 @@ public class Player extends Observable implements Entity {
      */
     private void resetExtend() {
         extendBubbles.clear();
-        System.out.println("Reset bolle Extend!");
     }
 
     /**

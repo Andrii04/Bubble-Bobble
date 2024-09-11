@@ -19,11 +19,8 @@ import javax.swing.*;
 
 public abstract class Bubble {
 
-    private Color color;
-    private int points;
     int x;
     int y;
-    private boolean containEnemy;
     BubbleView bubbleView;
     Player player;
     Enemy enemy;
@@ -99,7 +96,6 @@ public abstract class Bubble {
 
     public void pom() {
         if (bubbledEnemy != null) bubbledEnemy.setExploded(false);
-        System.out.println("POMM!!! :D");
 
         pom = true;
         bubbleView.setPom(true);
@@ -238,12 +234,9 @@ public abstract class Bubble {
         try {
             updateLocation(getPlayer().getX() + 18, getPlayer().getY() + 20);
         } catch (NullPointerException e)
-        {System.out.println("need to set" +
-                " the player for the bubble, use method" +
-                " bubble.setPlayer(Player");}
-
+        {
         bubbleView.startFiring();
-        bubbleView.setFiring(true);
+        bubbleView.setFiring(true);}
     }
 
     public void erase() {
@@ -268,8 +261,6 @@ public abstract class Bubble {
         int tileY = y / Block.HEIGHT;
         if (tileX >= 0 && tileX < currentLevel.getPattern()[0].length && tileY >= 0 && tileY < currentLevel.getPattern().length) {
             if (currentLevel.getBlockInt(tileY, tileX) > 0) {
-                // test
-                //System.out.println("Colliding" + " " + tileX + " " + tileY + " " + currentLevel.getBlockInt(tileY, tileX) + " " + currentLevel.isItSolidBlock(tileY, tileX) + " " + currentLevel.getPattern()[tileY][tileX] + " " + currentLevel.getSolidCheckPattern()[tileY][tileX]);
                 return true;
             } else {
                 return false;
@@ -358,7 +349,6 @@ public abstract class Bubble {
     public boolean isEffect() {return effect;}
 
     public void setEnemy(Enemy enemy) {
-        System.out.println("setting enemy");
         this.enemy = enemy;
         bubbleView.setEnemy(enemy);
     }

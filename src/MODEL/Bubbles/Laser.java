@@ -40,7 +40,6 @@ public class Laser extends Bubble{
 
     @Override
     public void fireBubble() {
-        System.out.println("firing laser");
 
         try {
             updateLocation(enemy.getX() + 5, enemy.getY() + 5);

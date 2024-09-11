@@ -81,7 +81,6 @@ public class SuperDrunk extends Enemy{
             bottle4.fireBubble();
             bottle5.fireBubble();
             //shoot
-            //System.out.println("SuperDrunk shooting");
         }
     }
 void onPlayer(){

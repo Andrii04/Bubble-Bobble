@@ -81,19 +81,16 @@ public class LevelEditorPanel extends JPanel {
         buttonsLayer.setLayout(null);
 
         removeBT.setBounds(40, FRAME_HEIGHT-40, 80, 35);
-        //removeBT.setBackground(Color.white);
-        //removeBT.setOpaque(true);
+
         removeBT.setForeground(Color.green);
-        //selectBlock.setBackground(Color.white);
-        //selectBlock.setOpaque(true);
+
         solidBT.setBounds(removeBT.getX() + 150, FRAME_HEIGHT-40, 80, 35);
-        //solidBT.setBackground(Color.white);
-        //solidBT.setOpaque(true);
+
         solidBT.setForeground(Color.green);
         selectLevel.setBounds(solidBT.getX() + 130, FRAME_HEIGHT-40, 160, 35);
-        //selectLevel.setBackground(Color.white);
+
         selectLevel.setForeground(Color.green);
-        //selectLevel.setOpaque(true);
+
         saveLevel.setBounds(selectLevel.getX() + 200, FRAME_HEIGHT-40, 80, 35);
         saveLevel.setForeground(Color.green);
 
@@ -232,7 +229,6 @@ public class LevelEditorPanel extends JPanel {
                     int x = j * blockWidth; //200 per test
                     int y = i * blockHeight; //200 per test
                     //chiama il metodo ma non disegna sul frame (appare nero).
-                    //System.out.println("Disegnando blocco" + skin);
                     g.drawImage(skin.getImage(), x, y, blockWidth, blockHeight, null);
                 }
 

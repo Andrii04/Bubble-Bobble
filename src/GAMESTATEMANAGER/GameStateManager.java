@@ -122,7 +122,6 @@ public class GameStateManager implements KeyListener, MouseListener, ActionListe
     }
 
     public void resetGame() {
-        System.out.println("Game reset");
         MainFrame.setPlayPanel(null);
         savedPlayState = null;
         currentPlayer = null;
